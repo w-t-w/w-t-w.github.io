@@ -3,12 +3,12 @@
 ## Source: https://github.com/hexojs/hexo/
 
 # Site
-title: Hexo
-subtitle: ''
-description: ''
-keywords:
+title: wtw's Frontend
+subtitle: 道阻且长,行则将至💪🏻
+description: 前端领域内所不知道的都探索于此!
+keywords: hexo,hexo blog,webpack
 author: John Doe
-language: en
+language: zh-CN
 timezone: ''
 
 # URL
@@ -28,10 +28,10 @@ archive_dir: archives
 category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
-skip_render:
+skip_render: README.md
 
 # Writing
-new_post_name: :title.md # File name of new posts
+new_post_name: :year-:month-:day-:title.md # File name of new posts
 default_layout: post
 titlecase: false # Transform title into titlecase
 external_link:
@@ -97,9 +97,23 @@ ignore:
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: landscape
+theme: next
+
+# 全站搜索配置
+search:
+  path: search.xml
+  field: post
+  format: html
+  limit: 10000
 
 # Deployment
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  type: ''
+  type: git
+  repo: git@github-w-t-w:w-t-w/w-t-w.github.io.git
+  branch: master
+
+# 自动更新配置
+browsersync:
+  watch: true
+  logLevel: "warn"

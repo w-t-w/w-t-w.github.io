@@ -3,19 +3,24 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "build": "hexo generate",
     "clean": "hexo clean",
-    "deploy": "hexo deploy",
-    "server": "hexo server"
+    "publish": "yarn run clean && hexo generate -d",
+    "server": "hexo server",
+    "start": "yarn run clean && yarn run server -p 9777"
   },
   "hexo": {
     "version": "5.4.2"
   },
   "dependencies": {
     "hexo": "^5.0.0",
+    "hexo-browsersync": "^0.3.0",
+    "hexo-deployer-git": "^3.0.0",
+    "hexo-excerpt": "^1.3.0",
     "hexo-generator-archive": "^1.0.0",
     "hexo-generator-category": "^1.0.0",
     "hexo-generator-index": "^2.0.0",
+    "hexo-generator-search": "^2.4.3",
+    "hexo-generator-searchdb": "^1.4.0",
     "hexo-generator-tag": "^1.0.0",
     "hexo-renderer-ejs": "^1.0.0",
     "hexo-renderer-marked": "^4.0.0",
