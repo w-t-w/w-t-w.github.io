@@ -6,6 +6,12 @@
 
 PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜而食.
 
+# nodejs
+
+> github
+
+- <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-think-of-nodejs.md'>think of nodejs</a>
+
 # webpack
 
 > github
