@@ -49,6 +49,42 @@ categories: webpack
 
   解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源,比如图片 Base64.
 
+> Asset Module
+
+  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).
+
+  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:
+
+  - asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.
+  - asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.
+  - asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.
+  - asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.
+
+  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: 'asset'.
+
+  - generator
+
+    在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:
+
+    - filename
+    
+      - 值必须为相对路径,可改变资源输出的目录;
+      - 如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;
+    
+    - dataUrl
+
+      - 在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;
+      - 该属性值为函数,其签名为 (content: string) => string;
+      - 该属性仅适用于 asset 和 asset/inline 资源类型.
+    
+  - parser
+
+    - dataUrlCondition.maxSize:
+
+      - 当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;
+      - 可通过指定该属性来改变其界限值(单位为 byte);
+      - 该属性仅适用于 asset 资源类型.
+
 #### devServer
 
 > contentBase
