@@ -47,7 +47,7 @@ categories: webpack
 
   url-loader 与 file-loader 的区别是什么?
 
-  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源,比如图片 Base64.
+  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.
 
 > Asset Module
 
