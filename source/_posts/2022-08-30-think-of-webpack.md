@@ -85,6 +85,34 @@ categories: webpack
       - 当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;
       - 可通过指定该属性来改变其界限值(单位为 byte);
       - 该属性仅适用于 asset 资源类型.
+  
+  示例:
+
+  ```javascript
+  module.exports = {
+    //...
+    module: {
+        rules: [//...
+        {
+            test: /\.(bmp|gif|jpg|jpeg|gif)$/,
+            type: 'asset',
+            generator: {
+                publicPath: './',
+                // 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 '.' 字符的.
+                filename: 'assets/images/[name].[contenthash:6][ext]'
+            },
+            parser: {
+                dataUrlCondition: {
+                    maxSize: 5 * 1024
+                }
+            }
+        }
+        //..
+        ]
+    }
+    //...
+  };
+  ```
 
 #### devServer
 
