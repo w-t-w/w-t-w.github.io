@@ -55,6 +55,6 @@ categories: webpack
 
   为何在 devServer 设置 contentBase 失效?
 
-  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5 中改为 static,webpack 4.x 及其之前版本依然生效.
+  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.
 
   
