@@ -70,6 +70,7 @@ categories: webpack
     
       - 值必须为相对路径,可改变资源输出的目录;
       - 如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;
+      - 该属性仅适用于 asset 和 asset/resource 资源类型.
     
     - dataUrl
 
