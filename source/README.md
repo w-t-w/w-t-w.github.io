@@ -10,7 +10,11 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 
 > github
 
-- <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-daily-problems.md'>daily problems</a>
+- <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-daily-problems.md' target='_blank'>daily problems</a>
+
+> blog website
+
+- <a href='https://white-than-wood.zone/2022/08/30/daily-problems/' target='_blank'>daily problems</a>
 
 # nodejs
 
@@ -18,14 +22,26 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 
 - <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-think-of-nodejs.md'>think of nodejs</a>
 
+> blog website
+
+- <a href='https://white-than-wood.zone/2022/08/30/think-of-nodejs/' target='_blank'>daily problems</a>
+
 # webpack
 
 > github
 
 - <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-think-of-webpack.md'>think of webpack</a>
 
+> blog website
+
+- <a href='https://white-than-wood.zone/2022/08/30/think-of-webpack/' target='_blank'>daily problems</a>
+
 # hexo
 
 > github
 
 - <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-08-30-hexo-next.md'>hexo next</a>
+
+> blog website
+
+- <a href='https://white-than-wood.zone/2022/08/30/hexo-next/' target='_blank'>daily problems</a>
