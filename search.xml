@@ -18,6 +18,18 @@
       </tags>
   </entry>
   <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -428,18 +440,6 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
