@@ -18,103 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of webpack</title>
-    <url>/2022/08/30/think-of-webpack/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变. </p>
-<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
-<p>babel-loader</p>
-</blockquote>
-<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
-<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
-<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
-<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
-<ul>
-<li><p>何为 loose 松散模式?</p>
-<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
-</li>
-<li><p>loose 松散模式的优缺点?</p>
-<ul>
-<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
-<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
-<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>css-loader</p>
-</blockquote>
-<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
-<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
-<blockquote>
-<p>url-loader</p>
-</blockquote>
-<p>  url-loader 与 file-loader 的区别是什么?</p>
-<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
-<blockquote>
-<p>Asset Module</p>
-</blockquote>
-<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
-<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
-<ul>
-<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
-<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
-<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
-<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
-</ul>
-<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
-<ul>
-<li><p>generator</p>
-<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
-<ul>
-<li><p>filename</p>
-<ul>
-<li>值必须为相对路径,可改变资源输出的目录;</li>
-<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
-<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
-</ul>
-</li>
-<li><p>dataUrl</p>
-<ul>
-<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
-<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
-<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>parser</p>
-<ul>
-<li><p>dataUrlCondition.maxSize:</p>
-<ul>
-<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
-<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
-<li>该属性仅适用于 asset 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>  示例:</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
-<p>contentBase</p>
-</blockquote>
-<p>  为何在 devServer 设置 contentBase 失效?</p>
-<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -168,7 +71,7 @@ git push
 <blockquote>
 <p>步骤</p>
 </blockquote>
-<p>将生成的网站博客项目直接通过 <a href='https://macwk.com/soft/royal-tsx'>Royal TSX(破解版😜)</a> 远程链接管理工具放入云服务器中,链接成功后,下载 nginx 代理.</p>
+<p>将生成的网站博客项目直接通过 <a href='https://filezilla-project.org' />Filezilla</a> 远程服务文件传输工具放入云服务器中;接着通过 <a href='https://macwk.com/soft/royal-tsx'>Royal TSX(破解版😜)</a> 远程服务管理工具对服务器进行深度管理,链接成功后,下载 nginx 代理.</p>
 <pre><code># 我这里直接使用阿里云CentOS服务器中默认的基于RPM的软件包管理器yum来下载nginx
 yum install nginx
 </code></pre>
@@ -205,7 +108,7 @@ kill -9 28009
 nginx -t
 vim /etc/nginx/nginx.conf
 </code></pre>
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen       80 default_server;</span><br><span class="line">    listen       [::]:80 default_server;</span><br><span class="line">    #域名配置,需要申请购买备案(国内域名需要备案,国外域名则不需要)</span><br><span class="line">    server_name  _;</span><br><span class="line">    #修改root页面向我们的网站博客项目</span><br><span class="line">    root         /usr/share/nginx/html;</span><br><span class="line"></span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">        location = /40x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 500 502 503 504 /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen       80 default_server;</span><br><span class="line">    listen       [::]:80 default_server;</span><br><span class="line">    #域名配置,需要申请购买备案(国内域名需要备案,国外域名则不需要)</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    #修改root页面向我们的网站博客项目</span><br><span class="line">    root         /root/w-t-w;</span><br><span class="line"></span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">        # 将 router 路由中不存在的页面重定向至 index.html.</span><br><span class="line">        try_files $uri $uri/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">        location = /40x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 500 502 503 504 /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br></pre></td></tr></table></figure>
 
 <h4 id="hexo-theme-主题配置"><a href="#hexo-theme-主题配置" class="headerlink" title="hexo theme 主题配置"></a>hexo theme 主题配置</h4><blockquote>
 <p>示例</p>
@@ -353,6 +256,145 @@ busuanzi_count:
 # See: https://tongji.baidu.com
 baidu_analytics: 31f07c2ec89d10385ec28e8eea5bbc3a
 </code></pre>
+<h4 id="hexo-Gitalk留言板配置"><a href="#hexo-Gitalk留言板配置" class="headerlink" title="hexo Gitalk留言板配置"></a>hexo Gitalk留言板配置</h4><blockquote>
+<p>步骤</p>
+</blockquote>
+<p>留言板 comments 是创作者与阅读者进行互动反馈的窗口,可以使阅读者与创作者共同进步.对于 hexo 来说,支持的留言板模式有很多种: ‘disqus | disqusjs | changyan | livere | gitalk | utterances’,比较常见、用户量比较大且与 github 关联性比较强的就是 gitalk 以及 disqus,disqusjs 需要’梯子’🐶才能评论,那么还是选用 gitalk .留言板配置需要更改主题目录下的 _config.yml 文件.</p>
+<p>配置comments:</p>
+<pre><code># Multiple Comment System Support
+comments:
+    # Available values: tabs | buttons
+    style: tabs
+    # Choose a comment system to be displayed by default.
+    # Available values: disqus | disqusjs | changyan | livere | gitalk | utterances
+    active: gitalk
+    # Setting `true` means remembering the comment system selected by the visitor.
+    storage: true
+    # Lazyload all comment systems.
+    lazyload: false
+    # Modify texts or order for any naves, here are some examples.
+    nav:
+        gitalk:
+            order: -2
+        disqus:
+            text: Load Disqus
+            order: -1
+</code></pre>
+<p>配置gitalk:</p>
+<pre><code># Gitalk
+# For more information: https://gitalk.github.io
+gitalk:
+    enable: true
+    github_id: w-t-w # GitHub repo owner
+    repo: w-t-w.github.io # Repository name to store issues
+    client_id: 1191ab5290535c1acb09 # GitHub Application Client ID
+    client_secret: 8d2cbebac1ae1230f84d1f9f7a36f8008a42c14b # GitHub Application Client Secret
+    admin_user: w-t-w # GitHub repo owner and collaborators, only these guys can initialize gitHub issues
+    distraction_free_mode: true # Facebook-like distraction free mode
+    # When the official proxy is not available, you can change it to your own proxy address
+    proxy: https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token
+    # proxy: login/oauth/access_token # This is official proxy address
+    # Gitalk&#39;s display language depends on user&#39;s browser or system environment
+    # If you want everyone visiting your site to see a uniform language, you can set a force language value
+    # Available values: en | es-ES | fr | ru | zh-CN | zh-TW
+    language: zh-CN
+</code></pre>
+<p>上面的配置项中有几个需要说明的：</p>
+<ul>
+<li>client_id 与 client_secret 是 Github 的 OAuth 认证(下一个部分会介绍).</li>
+<li>github_id 与 admin_user 这里建议填一样,填成个人的 github 账号名(不是邮箱,也不是用户名).</li>
+<li>proxy 默认即是上面的地址,它其实会回调到这里<a href='https://github.com/login/oauth/access_token'>https://github.com/login/oauth/access_token</a>.</li>
+<li>无论是部署至 GitHub Page 个人网站,还是部署至个人申请购买的云服务器,上面三点是必须要实行的,proxy 403 问题主要是在部署至个人申请购买的云服务器中时会遇到,而部署至 GitHub Page 个人网站不能进行自定义配置反向代理,所以只能使用 Gitalk 官方搭建的代理.</li>
+</ul>
+<p>一. Github 的 OAuth 认证.</p>
+<p>前提是得有一个 github 账号,才能注册 OAuth application ,这是<a href='https://github.com/settings/applications/new'> OAuth 应用注册地址</a>.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/github_auth_registers.png"></p>
+<p>PS: 如果有自定义域名(如个人申请的阿里云域名),则在上图中填入自定义域名.</p>
+<p>注册之后,点击下图中’Generate a new client secret’按钮,在个人账号下的Settings -&gt; Developer settings -&gt; OAuth Apps下面可以查看 OAuth 认证 client_id 与 client_secret.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/developer_setting.png"></p>
+<p>二. Gitalk 自动初始化.</p>
+<p>原理: 通过 sitemap 中的信息,请求 github 开放 api 达到自动产生 issues 的目的.<br>基本的要求: github API 需要请求 token.</p>
+<ul>
+<li><p>申请 github Token.</p>
+<p>我们需要使用 Personal access tokens 方式,这种方式限制每小时5000次,结合缓存功能,基本满足需求.<br>从 Github 的 <a href='https://github.com/settings/tokens'>Personal access tokens</a> 页面,点击 <a href='https://github.com/settings/tokens/new'>Generate new token</a>.</p>
+</li>
+</ul>
+<p><img src="https://image.white-than-wood.zone/hexo/access_tokens.png"></p>
+<ul>
+<li><p>安装 npm 依赖项.</p>
+<pre><code>npm i -D md5 moment request xml-parser
+npm i -S hexo-generator-sitemap
+</code></pre>
+</li>
+<li><p>配置 sitemap.</p>
+<p>在根目录中创建 sitemap_template.xml.</p>
+<figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">urlset</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://www.sitemaps.org/schemas/sitemap/0.9&quot;</span>&gt;</span></span><br><span class="line">  &#123;% for post in posts %&#125;</span><br><span class="line">  <span class="tag">&lt;<span class="name">url</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">loc</span>&gt;</span>&#123;&#123; post.permalink | uriencode &#125;&#125;<span class="tag">&lt;/<span class="name">loc</span>&gt;</span></span><br><span class="line">    &#123;% if post.updated %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>&#123;&#123; post.updated.toISOString() &#125;&#125;<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">    &#123;% elif post.date %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">lastmod</span>&gt;</span>&#123;&#123; post.date.toISOString() &#125;&#125;<span class="tag">&lt;/<span class="name">lastmod</span>&gt;</span></span><br><span class="line">    &#123;% endif %&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">date</span>&gt;</span>&#123;&#123; post.date &#125;&#125;<span class="tag">&lt;/<span class="name">date</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>&#123;&#123; post.title + &#x27; | &#x27; + config.title &#125;&#125;<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    &#123;# nunjucks 模版语法 https://github.com/mozilla/nunjucks #&#125;</span><br><span class="line">    <span class="tag">&lt;<span class="name">desc</span>&gt;</span>&#123;&#123; post.description | default(post.excerpt) | default(post.content) | default(config.description) | striptags | truncate(200, true, &#x27;&#x27;) &#125;&#125;<span class="tag">&lt;/<span class="name">desc</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">url</span>&gt;</span></span><br><span class="line">  &#123;% endfor %&#125;</span><br><span class="line"><span class="tag">&lt;/<span class="name">urlset</span>&gt;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>修改根目录下的 _config.yml.</p>
+<pre><code>#Sitemap
+sitemap:
+  path: sitemap.xml
+  template: ./sitemap_template.xml
+  rel: false
+  tag: true
+  category: false
+</code></pre>
+</li>
+<li><p>生成 sitemap.xml 生产环境文件.</p>
+<p>  hexo clean &amp;&amp; hexo generate</p>
+</li>
+<li><p>根目录添加 talk-auto-init.js (注意还是不要将此文件置于github中,建议ignore).</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> fs = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> path = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> url = <span class="built_in">require</span>(<span class="string">&#x27;url&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> request = <span class="built_in">require</span>(<span class="string">&#x27;request&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> xmlParser = <span class="built_in">require</span>(<span class="string">&#x27;xml-parser&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> md5 = <span class="built_in">require</span>(<span class="string">&#x27;md5&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 配置信息</span></span><br><span class="line"><span class="keyword">const</span> config = &#123;</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&#x27;white-than-wood&#x27;</span>, <span class="comment">// GitHub repository 所有者，可以是个人或者组织。对应 Gitalk 配置中的 owner</span></span><br><span class="line">  <span class="attr">repo</span>: <span class="string">&quot;white-than-wood.github.io&quot;</span>, <span class="comment">// 储存评论 issue 的 github 仓库名，仅需要仓库名字即可。对应 Gitalk 配置中的 repo</span></span><br><span class="line">  <span class="attr">token</span>: <span class="string">&#x27;ghp_EuXHDkOxxxxxxxxxxxxxxxxxxxxxxxxxxxxx&#x27;</span>, <span class="comment">// 前面申请的 personal access token</span></span><br><span class="line">  <span class="attr">sitemap</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;./public/sitemap.xml&#x27;</span>), <span class="comment">// 个人站点的 sitemap 文件地址</span></span><br><span class="line">  <span class="attr">cache</span>: <span class="literal">true</span>, <span class="comment">// 是否启用缓存，启用缓存会将已经初始化的数据写入配置的 gitalkCacheFile 文件，下一次直接通过缓存文件判断</span></span><br><span class="line">  <span class="attr">gitalkCacheFile</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;./gitalk-init-cache.json&#x27;</span>), <span class="comment">// 用于保存 gitalk 已经初始化的 id 列表</span></span><br><span class="line">  <span class="attr">gitalkErrorFile</span>: path.<span class="title function_">join</span>(__dirname, <span class="string">&#x27;./gitalk-init-error.json&#x27;</span>), <span class="comment">// 用于保存 gitalk 初始化报错的数据</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> api = <span class="string">&#x27;https://api.github.com/repos/&#x27;</span> + config.<span class="property">username</span> + <span class="string">&#x27;/&#x27;</span> + config.<span class="property">repo</span> + <span class="string">&#x27;/issues&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 读取 sitemap 文件</span></span><br><span class="line"><span class="comment">   * 远程 sitemap 文件获取可参考 https://www.npmjs.com/package/sitemapper</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">sitemapXmlReader</span> = (<span class="params">file</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      <span class="keyword">const</span> data = fs.<span class="title function_">readFileSync</span>(file, <span class="string">&#x27;utf8&#x27;</span>);</span><br><span class="line">      <span class="keyword">const</span> sitemap = <span class="title function_">xmlParser</span>(data);</span><br><span class="line">      <span class="keyword">let</span> ret = [];</span><br><span class="line">      sitemap.<span class="property">root</span>.<span class="property">children</span>.<span class="title function_">forEach</span>(<span class="keyword">function</span> (<span class="params">url</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> loc = url.<span class="property">children</span>.<span class="title function_">find</span>(<span class="keyword">function</span> (<span class="params">item</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> item.<span class="property">name</span> === <span class="string">&#x27;loc&#x27;</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">if</span> (!loc) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> title = url.<span class="property">children</span>.<span class="title function_">find</span>(<span class="keyword">function</span> (<span class="params">item</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> item.<span class="property">name</span> === <span class="string">&#x27;title&#x27;</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">const</span> desc = url.<span class="property">children</span>.<span class="title function_">find</span>(<span class="keyword">function</span> (<span class="params">item</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> item.<span class="property">name</span> === <span class="string">&#x27;desc&#x27;</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">const</span> date = url.<span class="property">children</span>.<span class="title function_">find</span>(<span class="keyword">function</span> (<span class="params">item</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> item.<span class="property">name</span> === <span class="string">&#x27;date&#x27;</span>;</span><br><span class="line">        &#125;);</span><br><span class="line">        ret.<span class="title function_">push</span>(&#123;</span><br><span class="line">          <span class="attr">url</span>: loc.<span class="property">content</span>,</span><br><span class="line">          <span class="attr">title</span>: title.<span class="property">content</span>,</span><br><span class="line">          <span class="attr">desc</span>: desc.<span class="property">content</span>,</span><br><span class="line">          <span class="attr">date</span>: date.<span class="property">content</span>,</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">return</span> ret;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;</span><br><span class="line">      <span class="keyword">return</span> [];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 获取 gitalk 使用的 id</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getGitalkId</span> = (<span class="params">&#123;</span></span><br><span class="line"><span class="params">                       url: u,</span></span><br><span class="line"><span class="params">                       date</span></span><br><span class="line"><span class="params">                     &#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> link = url.<span class="title function_">parse</span>(u);</span><br><span class="line">  <span class="comment">// 链接不存在，不需要初始化</span></span><br><span class="line">  <span class="keyword">if</span> (!link || !link.<span class="property">pathname</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">if</span> (!date) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">md5</span>(link.<span class="property">pathname</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过以请求判断是否已经初始化</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; gitalk 初始化的id</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> &#123;<span class="type">[boolean, boolean]</span>&#125; 第一个值表示是否出错，第二个值 false 表示没初始化， true 表示已经初始化</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">getIsInitByRequest</span> = (<span class="params">id</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> options = &#123;</span><br><span class="line">      <span class="attr">headers</span>: &#123;</span><br><span class="line">        <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;token &#x27;</span> + config.<span class="property">token</span>,</span><br><span class="line">        <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span></span><br><span class="line">      &#125;,</span><br><span class="line">      <span class="attr">url</span>: api + <span class="string">&#x27;?labels=&#x27;</span> + id + <span class="string">&#x27;,Gitalk&#x27;</span>,</span><br><span class="line">      <span class="attr">method</span>: <span class="string">&#x27;GET&#x27;</span></span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">      <span class="title function_">request</span>(options, <span class="keyword">function</span> (<span class="params">err, response, body</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="title function_">resolve</span>([err, <span class="literal">false</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (response.<span class="property">statusCode</span> != <span class="number">200</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="title function_">resolve</span>([response, <span class="literal">false</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">const</span> res = <span class="title class_">JSON</span>.<span class="title function_">parse</span>(body);</span><br><span class="line">        <span class="keyword">if</span> (res.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">          <span class="keyword">return</span> <span class="title function_">resolve</span>([<span class="literal">false</span>, <span class="literal">true</span>]);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>([<span class="literal">false</span>, <span class="literal">false</span>]);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过缓存判断是否已经初始化</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; gitalk 初始化的id</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> &#123;<span class="type">boolean</span>&#125; false 表示没初始化， true 表示已经初始化</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">const</span> getIsInitByCache = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 判断缓存文件是否存在</span></span><br><span class="line">    <span class="keyword">let</span> gitalkCache = <span class="literal">false</span>;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">      gitalkCache = <span class="built_in">require</span>(config.<span class="property">gitalkCacheFile</span>);</span><br><span class="line">    &#125; <span class="keyword">catch</span> (e) &#123;&#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">function</span> (<span class="params">id</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (!gitalkCache) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (gitalkCache.<span class="title function_">find</span>(<span class="function">(<span class="params">&#123;</span></span></span><br><span class="line"><span class="params"><span class="function">                              id: itemId</span></span></span><br><span class="line"><span class="params"><span class="function">                            &#125;</span>) =&gt;</span> (itemId === id))) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 根据缓存，判断链接是否已经初始化</span></span><br><span class="line"><span class="comment">// 第一个值表示是否出错，第二个值 false 表示没初始化， true 表示已经初始化</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">idIsInit</span> = <span class="keyword">async</span> (<span class="params">id</span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">if</span> (!config.<span class="property">cache</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="title function_">getIsInitByRequest</span>(id);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 如果通过缓存查询到的数据是未初始化，则再通过请求判断是否已经初始化，防止多次初始化</span></span><br><span class="line">  <span class="keyword">if</span> (<span class="title function_">getIsInitByCache</span>(id) === <span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">await</span> <span class="title function_">getIsInitByRequest</span>(id);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">return</span> [<span class="literal">false</span>, <span class="literal">true</span>];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 初始化</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">gitalkInit</span> = (<span class="params">&#123;</span></span><br><span class="line"><span class="params">                      url,</span></span><br><span class="line"><span class="params">                      id,</span></span><br><span class="line"><span class="params">                      title,</span></span><br><span class="line"><span class="params">                      desc</span></span><br><span class="line"><span class="params">                    &#125;</span>) =&gt; &#123;</span><br><span class="line">  <span class="comment">//创建issue</span></span><br><span class="line">  <span class="keyword">const</span> reqBody = &#123;</span><br><span class="line">    <span class="string">&#x27;title&#x27;</span>: title,</span><br><span class="line">    <span class="string">&#x27;labels&#x27;</span>: [id, <span class="string">&#x27;Gitalk&#x27;</span>],</span><br><span class="line">    <span class="string">&#x27;body&#x27;</span>: url + <span class="string">&#x27;\r\n\r\n&#x27;</span> + desc</span><br><span class="line">  &#125;;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">const</span> options = &#123;</span><br><span class="line">    <span class="attr">headers</span>: &#123;</span><br><span class="line">      <span class="string">&#x27;Authorization&#x27;</span>: <span class="string">&#x27;token &#x27;</span> + config.<span class="property">token</span>,</span><br><span class="line">      <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/67.0.3396.99 Safari/537.36&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;Accept&#x27;</span>: <span class="string">&#x27;application/json&#x27;</span>,</span><br><span class="line">      <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/json;charset=UTF-8&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">url</span>: api,</span><br><span class="line">    <span class="attr">body</span>: <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(reqBody),</span><br><span class="line">    <span class="attr">method</span>: <span class="string">&#x27;POST&#x27;</span></span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="title function_">request</span>(options, <span class="keyword">function</span> (<span class="params">err, response, body</span>) &#123;</span><br><span class="line">      <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>([err, <span class="literal">false</span>]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (response.<span class="property">statusCode</span> != <span class="number">201</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">resolve</span>([response, <span class="literal">false</span>]);</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">return</span> <span class="title function_">resolve</span>([<span class="literal">false</span>, <span class="literal">true</span>]);</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 写入内容</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; fileName 文件名</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@param</span> &#123;<span class="type">string</span>&#125; content 内容</span></span><br><span class="line"><span class="comment">   */</span></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">write</span> = <span class="keyword">async</span> (<span class="params">fileName, content, flag = <span class="string">&#x27;w+&#x27;</span></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">Promise</span>(<span class="function">(<span class="params">resolve</span>) =&gt;</span> &#123;</span><br><span class="line">      fs.<span class="title function_">open</span>(fileName, flag, <span class="keyword">function</span> (<span class="params">err, fd</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (err) &#123;</span><br><span class="line">          <span class="title function_">resolve</span>([err, <span class="literal">false</span>]);</span><br><span class="line">          <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        fs.<span class="title function_">writeFile</span>(fd, content, <span class="keyword">function</span> (<span class="params">err</span>) &#123;</span><br><span class="line">          <span class="keyword">if</span> (err) &#123;</span><br><span class="line">            <span class="title function_">resolve</span>([err, <span class="literal">false</span>]);</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">          &#125;</span><br><span class="line">          fs.<span class="title function_">close</span>(fd, <span class="function">(<span class="params">err</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (err) &#123;</span><br><span class="line">              <span class="title function_">resolve</span>([err, <span class="literal">false</span>]);</span><br><span class="line">              <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">          &#125;);</span><br><span class="line">          <span class="title function_">resolve</span>([<span class="literal">false</span>, <span class="literal">true</span>]);</span><br><span class="line">        &#125;);</span><br><span class="line">      &#125;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">init</span> = <span class="keyword">async</span> (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> urls = <span class="title function_">sitemapXmlReader</span>(config.<span class="property">sitemap</span>);</span><br><span class="line">  <span class="comment">// 报错的数据</span></span><br><span class="line">  <span class="keyword">const</span> errorData = [];</span><br><span class="line">  <span class="comment">// 已经初始化的数据</span></span><br><span class="line">  <span class="keyword">const</span> initializedData = [];</span><br><span class="line">  <span class="comment">// 成功初始化数据</span></span><br><span class="line">  <span class="keyword">const</span> successData = [];</span><br><span class="line">  <span class="keyword">for</span> (<span class="keyword">const</span> item <span class="keyword">of</span> urls) &#123;</span><br><span class="line">    <span class="keyword">const</span> &#123;</span><br><span class="line">      url,</span><br><span class="line">      date,</span><br><span class="line">      title,</span><br><span class="line">      desc</span><br><span class="line">    &#125; = item;</span><br><span class="line">    <span class="keyword">const</span> id = <span class="title function_">getGitalkId</span>(&#123;</span><br><span class="line">      url,</span><br><span class="line">      date</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">if</span> (!id) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`id: 生成失败 [ <span class="subst">$&#123;id&#125;</span> ] `</span>);</span><br><span class="line">      errorData.<span class="title function_">push</span>(&#123;</span><br><span class="line">        ...item,</span><br><span class="line">        <span class="attr">info</span>: <span class="string">&#x27;id 生成失败&#x27;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> [err, res] = <span class="keyword">await</span> <span class="title function_">idIsInit</span>(id);</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Error: 查询评论异常 [ <span class="subst">$&#123;title&#125;</span> ] , 信息：`</span>, err || <span class="string">&#x27;无&#x27;</span>);</span><br><span class="line">      errorData.<span class="title function_">push</span>(&#123;</span><br><span class="line">        ...item,</span><br><span class="line">        <span class="attr">info</span>: <span class="string">&#x27;查询评论异常&#x27;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (res === <span class="literal">true</span>) &#123;</span><br><span class="line">      <span class="comment">// console.log(`--- Gitalk 已经初始化 --- [ $&#123;title&#125; ] `);</span></span><br><span class="line">      initializedData.<span class="title function_">push</span>(&#123;</span><br><span class="line">        id,</span><br><span class="line">        url,</span><br><span class="line">        title,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Gitalk 初始化开始... [ <span class="subst">$&#123;title&#125;</span> ] `</span>);</span><br><span class="line">    <span class="keyword">const</span> [e, r] = <span class="keyword">await</span> <span class="title function_">gitalkInit</span>(&#123;</span><br><span class="line">      id,</span><br><span class="line">      url,</span><br><span class="line">      title,</span><br><span class="line">      desc</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="keyword">if</span> (e || !r) &#123;</span><br><span class="line">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Error: Gitalk 初始化异常 [ <span class="subst">$&#123;title&#125;</span> ] , 信息：`</span>, e || <span class="string">&#x27;无&#x27;</span>);</span><br><span class="line">      errorData.<span class="title function_">push</span>(&#123;</span><br><span class="line">        ...item,</span><br><span class="line">        <span class="attr">info</span>: <span class="string">&#x27;初始化异常&#x27;</span>,</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="keyword">continue</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    successData.<span class="title function_">push</span>(&#123;</span><br><span class="line">      id,</span><br><span class="line">      url,</span><br><span class="line">      title,</span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`Gitalk 初始化成功! [ <span class="subst">$&#123;title&#125;</span> ] - <span class="subst">$&#123;id&#125;</span>`</span>);</span><br><span class="line">    <span class="keyword">continue</span>;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// 空输出，用于换行</span></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;--------- 运行结果 ---------&#x27;</span>);</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;&#x27;</span>); <span class="comment">// 空输出，用于换行</span></span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (errorData.<span class="property">length</span> !== <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`报错数据： <span class="subst">$&#123;errorData.length&#125;</span> 条。参考文件 <span class="subst">$&#123;config.gitalkErrorFile&#125;</span>。`</span>);</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">write</span>(config.<span class="property">gitalkErrorFile</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(errorData, <span class="literal">null</span>, <span class="number">2</span>));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`本次成功： <span class="subst">$&#123;successData.length&#125;</span> 条。`</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 写入缓存</span></span><br><span class="line">  <span class="keyword">if</span> (config.<span class="property">cache</span>) &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`写入缓存： <span class="subst">$&#123;(initializedData.length + successData.length)&#125;</span> 条，已初始化 <span class="subst">$&#123;initializedData.length&#125;</span> 条，本次成功： <span class="subst">$&#123;successData.length&#125;</span> 条。参考文件 <span class="subst">$&#123;config.gitalkCacheFile&#125;</span>。`</span>);</span><br><span class="line">    <span class="keyword">await</span> <span class="title function_">write</span>(config.<span class="property">gitalkCacheFile</span>, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(initializedData.<span class="title function_">concat</span>(successData), <span class="literal">null</span>, <span class="number">2</span>));</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`已初始化： <span class="subst">$&#123;initializedData.length&#125;</span> 条。`</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="title function_">init</span>();</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li><p>修改 package.json 中 scripts 中的脚本,添加 “gitalk”:”node talk-auto-init.js”.</p>
+<figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;scripts&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;clean&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hexo clean&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;publish&quot;</span><span class="punctuation">:</span> <span class="string">&quot;git push &amp;&amp; yarn run clean &amp;&amp; hexo generate -d&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hexo server&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;start&quot;</span><span class="punctuation">:</span> <span class="string">&quot;yarn run clean &amp;&amp; yarn run server -p 9777&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;gitalk&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node talk-auto-init.js&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure></li>
+<li><p>测试 gitalk.</p>
+<p>  yarn run gitalk</p>
+</li>
+<li><p>已经缓存过后的结果:</p>
+<blockquote>
+<p><a href="mailto:&#x68;&#101;&#x78;&#x6f;&#45;&#115;&#105;&#116;&#101;&#x40;&#48;&#46;&#48;&#x2e;&#x30;">&#x68;&#101;&#x78;&#x6f;&#45;&#115;&#105;&#116;&#101;&#x40;&#48;&#46;&#48;&#x2e;&#x30;</a> gitalk<br>node talk-auto-init.js</p>
+</blockquote>
+</li>
+</ul>
+<pre><code>--------- 运行结果 ---------
+
+本次成功： 0 条。
+写入缓存： 7 条，已初始化 7 条，本次成功： 0 条。参考文件 /Users/wtw/frontEnd/w-t-w.github.io/gitalk-init-cache.json.
+</code></pre>
+<blockquote>
+<p>proxy 403错误</p>
+</blockquote>
+<p>部署至个人申请购买的云服务器时,由于跨域问题,会出现 proxy 403 forbidden.解决它主要有这么几个方案.</p>
+<ul>
+<li><p>nginx反向代理 解决方案(推荐).</p>
+<p>在云服务器 nginx 的博客配置中加入如下内容(注意个人博客的域名必须经过 https ssl 安全证书备案).</p>
+ <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen 443 ssl http2;</span><br><span class="line">    #...</span><br><span class="line">    location = /login/oauth/access_token &#123;</span><br><span class="line">        add_header Access-Control-Allow-Origin &#x27;https://white-than-wood.zone/&#x27;;  //这里改成个人的域名,并删除注释</span><br><span class="line">        add_header Access-Control-Allow-Methods &#x27;GET, POST, OPTIONS&#x27;;</span><br><span class="line">        add_header Access-Control-Allow-Headers &#x27;DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization&#x27;;</span><br><span class="line">        if ($request_method = &#x27;OPTIONS&#x27;) &#123;</span><br><span class="line">              return 204;</span><br><span class="line">        &#125;</span><br><span class="line">        proxy_pass https://github.com/;</span><br><span class="line">    &#125;</span><br><span class="line">    #...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p>PS: nginx 反向代理之后,要将 proxy 指向代理域名下的链接回调进行修改.</p>
+<pre><code>proxy: https://white-than-wood.zone/https://github.com/login/oauth/access_token
+</code></pre>
+<ul>
+<li><p>自建一个 workers.</p>
+<p>地址: <a href='https://workers.cloudflare.com/'>CloudFlare Workers</a>.<br>参考文章: <a href='https://blog.dsrkafuu.net/post/2020/cloudflare-worker-cors-anywhere/'>使用 CloudFlare Workers 实现 CORS Anywhere</a>.</p>
+</li>
+<li><p>使用其他人搭建的代理.</p>
+<p>比如这个 <a href='https://github.com/gitalk/gitalk/issues/429#issuecomment-778291781'>issues</a> 介绍到的:</p>
+<pre><code> proxy: https://shielded-brushlands-08810.herokuapp.com/https://github.com/login/oauth/access_token
+</code></pre>
+</li>
+<li><p>使用 Gitalk 官方搭建的代理.</p>
+<p>据gitalk issue<a href='https://github.com/gitalk/gitalk/issues/433'> gitalk 授权登录后报错403</a>,直接将使用 Gitalk 官方搭建的代理就可解决 403 forbidden 的问题,之前 Gitalk 官方搭建的代理由于太多人接入导致被官方限制使用,用户经常发现不能正常使用,现在已经对代理进行优化改进,不会出现限制使用的情况.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/gitalk_403.png"></p>
+<pre><code> https://cors-anywhere.azm.workers.dev/https://github.com/login/oauth/access_token
+</code></pre>
+</li>
+<li><p>更新 gitalk 版本至1.7.2.</p>
+<p>据gitalk issue<a href='https://github.com/gitalk/gitalk/issues/433'> gitalk 授权登录后报错403</a>,直接将 gitalk 版本升级至1.7.2就可解决 403 forbidden 的问题.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/gitalk_403.png"></p>
+</li>
+</ul>
 <h4 id="hexo-其他配置"><a href="#hexo-其他配置" class="headerlink" title="hexo 其他配置"></a>hexo 其他配置</h4><blockquote>
 <p>示例</p>
 </blockquote>
@@ -398,6 +440,103 @@ fancybox: true
       <tags>
         <tag>npm</tag>
         <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of webpack</title>
+    <url>/2022/08/30/think-of-webpack/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
+<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变. </p>
+<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
+<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
+<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
+<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
+<ul>
+<li><p>何为 loose 松散模式?</p>
+<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
+</li>
+<li><p>loose 松散模式的优缺点?</p>
+<ul>
+<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
+<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
+<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>css-loader</p>
+</blockquote>
+<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
+<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
+<blockquote>
+<p>url-loader</p>
+</blockquote>
+<p>  url-loader 与 file-loader 的区别是什么?</p>
+<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
+<blockquote>
+<p>Asset Module</p>
+</blockquote>
+<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
+<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
+<ul>
+<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
+<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
+<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
+<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
+</ul>
+<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
+<ul>
+<li><p>generator</p>
+<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
+<ul>
+<li><p>filename</p>
+<ul>
+<li>值必须为相对路径,可改变资源输出的目录;</li>
+<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
+<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
+</ul>
+</li>
+<li><p>dataUrl</p>
+<ul>
+<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
+<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
+<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>parser</p>
+<ul>
+<li><p>dataUrlCondition.maxSize:</p>
+<ul>
+<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
+<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
+<li>该属性仅适用于 asset 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  示例:</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
+<p>contentBase</p>
+</blockquote>
+<p>  为何在 devServer 设置 contentBase 失效?</p>
+<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
       </tags>
   </entry>
 </search>
