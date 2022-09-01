@@ -4,3 +4,5 @@ package-lock.json
 node_modules
 .deploy_git
 db.json
+talk-auto-init.js
+gitalk-init-cache.json
