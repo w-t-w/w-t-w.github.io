@@ -18,18 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -83,8 +71,8 @@ git push
 <blockquote>
 <p>步骤</p>
 </blockquote>
-<p>将生成的网站博客项目直接通过 Royal TSX 远程链接管理工具放入云服务器中,链接成功后,下载 nginx 代理.</p>
-<pre><code>#我这里直接使用阿里云CentOS服务器中默认的基于RPM的软件包管理器yum来下载nginx
+<p>将生成的网站博客项目直接通过 <a href='https://macwk.com/soft/royal-tsx'>Royal TSX(破解版😜)</a> 远程链接管理工具放入云服务器中,链接成功后,下载 nginx 代理.</p>
+<pre><code># 我这里直接使用阿里云CentOS服务器中默认的基于RPM的软件包管理器yum来下载nginx
 yum install nginx
 </code></pre>
 <p>下载之后查看全局命令 nginx 是否存在,查看 nginx 的版本.</p>
@@ -301,6 +289,18 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
