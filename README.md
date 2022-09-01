@@ -24,7 +24,7 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 
 > blog website
 
-- <a href='https://white-than-wood.zone/2022/08/30/think-of-nodejs/' target='_blank'>daily problems</a>
+- <a href='https://white-than-wood.zone/2022/08/30/think-of-nodejs/' target='_blank'>think of nodejs</a>
 
 # webpack
 
@@ -34,7 +34,7 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 
 > blog website
 
-- <a href='https://white-than-wood.zone/2022/08/30/think-of-webpack/' target='_blank'>daily problems</a>
+- <a href='https://white-than-wood.zone/2022/08/30/think-of-webpack/' target='_blank'>think of webpack</a>
 
 # hexo
 
@@ -44,4 +44,4 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 
 > blog website
 
-- <a href='https://white-than-wood.zone/2022/08/30/hexo-next/' target='_blank'>daily problems</a>
+- <a href='https://white-than-wood.zone/2022/08/30/hexo-next/' target='_blank'>hexo next</a>
