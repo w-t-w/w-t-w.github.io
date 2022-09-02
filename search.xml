@@ -18,18 +18,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -258,7 +246,7 @@ busuanzi_count:
     post_views: true
     post_views_icon: fa fa-eye
 </code></pre>
-<h4 id="hexo-baidu-analytics百度统计配置"><a href="#hexo-baidu-analytics百度统计配置" class="headerlink" title="hexo baidu_analytics百度统计配置"></a>hexo baidu_analytics百度统计配置</h4><blockquote>
+<h4 id="hexo-baidu-analytics-百度统计配置"><a href="#hexo-baidu-analytics-百度统计配置" class="headerlink" title="hexo baidu_analytics 百度统计配置"></a>hexo baidu_analytics 百度统计配置</h4><blockquote>
 <p>步骤</p>
 </blockquote>
 <p>卜算子统计有时候会出现一些异常,比如pv莫名会加100,uv不再区分单个ip.为了追求更精确、更智能,我们采用百度统计.<br>统计配置需要更改主题目录底下的 _config.yml 文件,配置 baidu_analytics 百度统计.</p>
@@ -268,7 +256,7 @@ busuanzi_count:
 # See: https://tongji.baidu.com
 baidu_analytics: 31f07c2ec89d10385ec28e8eea5bbc3a
 </code></pre>
-<h4 id="hexo-Gitalk留言板配置"><a href="#hexo-Gitalk留言板配置" class="headerlink" title="hexo Gitalk留言板配置"></a>hexo Gitalk留言板配置</h4><blockquote>
+<h4 id="hexo-Gitalk-留言板配置"><a href="#hexo-Gitalk-留言板配置" class="headerlink" title="hexo Gitalk 留言板配置"></a>hexo Gitalk 留言板配置</h4><blockquote>
 <p>步骤</p>
 </blockquote>
 <p>留言板 comments 是创作者与阅读者进行互动反馈的窗口,可以使阅读者与创作者共同进步.对于 hexo 来说,支持的留言板模式有很多种: ‘disqus | disqusjs | changyan | livere | gitalk | utterances’,比较常见、用户量比较大且与 github 关联性比较强的就是 gitalk 以及 disqus,disqusjs 需要’梯子’🐶才能评论,那么还是选用 gitalk .留言板配置需要更改主题目录下的 _config.yml 文件.</p>
@@ -407,6 +395,38 @@ node talk-auto-init.js
 <p><img src="https://image.white-than-wood.zone/hexo/gitalk_403.png"></p>
 </li>
 </ul>
+<h4 id="hexo-GitHub-Page-个人网站自定义域名"><a href="#hexo-GitHub-Page-个人网站自定义域名" class="headerlink" title="hexo GitHub Page 个人网站自定义域名"></a>hexo GitHub Page 个人网站自定义域名</h4><p>部署至 GitHub Page 个人网站配置自定义域名时,需要将个人申请购买的域名(最好是通过 https ssl 安全证书备案)进行域名解析,GitHub Page 也需要 CNAME 配置.</p>
+<p>一. 阿里云域名解析.</p>
+<blockquote>
+<p>步骤</p>
+</blockquote>
+<p>域名解析简单来说实际上就是通过配置,将域名解析至某一个 IP 地址或者域名.首先进入阿里云服务管理平台,对已经申请购买的域名进行解析.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/website_host_analy.png"></p>
+<p>添加记录或者对某一个列表项进行修改.可以使用 A记录 也可以使用 CNAME.</p>
+<pre><code>A记录 是将域名指向一个 IPV4 地址.
+CNAME 是将域名指向另外一个域名.
+</code></pre>
+<p><img src="https://image.white-than-wood.zone/hexo/website_host_analy_details.png"></p>
+<p>这里使用的是 A记录,将 w-t-w.github.io 的 IP 地址作为记录值.</p>
+<pre><code>ping w-t-w.github.io
+</code></pre>
+<p><img src="https://image.white-than-wood.zone/hexo/website_host_analy_pings.png"></p>
+<p>主机记录,解析后的域名基本上就两种,‘@’和’www’.</p>
+<pre><code>&#39;@&#39; 是源域名(主域名 white-than-wood.zone).
+&#39;www&#39; 则是 www.white-than-wood.zone.
+</code></pre>
+<p>二. GitHub Page个人网站CNAME配置.</p>
+<p>在 source 目录下新建 CNAME 文件(不带任何后缀),在文件内写入你的主域名.</p>
+  <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">white-than-wood.zone</span><br></pre></td></tr></table></figure>
+
+<p>或者在 Github Page 个人配置下设置自定义域名,Github 会自动添加 CNAME 文件.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/website_host_github_cnames.png"></p>
+<p>这两种方式我这边是全部使用的.全部搞定之后,就可以通过 white-than-wood.zone 访问 w-t-w.github.io GitHub Page 个人网站.</p>
+<blockquote>
+<p>延伸</p>
+</blockquote>
+<p>既然已经通过阿里云服务 A记录 或者 CNAME 解析域名,为什么还需要在 GitHub Page 个人网站上配置 CNAME ?</p>
+<p>解: 云服务 A记录 或者 CNAME 域名解析至 GitHub Page,通过 white-than-wood.zone 可以访问 GitHub Page 个人网站,那原来的 w-t-w.github.io 域名怎么办呢? GitHub Page 也通过 CNAME 域名解析至 white-than-wood.zone. 使得 github.io 域名也可以直接访问个人申请购买的域名.</p>
 <h4 id="hexo-其他配置"><a href="#hexo-其他配置" class="headerlink" title="hexo 其他配置"></a>hexo 其他配置</h4><blockquote>
 <p>示例</p>
 </blockquote>
@@ -440,6 +460,18 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
