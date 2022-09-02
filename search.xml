@@ -18,6 +18,115 @@
       </tags>
   </entry>
   <entry>
+    <title>think of webpack</title>
+    <url>/2022/08/30/think-of-webpack/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
+<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变. </p>
+<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
+<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
+<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
+<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
+<ul>
+<li><p>何为 loose 松散模式?</p>
+<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
+</li>
+<li><p>loose 松散模式的优缺点?</p>
+<ul>
+<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
+<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
+<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>css-loader</p>
+</blockquote>
+<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
+<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
+<blockquote>
+<p>url-loader</p>
+</blockquote>
+<p>  url-loader 与 file-loader 的区别是什么?</p>
+<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
+<blockquote>
+<p>Asset Module</p>
+</blockquote>
+<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
+<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
+<ul>
+<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
+<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
+<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
+<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
+</ul>
+<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
+<ul>
+<li><p>generator</p>
+<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
+<ul>
+<li><p>filename</p>
+<ul>
+<li>值必须为相对路径,可改变资源输出的目录;</li>
+<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
+<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
+</ul>
+</li>
+<li><p>dataUrl</p>
+<ul>
+<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
+<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
+<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>parser</p>
+<ul>
+<li><p>dataUrlCondition.maxSize:</p>
+<ul>
+<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
+<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
+<li>该属性仅适用于 asset 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  示例:</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
+<p>contentBase</p>
+</blockquote>
+<p>  为何在 devServer 设置 contentBase 失效?</p>
+<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -72,7 +181,7 @@ git push
 <p>步骤</p>
 </blockquote>
 <p>将生成的网站博客项目直接通过 <a href='https://filezilla-project.org' />Filezilla</a> 远程服务文件传输工具放入云服务器中;接着通过 <a href='https://macwk.com/soft/royal-tsx'>Royal TSX(破解版😜)</a> 远程服务管理工具对服务器进行深度管理,链接成功后,下载 nginx 代理.</p>
-<pre><code># 我这里直接使用阿里云CentOS服务器中默认的基于RPM的软件包管理器yum来下载nginx
+<pre><code># 这里直接使用阿里云CentOS服务器中默认的基于RPM的软件包管理器yum来下载nginx
 yum install nginx
 </code></pre>
 <p>下载之后查看全局命令 nginx 是否存在,查看 nginx 的版本.</p>
@@ -103,13 +212,29 @@ kill -9 28009
 </code></pre>
 </li>
 </ul>
-<p>配置 nginx,将服务器代理 root 页面指向我们的博客网站.</p>
+<p>配置 nginx,将服务器代理 root 页面指向博客网站.</p>
 <pre><code>#通过测试 nginx,查询 nginx 配置文件所在目录
 nginx -t
 vim /etc/nginx/nginx.conf
 </code></pre>
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen       80 default_server;</span><br><span class="line">    listen       [::]:80 default_server;</span><br><span class="line">    #域名配置,需要申请购买备案(国内域名需要备案,国外域名则不需要)</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    #修改root页面向我们的网站博客项目</span><br><span class="line">    root         /root/w-t-w;</span><br><span class="line"></span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">        # 将 router 路由中不存在的页面重定向至 index.html.</span><br><span class="line">        try_files $uri $uri/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">        location = /40x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 500 502 503 504 /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br></pre></td></tr></table></figure>
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br><span class="line">server &#123;</span><br><span class="line">    listen       80 default_server;</span><br><span class="line">    listen       [::]:80 default_server;</span><br><span class="line">    #域名配置,需要申请购买备案(国内域名需要备案,国外域名则不需要)</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    #修改root页面指向网站博客项目</span><br><span class="line">    root         /root/w-t-w;</span><br><span class="line"></span><br><span class="line">    # Load configuration files for the default server block.</span><br><span class="line">    include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">    location / &#123;</span><br><span class="line">        index index.html index.htm;</span><br><span class="line">        # 将 router 路由中不存在的页面重定向至 index.html.</span><br><span class="line">        try_files $uri $uri/ /index.html;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 404 /404.html;</span><br><span class="line">        location = /40x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    error_page 500 502 503 504 /50x.html;</span><br><span class="line">        location = /50x.html &#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">...</span></span><br></pre></td></tr></table></figure>
 
+<p>通过阿里云平台向云服务器添加安全组,开放 80(HTTP) 端口和 443(HTTPS) 端口.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/security_group.png"></p>
+<p>配置完之后,基本可以通过 ip 来进行访问博客网站.但要想实现通过域名来访问还需要实行域名解析,通过 A记录 将域名指向一个 IPV4 地址,也就是购买的阿里云服务器 ECS ip.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/hexo_dns.png"></p>
+<pre><code>&#39;@&#39; 是源域名(主域名 white-than-wood.zone).
+&#39;www&#39; 则是 www.white-than-wood.zone.
+</code></pre>
+<p>这样就可以实现通过域名来访问博客网站,但并没有开启 SSL 证书,也就是并没有启动 https,要想完整实现开启 SSL 证书的域名还需要申请 SSL 证书以及再次配置 nginx.</p>
+<p>一. SSL 证书</p>
+<p>通过阿里云平台购买或者免费申请,可以获得 SSL 证书,这里申请的是一年期限的普通版 DV SSL 证书.</p>
+<p><img src="https://image.white-than-wood.zone/hexo/hexo_ssl.png"></p>
+<p>将申请好的 SSL 证书下载并通过 Filezilla 传输至远程服务器中,接着配置 nginx.</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">For more information on configuration, see:</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">  * Official English Documentation: http://nginx.org/en/docs/</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">  * Official Russian Documentation: http://nginx.org/ru/docs/</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">这里比较简单粗暴的将用户组置为 root root,使得 nginx 可以访问带有 root 权限的文件以及文件夹.</span></span><br><span class="line">user root;</span><br><span class="line">worker_processes auto;</span><br><span class="line">error_log /var/log/nginx/error.log;</span><br><span class="line">pid /run/nginx.pid;</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.</span></span><br><span class="line">include /usr/share/nginx/modules/*.conf;</span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections 1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">    &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">    &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    access_log  /var/log/nginx/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile             on;</span><br><span class="line">    tcp_nopush          on;</span><br><span class="line">    tcp_nodelay         on;</span><br><span class="line">    keepalive_timeout   65;</span><br><span class="line">    types_hash_max_size 2048;</span><br><span class="line"></span><br><span class="line">    include             /etc/nginx/mime.types;</span><br><span class="line">    default_type        application/octet-stream;</span><br><span class="line"></span><br><span class="line">    # Load modular configuration files from the /etc/nginx/conf.d directory.</span><br><span class="line">    # See http://nginx.org/en/docs/ngx_core_module.html#include</span><br><span class="line">    # for more information.</span><br><span class="line">    include /etc/nginx/conf.d/*.conf;</span><br><span class="line">    </span><br><span class="line">    # http 配置</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       80 default_server;</span><br><span class="line">        listen       [::]:80 default_server;</span><br><span class="line">        server_name  localhost;</span><br><span class="line">        root         /root/w-t-w;</span><br><span class="line"></span><br><span class="line">        # Load configuration files for the default server block.</span><br><span class="line">        include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">	        index index.html;</span><br><span class="line">	        # 将 router 路由中不存在的页面重定向至 index.html.</span><br><span class="line">	        try_files $uri /$uri /index.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page 404 /404.html;</span><br><span class="line">            location = /40x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page 500 502 503 504 /50x.html;</span><br><span class="line">            location = /50x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    # Settings for a TLS enabled server.</span><br><span class="line">    # https 配置,添加 SSL 证书.</span><br><span class="line">    server &#123;</span><br><span class="line">        # https 访问端口一般为 443 端口</span><br><span class="line">        listen       443 ssl http2 default_server;</span><br><span class="line">        listen       [::]:443 ssl http2 default_server;</span><br><span class="line">        # 开启 SSL 证书</span><br><span class="line">        ssl          on;</span><br><span class="line">        # SSL 证书绑定的域名</span><br><span class="line">        server_name  white-than-wood.zone www.white-than-wood.zone;</span><br><span class="line">        root         /root/w-t-w;</span><br><span class="line">        </span><br><span class="line">        # SSL 证书具体配置</span><br><span class="line">        # 证书文件配置,证书文件位置目录必须为绝对路径</span><br><span class="line">        ssl_certificate           &quot;/etc/nginx/cert/xxxx_white-than-wood.zone.pem&quot;;</span><br><span class="line">        ssl_certificate_key       &quot;/etc/nginx/cert/xxxx_white-than-wood.zone.key&quot;;</span><br><span class="line">        # SSL 证书缓存有效期</span><br><span class="line">        ssl_session_timeout       5m;</span><br><span class="line">        # 安全链接可选的加密协议</span><br><span class="line">        ssl_protocols             TLSv1 TLSv1.1 TLSv1.2;</span><br><span class="line">        # 安全链接加密算法</span><br><span class="line">        ssl_ciphers               ECDHE-RSA-AES128-GCM-SHA256:ECDHE:ECDH:AES:HIGH:!NULL:!aNULL:!MD5:!ADH:!RC4;</span><br><span class="line">        # 使用服务器端的首选算法</span><br><span class="line">        ssl_prefer_server_ciphers on;</span><br><span class="line"></span><br><span class="line">        # Load configuration files for the default server block.</span><br><span class="line">        include /etc/nginx/default.d/*.conf;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">	        index index.html;</span><br><span class="line">	        # 将 router 路由中不存在的页面重定向至 index.html.</span><br><span class="line">	        try_files $uri $uri/ /index.html;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">	    location = /login/oauth/access_token &#123;</span><br><span class="line">            add_header Access-Control-Allow-Origin &#x27;https://white-than-wood.zone/&#x27;;</span><br><span class="line">            add_header Access-Control-Allow-Methods &#x27;GET, POST, OPTIONS&#x27;;</span><br><span class="line">            add_header Access-Control-Allow-Headers &#x27;DNT,X-Mx-ReqToken,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Authorization&#x27;;</span><br><span class="line">            if ($request_method = &#x27;OPTIONS&#x27;) &#123;</span><br><span class="line">                return 204;</span><br><span class="line">            &#125;</span><br><span class="line">            proxy_pass https://github.com/;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page 404 /404.html;</span><br><span class="line">            location = /40x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        error_page 500 502 503 504 /50x.html;</span><br><span class="line">            location = /50x.html &#123;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>重启一下 nginx,最后直接访问 <a href="https://white-than-wood.zone/">https://white-than-wood.zone</a> ~ Bingo!!</p>
+<p><img src="https://image.white-than-wood.zone/hexo/hexo_https_bingo.png"></p>
 <h4 id="hexo-theme-主题配置"><a href="#hexo-theme-主题配置" class="headerlink" title="hexo theme 主题配置"></a>hexo theme 主题配置</h4><blockquote>
 <p>示例</p>
 </blockquote>
@@ -249,7 +374,7 @@ busuanzi_count:
 <h4 id="hexo-baidu-analytics-百度统计配置"><a href="#hexo-baidu-analytics-百度统计配置" class="headerlink" title="hexo baidu_analytics 百度统计配置"></a>hexo baidu_analytics 百度统计配置</h4><blockquote>
 <p>步骤</p>
 </blockquote>
-<p>卜算子统计有时候会出现一些异常,比如pv莫名会加100,uv不再区分单个ip.为了追求更精确、更智能,我们采用百度统计.<br>统计配置需要更改主题目录底下的 _config.yml 文件,配置 baidu_analytics 百度统计.</p>
+<p>卜算子统计有时候会出现一些异常,比如pv莫名会加100,uv不再区分单个ip.为了追求更精确、更智能,这里采用百度统计.<br>统计配置需要更改主题目录底下的 _config.yml 文件,配置 baidu_analytics 百度统计.</p>
 <p>根据<a href='https://tongji.baidu.com/main/setting/10000339309/home/site/getjs?siteId=18040501'><br>百度统计-使用配置-代码获取</a>,将 hm.js 后方自动生成的 id 配置至 baidu_analytics.</p>
 <p><img src="https://image.white-than-wood.zone/hexo/baidu_analytics.png"></p>
 <pre><code># Baidu Analytics
@@ -316,7 +441,7 @@ gitalk:
 <p>原理: 通过 sitemap 中的信息,请求 github 开放 api 达到自动产生 issues 的目的.<br>基本的要求: github API 需要请求 token.</p>
 <ul>
 <li><p>申请 github Token.</p>
-<p>我们需要使用 Personal access tokens 方式,这种方式限制每小时5000次,结合缓存功能,基本满足需求.<br>从 Github 的 <a href='https://github.com/settings/tokens'>Personal access tokens</a> 页面,点击 <a href='https://github.com/settings/tokens/new'>Generate new token</a>.</p>
+<p>需要使用 Personal access tokens 方式,这种方式限制每小时5000次,结合缓存功能,基本满足需求.<br>从 Github 的 <a href='https://github.com/settings/tokens'>Personal access tokens</a> 页面,点击 <a href='https://github.com/settings/tokens/new'>Generate new token</a>.</p>
 </li>
 </ul>
 <p><img src="https://image.white-than-wood.zone/hexo/access_tokens.png"></p>
@@ -421,7 +546,7 @@ CNAME 是将域名指向另外一个域名.
 
 <p>或者在 Github Page 个人配置下设置自定义域名,Github 会自动添加 CNAME 文件.</p>
 <p><img src="https://image.white-than-wood.zone/hexo/website_host_github_cnames.png"></p>
-<p>这两种方式我这边是全部使用的.全部搞定之后,就可以通过 white-than-wood.zone 访问 w-t-w.github.io GitHub Page 个人网站.</p>
+<p>这两种方式这里是全部使用的.全部搞定之后,就可以通过 white-than-wood.zone 访问 w-t-w.github.io GitHub Page 个人网站.</p>
 <blockquote>
 <p>延伸</p>
 </blockquote>
@@ -444,7 +569,7 @@ description: 前端领域内所不知道的都探索于此!
   Google: https://plus.google.com/u/0/103833130011211353424 || fab fa-google
 </code></pre>
 <p>发布到 GitHub Page 上之后,你会发现 README.md 莫名的消失,主要是因为 hexo 构建发布到远程的目录只是 source 目录,所以只要将<br>README.md copy 一份放到 source 目录下,并且配置渲染时需要跳过的文件就可以了.</p>
-<pre><code>#hexo 构建渲染时会将 source 目录下 markdown 类型文件转译为 html,我们不需要将 README.md 转译,所以直接 skip render
+<pre><code>#hexo 构建渲染时会将 source 目录下 markdown 类型文件转译为 html,不需要将 README.md 转译,所以直接 skip render
 #更改根目录底下的 _config.yml 文件,修改 skip_render 属性
 skip_render: README.md
 </code></pre>
@@ -460,115 +585,6 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of webpack</title>
-    <url>/2022/08/30/think-of-webpack/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变. </p>
-<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
-<p>babel-loader</p>
-</blockquote>
-<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
-<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
-<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
-<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
-<ul>
-<li><p>何为 loose 松散模式?</p>
-<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
-</li>
-<li><p>loose 松散模式的优缺点?</p>
-<ul>
-<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
-<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
-<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>css-loader</p>
-</blockquote>
-<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
-<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
-<blockquote>
-<p>url-loader</p>
-</blockquote>
-<p>  url-loader 与 file-loader 的区别是什么?</p>
-<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
-<blockquote>
-<p>Asset Module</p>
-</blockquote>
-<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
-<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
-<ul>
-<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
-<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
-<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
-<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
-</ul>
-<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
-<ul>
-<li><p>generator</p>
-<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
-<ul>
-<li><p>filename</p>
-<ul>
-<li>值必须为相对路径,可改变资源输出的目录;</li>
-<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
-<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
-</ul>
-</li>
-<li><p>dataUrl</p>
-<ul>
-<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
-<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
-<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>parser</p>
-<ul>
-<li><p>dataUrlCondition.maxSize:</p>
-<ul>
-<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
-<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
-<li>该属性仅适用于 asset 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>  示例:</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
-<p>contentBase</p>
-</blockquote>
-<p>  为何在 devServer 设置 contentBase 失效?</p>
-<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
       </tags>
   </entry>
 </search>
