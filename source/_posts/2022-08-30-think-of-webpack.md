@@ -13,7 +13,27 @@ categories: webpack
 
   为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?
 
-  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变. 
+  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变.
+
+#### watch
+
+> 原理分析
+
+  webpack --watch 文件监听的原理是什么?
+
+  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.
+
+> 参数
+
+  webpack --watch 文件监听有哪些参数?
+
+  解: webpack --watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.
+
+  webpack --watch 文件监听里主要参数的作用是什么?
+
+  - ignored => 筛选不实行监听的位置目录.
+  - aggregateTimeout => 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.
+  - poll => 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.
 
 #### loaders
 
@@ -121,5 +141,18 @@ categories: webpack
   为何在 devServer 设置 contentBase 失效?
 
   解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.
+
+> hot
+
+  热加载的工作原理是什么?
+
+  首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.
+
+  - webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack --watch 文件监听,并写入内存.
+  - bundle server: 提供文件给浏览器实行访问.
+  - hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.
+  - hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.
+
+  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack --watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,于此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件并实行更行.
 
   
