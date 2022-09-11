@@ -63,6 +63,12 @@ categories: webpack
 
   解: 通过查询,webpack 3.x => 4.x && css-loader 0.x => 1.x 已经将 options minimize 参数压缩功能删掉.
 
+> postcss-loader
+
+  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?
+
+  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.
+
 > url-loader
 
   url-loader 与 file-loader 的区别是什么?
