@@ -1,6 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>daily problems</title>
+    <url>/2022/08/30/daily-problems/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
+<p>npm run scripts</p>
+</blockquote>
+<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
+<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
+<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
+]]></content>
+      <categories>
+        <category>problems</category>
+      </categories>
+      <tags>
+        <tag>problems</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of nodejs</title>
     <url>/2022/08/30/think-of-nodejs/</url>
     <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1>]]></content>
@@ -10,6 +27,131 @@
       <tags>
         <tag>npm</tag>
         <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of webpack</title>
+    <url>/2022/08/30/think-of-webpack/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
+<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变.</p>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
+<p>原理分析</p>
+</blockquote>
+<p>  webpack –watch 文件监听的原理是什么?</p>
+<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<p>  webpack –watch 文件监听有哪些参数?</p>
+<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
+<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
+<ul>
+<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
+<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
+<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
+</ul>
+<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
+<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
+<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
+<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
+<ul>
+<li><p>何为 loose 松散模式?</p>
+<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
+</li>
+<li><p>loose 松散模式的优缺点?</p>
+<ul>
+<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
+<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
+<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>css-loader</p>
+</blockquote>
+<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
+<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
+<blockquote>
+<p>url-loader</p>
+</blockquote>
+<p>  url-loader 与 file-loader 的区别是什么?</p>
+<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
+<blockquote>
+<p>Asset Module</p>
+</blockquote>
+<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
+<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
+<ul>
+<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
+<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
+<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
+<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
+</ul>
+<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
+<ul>
+<li><p>generator</p>
+<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
+<ul>
+<li><p>filename</p>
+<ul>
+<li>值必须为相对路径,可改变资源输出的目录;</li>
+<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
+<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
+</ul>
+</li>
+<li><p>dataUrl</p>
+<ul>
+<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
+<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
+<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>parser</p>
+<ul>
+<li><p>dataUrlCondition.maxSize:</p>
+<ul>
+<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
+<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
+<li>该属性仅适用于 asset 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  示例:</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
+<p>contentBase</p>
+</blockquote>
+<p>  为何在 devServer 设置 contentBase 失效?</p>
+<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
+<blockquote>
+<p>hot</p>
+</blockquote>
+<p>  热加载的工作原理是什么?</p>
+<p>  首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
+<ul>
+<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
+<li>bundle server: 提供文件给浏览器实行访问.</li>
+<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
+<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
+</ul>
+<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.</p>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
       </tags>
   </entry>
   <entry>
@@ -471,148 +613,6 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>daily problems</title>
-    <url>/2022/08/30/daily-problems/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
-<p>npm run scripts</p>
-</blockquote>
-<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
-<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
-<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
-]]></content>
-      <categories>
-        <category>problems</category>
-      </categories>
-      <tags>
-        <tag>problems</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of webpack</title>
-    <url>/2022/08/30/think-of-webpack/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变.</p>
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
-<p>原理分析</p>
-</blockquote>
-<p>  webpack –watch 文件监听的原理是什么?</p>
-<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<p>  webpack –watch 文件监听有哪些参数?</p>
-<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
-<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
-<ul>
-<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
-<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
-<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
-</ul>
-<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
-<p>babel-loader</p>
-</blockquote>
-<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
-<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModules’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
-<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
-<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
-<ul>
-<li><p>何为 loose 松散模式?</p>
-<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
-</li>
-<li><p>loose 松散模式的优缺点?</p>
-<ul>
-<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
-<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
-<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>css-loader</p>
-</blockquote>
-<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
-<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
-<blockquote>
-<p>url-loader</p>
-</blockquote>
-<p>  url-loader 与 file-loader 的区别是什么?</p>
-<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
-<blockquote>
-<p>Asset Module</p>
-</blockquote>
-<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
-<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
-<ul>
-<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
-<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
-<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
-<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
-</ul>
-<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
-<ul>
-<li><p>generator</p>
-<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
-<ul>
-<li><p>filename</p>
-<ul>
-<li>值必须为相对路径,可改变资源输出的目录;</li>
-<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
-<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
-</ul>
-</li>
-<li><p>dataUrl</p>
-<ul>
-<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
-<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
-<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>parser</p>
-<ul>
-<li><p>dataUrlCondition.maxSize:</p>
-<ul>
-<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
-<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
-<li>该属性仅适用于 asset 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>  示例:</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
-<p>contentBase</p>
-</blockquote>
-<p>  为何在 devServer 设置 contentBase 失效?</p>
-<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
-<blockquote>
-<p>hot</p>
-</blockquote>
-<p>  热加载的工作原理是什么?</p>
-<p>  首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
-<ul>
-<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
-<li>bundle server: 提供文件给浏览器实行访问.</li>
-<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
-<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
-</ul>
-<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件并实行更行.</p>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
       </tags>
   </entry>
 </search>
