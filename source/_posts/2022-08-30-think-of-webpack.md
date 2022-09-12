@@ -41,7 +41,7 @@ categories: webpack
 
   @babel/preset-env 的参数 modules 的作用是什么?
 
-  解: modules => 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 'EsModules',其他类型如 'commonjs','commonjs2','amd' 等,设置为 false 表明不改变模块导出类型.
+  解: modules => 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 'EsModule',其他类型如 'commonjs','commonjs2','amd' 等,设置为 false 表明不改变模块导出类型.
 
   @babel/preset-env 的参数 loose 的作用是什么?
 
@@ -140,6 +140,170 @@ categories: webpack
   };
   ```
 
+> raw-loader
+
+  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader呢?
+
+  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.
+
+  - px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.
+  - lib-flexible: 用于动态计算元节点绝对像素值的工具.
+  - raw-loader: 用于内联资源模块,导出文件资源的源代码.
+
+  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块类型为 'EsModule',转化成字符串为'\[object Object\]',要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 raw-loader 的限制.
+
+  ```ejs
+  <!-- 使用 raw-loader 内联资源模块之前  -->
+  <!DOCTYPE html>
+    <html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <title>Webpack Emulate</title>
+        <script type="text/javascript"><%= require("raw-loader?esModule=false!babel-loader!../node_modules/lib-flexible/flexible") %></script>
+    </head>
+    <body>
+    <div id="root-webpack">
+    
+    </div>
+    </body>
+  </html>
+  ```
+
+  ```ejs
+  <!-- 使用 raw-loader 内联资源模块之后  -->
+  <!doctype html><html lang="zh-CN"><head><meta charset="UTF-8"><title>Webpack Emulate</title>
+    <script>;(function (win, lib) {
+            var doc = win.document;
+            var docEl = doc.documentElement;
+            var metaEl = doc.querySelector('meta[name="viewport"]');
+            var flexibleEl = doc.querySelector('meta[name="flexible"]');
+            var dpr = 0;
+            var scale = 0;
+            var tid;
+            var flexible = lib.flexible || (lib.flexible = {});
+
+            if (metaEl) {
+                console.warn('将根据已有的meta标签来设置缩放比例');
+                var match = metaEl.getAttribute('content').match(/initial\-scale=([\d\.]+)/);
+
+                if (match) {
+                    scale = parseFloat(match[1]);
+                    dpr = parseInt(1 / scale);
+                }
+            } else if (flexibleEl) {
+                var content = flexibleEl.getAttribute('content');
+
+                if (content) {
+                    var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);
+                    var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);
+
+                    if (initialDpr) {
+                        dpr = parseFloat(initialDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+
+                    if (maximumDpr) {
+                        dpr = parseFloat(maximumDpr[1]);
+                        scale = parseFloat((1 / dpr).toFixed(2));
+                    }
+                }
+            }
+
+            if (!dpr && !scale) {
+                var isAndroid = win.navigator.appVersion.match(/android/gi);
+                var isIPhone = win.navigator.appVersion.match(/iphone/gi);
+                var devicePixelRatio = win.devicePixelRatio;
+
+                if (isIPhone) {
+                    // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案
+                    if (devicePixelRatio >= 3 && (!dpr || dpr >= 3)) {
+                        dpr = 3;
+                    } else if (devicePixelRatio >= 2 && (!dpr || dpr >= 2)) {
+                        dpr = 2;
+                    } else {
+                        dpr = 1;
+                    }
+                } else {
+                    // 其他设备下，仍旧使用1倍的方案
+                    dpr = 1;
+                }
+
+                scale = 1 / dpr;
+            }
+
+            docEl.setAttribute('data-dpr', dpr);
+
+            if (!metaEl) {
+                metaEl = doc.createElement('meta');
+                metaEl.setAttribute('name', 'viewport');
+                metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no');
+
+                if (docEl.firstElementChild) {
+                    docEl.firstElementChild.appendChild(metaEl);
+                } else {
+                    var wrap = doc.createElement('div');
+                    wrap.appendChild(metaEl);
+                    doc.write(wrap.innerHTML);
+                }
+            }
+
+            function refreshRem() {
+                var width = docEl.getBoundingClientRect().width;
+
+                if (width / dpr > 540) {
+                    width = 540 * dpr;
+                }
+
+                var rem = width / 10;
+                docEl.style.fontSize = rem + 'px';
+                flexible.rem = win.rem = rem;
+            }
+
+            win.addEventListener('resize', function () {
+                clearTimeout(tid);
+                tid = setTimeout(refreshRem, 300);
+            }, false);
+            win.addEventListener('pageshow', function (e) {
+                if (e.persisted) {
+                    clearTimeout(tid);
+                    tid = setTimeout(refreshRem, 300);
+                }
+            }, false);
+
+            if (doc.readyState === 'complete') {
+                doc.body.style.fontSize = 12 * dpr + 'px';
+            } else {
+                doc.addEventListener('DOMContentLoaded', function (e) {
+                    doc.body.style.fontSize = 12 * dpr + 'px';
+                }, false);
+            }
+
+            refreshRem();
+            flexible.dpr = win.dpr = dpr;
+            flexible.refreshRem = refreshRem;
+
+            flexible.rem2px = function (d) {
+                var val = parseFloat(d) * this.rem;
+
+                if (typeof d === 'string' && d.match(/rem$/)) {
+                    val += 'px';
+                }
+
+                return val;
+            };
+
+            flexible.px2rem = function (d) {
+                var val = parseFloat(d) / this.rem;
+
+                if (typeof d === 'string' && d.match(/px$/)) {
+                    val += 'rem';
+                }
+
+                return val;
+            };
+        })(window, window['lib'] || (window['lib'] = {}));</script><link href="./css/index.5c90e18c.css" rel="stylesheet"></head><body><div id="root-webpack"></div><script defer="defer" src="./js/index_7b84cb4c006925aa2404.js"></script></body></html>
+  ```
+
 #### devServer
 
 > contentBase
@@ -152,7 +316,7 @@ categories: webpack
 
   热加载的工作原理是什么?
 
-  首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.
+  解: 首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.
 
   - webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack --watch 文件监听,并写入内存.
   - bundle server: 提供文件给浏览器实行访问.
