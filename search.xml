@@ -606,7 +606,7 @@ fancybox: true
 <blockquote>
 <p>raw-loader</p>
 </blockquote>
-<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader呢?</p>
+<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?</p>
 <p>  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.</p>
 <ul>
 <li>px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.</li>
