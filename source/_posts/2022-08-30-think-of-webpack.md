@@ -150,7 +150,7 @@ categories: webpack
   - lib-flexible: 用于动态计算元节点绝对像素值的工具.
   - raw-loader: 用于内联资源模块,导出文件资源的源代码.
 
-  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块类型为 'EsModule',转化成字符串为'\[object Object\]',要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 raw-loader 的限制.
+  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块类型为 'EsModule',转化成字符串为'\[object Object\]',要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 0.5.1 的 raw-loader 的限制.
 
   ```ejs
   <!-- 使用 raw-loader 内联资源模块之前  -->
