@@ -142,7 +142,7 @@ categories: webpack
 
 > raw-loader
 
-  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader呢?
+  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?
 
   解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.
 
