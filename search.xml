@@ -1,20 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>daily problems</title>
-    <url>/2022/08/30/daily-problems/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
-<p>npm run scripts</p>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
 </blockquote>
-<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
-<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
-<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
+<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
 ]]></content>
       <categories>
-        <category>problems</category>
+        <category>nodejs</category>
       </categories>
       <tags>
-        <tag>problems</tag>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
@@ -63,6 +66,7 @@
 <li>cheap-source-map: 会额外单独导出 .map 文件,可直接探寻源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
 <li>inline-source-map: 不会单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接探寻源代码.</li>
 <li>cheap-module-source-map: 会额外单独导出 .map文件,可直接探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
+<li>eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接探寻源代码.</li>
 </ul>
 <h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
 <p>babel-loader</p>
@@ -186,23 +190,20 @@
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
+    <title>daily problems</title>
+    <url>/2022/08/30/daily-problems/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
+<p>npm run scripts</p>
 </blockquote>
-<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
+<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
+<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
 ]]></content>
       <categories>
-        <category>nodejs</category>
+        <category>problems</category>
       </categories>
       <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
+        <tag>problems</tag>
       </tags>
   </entry>
   <entry>
