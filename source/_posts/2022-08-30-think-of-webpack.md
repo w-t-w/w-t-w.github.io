@@ -61,6 +61,20 @@ categories: webpack
   - cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.
   - eval: 不会额外单独导出 .map 文件,表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.
 
+#### splitChunks
+
+> 参数
+
+  - chunks: 有三个枚举选项,"async"、"initial "以及 "all",默认为 "async",表示对于异步、非异步以及全部的模块代码分割的选择.
+  - minChunks: 表示模块最少可被导入实现分割的次数,默认为 1.
+  - minSize: 表示模块最少可被分割的体积大小,默认为 30000,也就是 30kb.
+  - maxInitialRequests: 表示入口模块并发请求的最大次数,默认为 3.
+  - maxAsyncRequests: 表示模块按需加载并发请求的最大次数,默认为 5.
+  - name: 模块代码分割后导出模块的名称.
+  - cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.
+  - cacheGroups.test: 筛选要分割导出的模块.
+  - cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序.
+
 #### loaders
 
 > babel-loader
