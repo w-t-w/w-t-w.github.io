@@ -75,6 +75,13 @@ categories: webpack
   - cacheGroups.test: 筛选要分割导出的模块.
   - cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序.
 
+#### TreeShaking
+
+> 作用
+
+  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.
+  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.
+
 #### loaders
 
 > babel-loader
