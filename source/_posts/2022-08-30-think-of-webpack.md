@@ -41,7 +41,7 @@ categories: webpack
 
   sourceMap 的作用是什么?
 
-  解: 用于前端开发者根据 sourceMap 文件探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.
+  解: 用于前端开发者根据 sourceMap 文件精确探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.
 
 > 参数
 
@@ -55,11 +55,11 @@ categories: webpack
 
   这几个概念按照逻辑排列组合,自然形成了各种参数.举几个🌰:
 
-  - source-map: 会额外单独导出 .map 文件,可直接探寻源代码.
-  - cheap-source-map: 会额外单独导出 .map 文件,可直接探寻源代码,但堆栈追踪错误只能通过行,不会显示列.
-  - inline-source-map: 不会单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接探寻源代码.
-  - cheap-module-source-map: 会额外单独导出 .map文件,可直接探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.
-  - eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接探寻源代码.
+  - source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码.
+  - cheap-source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码,但堆栈追踪错误只能通过行,不会显示列.
+  - inline-source-map: 不会单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接精确探寻源代码.
+  - cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.
+  - eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.
 
 #### loaders
 
