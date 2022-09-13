@@ -560,6 +560,10 @@ fancybox: true
 <li>cacheGroups.test: 筛选要分割导出的模块.</li>
 <li>cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序.</li>
 </ul>
+<h4 id="TreeShaking"><a href="#TreeShaking" class="headerlink" title="TreeShaking"></a>TreeShaking</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.<br>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
 <h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
 <p>babel-loader</p>
 </blockquote>
