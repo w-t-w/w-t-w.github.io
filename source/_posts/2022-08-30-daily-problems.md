@@ -14,3 +14,11 @@ categories: problems
   解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.
   
   线性图: node_modules/(可执行模块) -> 通过软链接 => node_modules/.bin/(可执行脚本命令) -> 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) => 即使全局环境变量下不存在的脚本命令也能执行.
+  
+# javascript
+
+> 闭包
+
+  什么是闭包?
+  
+  A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.
