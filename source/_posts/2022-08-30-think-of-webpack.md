@@ -73,7 +73,7 @@ categories: webpack
   - name: 模块代码分割后导出模块的名称.
   - cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.
   - cacheGroups.test: 筛选要分割导出的模块.
-  - cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序.
+  - cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序,默认值为 -20.
 
 #### TreeShaking
 
