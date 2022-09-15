@@ -88,6 +88,8 @@ categories: webpack
 
   对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 __webpack_require__,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 "production",就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.
 
+  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.
+
 #### loaders
 
 > babel-loader
