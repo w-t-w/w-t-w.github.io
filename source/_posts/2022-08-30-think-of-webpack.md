@@ -386,6 +386,6 @@ categories: webpack
 
   为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?
 
-  解: friendly-errors-webpack-plugin 日志优化插件在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.
+  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.
 
   
