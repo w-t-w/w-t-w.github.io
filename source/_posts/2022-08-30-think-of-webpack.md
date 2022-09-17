@@ -380,4 +380,12 @@ categories: webpack
 
   工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack --watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.
 
+### plugins
+
+> friendly-errors-webpack-plugin
+
+  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?
+
+  解: friendly-errors-webpack-plugin 日志优化插件在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.
+
   

@@ -21,4 +21,25 @@ categories: problems
 
   什么是闭包?
   
-  A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.
+  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.
+  
+# webpack
+
+> terser-webpack-plugin
+
+  众所周知,在 webpack 4.x以及之后的版本,开启 mode: 'production',相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: 'production',却不能实现压缩混淆,这是为什么呢?
+  
+  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 '...' 元素就可生效.
+  
+  ```javascript
+  module.exports = {
+    //...
+    optimization: {
+        minimizer: [
+            //...
+            '...'
+        ]
+    }
+    //...
+  }
+  ```
