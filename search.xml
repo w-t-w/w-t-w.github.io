@@ -48,203 +48,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of webpack</title>
-    <url>/2022/08/30/think-of-webpack/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变.</p>
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
-<p>原理分析</p>
-</blockquote>
-<p>  webpack –watch 文件监听的原理是什么?</p>
-<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<p>  webpack –watch 文件监听有哪些参数?</p>
-<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
-<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
-<ul>
-<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
-<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
-<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
-</ul>
-<h4 id="devtool"><a href="#devtool" class="headerlink" title="devtool"></a>devtool</h4><blockquote>
-<p>sourceMap</p>
-</blockquote>
-<p>  sourceMap 的作用是什么?</p>
-<p>  解: 用于前端开发者根据 sourceMap 文件精确探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<p>  首先了解几个概念: cheap、eval、inline、module、source-map</p>
-<ul>
-<li>cheap: 构建打包的 sourceMap 文件只能通过行追踪.</li>
-<li>eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录.</li>
-<li>inline: sourceMap 通过内联 sourceMap dataURI 至构建打包文件,不会单独导出 .map 文件.</li>
-<li>module: 会导出未被 loader 处理的源代码.</li>
-<li>source-map: 构建打包会额外单独导出 .map 文件.</li>
-</ul>
-<p>  这几个概念按照逻辑排列组合,自然形成了各种参数.举几个🌰:</p>
-<ul>
-<li>source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码.</li>
-<li>cheap-source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
-<li>inline-source-map: 不会额外单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接精确探寻源代码.</li>
-<li>cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
-<li>eval: 不会额外单独导出 .map 文件,表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.</li>
-</ul>
-<h4 id="splitChunks"><a href="#splitChunks" class="headerlink" title="splitChunks"></a>splitChunks</h4><blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>chunks: 有三个枚举选项,”async”、”initial “以及 “all”,默认为 “async”,表示对于异步、非异步以及全部的模块代码分割的选择.</li>
-<li>minChunks: 表示模块最少可被导入实现分割的次数,默认为 1.</li>
-<li>minSize: 表示模块最少可被分割的体积大小,默认为 30000,也就是 30kb.</li>
-<li>maxInitialRequests: 表示入口模块并发请求的最大次数,默认为 3.</li>
-<li>maxAsyncRequests: 表示模块按需加载并发请求的最大次数,默认为 5.</li>
-<li>name: 模块代码分割后导出模块的名称.</li>
-<li>cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.</li>
-<li>cacheGroups.test: 筛选要分割导出的模块.</li>
-<li>cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序,默认值为 -20.</li>
-</ul>
-<h4 id="TreeShaking"><a href="#TreeShaking" class="headerlink" title="TreeShaking"></a>TreeShaking</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.<br>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
-<h4 id="Scope-Hoisting"><a href="#Scope-Hoisting" class="headerlink" title="Scope Hoisting"></a>Scope Hoisting</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 <strong>webpack_require</strong>,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 “production”,就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.</p>
-<p>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
-<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
-<p>babel-loader</p>
-</blockquote>
-<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
-<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModule’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
-<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
-<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
-<ul>
-<li><p>何为 loose 松散模式?</p>
-<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
-</li>
-<li><p>loose 松散模式的优缺点?</p>
-<ul>
-<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
-<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
-<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>css-loader</p>
-</blockquote>
-<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
-<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
-<blockquote>
-<p>postcss-loader</p>
-</blockquote>
-<p>  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?</p>
-<p>  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.</p>
-<blockquote>
-<p>url-loader</p>
-</blockquote>
-<p>  url-loader 与 file-loader 的区别是什么?</p>
-<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
-<blockquote>
-<p>Asset Module</p>
-</blockquote>
-<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
-<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
-<ul>
-<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
-<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
-<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
-<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
-</ul>
-<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
-<ul>
-<li><p>generator</p>
-<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
-<ul>
-<li><p>filename</p>
-<ul>
-<li>值必须为相对路径,可改变资源输出的目录;</li>
-<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
-<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
-</ul>
-</li>
-<li><p>dataUrl</p>
-<ul>
-<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
-<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
-<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>parser</p>
-<ul>
-<li><p>dataUrlCondition.maxSize:</p>
-<ul>
-<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
-<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
-<li>该属性仅适用于 asset 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>  示例:</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>raw-loader</p>
-</blockquote>
-<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?</p>
-<p>  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.</p>
-<ul>
-<li>px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.</li>
-<li>lib-flexible: 用于动态计算元节点绝对像素值的工具.</li>
-<li>raw-loader: 用于内联资源模块,导出文件资源的源代码.</li>
-</ul>
-<p>  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块导出类型为 ‘EsModule’,转化成字符串为’[object Object]‘,要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 0.5.1 的 raw-loader 的限制.</p>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之前  --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html lang=&quot;zh-CN&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">      &lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot;&gt;&lt;%= require(&quot;raw-loader?esModule=false!babel-loader!../node_modules/lib-flexible/flexible&quot;) %&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;div id=&quot;root-webpack&quot;&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之后  --&gt;</span><br><span class="line">&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">  &lt;script&gt;;(function (win, lib) &#123;</span><br><span class="line">          var doc = win.document;</span><br><span class="line">          var docEl = doc.documentElement;</span><br><span class="line">          var metaEl = doc.querySelector(&#x27;meta[name=&quot;viewport&quot;]&#x27;);</span><br><span class="line">          var flexibleEl = doc.querySelector(&#x27;meta[name=&quot;flexible&quot;]&#x27;);</span><br><span class="line">          var dpr = 0;</span><br><span class="line">          var scale = 0;</span><br><span class="line">          var tid;</span><br><span class="line">          var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">          if (metaEl) &#123;</span><br><span class="line">              console.warn(&#x27;将根据已有的meta标签来设置缩放比例&#x27;);</span><br><span class="line">              var match = metaEl.getAttribute(&#x27;content&#x27;).match(/initial\-scale=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">              if (match) &#123;</span><br><span class="line">                  scale = parseFloat(match[1]);</span><br><span class="line">                  dpr = parseInt(1 / scale);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; else if (flexibleEl) &#123;</span><br><span class="line">              var content = flexibleEl.getAttribute(&#x27;content&#x27;);</span><br><span class="line"></span><br><span class="line">              if (content) &#123;</span><br><span class="line">                  var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);</span><br><span class="line">                  var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">                  if (initialDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(initialDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  if (maximumDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(maximumDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          if (!dpr &amp;&amp; !scale) &#123;</span><br><span class="line">              var isAndroid = win.navigator.appVersion.match(/android/gi);</span><br><span class="line">              var isIPhone = win.navigator.appVersion.match(/iphone/gi);</span><br><span class="line">              var devicePixelRatio = win.devicePixelRatio;</span><br><span class="line"></span><br><span class="line">              if (isIPhone) &#123;</span><br><span class="line">                  // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</span><br><span class="line">                  if (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;</span><br><span class="line">                      dpr = 3;</span><br><span class="line">                  &#125; else if (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2)) &#123;</span><br><span class="line">                      dpr = 2;</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      dpr = 1;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  // 其他设备下，仍旧使用1倍的方案</span><br><span class="line">                  dpr = 1;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              scale = 1 / dpr;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          docEl.setAttribute(&#x27;data-dpr&#x27;, dpr);</span><br><span class="line"></span><br><span class="line">          if (!metaEl) &#123;</span><br><span class="line">              metaEl = doc.createElement(&#x27;meta&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;name&#x27;, &#x27;viewport&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;content&#x27;, &#x27;initial-scale=&#x27; + scale + &#x27;, maximum-scale=&#x27; + scale + &#x27;, minimum-scale=&#x27; + scale + &#x27;, user-scalable=no&#x27;);</span><br><span class="line"></span><br><span class="line">              if (docEl.firstElementChild) &#123;</span><br><span class="line">                  docEl.firstElementChild.appendChild(metaEl);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  var wrap = doc.createElement(&#x27;div&#x27;);</span><br><span class="line">                  wrap.appendChild(metaEl);</span><br><span class="line">                  doc.write(wrap.innerHTML);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          function refreshRem() &#123;</span><br><span class="line">              var width = docEl.getBoundingClientRect().width;</span><br><span class="line"></span><br><span class="line">              if (width / dpr &gt; 540) &#123;</span><br><span class="line">                  width = 540 * dpr;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              var rem = width / 10;</span><br><span class="line">              docEl.style.fontSize = rem + &#x27;px&#x27;;</span><br><span class="line">              flexible.rem = win.rem = rem;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          win.addEventListener(&#x27;resize&#x27;, function () &#123;</span><br><span class="line">              clearTimeout(tid);</span><br><span class="line">              tid = setTimeout(refreshRem, 300);</span><br><span class="line">          &#125;, false);</span><br><span class="line">          win.addEventListener(&#x27;pageshow&#x27;, function (e) &#123;</span><br><span class="line">              if (e.persisted) &#123;</span><br><span class="line">                  clearTimeout(tid);</span><br><span class="line">                  tid = setTimeout(refreshRem, 300);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;, false);</span><br><span class="line"></span><br><span class="line">          if (doc.readyState === &#x27;complete&#x27;) &#123;</span><br><span class="line">              doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              doc.addEventListener(&#x27;DOMContentLoaded&#x27;, function (e) &#123;</span><br><span class="line">                  doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">              &#125;, false);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          refreshRem();</span><br><span class="line">          flexible.dpr = win.dpr = dpr;</span><br><span class="line">          flexible.refreshRem = refreshRem;</span><br><span class="line"></span><br><span class="line">          flexible.rem2px = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) * this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">                  val += &#x27;px&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line"></span><br><span class="line">          flexible.px2rem = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) / this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">                  val += &#x27;rem&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line">      &#125;)(window, window[&#x27;lib&#x27;] || (window[&#x27;lib&#x27;] = &#123;&#125;));&lt;/script&gt;&lt;link href=&quot;./css/index.5c90e18c.css&quot; rel=&quot;stylesheet&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;root-webpack&quot;&gt;&lt;/div&gt;&lt;script defer=&quot;defer&quot; src=&quot;./js/index_7b84cb4c006925aa2404.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
-<p>contentBase</p>
-</blockquote>
-<p>  为何在 devServer 设置 contentBase 失效?</p>
-<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
-<blockquote>
-<p>hot</p>
-</blockquote>
-<p>  热加载的工作原理是什么?</p>
-<p>  解: 首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
-<ul>
-<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
-<li>bundle server: 提供文件给浏览器实行访问.</li>
-<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
-<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
-</ul>
-<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.</p>
-<h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><blockquote>
-<p>friendly-errors-webpack-plugin</p>
-</blockquote>
-<p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
-<p>  解: friendly-errors-webpack-plugin 日志优化插件在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -703,6 +506,203 @@ fancybox: true
       <tags>
         <tag>hexo</tag>
         <tag>hexo blog</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of webpack</title>
+    <url>/2022/08/30/think-of-webpack/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
+<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变.</p>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
+<p>原理分析</p>
+</blockquote>
+<p>  webpack –watch 文件监听的原理是什么?</p>
+<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<p>  webpack –watch 文件监听有哪些参数?</p>
+<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
+<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
+<ul>
+<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
+<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
+<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
+</ul>
+<h4 id="devtool"><a href="#devtool" class="headerlink" title="devtool"></a>devtool</h4><blockquote>
+<p>sourceMap</p>
+</blockquote>
+<p>  sourceMap 的作用是什么?</p>
+<p>  解: 用于前端开发者根据 sourceMap 文件精确探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<p>  首先了解几个概念: cheap、eval、inline、module、source-map</p>
+<ul>
+<li>cheap: 构建打包的 sourceMap 文件只能通过行追踪.</li>
+<li>eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录.</li>
+<li>inline: sourceMap 通过内联 sourceMap dataURI 至构建打包文件,不会单独导出 .map 文件.</li>
+<li>module: 会导出未被 loader 处理的源代码.</li>
+<li>source-map: 构建打包会额外单独导出 .map 文件.</li>
+</ul>
+<p>  这几个概念按照逻辑排列组合,自然形成了各种参数.举几个🌰:</p>
+<ul>
+<li>source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码.</li>
+<li>cheap-source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
+<li>inline-source-map: 不会额外单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接精确探寻源代码.</li>
+<li>cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
+<li>eval: 不会额外单独导出 .map 文件,表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.</li>
+</ul>
+<h4 id="splitChunks"><a href="#splitChunks" class="headerlink" title="splitChunks"></a>splitChunks</h4><blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>chunks: 有三个枚举选项,”async”、”initial “以及 “all”,默认为 “async”,表示对于异步、非异步以及全部的模块代码分割的选择.</li>
+<li>minChunks: 表示模块最少可被导入实现分割的次数,默认为 1.</li>
+<li>minSize: 表示模块最少可被分割的体积大小,默认为 30000,也就是 30kb.</li>
+<li>maxInitialRequests: 表示入口模块并发请求的最大次数,默认为 3.</li>
+<li>maxAsyncRequests: 表示模块按需加载并发请求的最大次数,默认为 5.</li>
+<li>name: 模块代码分割后导出模块的名称.</li>
+<li>cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.</li>
+<li>cacheGroups.test: 筛选要分割导出的模块.</li>
+<li>cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序,默认值为 -20.</li>
+</ul>
+<h4 id="TreeShaking"><a href="#TreeShaking" class="headerlink" title="TreeShaking"></a>TreeShaking</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.<br>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
+<h4 id="Scope-Hoisting"><a href="#Scope-Hoisting" class="headerlink" title="Scope Hoisting"></a>Scope Hoisting</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 <strong>webpack_require</strong>,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 “production”,就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.</p>
+<p>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
+<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
+<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModule’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
+<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
+<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
+<ul>
+<li><p>何为 loose 松散模式?</p>
+<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
+</li>
+<li><p>loose 松散模式的优缺点?</p>
+<ul>
+<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
+<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
+<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>css-loader</p>
+</blockquote>
+<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
+<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
+<blockquote>
+<p>postcss-loader</p>
+</blockquote>
+<p>  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?</p>
+<p>  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.</p>
+<blockquote>
+<p>url-loader</p>
+</blockquote>
+<p>  url-loader 与 file-loader 的区别是什么?</p>
+<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
+<blockquote>
+<p>Asset Module</p>
+</blockquote>
+<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
+<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
+<ul>
+<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
+<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
+<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
+<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
+</ul>
+<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
+<ul>
+<li><p>generator</p>
+<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
+<ul>
+<li><p>filename</p>
+<ul>
+<li>值必须为相对路径,可改变资源输出的目录;</li>
+<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
+<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
+</ul>
+</li>
+<li><p>dataUrl</p>
+<ul>
+<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
+<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
+<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>parser</p>
+<ul>
+<li><p>dataUrlCondition.maxSize:</p>
+<ul>
+<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
+<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
+<li>该属性仅适用于 asset 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  示例:</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>raw-loader</p>
+</blockquote>
+<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?</p>
+<p>  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.</p>
+<ul>
+<li>px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.</li>
+<li>lib-flexible: 用于动态计算元节点绝对像素值的工具.</li>
+<li>raw-loader: 用于内联资源模块,导出文件资源的源代码.</li>
+</ul>
+<p>  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块导出类型为 ‘EsModule’,转化成字符串为’[object Object]‘,要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 0.5.1 的 raw-loader 的限制.</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之前  --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html lang=&quot;zh-CN&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">      &lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot;&gt;&lt;%= require(&quot;raw-loader?esModule=false!babel-loader!../node_modules/lib-flexible/flexible&quot;) %&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;div id=&quot;root-webpack&quot;&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之后  --&gt;</span><br><span class="line">&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">  &lt;script&gt;;(function (win, lib) &#123;</span><br><span class="line">          var doc = win.document;</span><br><span class="line">          var docEl = doc.documentElement;</span><br><span class="line">          var metaEl = doc.querySelector(&#x27;meta[name=&quot;viewport&quot;]&#x27;);</span><br><span class="line">          var flexibleEl = doc.querySelector(&#x27;meta[name=&quot;flexible&quot;]&#x27;);</span><br><span class="line">          var dpr = 0;</span><br><span class="line">          var scale = 0;</span><br><span class="line">          var tid;</span><br><span class="line">          var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">          if (metaEl) &#123;</span><br><span class="line">              console.warn(&#x27;将根据已有的meta标签来设置缩放比例&#x27;);</span><br><span class="line">              var match = metaEl.getAttribute(&#x27;content&#x27;).match(/initial\-scale=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">              if (match) &#123;</span><br><span class="line">                  scale = parseFloat(match[1]);</span><br><span class="line">                  dpr = parseInt(1 / scale);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; else if (flexibleEl) &#123;</span><br><span class="line">              var content = flexibleEl.getAttribute(&#x27;content&#x27;);</span><br><span class="line"></span><br><span class="line">              if (content) &#123;</span><br><span class="line">                  var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);</span><br><span class="line">                  var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">                  if (initialDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(initialDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  if (maximumDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(maximumDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          if (!dpr &amp;&amp; !scale) &#123;</span><br><span class="line">              var isAndroid = win.navigator.appVersion.match(/android/gi);</span><br><span class="line">              var isIPhone = win.navigator.appVersion.match(/iphone/gi);</span><br><span class="line">              var devicePixelRatio = win.devicePixelRatio;</span><br><span class="line"></span><br><span class="line">              if (isIPhone) &#123;</span><br><span class="line">                  // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</span><br><span class="line">                  if (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;</span><br><span class="line">                      dpr = 3;</span><br><span class="line">                  &#125; else if (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2)) &#123;</span><br><span class="line">                      dpr = 2;</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      dpr = 1;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  // 其他设备下，仍旧使用1倍的方案</span><br><span class="line">                  dpr = 1;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              scale = 1 / dpr;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          docEl.setAttribute(&#x27;data-dpr&#x27;, dpr);</span><br><span class="line"></span><br><span class="line">          if (!metaEl) &#123;</span><br><span class="line">              metaEl = doc.createElement(&#x27;meta&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;name&#x27;, &#x27;viewport&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;content&#x27;, &#x27;initial-scale=&#x27; + scale + &#x27;, maximum-scale=&#x27; + scale + &#x27;, minimum-scale=&#x27; + scale + &#x27;, user-scalable=no&#x27;);</span><br><span class="line"></span><br><span class="line">              if (docEl.firstElementChild) &#123;</span><br><span class="line">                  docEl.firstElementChild.appendChild(metaEl);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  var wrap = doc.createElement(&#x27;div&#x27;);</span><br><span class="line">                  wrap.appendChild(metaEl);</span><br><span class="line">                  doc.write(wrap.innerHTML);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          function refreshRem() &#123;</span><br><span class="line">              var width = docEl.getBoundingClientRect().width;</span><br><span class="line"></span><br><span class="line">              if (width / dpr &gt; 540) &#123;</span><br><span class="line">                  width = 540 * dpr;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              var rem = width / 10;</span><br><span class="line">              docEl.style.fontSize = rem + &#x27;px&#x27;;</span><br><span class="line">              flexible.rem = win.rem = rem;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          win.addEventListener(&#x27;resize&#x27;, function () &#123;</span><br><span class="line">              clearTimeout(tid);</span><br><span class="line">              tid = setTimeout(refreshRem, 300);</span><br><span class="line">          &#125;, false);</span><br><span class="line">          win.addEventListener(&#x27;pageshow&#x27;, function (e) &#123;</span><br><span class="line">              if (e.persisted) &#123;</span><br><span class="line">                  clearTimeout(tid);</span><br><span class="line">                  tid = setTimeout(refreshRem, 300);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;, false);</span><br><span class="line"></span><br><span class="line">          if (doc.readyState === &#x27;complete&#x27;) &#123;</span><br><span class="line">              doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              doc.addEventListener(&#x27;DOMContentLoaded&#x27;, function (e) &#123;</span><br><span class="line">                  doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">              &#125;, false);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          refreshRem();</span><br><span class="line">          flexible.dpr = win.dpr = dpr;</span><br><span class="line">          flexible.refreshRem = refreshRem;</span><br><span class="line"></span><br><span class="line">          flexible.rem2px = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) * this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">                  val += &#x27;px&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line"></span><br><span class="line">          flexible.px2rem = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) / this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">                  val += &#x27;rem&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line">      &#125;)(window, window[&#x27;lib&#x27;] || (window[&#x27;lib&#x27;] = &#123;&#125;));&lt;/script&gt;&lt;link href=&quot;./css/index.5c90e18c.css&quot; rel=&quot;stylesheet&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;root-webpack&quot;&gt;&lt;/div&gt;&lt;script defer=&quot;defer&quot; src=&quot;./js/index_7b84cb4c006925aa2404.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
+<p>contentBase</p>
+</blockquote>
+<p>  为何在 devServer 设置 contentBase 失效?</p>
+<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
+<blockquote>
+<p>hot</p>
+</blockquote>
+<p>  热加载的工作原理是什么?</p>
+<p>  解: 首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
+<ul>
+<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
+<li>bundle server: 提供文件给浏览器实行访问.</li>
+<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
+<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
+</ul>
+<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.</p>
+<h3 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h3><blockquote>
+<p>friendly-errors-webpack-plugin</p>
+</blockquote>
+<p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
+<p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
       </tags>
   </entry>
 </search>
