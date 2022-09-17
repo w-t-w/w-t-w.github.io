@@ -29,7 +29,7 @@ categories: problems
 
   众所周知,在 webpack 4.x以及之后的版本,开启 mode: 'production',相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: 'production',却不能实现压缩混淆,这是为什么呢?
   
-  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 '...' 元素就可生效.
+  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 '...' 元素就可生效.
   
   ```javascript
   module.exports = {
@@ -50,6 +50,6 @@ categories: problems
 
   ssr 服务端渲染相对于浏览器客户端渲染,其作用是什么?又有什么优势?
   
-  - HTML 模板以及数据等资源都存于服务端,内网拉取资源速度更快.
+  - HTML 模板以及数据等资源都存放于服务端,内网拉取资源速度更快.
   - 相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求.
-  - 对于使用者来说,最直观的就是,减少了页面白屏的时间;而对于开发一方来讲,对于 SEO 爬虫解析页面更友好.
+  - 对于用户来说,最直观的就是,减少了页面白屏的时间;而对于开发一方来讲,对于 SEO 爬虫解析页面更友好.
