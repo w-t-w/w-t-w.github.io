@@ -29,7 +29,7 @@
 <meta property="og:description" content="npm npm run scripts    为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?   解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T10:53:14.000Z">
-<meta property="article:modified_time" content="2022-09-17T16:55:00.661Z">
+<meta property="article:modified_time" content="2022-09-18T15:50:15.035Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="problems">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-18 00:55:00" itemprop="dateModified" datetime="2022-09-18T00:55:00+08:00">2022-09-18</time>
+                <time title="修改时间：2022-09-18 23:50:15" itemprop="dateModified" datetime="2022-09-18T23:50:15+08:00">2022-09-18</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -285,6 +285,11 @@
 <li>相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求次数.</li>
 <li>对于用户来说,最直观的就是,大大减少了页面白屏的时间;而对于开发一方来讲,SEO 爬虫页面解析更友好.</li>
 </ul>
+<h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><blockquote>
+<p>__dirname</p>
+</blockquote>
+<p>  __dirname 与 process.cwd() 的区别是什么?</p>
+<p>  解: __dirname 指的是当前文件所在的位置目录.<br>     process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//…),修改后 process.cwd() 就会发生改变.</p>
 
     </div>
 
@@ -366,7 +371,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javascript"><span class="nav-number">2.</span> <span class="nav-text">javascript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack"><span class="nav-number">3.</span> <span class="nav-text">webpack</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ssr"><span class="nav-number">4.</span> <span class="nav-text">ssr</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javascript"><span class="nav-number">2.</span> <span class="nav-text">javascript</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack"><span class="nav-number">3.</span> <span class="nav-text">webpack</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ssr"><span class="nav-number">4.</span> <span class="nav-text">ssr</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#node"><span class="nav-number">5.</span> <span class="nav-text">node</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
