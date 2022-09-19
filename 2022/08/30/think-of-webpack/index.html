@@ -29,7 +29,7 @@
 <meta property="og:description" content="webpackentry 属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T08:17:26.000Z">
-<meta property="article:modified_time" content="2022-09-19T17:26:15.429Z">
+<meta property="article:modified_time" content="2022-09-19T23:40:59.047Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-20 01:26:15" itemprop="dateModified" datetime="2022-09-20T01:26:15+08:00">2022-09-20</time>
+                <time title="修改时间：2022-09-20 07:40:59" itemprop="dateModified" datetime="2022-09-20T07:40:59+08:00">2022-09-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -444,7 +444,51 @@
 </blockquote>
 <p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
 <p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
-<h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4>
+<h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4><blockquote>
+<p>规范说明</p>
+</blockquote>
+<p>  现阶段大多数前端开发者遵从的 git commit message 规范都是 Angular 团队的 Angular commit message.</p>
+  <figure class="highlight text"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;  &lt;!-- 这一行为 header --&gt;</span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;body&gt;    </span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>header: 分为三部分,type、scope 以及 subject.<ul>
+<li>type: 表示提交类型.必填且必须为以下枚举之一: [‘build’, ‘chore’, ‘feat’, ‘fix’, ‘style’, ‘perf’, ‘docs’, ‘ci’, ‘test’, ‘refactor’].</li>
+<li>scope: 表示项目内文件修改的范围,比如说 fix 修复 bug 时,选择 hooks 部分还是 component 部分,选填.</li>
+<li>subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 ‘.’ 字符.</li>
+</ul>
+</li>
+<li>body: 表示对本次提交的详细描述.</li>
+<li>footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue.<ul>
+<li>BREAKING CHANGES: 与当前 API 产生了较大的不兼容时,如重构,会详细描述本次提交的 BREAKING CHANGES,必须以 BREAKING CHANGES 开头.</li>
+<li>delete issue: 当需要删除本次 commit 所对应的 issue 时,也可详细描述.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>type enum</p>
+</blockquote>
+<ul>
+<li>Angular commit message type.<ul>
+<li>build: 初始化打包.</li>
+<li>chore: 构建/依赖/工具.</li>
+<li>feat: 新功能.</li>
+<li>fix: 修复 Bug.</li>
+<li>style: 代码样式美化.</li>
+<li>perf: 性能优化.</li>
+<li>docs: 文档变更.</li>
+<li>test: 测试.</li>
+<li>ci: CI related changes.</li>
+<li>refactor: 重构.</li>
+</ul>
+</li>
+<li>gitmoji commit message type.<ul>
+<li>遵从且继承 Angular commit message type.</li>
+<li>revert: 回滚.</li>
+<li>wip: 建设进程中(不推荐使用).</li>
+</ul>
+</li>
+</ul>
+
     </div>
 
     
