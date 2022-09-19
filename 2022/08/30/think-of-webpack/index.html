@@ -29,7 +29,7 @@
 <meta property="og:description" content="webpackentry 属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entr">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T08:17:26.000Z">
-<meta property="article:modified_time" content="2022-09-19T00:38:15.885Z">
+<meta property="article:modified_time" content="2022-09-19T17:26:15.429Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-19 08:38:15" itemprop="dateModified" datetime="2022-09-19T08:38:15+08:00">2022-09-19</time>
+                <time title="修改时间：2022-09-20 01:26:15" itemprop="dateModified" datetime="2022-09-20T01:26:15+08:00">2022-09-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -444,7 +444,7 @@
 </blockquote>
 <p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
 <p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
-
+<h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4>
     </div>
 
     
@@ -528,7 +528,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack"><span class="nav-number">1.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#entry"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">entry</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#watch"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#devtool"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">devtool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#splitChunks"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">splitChunks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TreeShaking"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">TreeShaking</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scope-Hoisting"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">Scope Hoisting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loaders"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">loaders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#devServer"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">devServer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plugins"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">plugins</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#webpack"><span class="nav-number">1.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#entry"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">entry</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#watch"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">watch</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#devtool"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">devtool</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#splitChunks"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">splitChunks</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TreeShaking"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">TreeShaking</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Scope-Hoisting"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">Scope Hoisting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#loaders"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">loaders</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#devServer"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">devServer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#plugins"><span class="nav-number">1.0.0.9.</span> <span class="nav-text">plugins</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#commit-rules"><span class="nav-number">1.0.0.10.</span> <span class="nav-text">commit rules</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 

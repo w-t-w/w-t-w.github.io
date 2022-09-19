@@ -2,9 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
+        
+        <lastmod>2022-09-19T22:47:49.494Z</lastmod>
+        
+        <date>1661856210000</date>
+        <title>think of nodejs | wtw's Frontend</title>
+        
+        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本. [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本. [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本. [“defaults”]: 相当于 “&gt;0</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
         
-        <lastmod>2022-09-19T00:38:15.885Z</lastmod>
+        <lastmod>2022-09-19T17:26:15.429Z</lastmod>
         
         <date>1661847446000</date>
         <title>think of webpack | wtw's Frontend</title>
@@ -21,17 +32,6 @@
         <title>daily problems | wtw's Frontend</title>
         
         <desc>npm npm run scripts 为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行? 解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
-        
-        <lastmod>2022-09-12T10:23:42.375Z</lastmod>
-        
-        <date>1661856210000</date>
-        <title>think of nodejs | wtw's Frontend</title>
-        
-        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本. [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本. [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本. [“defaults”]: 相当于 “&gt;0</desc>
     </url>
     
     <url>

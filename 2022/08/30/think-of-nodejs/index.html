@@ -29,7 +29,7 @@
 <meta property="og:description" content="npmbrowserslist 作用    用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.  分类    [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.  [“defaults”]:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T10:43:30.000Z">
-<meta property="article:modified_time" content="2022-09-12T10:23:42.375Z">
+<meta property="article:modified_time" content="2022-09-19T22:47:49.494Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="npm">
 <meta property="article:tag" content="nodejs">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-12 18:23:42" itemprop="dateModified" datetime="2022-09-12T18:23:42+08:00">2022-09-12</time>
+                <time title="修改时间：2022-09-20 06:47:49" itemprop="dateModified" datetime="2022-09-20T06:47:49+08:00">2022-09-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -267,6 +267,32 @@
 <p>分类</p>
 </blockquote>
 <p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
 
     </div>
 
@@ -352,7 +378,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#browserslist"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">browserslist</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#browserslist"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">browserslist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#version"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#npx"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">npx</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
