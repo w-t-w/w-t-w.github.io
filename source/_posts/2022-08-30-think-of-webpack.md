@@ -390,6 +390,45 @@ categories: webpack
 
 #### commit rules
 
+> 规范说明
 
+  现阶段大多数前端开发者遵从的 git commit message 规范都是 Angular 团队的 Angular commit message.
+
+  ```text
+  <type>(<scope>): <subject>  <!-- 这一行为 header -->
+  <breakLine>
+  <body>    
+  <breakLine>
+  <footer>
+  ```
+
+  - header: 分为三部分,type、scope 以及 subject.
+    - type: 表示提交类型.必填且必须为以下枚举之一: \['build', 'chore', 'feat', 'fix', 'style', 'perf', 'docs', 'ci', 'test', 'refactor'\].
+    - scope: 表示项目内文件修改的范围,比如说 fix 修复 bug 时,选择 hooks 部分还是 component 部分,选填.
+    - subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 '.' 字符.
+  - body: 表示对本次提交的详细描述.
+  - footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue.
+    - BREAKING CHANGES: 与当前 API 产生了较大的不兼容时,如重构,会详细描述本次提交的 BREAKING CHANGES,必须以 BREAKING CHANGES 开头.
+    - delete issue: 当需要删除本次 commit 所对应的 issue 时,也可详细描述.
+  
+> type enum
+
+  - Angular commit message type.
+    - build: 初始化打包.
+    - chore: 构建/依赖/工具.
+    - feat: 新功能.
+    - fix: 修复 Bug.
+    - style: 代码样式美化.
+    - perf: 性能优化.
+    - docs: 文档变更.
+    - test: 测试.
+    - ci: CI related changes.
+    - refactor: 重构.
+  
+  - gitmoji commit message type.
+    - 遵从且继承 Angular commit message type.
+    - revert: 回滚.
+    - wip: 建设进程中(不推荐使用).
+    
 
   
