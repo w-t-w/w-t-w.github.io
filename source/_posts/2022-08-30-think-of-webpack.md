@@ -405,9 +405,9 @@ categories: webpack
   - header: 分为三部分,type、scope 以及 subject.
     - type: 表示提交类型.必填且必须为以下枚举之一: \['build', 'chore', 'feat', 'fix', 'style', 'perf', 'docs', 'ci', 'test', 'refactor'\].
     - scope: 表示项目内文件修改的范围,比如说 fix 修复 bug 时,选择 hooks 部分还是 component 部分,选填.
-    - subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 '.' 字符.
-  - body: 表示对本次提交的详细描述.
-  - footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue.
+    - subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 '.' 字符,必填.
+  - body: 表示对本次提交的详细描述,选填.
+  - footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue,选填.
     - BREAKING CHANGES: 与当前 API 产生了较大的不兼容时,如重构,会详细描述本次提交的 BREAKING CHANGES,必须以 BREAKING CHANGES 开头.
     - delete issue: 当需要删除本次 commit 所对应的 issue 时,也可详细描述.
   
