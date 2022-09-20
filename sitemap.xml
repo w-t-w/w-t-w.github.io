@@ -4,12 +4,12 @@
     <url>
         <loc>http://example.com/2022/09/20/unresolved-problems/</loc>
         
-        <lastmod>2022-09-20T01:03:06.659Z</lastmod>
+        <lastmod>2022-09-20T19:52:47.000Z</lastmod>
         
         <date>1663635199000</date>
         <title>unresolved problems | wtw's Frontend</title>
         
-        <desc>webpackspeed-measure-webpack-plugin为何 speed-measure-webpack-plugin 对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</desc>
+        <desc>webpackspeed-measure-webpack-plugin 为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制? 现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题: 使用 .wrap 包</desc>
     </url>
     
     <url>
