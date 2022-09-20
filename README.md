@@ -45,3 +45,13 @@ PS: 查看的领域分为两个版本:github、blog website,小伙伴们择喜�
 > blog website
 
 - <a href='https://white-than-wood.zone/2022/08/30/hexo-next/' target='_blank'>hexo next</a>
+
+# unresolved problems
+
+> github
+
+- <a href='https://github.com/w-t-w/w-t-w.github.io/blob/main/source/_posts/2022-09-20-unresolved-problems.md' target='_blank'>unresolved problems</a>
+
+> blog website
+
+- <a href='https://white-than-wood.zone/2022/09/20/unresolved-problems/' target='_blank'>unresolved problems</a>
