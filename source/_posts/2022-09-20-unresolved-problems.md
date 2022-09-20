@@ -8,6 +8,6 @@ categories: unresolved
 
 #### speed-measure-webpack-plugin
 
-为何 speed-measure-webpack-plugin 对于 webpack 5.x 的支持很有限制?
+为何 speed-measure-webpack-plugin 对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?
 
 
