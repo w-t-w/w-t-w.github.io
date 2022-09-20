@@ -20,5 +20,5 @@ categories: unresolved
 
 ![](https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png)
 
-即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 '...',也会报 "You forgot to add 'mini-css-extract-plugin' plugin" 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法.
+即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 '...',也会报 "You forgot to add 'mini-css-extract-plugin' plugin" 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.
 参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>"You forgot to add 'mini-css-extract-plugin' plugin"</a>.
