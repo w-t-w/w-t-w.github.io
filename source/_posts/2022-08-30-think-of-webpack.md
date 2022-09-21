@@ -359,6 +359,12 @@ categories: webpack
         })(window, window['lib'] || (window['lib'] = {}));</script><link href="./css/index.5c90e18c.css" rel="stylesheet"></head><body><div id="root-webpack"></div><script defer="defer" src="./js/index_7b84cb4c006925aa2404.js"></script></body></html>
   ```
 
+> thread-loader
+
+  thread-loader 的原理是什么?
+
+  解: webpack 每一次解析 loader 模块时,thread-loader 都会将它以及它所依赖的包分配给所对应的 worker 线程.
+
 #### devServer
 
 > contentBase
@@ -429,6 +435,12 @@ categories: webpack
     - 遵从且继承 Angular commit message type.
     - revert: 回滚.
     - wip: 建设进程中(不推荐使用).
+
+#### speed optimization
+
+> best answer
+
+  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,由此可以看出是速度优化的最佳答案.
     
 
   
