@@ -44,64 +44,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
-<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
-<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
-<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
-</ul>
-<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
-<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
-<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
-</ul>
-<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
-</ul>
-]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -563,20 +505,61 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
+<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
+<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
 ]]></content>
       <categories>
-        <category>unresolved</category>
+        <category>nodejs</category>
       </categories>
       <tags>
-        <tag>unresolved</tag>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
@@ -673,7 +656,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#x6f;&#114;&#x65;&#x2d;&#x6a;&#x73;&#64;&#x33;&#x2e;&#x78;">&#x63;&#x6f;&#114;&#x65;&#x2d;&#x6a;&#x73;&#64;&#x33;&#x2e;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#x78;">&#99;&#x6f;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -837,7 +820,7 @@ fancybox: true
 <h4 id="speed-optimization"><a href="#speed-optimization" class="headerlink" title="speed optimization"></a>speed optimization</h4><blockquote>
 <p>best answer</p>
 </blockquote>
-<p>  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此可以看出是速度优化的最佳答案.</p>
+<p>  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此看出是速度优化的最佳答案.</p>
 <blockquote>
 <p>BREAKING CHANGES</p>
 </blockquote>
@@ -859,6 +842,23 @@ fancybox: true
       </categories>
       <tags>
         <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
+      <categories>
+        <category>unresolved</category>
+      </categories>
+      <tags>
+        <tag>unresolved</tag>
       </tags>
   </entry>
 </search>
