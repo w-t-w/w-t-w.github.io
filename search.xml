@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
+<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
+<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>daily problems</title>
     <url>/2022/08/30/daily-problems/</url>
     <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
@@ -505,64 +563,6 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
-<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
-<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
-<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
-</ul>
-<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
-<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
-<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
-</ul>
-<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
-</ul>
-]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>think of webpack</title>
     <url>/2022/08/30/think-of-webpack/</url>
     <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
@@ -656,7 +656,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#x78;">&#99;&#x6f;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#111;&#x72;&#x65;&#45;&#106;&#x73;&#64;&#51;&#x2e;&#120;">&#x63;&#111;&#x72;&#x65;&#45;&#106;&#x73;&#64;&#51;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -824,7 +824,7 @@ fancybox: true
 <blockquote>
 <p>BREAKING CHANGES</p>
 </blockquote>
-<p>在 webpack 4.x 中做了一些相较于之前的版本 API 很大不兼容的优化升级:</p>
+<p>在 webpack 4.x 中做了一些速度优化升级:</p>
 <ul>
 <li>nodejs 必须下载 v8.5.0 以上的稳定版本才可使用,而新版本的 V8 带来了一些语法优化.<ul>
 <li>for-of 替代 forEach.</li>
