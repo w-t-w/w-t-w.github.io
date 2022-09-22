@@ -480,7 +480,7 @@ categories: webpack
     
 > BREAKING CHANGES
 
-在 webpack 4.x 中做了一些相较于之前的版本 API 很大不兼容的优化升级:
+在 webpack 4.x 中做了一些速度优化升级:
 
 - nodejs 必须下载 v8.5.0 以上的稳定版本才可使用,而新版本的 V8 带来了一些语法优化.
   - for-of 替代 forEach.
