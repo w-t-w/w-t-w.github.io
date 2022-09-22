@@ -478,7 +478,7 @@ categories: webpack
 
   实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此可以看出是速度优化的最佳答案.
     
-#### BREAKING CHANGES
+> BREAKING CHANGES
 
 在 webpack 4.x 中做了一些相较于之前的版本 API 很大不兼容的优化升级:
 
