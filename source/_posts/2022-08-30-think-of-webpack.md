@@ -130,7 +130,7 @@ categories: webpack
 
   @babel/preset-env 的参数 corejs 的作用是什么?
 
-  解: 必须配合 useBuiltIns: 'entry' 或者 useBuiltIns: 'usage' 使用,基本上用于将未纳入 ECMASCRIPT 语法的 proposal 新特性注入至 polyfill 中.
+  解: 必须配合 useBuiltIns: 'entry' 或者 useBuiltIns: 'usage' 使用,基本上用于将未纳入 ECMASCRIPT 稳定语法的 proposal 新特性注入至 polyfill 中.
 
   ```javascript
   module.exports = {
