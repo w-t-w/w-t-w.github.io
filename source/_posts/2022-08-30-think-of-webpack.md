@@ -111,6 +111,42 @@ categories: webpack
     - 优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.
     - 缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.
     - 总结: 基本上在使用时不会开启 loose 松散模式.
+  
+  @babel/preset-env 的参数 useBuiltIns 的作用是什么?
+
+  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.
+
+  - 'entry'
+
+    会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 core-js@3.x 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.
+
+  - 'usage'
+
+    会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.
+
+  - false(极不推荐)
+
+    会无视 browserslist 将所有的 @babel/polyfill 导入至 chunks 入口处.
+
+  @babel/preset-env 的参数 corejs 的作用是什么?
+
+  解: 必须配合 useBuiltIns: 'entry' 或者 useBuiltIns: 'usage' 使用,基本上用于将未纳入 ECMASCRIPT 语法的 proposal 新特性注入至 polyfill 中.
+
+  ```javascript
+  module.exports = {
+    //...
+    presets: [[
+        '@babel/preset-env', {
+            useBuiltIns: 'usage',
+            corejs: {
+                version: 3,
+                proposal: true
+            }
+        }
+    ]]
+    //...
+  };
+  ```
 
 > css-loader
 
@@ -440,7 +476,18 @@ categories: webpack
 
 > best answer
 
-  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,由此可以看出是速度优化的最佳答案.
+  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此可以看出是速度优化的最佳答案.
     
+#### BREAKING CHANGES
+
+在 webpack 4.x 中做了一些相较于之前的版本 API 很大不兼容的优化升级:
+
+- nodejs 必须下载 v8.5.0 以上的稳定版本才可使用,而新版本的 V8 带来了一些语法优化.
+  - for-of 替代 forEach.
+  - Map、Set 替代 Object.
+  - includes 替代 indexOf.
+- 使用更快的 md4 hash 加密算法.
+- webpack AST 可以直接通过 loader 传递给 AST,减少解析时间.
+- 使用字符串方法替代正则表达式.
 
   
