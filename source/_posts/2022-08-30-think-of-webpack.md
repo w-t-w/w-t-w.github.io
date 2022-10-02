@@ -164,13 +164,13 @@ categories: webpack
 
   module.noParse 的作用是什么?
 
-  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的模块应该不包含 import,define,require 等标准模块语义.
+  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义.
 
 #### externals
 
 > 作用
 
-  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖最后直接作为全局变量内联入最后的文件内.
+  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖,最后直接作为全局变量内联入构建打包文件内.
 
 #### loaders
 
@@ -501,7 +501,7 @@ categories: webpack
 
   devServer.allowedHosts 的作用是什么?
 
-  解: devServer 本地代理服务页面访问 http 请求的白名单.
+  解: devServer 本地代理服务页面访问时 http 请求的白名单.
 
 > https
 
