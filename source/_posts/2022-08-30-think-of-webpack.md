@@ -156,7 +156,7 @@ categories: webpack
 
   resolve.enforceExtensions 的作用是什么?
 
-  解: 强制导入的模块必须添加后缀.
+  解: 强制导入模块必须添加后缀.
 
 #### module
 
