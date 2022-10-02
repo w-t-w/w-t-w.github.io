@@ -703,7 +703,7 @@ fancybox: true
 <p>enforceExtensions</p>
 </blockquote>
 <p>  resolve.enforceExtensions 的作用是什么?</p>
-<p>  解: 强制导入的模块必须添加后缀.</p>
+<p>  解: 强制导入模块必须添加后缀.</p>
 <h4 id="module"><a href="#module" class="headerlink" title="module"></a>module</h4><blockquote>
 <p>noParse</p>
 </blockquote>
@@ -736,7 +736,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#114;&#x65;&#x2d;&#x6a;&#115;&#64;&#51;&#x2e;&#120;">&#99;&#111;&#114;&#x65;&#x2d;&#x6a;&#115;&#64;&#51;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#x40;&#x33;&#46;&#120;">&#x63;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#x40;&#x33;&#46;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
