@@ -563,6 +563,23 @@ fancybox: true
       </tags>
   </entry>
   <entry>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
+      <categories>
+        <category>unresolved</category>
+      </categories>
+      <tags>
+        <tag>unresolved</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of webpack</title>
     <url>/2022/08/30/think-of-webpack/</url>
     <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
@@ -691,11 +708,11 @@ fancybox: true
 <p>noParse</p>
 </blockquote>
 <p>  module.noParse 的作用是什么?</p>
-<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的模块应该不包含 import,define,require 等标准模块语义.</p>
+<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义.</p>
 <h4 id="externals"><a href="#externals" class="headerlink" title="externals"></a>externals</h4><blockquote>
 <p>作用</p>
 </blockquote>
-<p>  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖最后直接作为全局变量内联入最后的文件内.</p>
+<p>  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖,最后直接作为全局变量内联入构建打包文件内.</p>
 <h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
 <p>babel-loader</p>
 </blockquote>
@@ -719,7 +736,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#x40;&#51;&#46;&#x78;">&#99;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#x40;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#114;&#x65;&#x2d;&#x6a;&#115;&#64;&#51;&#x2e;&#120;">&#99;&#111;&#114;&#x65;&#x2d;&#x6a;&#115;&#64;&#51;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -828,7 +845,7 @@ fancybox: true
 <p>allowedHosts</p>
 </blockquote>
 <p>  devServer.allowedHosts 的作用是什么?</p>
-<p>  解: devServer 本地代理服务页面访问 http 请求的白名单.</p>
+<p>  解: devServer 本地代理服务页面访问时 http 请求的白名单.</p>
 <blockquote>
 <p>https</p>
 </blockquote>
@@ -930,23 +947,6 @@ fancybox: true
       </categories>
       <tags>
         <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-]]></content>
-      <categories>
-        <category>unresolved</category>
-      </categories>
-      <tags>
-        <tag>unresolved</tag>
       </tags>
   </entry>
 </search>
