@@ -519,7 +519,7 @@ categories: webpack
 
   devServer.open 的作用是什么?
 
-  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器代理页面访问.
+  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器实行访问.
 
 > hot
 
