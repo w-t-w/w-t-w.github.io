@@ -9,11 +9,47 @@ categories: webpack
 
 #### entry
 
+> 作用
+
+  作为 webpack 构建打包的入口,搜索全局资源的起点.
+
 > 属性值
 
   为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?
 
   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.
+
+#### output
+
+> filename
+
+  output.filename 的作用是什么?
+
+  解: 作为 webpack 构建打包导出文件的名称.  
+
+> path
+
+  output.path 的作用是什么?
+
+  解: 作为 webpack 构建打包文件导出的位置目录.
+
+> publicPath
+
+  output.publicPath 的作用是什么?
+
+  解: 作为 webpack 构建打包文件导出的位置目录前缀.
+
+> chunkFilename
+
+  output.chunkFilename 的作用是什么?
+
+  解: 作为 webpack 构建打包导出模块的名称.
+
+> crossOriginLoading
+
+  output.crossOriginLoading 的作用是什么?
+
+  解: 其只在 target: 'web' 时生效,利用 JSONP 向文件内联 \<script\> 标签,实现按需加载模块.
 
 #### watch
 
@@ -89,6 +125,52 @@ categories: webpack
   对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 __webpack_require__,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 "production",就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.
 
   PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.
+
+#### resolve
+
+> alias
+
+  resolve.alias 的作用是什么?
+
+  解: 使用别名替代复杂的模块导入路径.
+
+> mainFields
+
+  resolve.mainFields 的作用是什么?
+
+  解: 自定义依赖被导入的文件位置.
+
+> extensions
+
+  resolve.extensions 的作用是什么?
+
+  解: 选择省略导入模块的后缀.
+
+> modules
+
+  resolve.modules 的作用是什么?
+
+  解: 指定导入依赖的位置目录.
+
+> enforceExtensions
+
+  resolve.enforceExtensions 的作用是什么?
+
+  解: 强制导入的模块必须添加后缀.
+
+#### module
+
+> noParse
+
+  module.noParse 的作用是什么?
+
+  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的模块应该不包含 import,define,require 等标准模块语义.
+
+#### externals
+
+> 作用
+
+  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖最后直接作为全局变量内联入最后的文件内.
 
 #### loaders
 
@@ -408,6 +490,36 @@ categories: webpack
   为何在 devServer 设置 contentBase 失效?
 
   解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.
+
+> historyApiFallback
+
+  devServer.historyApiFallback 的作用是什么?
+
+  解: devServer 本地代理服务指定遇到 404 或者 错误时重定向的页面.
+
+> allowedHosts
+
+  devServer.allowedHosts 的作用是什么?
+
+  解: devServer 本地代理服务页面访问 http 请求的白名单.
+
+> https
+
+  devServer.https 的作用是什么?
+
+  解: devServer 本地代理服务是否开启 https 安全协议.
+
+> compress
+
+  devServer.compress 的作用是什么?
+
+  解: devServer 本地代理服务是否开启 Gzip 压缩.
+
+> open
+
+  devServer.open 的作用是什么?
+
+  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器代理页面访问.
 
 > hot
 
