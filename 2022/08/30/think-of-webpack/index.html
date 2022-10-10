@@ -29,7 +29,7 @@
 <meta property="og:description" content="webpackentry 作用    作为 webpack 构建打包的入口,搜索全局资源的起点.  属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T08:17:26.000Z">
-<meta property="article:modified_time" content="2022-10-02T08:08:23.241Z">
+<meta property="article:modified_time" content="2022-10-10T19:05:07.560Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-02 16:08:23" itemprop="dateModified" datetime="2022-10-02T16:08:23+08:00">2022-10-02</time>
+                <time title="修改时间：2022-10-11 03:05:07" itemprop="dateModified" datetime="2022-10-11T03:05:07+08:00">2022-10-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -412,7 +412,7 @@
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#111;&#x72;&#101;&#x2d;&#x6a;&#115;&#x40;&#x33;&#46;&#x78;">&#x63;&#111;&#x72;&#101;&#x2d;&#x6a;&#115;&#x40;&#x33;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#x73;&#64;&#51;&#46;&#120;">&#99;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#x73;&#64;&#51;&#46;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -435,6 +435,16 @@
 </blockquote>
 <p>  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?</p>
 <p>  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.</p>
+<p>  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值(px)动态转化为 vw 呢?</p>
+<p>  首先要了解几个概念: </p>
+<ul>
+<li>vw/vh: 类似于百分比,不过是相对于理想视口设置的宽度以及高度.</li>
+<li>理想视口: 在不实行缩放的情况下,将物理像素精确转化为各个设备的 CSS 像素(dpr)的环境.</li>
+<li>DPR: DPR = 物理像素/分辨率.</li>
+</ul>
+<p>  使用 postcss-px-to-viewport 来将 px 动态转化为 vw.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//postcss.config.js</span></span><br><span class="line"><span class="keyword">const</span> postcssConfig = &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="string">&#x27;postcss-preset-env&#x27;</span>,</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&#x27;postcss-px-to-viewport&#x27;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">unitToConvert</span>: <span class="string">&#x27;px&#x27;</span>,</span><br><span class="line">                <span class="attr">unitPrecision</span>: <span class="number">8</span>,</span><br><span class="line">                <span class="attr">viewportUnit</span>: <span class="string">&#x27;vw&#x27;</span>,</span><br><span class="line">                <span class="attr">viewportWidth</span>: <span class="number">750</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = postcssConfig;</span><br></pre></td></tr></table></figure>
+
 <blockquote>
 <p>url-loader</p>
 </blockquote>
@@ -554,6 +564,15 @@
 </blockquote>
 <p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
 <p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
+<blockquote>
+<p>clean-webpack-plugin</p>
+</blockquote>
+<p>  如何选择性清空构建打包导出的位置目录内容?</p>
+<p>  解: clean-webpack-plugin 存在一个参数属性 —— cleanOnceBeforeBuildPatterns.</p>
+<ul>
+<li>cleanOnceBeforeBuildPatterns: 用于筛选在 Webpack Compile 编译前实行清空的位置目录内容.</li>
+</ul>
+<p>  用此属性就可选择性清空构建打包导出的位置目录内容.</p>
 <h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4><blockquote>
 <p>规范说明</p>
 </blockquote>
@@ -598,6 +617,32 @@
 </ul>
 </li>
 </ul>
+<blockquote>
+<p>规范化工具</p>
+</blockquote>
+<p>  通常使用 commitizen + cz-customizable 来实现 gitmoji commit message 规范化.</p>
+  <figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;commitizen&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">       <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node_modules/cz-customizable&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//.cz-config.js</span></span><br><span class="line"><span class="keyword">const</span> czConfig = &#123;</span><br><span class="line">    <span class="attr">types</span>: [&#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🍻 build: 初始化打包&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:beers: build&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📦️chore: 构建/依赖/工具&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:package: chore&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✨  feat: 新功能&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:sparkles: feat&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🐛 fix: 修复bug&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:bug: fix&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🎨 style: 代码样式优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:art: style&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📄 docs: 变更文档&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:page_facing_up: docs&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🚀 perf: 性能优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:rocket: perf&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✅  test: 测试&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:white_check_mark: test&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🔥 refactor: 重构&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:fire: refactor&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;👷 ci: CI related changes&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:construction_worker: ci&#x27;</span></span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">messages</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;请输入您本次提交类型(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">scope</span>: <span class="string">&#x27;请输入您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">customScope</span>: <span class="string">&#x27;请选择您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">subject</span>: <span class="string">&#x27;请简要描述本次提交(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">body</span>: <span class="string">&#x27;请对本次提交作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">breaking</span>: <span class="string">&#x27;请对本次提交与当前 API 产生比较大的不兼容作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">footer</span>: <span class="string">&#x27;请对本次提交删除的所对应的 issue 作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">confirmCommit</span>: <span class="string">&#x27;是否确认提交以上选择输入?&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">scopes</span>: [&#123;<span class="attr">name</span>: <span class="string">&#x27;components       [组件部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;hooks            [hooks部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;logics           [代码逻辑部分]&#x27;</span>&#125;],</span><br><span class="line">    <span class="attr">allowCustomScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">allowEmptyScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">customScopesName</span>: <span class="string">&#x27;custom           [自定义]&#x27;</span>,</span><br><span class="line">    <span class="attr">emptyScopesName</span>: <span class="string">&#x27;empty            [不指定]&#x27;</span>,</span><br><span class="line">    <span class="attr">allowBreakingChanges</span>: [<span class="string">&#x27;:sparkles: feat&#x27;</span>, <span class="string">&#x27;:bug: fix&#x27;</span>],</span><br><span class="line">    <span class="attr">subjectLimit</span>: <span class="number">80</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>强制校验 gitmoji commit message</p>
+</blockquote>
+<p>  通常使用 commitlint + husky + commitlint-config-gitmoji 来强制校验 git 提交时的 gitmoji commit message 规范.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// .commitlintrc.js</span></span><br><span class="line"><span class="keyword">const</span> commitlintrcConfig = &#123;</span><br><span class="line">  <span class="attr">extends</span>: [<span class="string">&#x27;gitmoji&#x27;</span>],</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = commitlintrcConfig;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成强制校验 git 操作的 hooks 容器.</span></span><br><span class="line">npx husky install</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/commet-msg &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">commitlint --edit 是对 git 最后一次本地提交进行强制校验,如若校验不通过则实行回退,本地提交不成功.</span></span><br><span class="line">npx --no-install commitlint --edit &quot;$1&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>强制生成 CHANGELOG</p>
+</blockquote>
+<p>  通常使用 husky + standard-version + conventional-changelog-gitmoji-config 来强制生成 CHANGELOG.md 文件.</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/pre-push &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成 CHANGELOG.md 文件的规则遵循 conventional-changelog-gitmoji-config,不可进行自定义.</span></span><br><span class="line">npx --no-install standard-version --preset gitmoji-config</span><br></pre></td></tr></table></figure>
+
 <h4 id="speed-optimization"><a href="#speed-optimization" class="headerlink" title="speed optimization"></a>speed optimization</h4><blockquote>
 <p>best answer</p>
 </blockquote>

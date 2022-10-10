@@ -29,7 +29,7 @@
 <meta property="og:description" content="npmbrowserslist 作用    用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.  分类    [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.  [“defaults”]:">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T10:43:30.000Z">
-<meta property="article:modified_time" content="2022-09-20T00:52:11.332Z">
+<meta property="article:modified_time" content="2022-10-10T16:19:42.834Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="npm">
 <meta property="article:tag" content="nodejs">
@@ -236,7 +236,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-20 08:52:11" itemprop="dateModified" datetime="2022-09-20T08:52:11+08:00">2022-09-20</time>
+                <time title="修改时间：2022-10-11 00:19:42" itemprop="dateModified" datetime="2022-10-11T00:19:42+08:00">2022-10-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -305,7 +305,29 @@
 <ul>
 <li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
 </ul>
+<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span>    </span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
 
+<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
     </div>
 
     
@@ -390,7 +412,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#browserslist"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">browserslist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#version"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pre-version"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">pre-version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#npx"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">npx</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#npm"><span class="nav-number">1.</span> <span class="nav-text">npm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#browserslist"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">browserslist</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#version"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pre-version"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">pre-version</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#npx"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">npx</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#inquirer"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">inquirer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#shelljs"><span class="nav-number">1.0.0.6.</span> <span class="nav-text">shelljs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#yargs"><span class="nav-number">1.0.0.7.</span> <span class="nav-text">yargs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rimraf"><span class="nav-number">1.0.0.8.</span> <span class="nav-text">rimraf</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
