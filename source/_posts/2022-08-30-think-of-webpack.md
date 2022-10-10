@@ -242,6 +242,35 @@ categories: webpack
 
   解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.
 
+  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值(px)动态转化为 vw 呢?
+
+  首先要了解几个概念: 
+  
+  - vw/vh: 类似于百分比,不过是相对于理想视口设置的宽度以及高度.
+  - 理想视口: 在不实行缩放的情况下,将物理像素精确转化为各个设备的 CSS 像素(dpr)的环境.
+  - DPR: DPR = 物理像素/分辨率.
+
+  使用 postcss-px-to-viewport 来将 px 动态转化为 vw.
+
+  ```javascript
+  //postcss.config.js
+  const postcssConfig = {
+      plugins: [
+          'postcss-preset-env',
+          [
+              'postcss-px-to-viewport',
+              {
+                  unitToConvert: 'px',
+                  unitPrecision: 8,
+                  viewportUnit: 'vw',
+                  viewportWidth: 750
+              }
+          ]
+      ]
+  };
+  module.exports = postcssConfig;
+  ```
+
 > url-loader
 
   url-loader 与 file-loader 的区别是什么?
@@ -542,6 +571,16 @@ categories: webpack
 
   解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.
 
+> clean-webpack-plugin
+
+  如何选择性清空构建打包导出的位置目录内容?
+
+  解: clean-webpack-plugin 存在一个参数属性 —— cleanOnceBeforeBuildPatterns.
+ 
+  - cleanOnceBeforeBuildPatterns: 用于筛选在 Webpack Compile 编译前实行清空的位置目录内容.
+
+  用此属性就可选择性清空构建打包导出的位置目录内容.
+
 #### commit rules
 
 > 规范说明
@@ -583,6 +622,119 @@ categories: webpack
     - 遵从且继承 Angular commit message type.
     - revert: 回滚.
     - wip: 建设进程中(不推荐使用).
+
+> 规范化工具
+
+  通常使用 commitizen + cz-customizable 来实现 gitmoji commit message 规范化.
+
+  ```json
+  {
+    "config": {
+      "commitizen": {
+         "paths": "node_modules/cz-customizable"
+      }
+    }
+  }
+  ```
+
+  ```javascript
+  //.cz-config.js
+  const czConfig = {
+      types: [{
+          name: '🍻 build: 初始化打包',
+          value: ':beers: build'
+      }, {
+          name: '📦️chore: 构建/依赖/工具',
+          value: ':package: chore'
+      }, {
+          name: '✨  feat: 新功能',
+          value: ':sparkles: feat'
+      }, {
+          name: '🐛 fix: 修复bug',
+          value: ':bug: fix'
+      }, {
+          name: '🎨 style: 代码样式优化',
+          value: ':art: style'
+      }, {
+          name: '📄 docs: 变更文档',
+          value: ':page_facing_up: docs'
+      }, {
+          name: '🚀 perf: 性能优化',
+          value: ':rocket: perf'
+      }, {
+          name: '✅  test: 测试',
+          value: ':white_check_mark: test'
+      }, {
+          name: '🔥 refactor: 重构',
+          value: ':fire: refactor'
+      }, {
+          name: '👷 ci: CI related changes',
+          value: ':construction_worker: ci'
+      }],
+      messages: {
+          type: '请输入您本次提交类型(必填):',
+          scope: '请输入您本次提交修改范围:',
+          customScope: '请选择您本次提交修改范围:',
+          subject: '请简要描述本次提交(必填):',
+          body: '请对本次提交作详细描述:',
+          breaking: '请对本次提交与当前 API 产生比较大的不兼容作详细描述:',
+          footer: '请对本次提交删除的所对应的 issue 作详细描述:',
+          confirmCommit: '是否确认提交以上选择输入?'
+      },
+      scopes: [{name: 'components       [组件部分]'}, {name: 'hooks            [hooks部分]'}, {name: 'logics           [代码逻辑部分]'}],
+      allowCustomScopes: true,
+      allowEmptyScopes: true,
+      customScopesName: 'custom           [自定义]',
+      emptyScopesName: 'empty            [不指定]',
+      allowBreakingChanges: [':sparkles: feat', ':bug: fix'],
+      subjectLimit: 80
+  };
+  ```
+
+> 强制校验 gitmoji commit message
+
+  通常使用 commitlint + husky + commitlint-config-gitmoji 来强制校验 git 提交时的 gitmoji commit message 规范.
+
+  ```javascript
+  // .commitlintrc.js
+  const commitlintrcConfig = {
+    extends: ['gitmoji'],
+  };
+  module.exports = commitlintrcConfig;
+  ```
+
+  ```shell
+  # husky
+  # 生成强制校验 git 操作的 hooks 容器.
+  npx husky install
+  # 添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.
+  npx husky add .husky/commet-msg "yarn run test"
+  ```
+
+  ```shell
+  # husky
+  #!/usr/bin/env sh
+  . "$(dirname -- "$0")/_/husky.sh"
+  # commitlint --edit 是对 git 最后一次本地提交进行强制校验,如若校验不通过则实行回退,本地提交不成功.
+  npx --no-install commitlint --edit "$1"
+  ```
+
+> 强制生成 CHANGELOG
+
+  通常使用 husky + standard-version + conventional-changelog-gitmoji-config 来强制生成 CHANGELOG.md 文件.
+
+  ```shell
+  # 添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.
+  npx husky add .husky/pre-push "yarn run test"
+  ```
+
+  ```shell
+  # husky
+  #!/usr/bin/env sh
+  . "$(dirname -- "$0")/_/husky.sh"
+  # 生成 CHANGELOG.md 文件的规则遵循 conventional-changelog-gitmoji-config,不可进行自定义.
+  npx --no-install standard-version --preset gitmoji-config
+  ```
 
 #### speed optimization
 

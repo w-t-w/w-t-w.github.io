@@ -61,3 +61,75 @@ categories: nodejs
 > 参数
 
   - --no-install: 指的是强制使用本地模块,禁止下载远程模块.
+
+#### inquirer
+
+> 作用
+
+  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.
+  
+  ```javascript
+  const inquirer = require('inquirer');
+  const prompt = inquirer.createPromptModule();
+  const env = prompt([{
+      type: 'list',
+      message: '请选择 webpack 构建打包时所属的环境:',
+      name: 'env',
+      choices: [
+          'development',
+          'production'    
+      ],
+      filter(value) {
+          return value.toLowerCase();
+      }
+  }]);
+  const _env = env['env'];
+  console.log(_env);
+  ```
+
+#### shelljs
+
+> 作用
+
+  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.
+  
+  ```javascript
+  const {exec} = require('shelljs');
+  exec('webpack');
+  ```
+
+#### yargs
+
+> 作用
+
+  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.
+  
+  ```javascript
+  const yargs = require('yargs');
+  const argv = process.argv;
+  const env = '';
+  yargs.parse(argv.slice(2), (err, argv) => {
+      if(err) {
+          console.error(err);
+          throw new Error(err);
+      }
+      env = argv['env'];
+  });
+  console.log(env);
+  ```
+
+#### rimraf
+
+> 作用
+
+  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().
+  
+  ```javascript
+  const rimraf = require('rimraf');
+  // 首参数: 相对于 node 所作用的位置目录.
+  // 回调函数: 在操作过后执行的步骤.
+  rimraf('./dist', () => {
+      //...
+      //...
+  });
+  ```
