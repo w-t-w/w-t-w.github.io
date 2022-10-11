@@ -11,7 +11,7 @@ categories: webpack
 
 > 作用
 
-  作为 webpack 构建打包的入口,搜索全局资源的起点.
+  作为 webpack 构建打包的入口,搜索全局资源的起点'.
 
 > 属性值
 
@@ -242,7 +242,7 @@ categories: webpack
 
   解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.
 
-  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值(px)动态转化为 vw 呢?
+  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值( px )动态转化为 vw 呢?
 
   首先要了解几个概念: 
   
