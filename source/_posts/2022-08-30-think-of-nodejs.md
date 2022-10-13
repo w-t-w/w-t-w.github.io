@@ -133,3 +133,18 @@ categories: nodejs
       //...
   });
   ```
+
+#### spritesmith
+
+> 作用
+
+  是用于合并多个图片形成雪碧图的依赖.
+  
+  ```javascript
+  const {run} = require('spritesmith');
+  // 位置目录必须为绝对路径
+  run({src: ['pic1.png', 'pic2.png']}, (err, image) => {
+      // 会生成 16进制 Buffer
+      console.log(image.image);
+  })
+  ```
