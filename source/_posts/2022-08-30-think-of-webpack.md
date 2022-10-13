@@ -520,7 +520,7 @@ categories: webpack
 
   loader-runner 的作用是什么?
 
-  解: 是用于测试自定义的 loader 而存在的,可以使用 loader-utils@2.x 中的 getOptions(this) 获取 loader > options(PS: 在 loader-utils@3.x 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可),但由于不是真实的 webpack 环境,不可使用 this.getOptions(获取 loader -> options),this.emitFile(生成文件) 等 API.
+  解: 是用于测试自定义的 loader 而存在的,可以使用 loader-utils@2.x 中的 getOptions(this) 获取 loader > options(PS: 在 loader-utils@3.x 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可),由于不是真实的 webpack 环境,不可使用 this.getOptions(获取 loader -> options),this.emitFile(生成文件) 等 API.
 
 #### devServer
 
