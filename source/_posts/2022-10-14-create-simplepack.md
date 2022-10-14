@@ -118,7 +118,7 @@ class Simplepack {
 }
 ```
 
-> Simplepack Parse
+> Simplepack Parse 解析工具
 
 ```javascript
 const {readFileSync} = require('fs');
