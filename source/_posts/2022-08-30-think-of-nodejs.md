@@ -11,140 +11,219 @@ categories: nodejs
 
 > 作用
 
-  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.
-  
+用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.
+
 > 分类
 
-  \[">0.2%"\]: 指的是现阶段的用户比例>0.2%的所有浏览器版本.
-  \["last 2 versions"\]: 指的是现阶段所有浏览器最近发布的两个版本.
-  \["not dead"\]: 指的是现阶段没有被删除销毁的所有浏览器版本.
-  \["defaults"\]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \[">0.2%","last 2 versions","not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \[">0.2% and last 2 versions and not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的交集.
-  \[">0.2% or last 2 versions or not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \["not >0.2%"\]: 指的是现阶段的用户比例 <=0.2% 的所有浏览器版本.
-  
+\[">0.2%"\]: 指的是现阶段的用户比例>0.2%的所有浏览器版本.
+\["last 2 versions"\]: 指的是现阶段所有浏览器最近发布的两个版本.
+\["not dead"\]: 指的是现阶段没有被删除销毁的所有浏览器版本.
+\["defaults"\]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\[">0.2%","last 2 versions","not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\[">0.2% and last 2 versions and not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的交集.
+\[">0.2% or last 2 versions or not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\["not >0.2%"\]: 指的是现阶段的用户比例 <=0.2% 的所有浏览器版本.
+
 #### version
 
 > 作用
-  
-  用于发布构建/依赖/工具时,对于版本号的分类管理.
+
+用于发布构建/依赖/工具时,对于版本号的分类管理.
 
 > 分类
-  
-  - patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.
-  - minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.
-  - major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.
+
+- patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.
+- minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.
+- major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.
 
 #### pre-version
 
 > 作用
 
-  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.
+先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.
 
 > 分类
 
-  - alpha: 是内测版本,一般会有很多 Bug,内测人员使用.
-  - beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.
-  - rc: 公测版本,会完全对外开放测试,不再开发添加新功能.
- 
+- alpha: 是内测版本,一般会有很多 Bug,内测人员使用.
+- beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.
+- rc: 公测版本,会完全对外开放测试,不再开发添加新功能.
+
 #### npx
 
 > 作用
 
-  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.
+是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.
 
 > 原理
 
-  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.
-  
+其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.
+
 > 参数
 
-  - --no-install: 指的是强制使用本地模块,禁止下载远程模块.
+- --no-install: 指的是强制使用本地模块,禁止下载远程模块.
 
 #### inquirer
 
 > 作用
 
-  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.
-  
+是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.
+
   ```javascript
   const inquirer = require('inquirer');
-  const prompt = inquirer.createPromptModule();
-  const env = prompt([{
-      type: 'list',
-      message: '请选择 webpack 构建打包时所属的环境:',
-      name: 'env',
-      choices: [
-          'development',
-          'production'    
-      ],
-      filter(value) {
-          return value.toLowerCase();
-      }
-  }]);
-  const _env = env['env'];
-  console.log(_env);
+const prompt = inquirer.createPromptModule();
+const env = prompt([{
+    type: 'list',
+    message: '请选择 webpack 构建打包时所属的环境:',
+    name: 'env',
+    choices: [
+        'development',
+        'production'
+    ],
+    filter(value) {
+        return value.toLowerCase();
+    }
+}]);
+const _env = env['env'];
+console.log(_env);
   ```
 
 #### shelljs
 
 > 作用
 
-  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.
-  
+是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.
+
   ```javascript
   const {exec} = require('shelljs');
-  exec('webpack');
+exec('webpack');
   ```
 
 #### yargs
 
 > 作用
 
-  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.
-  
+是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.
+
   ```javascript
   const yargs = require('yargs');
-  const argv = process.argv;
-  const env = '';
-  yargs.parse(argv.slice(2), (err, argv) => {
-      if(err) {
-          console.error(err);
-          throw new Error(err);
-      }
-      env = argv['env'];
-  });
-  console.log(env);
+const argv = process.argv;
+const env = '';
+yargs.parse(argv.slice(2), (err, argv) => {
+    if (err) {
+        console.error(err);
+        throw new Error(err);
+    }
+    env = argv['env'];
+});
+console.log(env);
   ```
 
 #### rimraf
 
 > 作用
 
-  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().
-  
+是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().
+
   ```javascript
   const rimraf = require('rimraf');
-  // 首参数: 相对于 node 所作用的位置目录.
-  // 回调函数: 在操作过后执行的步骤.
-  rimraf('./dist', () => {
-      //...
-      //...
-  });
+// 首参数: 相对于 node 所作用的位置目录.
+// 回调函数: 在操作过后执行的步骤.
+rimraf('./dist', () => {
+    //...
+    //...
+});
   ```
 
 #### spritesmith
 
 > 作用
 
-  是用于合并多个图片形成雪碧图的依赖.
-  
+是用于合并多个图片形成雪碧图的依赖.
+
   ```javascript
   const {run} = require('spritesmith');
-  // 位置目录必须为绝对路径
-  run({src: ['pic1.png', 'pic2.png']}, (err, image) => {
-      // 会生成 16进制 Buffer
-      console.log(image.image);
-  })
+// 位置目录必须为绝对路径
+run({src: ['pic1.png', 'pic2.png']}, (err, image) => {
+    // 会生成 16进制 Buffer
+    console.log(image.image);
+})
   ```
+
+#### jszip
+
+> 作用
+
+用于使用 js 实现 zip 压缩打包.
+
+  ```javascript
+  const JsZip = require('jszip');
+const jszip = new JsZip();
+// 生成空的压缩打包文件
+jszip.folder('offline');
+// 生成填入内容的压缩打包文件
+jszip.file('index.js', 'console.log("wtw")');
+// 将压缩打包文件实行各种数据类型转换
+jszip.generatorAsync({type: 'nodebuffer'}).then((content) => {
+    console.log(content);
+});
+  ```
+
+> 自定义 webpack 插件以生成离线压缩包
+
+```javascript
+// webpack.config.js
+const {resolve} = require('path');
+
+// 自定义的生成离线压缩包的 webpack 插件
+const JsZipPlugin = require('./lib/jsZipPlugin.js');
+
+const OUTPUT_DIR = resolve(process.cwd(), './build');
+
+const webpackConfig = {
+    mode: 'production',
+    entry: './src/index.js',
+    output: {
+        path: OUTPUT_DIR,
+        filename: 'index.js'
+    },
+    plugins: [
+        new JsZipPlugin({
+            name: 'offline'
+        })
+    ]
+};
+
+module.exports = wbpackConfig;
+```
+
+```javascript
+const JsZip = require('jszip');
+const {RawSource} = require('webpack-sources'); 
+
+class JsZipPlugin {
+    constructor(options) {
+        this.options = options;
+    }
+
+    // 所有的 webpack 插件都遵循其 tapable 插件体制,类似于 EnventEmitter 那种观察订阅模式
+    apply(compiler) {
+        const {name = ''} = this.options;
+        const jszip = new JsZipPlugin();
+        // 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)
+        compiler.hooks.emit.tapAsync('JsZipPlugin', (compilation, callback) => {
+            // 生成空的压缩打包文件
+            jszip.folder(name);
+            for (let filename in compilation.assets) {
+                // 生成填入 webpack 构建打包源代码的压缩打包文件
+                jszip.file(filename, compilation.assets[filename].source());
+            }
+            // 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.
+            jszip.generatorAsync({type: 'nodebuffer'}).then((content) => {
+                compilation.assets[name] = new RawSource(content);
+                callback();
+            });
+        });
+    }
+}
+```
+
