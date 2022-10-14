@@ -102,7 +102,7 @@ class Simplepack {
     emitFile() {
         const {entry = '', output: {filename = '', path = ''}} = this.options;
         const outputPath = resolve(path, filename);
-        // 模拟 webpack 将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__
+        // 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__
         const module = this.resources.map(item => `'${item.filename}': function(require, modules, exports) {${item.source}`).join(',');
         const bundle = `(function (module) {
             function require(filename) {
