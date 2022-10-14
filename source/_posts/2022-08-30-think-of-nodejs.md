@@ -153,7 +153,7 @@ run({src: ['pic1.png', 'pic2.png']}, (err, image) => {
 
 > 作用
 
-用于使用 js 实现 zip 压缩打包.
+用于使用 js 实现 zip 压缩打包的依赖.
 
   ```javascript
   const JsZip = require('jszip');
