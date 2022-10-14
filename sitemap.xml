@@ -2,9 +2,31 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/15/think-of-tapable/</loc>
+        
+        <lastmod>2022-10-14T18:01:55.061Z</lastmod>
+        
+        <date>1665770437000</date>
+        <title>think of tapable | wtw's Frontend</title>
+        
+        <desc>Tapable 什么是 Tapable</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
+        
+        <lastmod>2022-10-14T17:59:39.593Z</lastmod>
+        
+        <date>1661856210000</date>
+        <title>think of nodejs | wtw's Frontend</title>
+        
+        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/10/14/create-simplepack/</loc>
         
-        <lastmod>2022-10-14T13:05:16.998Z</lastmod>
+        <lastmod>2022-10-14T17:36:18.909Z</lastmod>
         
         <date>1665749085000</date>
         <title>create Simplepack | wtw's Frontend</title>
@@ -21,17 +43,6 @@
         <title>think of webpack | wtw's Frontend</title>
         
         <desc>webpackentry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点’. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
-        
-        <lastmod>2022-10-13T13:07:21.070Z</lastmod>
-        
-        <date>1661856210000</date>
-        <title>think of nodejs | wtw's Frontend</title>
-        
-        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本. [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本. [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本. [“defaults”]: 相当于 “&gt;0</desc>
     </url>
     
     <url>
