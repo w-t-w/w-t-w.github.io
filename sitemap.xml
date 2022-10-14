@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
+        
+        <lastmod>2022-10-14T18:05:11.556Z</lastmod>
+        
+        <date>1661856210000</date>
+        <title>think of nodejs | wtw's Frontend</title>
+        
+        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/10/15/think-of-tapable/</loc>
         
         <lastmod>2022-10-14T18:01:55.061Z</lastmod>
@@ -10,17 +21,6 @@
         <title>think of tapable | wtw's Frontend</title>
         
         <desc>Tapable 什么是 Tapable</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
-        
-        <lastmod>2022-10-14T17:59:39.593Z</lastmod>
-        
-        <date>1661856210000</date>
-        <title>think of nodejs | wtw's Frontend</title>
-        
-        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
     </url>
     
     <url>
