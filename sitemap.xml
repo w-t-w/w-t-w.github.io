@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/14/create-simplepack/</loc>
+        
+        <lastmod>2022-10-14T13:01:03.368Z</lastmod>
+        
+        <date>1665749085000</date>
+        <title>create Simplepack | wtw's Frontend</title>
+        
+        <desc>create Simplepack搭建一个简易的 webpack —— Simplepack. 配置文件 12345678910111213141516// simplepack.config.jsconst &#123;resolve&#125; = require(&#x27;path&#x27;);const OUTPUT_DIR = resolve(process.cwd(), &#x27</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
         
         <lastmod>2022-10-13T18:43:39.762Z</lastmod>
