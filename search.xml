@@ -1,6 +1,135 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
+<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
+<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
+<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span>    </span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  是用于合并多个图片形成雪碧图的依赖.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>daily problems</title>
+    <url>/2022/08/30/daily-problems/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
+<p>npm run scripts</p>
+</blockquote>
+<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
+<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
+<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
+<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><blockquote>
+<p>闭包</p>
+</blockquote>
+<p>  什么是闭包?</p>
+<p>  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.</p>
+<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
+<p>terser-webpack-plugin</p>
+</blockquote>
+<p>  众所周知,在 webpack 4.x以及之后的版本,开启 mode: ‘production’,相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: ‘production’,却不能实现压缩混淆,这是为什么呢?</p>
+<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 ‘…’ 元素就可生效.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="string">&#x27;...&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ssr"><a href="#ssr" class="headerlink" title="ssr"></a>ssr</h1><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  ssr 服务端渲染相对于浏览器客户端渲染,其作用是什么?又有什么优势?</p>
+<ul>
+<li>HTML 模板以及数据等资源都存放于服务端,内网拉取资源速度更快.</li>
+<li>相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求次数.</li>
+<li>对于用户来说,最直观的就是,大大减少了页面白屏的时间;而对于开发一方来讲,SEO 爬虫页面解析更友好.</li>
+</ul>
+<h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><blockquote>
+<p>__dirname</p>
+</blockquote>
+<p>  __dirname 与 process.cwd() 的区别是什么?</p>
+<p>  解: __dirname 指的是当前文件所在的位置目录. process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//…),修改后 process.cwd() 就会发生改变.</p>
+]]></content>
+      <categories>
+        <category>problems</category>
+      </categories>
+      <tags>
+        <tag>problems</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -462,89 +591,20 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>  [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>  [“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>  [“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>  [“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>  [“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>  [“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
-<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
-<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
-<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
-</ul>
-<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
-<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
-<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
-</ul>
-<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<p>  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
-</ul>
-<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span>    </span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  是用于合并多个图片形成雪碧图的依赖.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>]]></content>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
       <categories>
-        <category>nodejs</category>
+        <category>unresolved</category>
       </categories>
       <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
+        <tag>unresolved</tag>
       </tags>
   </entry>
   <entry>
@@ -704,7 +764,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#114;&#x65;&#45;&#106;&#x73;&#x40;&#51;&#x2e;&#x78;">&#99;&#111;&#114;&#x65;&#45;&#106;&#x73;&#x40;&#51;&#x2e;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#x72;&#101;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#120;">&#99;&#111;&#x72;&#101;&#x2d;&#106;&#x73;&#64;&#51;&#46;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -815,7 +875,7 @@ fancybox: true
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#101;&#114;&#x2d;&#117;&#116;&#105;&#108;&#x73;&#x40;&#50;&#46;&#120;">&#108;&#x6f;&#97;&#x64;&#101;&#114;&#x2d;&#117;&#116;&#105;&#108;&#x73;&#x40;&#50;&#46;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#111;&#x61;&#100;&#101;&#114;&#x2d;&#x75;&#116;&#x69;&#x6c;&#x73;&#64;&#x33;&#x2e;&#x78;">&#108;&#111;&#x61;&#100;&#101;&#114;&#x2d;&#x75;&#116;&#x69;&#x6c;&#x73;&#64;&#x33;&#x2e;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#105;&#x6c;&#115;&#x40;&#x32;&#46;&#x78;">&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#105;&#x6c;&#115;&#x40;&#x32;&#46;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#111;&#97;&#100;&#101;&#x72;&#x2d;&#117;&#116;&#x69;&#x6c;&#x73;&#x40;&#x33;&#46;&#120;">&#x6c;&#111;&#97;&#100;&#101;&#x72;&#x2d;&#117;&#116;&#x69;&#x6c;&#x73;&#x40;&#x33;&#46;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
 <p>contentBase</p>
 </blockquote>
@@ -970,23 +1030,6 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-]]></content>
-      <categories>
-        <category>unresolved</category>
-      </categories>
-      <tags>
-        <tag>unresolved</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>create Simplepack</title>
     <url>/2022/10/14/create-simplepack/</url>
     <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
@@ -1005,7 +1048,7 @@ fancybox: true
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">if</span> (entry) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;找不到 webpack 构建打包的入口!&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getResources</span>(<span class="params">path, sourcePath</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> compile = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            compile.<span class="property">filename</span> = sourcePath ? sourcePath : path;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(compile);</span><br><span class="line">            <span class="keyword">const</span> &#123;dependencies = []&#125; = compile;</span><br><span class="line">            <span class="keyword">if</span> (dependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 路径中是否存在类型文件</span></span><br><span class="line">                <span class="keyword">const</span> hasFile = <span class="regexp">/\.js$/</span>;</span><br><span class="line">                dependencies.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">const</span> sourcePath = item;</span><br><span class="line">                    <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                    <span class="keyword">if</span> (hasFile.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">                        path = path.<span class="title function_">slice</span>(<span class="number">0</span>, path.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (!hasFile.<span class="title function_">test</span>(item)) &#123;</span><br><span class="line">                        item += <span class="string">&#x27;/index.js&#x27;</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    path = <span class="title function_">resolve</span>(path, item);</span><br><span class="line">                    <span class="comment">// 将拼接好的子依赖目录再次解析</span></span><br><span class="line">                    getResources.<span class="title function_">call</span>(<span class="variable language_">this</span>, path, sourcePath);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(entry);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emitFile</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <blockquote>
-<p>Simplepack Parse</p>
+<p>Simplepack Parse 解析工具</p>
 </blockquote>
 <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
 
@@ -1020,49 +1063,6 @@ fancybox: true
       </categories>
       <tags>
         <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>daily problems</title>
-    <url>/2022/08/30/daily-problems/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
-<p>npm run scripts</p>
-</blockquote>
-<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
-<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
-<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
-<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><blockquote>
-<p>闭包</p>
-</blockquote>
-<p>  什么是闭包?</p>
-<p>  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.</p>
-<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
-<p>terser-webpack-plugin</p>
-</blockquote>
-<p>  众所周知,在 webpack 4.x以及之后的版本,开启 mode: ‘production’,相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: ‘production’,却不能实现压缩混淆,这是为什么呢?</p>
-<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 ‘…’ 元素就可生效.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="string">&#x27;...&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ssr"><a href="#ssr" class="headerlink" title="ssr"></a>ssr</h1><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  ssr 服务端渲染相对于浏览器客户端渲染,其作用是什么?又有什么优势?</p>
-<ul>
-<li>HTML 模板以及数据等资源都存放于服务端,内网拉取资源速度更快.</li>
-<li>相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求次数.</li>
-<li>对于用户来说,最直观的就是,大大减少了页面白屏的时间;而对于开发一方来讲,SEO 爬虫页面解析更友好.</li>
-</ul>
-<h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><blockquote>
-<p>__dirname</p>
-</blockquote>
-<p>  __dirname 与 process.cwd() 的区别是什么?</p>
-<p>  解: __dirname 指的是当前文件所在的位置目录. process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//…),修改后 process.cwd() 就会发生改变.</p>
-]]></content>
-      <categories>
-        <category>problems</category>
-      </categories>
-      <tags>
-        <tag>problems</tag>
       </tags>
   </entry>
 </search>
