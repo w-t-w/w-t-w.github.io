@@ -255,8 +255,181 @@ categories: webpack
 
   ![](https://image.white-than-wood.zone/webpack/tapable.png)
 
-  接下来将是重头戏,将根据不同的订阅模式类型、不同的发布类型以及构造时指定的参数名称编译生成拼接好不同的内容的匿名函数
+  接下来将是重头戏,将根据不同的订阅模式类型、不同的发布类型以及构造时指定的参数名称编译生成拼接好不同的内容的匿名函数.
 
+  ```javascript
+  //首先是根据不同的发布类型以及构造时指定的参数名称实行第一步拼接.
+  switch (this.options.type) {
+    case "sync":
+        fn = new Function(
+            this.args(),
+            '"use strict";\n' +
+            this.header() +
+            this.content({
+                onError: err => `throw ${err};\n`,
+                onResult: result => `return ${result};\n`,
+                resultReturns: true,
+                onDone: () => "",
+                rethrowIfPossible: true
+            })
+        );
+        break;
+    case "async":
+        fn = new Function(
+            this.args({
+                after: "_callback"
+            }),
+            '"use strict";\n' +
+            this.header() +
+            this.content({
+                onError: err => `_callback(${err});\n`,
+                onResult: result => `_callback(null, ${result});\n`,
+                onDone: () => "_callback();\n"
+            })
+        );
+        break;
+    case "promise":
+        let errorHelperUsed = false;
+        const content = this.content({
+            onError: err => {
+                errorHelperUsed = true;
+                return `_error(${err});\n`;
+            },
+            onResult: result => `_resolve(${result});\n`,
+            onDone: () => "_resolve();\n"
+        });
+        let code = "";
+        code += '"use strict";\n';
+        code += "return new Promise((_resolve, _reject) => {\n";
+        if (errorHelperUsed) {
+            code += "var _sync = true;\n";
+            code += "function _error(_err) {\n";
+            code += "if(_sync)\n";
+            code += "_resolve(Promise.resolve().then(() => { throw _err; }));\n";
+            code += "else\n";
+            code += "_reject(_err);\n";
+            code += "};\n";
+        }
+        code += this.header();
+        code += content;
+        if (errorHelperUsed) {
+            code += "_sync = false;\n";
+        }
+        code += "});\n";
+        fn = new Function(this.args(), code);
+        break;
+  }
+  ```
+
+  ```javascript
+  /*
+        MIT License http://www.opensource.org/licenses/mit-license.php
+        Author Tobias Koppers @sokra
+  */
+  "use strict";
+
+  class HookCodeFactory {
+      //...
+      header() {
+          let code = "";
+          if (this.needContext()) {
+              code += "var _context = {};\n";
+          } else {
+              code += "var _context;\n";
+          }
+          code += "var _x = this._x;\n";
+          if (this.options.interceptors.length > 0) {
+              code += "var _taps = this.taps;\n";
+              code += "var _interceptors = this.interceptors;\n";
+          }
+          for (let i = 0; i < this.options.interceptors.length; i++) {
+              const interceptor = this.options.interceptors[i];
+              if (interceptor.call) {
+                  code += `${this.getInterceptor(i)}.call(${this.args({
+                      before: interceptor.context ? "_context" : undefined
+                  })});\n`;
+              }
+          }
+          return code;
+      }
+      //...
+  }
+  ```
+
+  ```javascript
+  /*
+        MIT License http://www.opensource.org/licenses/mit-license.php
+        Author Tobias Koppers @sokra
+    */
+  "use strict";
+
+  class HookCodeFactory {
+      //...
+      args({before, after} = {}) {
+          let allArgs = this._args;
+          if (before) allArgs = [before].concat(allArgs);
+          if (after) allArgs = allArgs.concat(after);
+          if (allArgs.length === 0) {
+              return "";
+          } else {
+              return allArgs.join(", ");
+          }
+      }
+      //...
+  }
+  ```
+
+  添加上 header 以及 args 部分,乍看起来是有点多的,可以使用伪代码来简化流程:
+
+  ```
+  fn;
+  if 'sync'
+    fn = args + header + content
+  if 'async'
+    fn = args with _callback + header + content
+  if 'promise'
+    fn = (args + header + content) with new Promise
+  ```
+
+  也可以转化为实际拼接好的 JS 代码来表示流程:
+
+  ```javascript
+  this.call = function lazyCompileHook(...args) {
+    return (function (args1, args2) {
+        'use strict';
+        var _context;
+        var _x = this._x;
+        // content({onError, onResult, resultReturns, onDone, rethrowIfPossible});
+    })(...args);
+  }
+  ```
+
+  ```javascript
+  this.callAsync = function lazyCompileHook(...args) {
+    return (function (args1, args2, _callback) {
+        'use strict';
+        var _context;
+        var _x = this._x;
+        // content({onError, onResult, onDone});
+    })(...args);
+  }
+  ```
+
+  ```javascript
+  this.promise = function lazyCompileHook(...args) {
+    return (function (args1, args2, _callback) {
+        'use strict';
+        return new Promise((_resolve, _reject) => {
+            var _context;
+            var _x = this.x;
+            // content({onError, onResult, onDone});
+        });
+    })(...args);
+  }
+  ```
   
+  ```javascript
+  //接下来着重看下一个部分,也就是根据不同的订阅模式类型实行最后的拼接
   
+  ```
   
