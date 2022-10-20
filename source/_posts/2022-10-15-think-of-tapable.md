@@ -725,7 +725,7 @@ categories: webpack
 
     ```javascript
         // AsyncSeriesHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
+        this.callAsync = function lazyCompileHook(...args) {
             return (function (args1, args2, _callback) {
                 'use strict';
                 var _context;
@@ -756,7 +756,7 @@ categories: webpack
 
     ```javascript
         // AsyncSeriesBailHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
+        this.callAsync = function lazyCompileHook(...args) {
             return (function (args1, args2, _callback) {
                 'use strict';
                 var _context;
@@ -795,7 +795,7 @@ categories: webpack
 
     ```javascript
         // AsyncSeriesWaterfallHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
+        this.callAsync = function lazyCompileHook(...args) {
             return (function (args1, args2, _callback) {
                 'use strict';
                 var _context;
@@ -897,7 +897,7 @@ categories: webpack
     ```javascript
     // AsyncSeriesHook,在这里都使用多参数名称、多 Promise 订阅方法集合来展示最终拼接结果.
     this.promise = function lazyCompileHook(...args) {
-        return (function (args1, args2, _callback) {
+        return (function (args1, args2) {
             'use strict';
             return new Promise((_resolve, _reject) => {
                 var _sync = true;
@@ -939,82 +939,129 @@ categories: webpack
                     if (_hasResult0) throw _err0;
                     _error(_err0);
                 });
+                _sync = false;
             });
         })(...args);
     }
     ```
 
     ```javascript
-        // AsyncSeriesBailHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
-            return (function (args1, args2, _callback) {
-                'use strict';
+    // AsyncSeriesBailHook,在这里都使用多参数名称、多 Promise 订阅方法集合来展示最终拼接结果.
+    this.promise = function lazyCompileHook(...args) {
+        return (function (args1, args2) {
+            'use strict';
+            return new Promise((_resolve, _reject) => {
+                var _sync = true;
+    
+                function _error(_err) {
+                    if (_sync)
+                        _resolve(Promise.resolve().then(() => {
+                            throw _err;
+                        }));
+                    else
+                        _reject(_err);
+                }
+    
                 var _context;
                 var _x = this._x;
     
                 function _next0() {
                     var _fn1 = _x[1];
-                    _fn1(args1, args2, (_err1, _result1) => {
-                        if (_err1) {
-                            _callback(_err1);
+                    var _hasResult1 = false;
+                    var _promise1 = _fn1(args1, args2);
+                    if (!_promise1 || !_promise1.then) {
+                        throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+                    }
+                    _promise1.then(_result1 => {
+                        _hasResult1 = true;
+                        if (_result1 !== undefined) {
+                            _resolve(_result1);
                         } else {
-                            if (_result1 !== undefined) {
-                                _callback(null, _result1);
-                            } else {
-                                _callback();
-                            }
+                            _resolve();
                         }
+                    }, _err1 => {
+                        if (_hasResult1) throw  _err1;
+                        _error(_err1);
                     });
                 }
     
                 var _fn0 = _x[0];
-                _fn0(args1, args2, (_err0, _result0) => {
-                    if (_err0) {
-                        _callback(_err0);
+                var _hasResult0 = false;
+                var _promise0 = _fn0(args1, args2);
+                if (!_promise0 || !_promise0.then) {
+                    throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+                }
+                _promise0.then(_result0 => {
+                    _hasResult0 = true;
+                    if (_result0 !== undefined) {
+                        _resolve(_result0);
                     } else {
-                        if (_result0 !== undefined) {
-                            _callback(null, _result0);
-                        } else {
-                            _next0();
-                        }
+                        _next0();
                     }
+                }, _err0 => {
+                    if (_hasResult0) throw  _err0;
+                    _error(_err0);
                 });
-            })(...args);
-        }
+                _sync = false;
+            });
+        })(...args);
+    }
     ```
 
     ```javascript
-        // AsyncSeriesWaterfallHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
-            return (function (args1, args2, _callback) {
+        // AsyncSeriesWaterfallHook,在这里都使用多参数名称、多 Promise 订阅方法集合来展示最终拼接结果.
+        this.promise = function lazyCompileHook(...args) {
+            return (function (args1, args2) {
                 'use strict';
-                var _context;
-                var _x = this._x;
+                return new Promise((_resolve, _reject) => {
+                    var _sync = true;
     
-                function _next0() {
-                    var _fn1 = _x[1];
-                    _fn1(args1, args2, (_err1, _result1) => {
-                        if (_err1) {
-                            _callback(_err1);
-                        } else {
+                    function _error(_err) {
+                        if (_sync)
+                            _resolve(Promise.resolve().then(() => {
+                                throw _err;
+                            }));
+                        else
+                            _reject(_err);
+                    }
+    
+                    var _context;
+                    var _x = this._x;
+    
+                    function _next0() {
+                        var _fn1 = _x[1];
+                        var _hasResult1 = false;
+                        var _promise1 = _fn1(args1, args2);
+                        if (!_promise1 || !_promise1.then)
+                            throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+                        _promise1.then(_result1 => {
+                            _hasResult1 = true;
                             if (_result1 !== undefined) {
                                 args1 = _result1;
                             }
-                            _callback(null, args1);
-                        }
-                    });
-                }
+                            _resolve(args1);
+                        }, _err1 => {
+                            if (_hasResult1) throw _err1;
+                            _error(_err1);
+                        });
+                    }
     
-                var _fn0 = _x[0];
-                _fn0(args1, args2, (_err0, _result0) => {
-                    if (_err0) {
-                        _callback(_err0);
-                    } else {
+                    var _fn0 = _x[0];
+                    var _hasResult0 = false;
+                    var _promise0 = _fn0(args1, args2);
+                    if (!_promise0 || !_promise0.then)
+                        throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+                    _promise0.then(_result0 => {
+                        _hasResult0 = true;
                         if (_result0 !== undefined) {
                             args1 = _result0;
                         }
                         _next0();
-                    }
+                    }, _err0 => {
+                        if (_hasResult0) throw _err0;
+                        _error(_err0);
+                    });
+                    _sync = false;
                 });
             })(...args);
         }
