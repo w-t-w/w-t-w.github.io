@@ -806,7 +806,7 @@ categories: webpack
                         if (_err1) {
                             _callback(_err1);
                         } else {
-                            if (!_result1 !== undefined) {
+                            if (_result1 !== undefined) {
                                 args1 = _result1;
                             }
                             _callback(null, args1);
