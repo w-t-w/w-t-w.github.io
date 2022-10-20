@@ -15,7 +15,7 @@ categories: webpack
   在 Tapable 中订阅模式类型被称为 Hook,也就是 "钩子",基本分为四种.
 
   - 普通钩子
-  - 串行钩子
+  - 熔断钩子
   - 瀑布钩子
   - 循环钩子
 
@@ -452,10 +452,7 @@ categories: webpack
                       const i = j;
                       //...
                       const done = current;
-                      const doneBreak = skipDone => {
-                          if (skipDone) return "";
-                          return onDone();
-                      };
+                      //...
                       const content = this.callTap(i, {
                           onError: error => onError(i, error, done, doneBreak),
                           onResult:
@@ -476,6 +473,7 @@ categories: webpack
               //...
           }
     ```
+    
     由上述部分可以看出,逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入至 callTap 方法中.那就继续查看 callTap 方法.
 
     ```javascript
@@ -537,7 +535,7 @@ categories: webpack
     }
     ```
   
-    至此,基本可以得到结论,在 callTap 方法中,是根据有无 onResult 以及有无 onDone 来判断并拼接内容的.那最后再简化一下.
+    至此,基本可以得到结论,在 callTap 方法中,'sync' 部分是根据有无 onResult 以及有无 onDone 来判断并拼接内容的.那最后再简化一下.
 
     <div style="display: flex;justify-content: space-between;align-items: center;">
         <div style="width: 49%;">
@@ -607,4 +605,226 @@ categories: webpack
             return args1;
         })(...args);
     }
+    ```
+    
+    以此类推,异步 AsyncSeriesxxxHook 部分,除了循环钩子,调用的也都是 callTapsSeries 方法.
+
+    ```javascript
+          class HookCodeFactory {
+              //...
+              callTapsSeries({
+                                 onError,
+                                 onResult,
+                                 resultReturns,
+                                 onDone,
+                                 doneReturns,
+                                 rethrowIfPossible
+                             }) {
+                  if (this.options.taps.length === 0) return onDone();
+                  const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
+                  const somethingReturns = resultReturns || doneReturns || false;
+                  let code = "";
+                  let current = onDone;
+                  for (let j = this.options.taps.length - 1; j >= 0; j--) {
+                      const i = j;
+                      if (unroll) {
+                          code += `function _next${i}() {\n`;
+                          code += current();
+                          code += `}\n`;
+                          current = () => `${somethingReturns ? "return " : ""}_next${i}();\n`;
+                      }
+                      const done = current;
+                      const doneBreak = skipDone => {
+                          if (skipDone) return "";
+                          return onDone();
+                      };
+                      const content = this.callTap(i, {
+                          onError: error => onError(i, error, done, doneBreak),
+                          onResult:
+                              onResult &&
+                              (result => {
+                                  return onResult(i, result, done, doneBreak);
+                              }),
+                          onDone: !onResult && done,
+                          rethrowIfPossible:
+                              rethrowIfPossible && (firstAsync < 0 || i < firstAsync)
+                      });
+                      current = () => content;
+                  }
+                  code += current();
+                  return code;
+              }
+              //...
+          }
+    ```
+
+    同理,异步 AsyncSeriesxxxHook 部分还是逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入至 callTap 方法中,但是本次拼接的结果会加一层 next 包裹,接着还是查看 callTap 方法.
+
+    ```javascript
+            // 相对应的,查看 'async' 部分
+            class HookCodeFactory {
+                //...
+                callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
+                    let code = "";
+                    //...
+                    code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
+                    const tap = this.options.taps[tapIndex];
+                    switch (tap.type) {
+                        case "async":
+                            let cbCode = "";
+                            if (onResult) cbCode += `(_err${tapIndex}, _result${tapIndex}) => {\n`;
+                            else cbCode += `_err${tapIndex} => {\n`;
+                            cbCode += `if(_err${tapIndex}) {\n`;
+                            cbCode += onError(`_err${tapIndex}`);
+                            cbCode += "} else {\n";
+                            if (onResult) {
+                                cbCode += onResult(`_result${tapIndex}`);
+                            }
+                            if (onDone) {
+                                cbCode += onDone();
+                            }
+                            cbCode += "}\n";
+                            cbCode += "}";
+                            code += `_fn${tapIndex}(${this.args({
+                                before: tap.context ? "_context" : undefined,
+                                after: cbCode
+                            })});\n`;
+                            break;
+                        //...
+                    }
+                    return code;
+                }
+    
+                //...
+            }
+    ```
+
+    ```javascript
+    class HookCodeFactory {
+        //...
+        getTapFn(idx) {
+            return `_x[${idx}]`;
+        }
+        //...
+    }
+    ```
+
+    至此,也基本可以得到结论,在 callTap 方法中,'async' 部分是根据 onError、有无 onResult 以及有无 onDone 来判断并拼接内容的.最后也再简化一下.
+
+    <div style="display: flex;justify-content: space-between;align-items: center;">
+        <div style="width: 49%;">
+            <img src="https://image.white-than-wood.zone/webpack/async_on_result.png" alt="async_on_result">
+        </div>
+        <div style="width: 49%;">
+            <img src="https://image.white-than-wood.zone/webpack/async_on_done.png" alt="async_on_done">
+        </div>
+    </div>
+
+    对于 AsyncSeriesxxxHook 部分,除了循环钩子,最终也得出了答案.
+
+    ```javascript
+        // AsyncSeriesHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
+        this.call = function lazyCompileHook(...args) {
+            return (function (args1, args2, _callback) {
+                'use strict';
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    _fn1(args1, args2, (_err1) => {
+                        if (_err1) {
+                            _callback(_err1);
+                        } else {
+                            _callback();
+                        }
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                _fn0(args1, args2, (_err0) => {
+                    if (_err0) {
+                        _callback(_err0);
+                    } else {
+                        _next0();
+                    }
+                });
+            })(...args);
+        }
+    ```
+
+    ```javascript
+        // AsyncSeriesBailHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
+        this.call = function lazyCompileHook(...args) {
+            return (function (args1, args2, _callback) {
+                'use strict';
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    _fn1(args1, args2, (_err1, _result1) => {
+                        if (_err1) {
+                            _callback(_err1);
+                        } else {
+                            if (_result1 !== undefined) {
+                                _callback(null, _result1);
+                            } else {
+                                _callback();
+                            }
+                        }
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                _fn0(args1, args2, (_err0, _result0) => {
+                    if (_err0) {
+                        _callback(_err0);
+                    } else {
+                        if (_result0 !== undefined) {
+                            _callback(null, _result0);
+                        } else {
+                            _next0();
+                        }
+                    }
+                });
+            })(...args);
+        }
+    ```
+
+    ```javascript
+        // AsyncSeriesWaterfallHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
+        this.call = function lazyCompileHook(...args) {
+            return (function (args1, args2, _callback) {
+                'use strict';
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    _fn1(args1, args2, (_err1, _result1) => {
+                        if (_err1) {
+                            _callback(_err1);
+                        } else {
+                            if (!_result1 !== undefined) {
+                                args1 = _result1;
+                            }
+                            _callback(null, args1);
+                        }
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                _fn0(args1, args2, (_err0, _result0) => {
+                    if (_err0) {
+                        _callback(_err0);
+                    } else {
+                        if (_result0 !== undefined) {
+                            args1 = _result0;
+                        }
+                        _next0();
+                    }
+                });
+            })(...args);
+        }
     ```
