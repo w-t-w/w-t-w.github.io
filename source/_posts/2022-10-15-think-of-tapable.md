@@ -4,6 +4,7 @@ date: 2022-10-15 02:00:37
 tags: [webpack, tapable]
 categories: webpack
 ---
+
 # Tapable
 
 > 什么是 Tapable
@@ -259,468 +260,468 @@ categories: webpack
   
   - 首先是根据不同的发布类型以及构造时指定的参数名称实行第一步拼接.
 
-      ```javascript
-      switch (this.options.type) {
-        case "sync":
-            fn = new Function(
-                this.args(),
-                '"use strict";\n' +
-                this.header() +
-                this.content({
-                    onError: err => `throw ${err};\n`,
-                    onResult: result => `return ${result};\n`,
-                    resultReturns: true,
-                    onDone: () => "",
-                    rethrowIfPossible: true
-                })
-            );
-            break;
-        case "async":
-            fn = new Function(
-                this.args({
-                    after: "_callback"
-                }),
-                '"use strict";\n' +
-                this.header() +
-                this.content({
-                    onError: err => `_callback(${err});\n`,
-                    onResult: result => `_callback(null, ${result});\n`,
-                    onDone: () => "_callback();\n"
-                })
-            );
-            break;
-        case "promise":
-            let errorHelperUsed = false;
-            const content = this.content({
-                onError: err => {
-                    errorHelperUsed = true;
-                    return `_error(${err});\n`;
-                },
-                onResult: result => `_resolve(${result});\n`,
-                onDone: () => "_resolve();\n"
-            });
-            let code = "";
-            code += '"use strict";\n';
-            code += "return new Promise((_resolve, _reject) => {\n";
-            if (errorHelperUsed) {
-                code += "var _sync = true;\n";
-                code += "function _error(_err) {\n";
-                code += "if(_sync)\n";
-                code += "_resolve(Promise.resolve().then(() => { throw _err; }));\n";
-                code += "else\n";
-                code += "_reject(_err);\n";
-                code += "};\n";
-            }
-            code += this.header();
-            code += content;
-            if (errorHelperUsed) {
-                code += "_sync = false;\n";
-            }
-            code += "});\n";
-            fn = new Function(this.args(), code);
-            break;
-      }
-      ```
+    ```javascript
+    switch (this.options.type) {
+      case "sync":
+          fn = new Function(
+              this.args(),
+              '"use strict";\n' +
+              this.header() +
+              this.content({
+                  onError: err => `throw ${err};\n`,
+                  onResult: result => `return ${result};\n`,
+                  resultReturns: true,
+                  onDone: () => "",
+                  rethrowIfPossible: true
+              })
+          );
+          break;
+      case "async":
+          fn = new Function(
+              this.args({
+                  after: "_callback"
+              }),
+              '"use strict";\n' +
+              this.header() +
+              this.content({
+                  onError: err => `_callback(${err});\n`,
+                  onResult: result => `_callback(null, ${result});\n`,
+                  onDone: () => "_callback();\n"
+              })
+          );
+          break;
+      case "promise":
+          let errorHelperUsed = false;
+          const content = this.content({
+              onError: err => {
+                  errorHelperUsed = true;
+                  return `_error(${err});\n`;
+              },
+              onResult: result => `_resolve(${result});\n`,
+              onDone: () => "_resolve();\n"
+          });
+          let code = "";
+          code += '"use strict";\n';
+          code += "return new Promise((_resolve, _reject) => {\n";
+          if (errorHelperUsed) {
+              code += "var _sync = true;\n";
+              code += "function _error(_err) {\n";
+              code += "if(_sync)\n";
+              code += "_resolve(Promise.resolve().then(() => { throw _err; }));\n";
+              code += "else\n";
+              code += "_reject(_err);\n";
+              code += "};\n";
+          }
+          code += this.header();
+          code += content;
+          if (errorHelperUsed) {
+              code += "_sync = false;\n";
+          }
+          code += "});\n";
+          fn = new Function(this.args(), code);
+          break;
+    }
+    ```
 
-      ```javascript
-      /*
-            MIT License http://www.opensource.org/licenses/mit-license.php
-            Author Tobias Koppers @sokra
+    ```javascript
+    /*
+          MIT License http://www.opensource.org/licenses/mit-license.php
+          Author Tobias Koppers @sokra
+    */
+    "use strict";
+  
+    class HookCodeFactory {
+        //...
+        header() {
+            let code = "";
+            if (this.needContext()) {
+                code += "var _context = {};\n";
+            } else {
+                code += "var _context;\n";
+            }
+            code += "var _x = this._x;\n";
+            if (this.options.interceptors.length > 0) {
+                code += "var _taps = this.taps;\n";
+                code += "var _interceptors = this.interceptors;\n";
+            }
+            for (let i = 0; i < this.options.interceptors.length; i++) {
+                const interceptor = this.options.interceptors[i];
+                if (interceptor.call) {
+                    code += `${this.getInterceptor(i)}.call(${this.args({
+                        before: interceptor.context ? "_context" : undefined
+                    })});\n`;
+                }
+            }
+            return code;
+        }
+        //...
+    }
+    ```
+
+    ```javascript
+    /*
+          MIT License http://www.opensource.org/licenses/mit-license.php
+          Author Tobias Koppers @sokra
       */
-      "use strict";
-    
+    "use strict";
+  
+    class HookCodeFactory {
+        //...
+        args({before, after} = {}) {
+            let allArgs = this._args;
+            if (before) allArgs = [before].concat(allArgs);
+            if (after) allArgs = allArgs.concat(after);
+            if (allArgs.length === 0) {
+                return "";
+            } else {
+                return allArgs.join(", ");
+            }
+        }
+        //...
+    }
+    ```
+
+    添加上 header 以及 args 部分,乍看起来是有点多的,可以使用伪代码来简化流程:
+
+    ```
+    fn
+    if 'sync'
+      fn = args + header + content
+    if 'async'
+      fn = args with _callback + header + content
+    if 'promise'
+      fn = (args + header + content) with new Promise
+    ```
+
+    也可以转化为实际拼接好的 JS 代码来表示流程:
+
+    ```javascript
+    this.call = function lazyCompileHook(...args) {
+      return (function (args1, args2) {
+          'use strict';
+          var _context;
+          var _x = this._x;
+          // content({onError, onResult, resultReturns, onDone, rethrowIfPossible});
+      })(...args);
+    }
+    ```
+
+    ```javascript
+    this.callAsync = function lazyCompileHook(...args) {
+      return (function (args1, args2, _callback) {
+          'use strict';
+          var _context;
+          var _x = this._x;
+          // content({onError, onResult, onDone});
+      })(...args);
+    }
+    ```
+
+    ```javascript
+    this.promise = function lazyCompileHook(...args) {
+      return (function (args1, args2, _callback) {
+          'use strict';
+          return new Promise((_resolve, _reject) => {
+              var _context;
+              var _x = this.x;
+              // content({onError, onResult, onDone});
+          });
+      })(...args);
+    }
+    ```
+
+  - 接着着重看下一个部分,也就是根据不同的订阅模式类型实行最后的拼接.
+
+    ```javascript
+        //先看 SyncxxxHook 部分,除了循环钩子,调用的都是 callTapsSeries 方法
+        class HookCodeFactory {
+            //...
+            callTapsSeries({
+                               onError,
+                               onResult,
+                               resultReturns,
+                               onDone,
+                               doneReturns,
+                               rethrowIfPossible
+                           }) {
+                if (this.options.taps.length === 0) return onDone();
+                const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
+                const somethingReturns = resultReturns || doneReturns || false;
+                let code = "";
+                let current = onDone;
+                for (let j = this.options.taps.length - 1; j >= 0; j--) {
+                    const i = j;
+                    //...
+                    const done = current;
+                    //...
+                    const content = this.callTap(i, {
+                        onError: error => onError(i, error, done, doneBreak),
+                        onResult:
+                            onResult &&
+                            (result => {
+                                return onResult(i, result, done, doneBreak);
+                            }),
+                        onDone: !onResult && done,
+                        rethrowIfPossible:
+                            rethrowIfPossible && (firstAsync < 0 || i < firstAsync)
+                    });
+                    current = () => content;
+                }
+                code += current();
+                return code;
+            }
+  
+            //...
+        }
+    ```
+
+    由上述部分可以看出,逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入至 callTap 方法中.那就继续查看 callTap 方法.
+
+    ```javascript
+      // 相对应的,还是查看 'sync' 部分
       class HookCodeFactory {
           //...
-          header() {
+          callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
               let code = "";
-              if (this.needContext()) {
-                  code += "var _context = {};\n";
-              } else {
-                  code += "var _context;\n";
-              }
-              code += "var _x = this._x;\n";
-              if (this.options.interceptors.length > 0) {
-                  code += "var _taps = this.taps;\n";
-                  code += "var _interceptors = this.interceptors;\n";
-              }
-              for (let i = 0; i < this.options.interceptors.length; i++) {
-                  const interceptor = this.options.interceptors[i];
-                  if (interceptor.call) {
-                      code += `${this.getInterceptor(i)}.call(${this.args({
-                          before: interceptor.context ? "_context" : undefined
-                      })});\n`;
-                  }
+              //...
+              code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
+              const tap = this.options.taps[tapIndex];
+              switch (tap.type) {
+                  case "sync":
+                      if (!rethrowIfPossible) {
+                          code += `var _hasError${tapIndex} = false;\n`;
+                          code += "try {\n";
+                      }
+                      if (onResult) {
+                          code += `var _result${tapIndex} = _fn${tapIndex}(${this.args({
+                              before: tap.context ? "_context" : undefined
+                          })});\n`;
+                      } else {
+                          code += `_fn${tapIndex}(${this.args({
+                              before: tap.context ? "_context" : undefined
+                          })});\n`;
+                      }
+                      if (!rethrowIfPossible) {
+                          code += "} catch(_err) {\n";
+                          code += `_hasError${tapIndex} = true;\n`;
+                          code += onError("_err");
+                          code += "}\n";
+                          code += `if(!_hasError${tapIndex}) {\n`;
+                      }
+                      if (onResult) {
+                          code += onResult(`_result${tapIndex}`);
+                      }
+                      if (onDone) {
+                          code += onDone();
+                      }
+                      if (!rethrowIfPossible) {
+                          code += "}\n";
+                      }
+                      break;
+                  //...
               }
               return code;
           }
           //...
       }
-      ```
-    
-      ```javascript
-      /*
-            MIT License http://www.opensource.org/licenses/mit-license.php
-            Author Tobias Koppers @sokra
-        */
-      "use strict";
-    
-      class HookCodeFactory {
-          //...
-          args({before, after} = {}) {
-              let allArgs = this._args;
-              if (before) allArgs = [before].concat(allArgs);
-              if (after) allArgs = allArgs.concat(after);
-              if (allArgs.length === 0) {
-                  return "";
-              } else {
-                  return allArgs.join(", ");
-              }
-          }
-          //...
-      }
-      ```
-    
-      添加上 header 以及 args 部分,乍看起来是有点多的,可以使用伪代码来简化流程:
-    
-      ```
-      fn
-      if 'sync'
-        fn = args + header + content
-      if 'async'
-        fn = args with _callback + header + content
-      if 'promise'
-        fn = (args + header + content) with new Promise
-      ```
-    
-      也可以转化为实际拼接好的 JS 代码来表示流程:
-    
-      ```javascript
-      this.call = function lazyCompileHook(...args) {
-        return (function (args1, args2) {
-            'use strict';
-            var _context;
-            var _x = this._x;
-            // content({onError, onResult, resultReturns, onDone, rethrowIfPossible});
-        })(...args);
-      }
-      ```
-    
-      ```javascript
-      this.callAsync = function lazyCompileHook(...args) {
-        return (function (args1, args2, _callback) {
-            'use strict';
-            var _context;
-            var _x = this._x;
-            // content({onError, onResult, onDone});
-        })(...args);
-      }
-      ```
-    
-      ```javascript
-      this.promise = function lazyCompileHook(...args) {
-        return (function (args1, args2, _callback) {
-            'use strict';
-            return new Promise((_resolve, _reject) => {
-                var _context;
-                var _x = this.x;
-                // content({onError, onResult, onDone});
-            });
-        })(...args);
-      }
-      ```
-
-  - 接着着重看下一个部分,也就是根据不同的订阅模式类型实行最后的拼接.
-
-    ```javascript
-          //先看 SyncxxxHook 部分,除了循环钩子,调用的都是 callTapsSeries 方法
-          class HookCodeFactory {
-              //...
-              callTapsSeries({
-                                 onError,
-                                 onResult,
-                                 resultReturns,
-                                 onDone,
-                                 doneReturns,
-                                 rethrowIfPossible
-                             }) {
-                  if (this.options.taps.length === 0) return onDone();
-                  const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
-                  const somethingReturns = resultReturns || doneReturns || false;
-                  let code = "";
-                  let current = onDone;
-                  for (let j = this.options.taps.length - 1; j >= 0; j--) {
-                      const i = j;
-                      //...
-                      const done = current;
-                      //...
-                      const content = this.callTap(i, {
-                          onError: error => onError(i, error, done, doneBreak),
-                          onResult:
-                              onResult &&
-                              (result => {
-                                  return onResult(i, result, done, doneBreak);
-                              }),
-                          onDone: !onResult && done,
-                          rethrowIfPossible:
-                              rethrowIfPossible && (firstAsync < 0 || i < firstAsync)
-                      });
-                      current = () => content;
-                  }
-                  code += current();
-                  return code;
-              }
-    
-              //...
-          }
     ```
-    
-    由上述部分可以看出,逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入至 callTap 方法中.那就继续查看 callTap 方法.
 
-    ```javascript
-        // 相对应的,还是查看 'sync' 部分
-        class HookCodeFactory {
-            //...
-            callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
-                let code = "";
-                //...
-                code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
-                const tap = this.options.taps[tapIndex];
-                switch (tap.type) {
-                    case "sync":
-                        if (!rethrowIfPossible) {
-                            code += `var _hasError${tapIndex} = false;\n`;
-                            code += "try {\n";
-                        }
-                        if (onResult) {
-                            code += `var _result${tapIndex} = _fn${tapIndex}(${this.args({
-                                before: tap.context ? "_context" : undefined
-                            })});\n`;
-                        } else {
-                            code += `_fn${tapIndex}(${this.args({
-                                before: tap.context ? "_context" : undefined
-                            })});\n`;
-                        }
-                        if (!rethrowIfPossible) {
-                            code += "} catch(_err) {\n";
-                            code += `_hasError${tapIndex} = true;\n`;
-                            code += onError("_err");
-                            code += "}\n";
-                            code += `if(!_hasError${tapIndex}) {\n`;
-                        }
-                        if (onResult) {
-                            code += onResult(`_result${tapIndex}`);
-                        }
-                        if (onDone) {
-                            code += onDone();
-                        }
-                        if (!rethrowIfPossible) {
-                            code += "}\n";
-                        }
-                        break;
-                    //...
-                }
-                return code;
-            }
-            //...
-        }
-    ```
-    
     ```javascript
     class HookCodeFactory {
-        //...
-        getTapFn(idx) {
-            return `_x[${idx}]`;
-        }
-        //...
+      //...
+      getTapFn(idx) {
+          return `_x[${idx}]`;
+      }
+      //...
     }
     ```
-  
+
     至此,基本可以得到结论,在 callTap 方法中,'sync' 部分是根据有无 onResult 以及有无 onDone 来判断并拼接内容的.那最后再简化一下.
 
     <div style="display: flex;justify-content: space-between;align-items: center;">
-        <div style="width: 49%;">
-            <img src="https://image.white-than-wood.zone/webpack/on_result.png" alt="on_result">
-        </div>
-        <div style="width: 48%;">
-            <img src="https://image.white-than-wood.zone/webpack/on_done.png" alt="on_done">
-        </div>
+      <div style="width: 49%;">
+          <img src="https://image.white-than-wood.zone/webpack/on_result.png" alt="on_result">
+      </div>
+      <div style="width: 48%;">
+          <img src="https://image.white-than-wood.zone/webpack/on_done.png" alt="on_done">
+      </div>
     </div>
 
     对于 SyncxxxHook 部分,除了循环钩子,最终得出了答案.
 
     ```javascript
-        // SyncHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
-            return (function (args1, args2) {
-                'use strict';
-                var _context;
-                var _x = this._x;
-                var _fn0 = this._x[0];
-                _fn0(args1, args2);
-                var _fn1 = this._x[1];
-                _fn1(args1, args2);
-            })(...args);
-        }
+      // SyncHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
+      this.call = function lazyCompileHook(...args) {
+          return (function (args1, args2) {
+              'use strict';
+              var _context;
+              var _x = this._x;
+              var _fn0 = this._x[0];
+              _fn0(args1, args2);
+              var _fn1 = this._x[1];
+              _fn1(args1, args2);
+          })(...args);
+      }
     ```
 
     ```javascript
-        // SyncBailHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
-        this.call = function lazyCompileHook(...args) {
-            return (function (args1, args2) {
-                'use strict';
-                var _context;
-                var _x = this._x;
-                var _fn0 = this._x[0];
-                var _result0 = _fn0(args1, args2);
-                if (_result0 !== undefined) {
-                    return _result0;
-                } else {
-                    var _fn1 = this._x[1];
-                    var _result1 = _fn1(args1, args2);
-                    if (_result1 !== undefined) {
-                        return _result1;
-                    } else {}
-                }
-            })(...args);
-        }
+      // SyncBailHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
+      this.call = function lazyCompileHook(...args) {
+          return (function (args1, args2) {
+              'use strict';
+              var _context;
+              var _x = this._x;
+              var _fn0 = this._x[0];
+              var _result0 = _fn0(args1, args2);
+              if (_result0 !== undefined) {
+                  return _result0;
+              } else {
+                  var _fn1 = this._x[1];
+                  var _result1 = _fn1(args1, args2);
+                  if (_result1 !== undefined) {
+                      return _result1;
+                  } else {}
+              }
+          })(...args);
+      }
     ```
 
     ```javascript
-    // SyncWarterfallHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
-    this.call = function lazyCompileHook(...args) {
-        return (function (args1, args2) {
-            'use strict';
-            var _context;
-            var _x = this._x;
-            var _fn0 = _x[0];
-            var _result0 = _fn0(args1, args2);
-            if (_result0 !== undefined) {
-                args1 = _result0;
-            }
-            var _fn1 = _x[1];
-            var _result1 = _fn1(args1, args2);
-            if (_result1 !== undefined) {
-                args1 = _result1;
-            }
-            return args1;
-        })(...args);
-    }
+      // SyncWarterfallHook,在这里都使用多参数名称、多订阅方法集合来展示最终拼接结果.
+      this.call = function lazyCompileHook(...args) {
+          return (function (args1, args2) {
+              'use strict';
+              var _context;
+              var _x = this._x;
+              var _fn0 = _x[0];
+              var _result0 = _fn0(args1, args2);
+              if (_result0 !== undefined) {
+                  args1 = _result0;
+              }
+              var _fn1 = _x[1];
+              var _result1 = _fn1(args1, args2);
+              if (_result1 !== undefined) {
+                  args1 = _result1;
+              }
+              return args1;
+          })(...args);
+      }
     ```
-    
+
     以此类推,异步 AsyncSeriesxxxHook 部分,除了循环钩子,调用的也都是 callTapsSeries 方法.
 
     ```javascript
-          class HookCodeFactory {
-              //...
-              callTapsSeries({
-                                 onError,
-                                 onResult,
-                                 resultReturns,
-                                 onDone,
-                                 doneReturns,
-                                 rethrowIfPossible
-                             }) {
-                  if (this.options.taps.length === 0) return onDone();
-                  const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
-                  const somethingReturns = resultReturns || doneReturns || false;
-                  let code = "";
-                  let current = onDone;
-                  for (let j = this.options.taps.length - 1; j >= 0; j--) {
-                      const i = j;
-                      if (unroll) {
-                          code += `function _next${i}() {\n`;
-                          code += current();
-                          code += `}\n`;
-                          current = () => `${somethingReturns ? "return " : ""}_next${i}();\n`;
-                      }
-                      const done = current;
-                      const doneBreak = skipDone => {
-                          if (skipDone) return "";
-                          return onDone();
-                      };
-                      const content = this.callTap(i, {
-                          onError: error => onError(i, error, done, doneBreak),
-                          onResult:
-                              onResult &&
-                              (result => {
-                                  return onResult(i, result, done, doneBreak);
-                              }),
-                          onDone: !onResult && done,
-                          rethrowIfPossible:
-                              rethrowIfPossible && (firstAsync < 0 || i < firstAsync)
-                      });
-                      current = () => content;
-                  }
-                  code += current();
-                  return code;
-              }
-              //...
-          }
+        class HookCodeFactory {
+            //...
+            callTapsSeries({
+                               onError,
+                               onResult,
+                               resultReturns,
+                               onDone,
+                               doneReturns,
+                               rethrowIfPossible
+                           }) {
+                if (this.options.taps.length === 0) return onDone();
+                const firstAsync = this.options.taps.findIndex(t => t.type !== "sync");
+                const somethingReturns = resultReturns || doneReturns || false;
+                let code = "";
+                let current = onDone;
+                for (let j = this.options.taps.length - 1; j >= 0; j--) {
+                    const i = j;
+                    if (unroll) {
+                        code += `function _next${i}() {\n`;
+                        code += current();
+                        code += `}\n`;
+                        current = () => `${somethingReturns ? "return " : ""}_next${i}();\n`;
+                    }
+                    const done = current;
+                    const doneBreak = skipDone => {
+                        if (skipDone) return "";
+                        return onDone();
+                    };
+                    const content = this.callTap(i, {
+                        onError: error => onError(i, error, done, doneBreak),
+                        onResult:
+                            onResult &&
+                            (result => {
+                                return onResult(i, result, done, doneBreak);
+                            }),
+                        onDone: !onResult && done,
+                        rethrowIfPossible:
+                            rethrowIfPossible && (firstAsync < 0 || i < firstAsync)
+                    });
+                    current = () => content;
+                }
+                code += current();
+                return code;
+            }
+            //...
+        }
     ```
 
     同理,异步 AsyncSeriesxxxHook 部分还是逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入至 callTap 方法中,但是本次拼接的结果会加一层 next 包裹,接着还是查看 callTap 方法.
 
     ```javascript
-            // 相对应的,查看 'async' 部分
-            class HookCodeFactory {
-                //...
-                callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
-                    let code = "";
-                    //...
-                    code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
-                    const tap = this.options.taps[tapIndex];
-                    switch (tap.type) {
-                        case "async":
-                            let cbCode = "";
-                            if (onResult) cbCode += `(_err${tapIndex}, _result${tapIndex}) => {\n`;
-                            else cbCode += `_err${tapIndex} => {\n`;
-                            cbCode += `if(_err${tapIndex}) {\n`;
-                            cbCode += onError(`_err${tapIndex}`);
-                            cbCode += "} else {\n";
-                            if (onResult) {
-                                cbCode += onResult(`_result${tapIndex}`);
-                            }
-                            if (onDone) {
-                                cbCode += onDone();
-                            }
-                            cbCode += "}\n";
-                            cbCode += "}";
-                            code += `_fn${tapIndex}(${this.args({
-                                before: tap.context ? "_context" : undefined,
-                                after: cbCode
-                            })});\n`;
-                            break;
-                        //...
-                    }
-                    return code;
-                }
-    
-                //...
-            }
+          // 相对应的,查看 'async' 部分
+          class HookCodeFactory {
+              //...
+              callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
+                  let code = "";
+                  //...
+                  code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
+                  const tap = this.options.taps[tapIndex];
+                  switch (tap.type) {
+                      case "async":
+                          let cbCode = "";
+                          if (onResult) cbCode += `(_err${tapIndex}, _result${tapIndex}) => {\n`;
+                          else cbCode += `_err${tapIndex} => {\n`;
+                          cbCode += `if(_err${tapIndex}) {\n`;
+                          cbCode += onError(`_err${tapIndex}`);
+                          cbCode += "} else {\n";
+                          if (onResult) {
+                              cbCode += onResult(`_result${tapIndex}`);
+                          }
+                          if (onDone) {
+                              cbCode += onDone();
+                          }
+                          cbCode += "}\n";
+                          cbCode += "}";
+                          code += `_fn${tapIndex}(${this.args({
+                              before: tap.context ? "_context" : undefined,
+                              after: cbCode
+                          })});\n`;
+                          break;
+                      //...
+                  }
+                  return code;
+              }
+  
+              //...
+          }
     ```
 
     ```javascript
     class HookCodeFactory {
-        //...
-        getTapFn(idx) {
-            return `_x[${idx}]`;
-        }
-        //...
+      //...
+      getTapFn(idx) {
+          return `_x[${idx}]`;
+      }
+      //...
     }
     ```
 
     至此,也基本可以得到结论,在 callTap 方法中,'async' 部分是根据 onError、有无 onResult 以及有无 onDone 来判断并拼接内容的.最后也再简化一下.
 
     <div style="display: flex;justify-content: space-between;align-items: center;">
-        <div style="width: 49%;">
-            <img src="https://image.white-than-wood.zone/webpack/async_on_result.png" alt="async_on_result">
-        </div>
-        <div style="width: 49%;">
-            <img src="https://image.white-than-wood.zone/webpack/async_on_done.png" alt="async_on_done">
-        </div>
+      <div style="width: 49%;">
+          <img src="https://image.white-than-wood.zone/webpack/async_on_result.png" alt="async_on_result">
+      </div>
+      <div style="width: 49%;">
+          <img src="https://image.white-than-wood.zone/webpack/async_on_done.png" alt="async_on_done">
+      </div>
     </div>
 
-    对于 AsyncSeriesxxxHook 部分,除了循环钩子,最终也得出了答案.
+    对于异步 AsyncSeriesxxxHook 部分,除了循环钩子,最终也得出了答案.
 
     ```javascript
         // AsyncSeriesHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
@@ -751,6 +752,196 @@ categories: webpack
                 });
             })(...args);
         }
+    ```
+
+    ```javascript
+        // AsyncSeriesBailHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
+        this.call = function lazyCompileHook(...args) {
+            return (function (args1, args2, _callback) {
+                'use strict';
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    _fn1(args1, args2, (_err1, _result1) => {
+                        if (_err1) {
+                            _callback(_err1);
+                        } else {
+                            if (_result1 !== undefined) {
+                                _callback(null, _result1);
+                            } else {
+                                _callback();
+                            }
+                        }
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                _fn0(args1, args2, (_err0, _result0) => {
+                    if (_err0) {
+                        _callback(_err0);
+                    } else {
+                        if (_result0 !== undefined) {
+                            _callback(null, _result0);
+                        } else {
+                            _next0();
+                        }
+                    }
+                });
+            })(...args);
+        }
+    ```
+
+    ```javascript
+        // AsyncSeriesWaterfallHook,在这里都使用多参数名称、多异步订阅方法集合来展示最终拼接结果.
+        this.call = function lazyCompileHook(...args) {
+            return (function (args1, args2, _callback) {
+                'use strict';
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    _fn1(args1, args2, (_err1, _result1) => {
+                        if (_err1) {
+                            _callback(_err1);
+                        } else {
+                            if (_result1 !== undefined) {
+                                args1 = _result1;
+                            }
+                            _callback(null, args1);
+                        }
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                _fn0(args1, args2, (_err0, _result0) => {
+                    if (_err0) {
+                        _callback(_err0);
+                    } else {
+                        if (_result0 !== undefined) {
+                            args1 = _result0;
+                        }
+                        _next0();
+                    }
+                });
+            })(...args);
+        }
+    ```
+
+    同样,Promise AsyncSeriesxxxHook 部分,除了循环钩子,调用的也都是 callTapsSeries 方法,而 callTap 方法则依然是逆循环订阅方法集合,本次拼接的结果会作为下一次拼接的 onDone 或者 onResult 传入其中,最大的不同就是相对于异步来说结构有了比较大的改变.
+
+    ```javascript
+        // 查看 'promise' 部分
+        class HookCodeFactory {
+            //...
+            callTap(tapIndex, {onError, onResult, onDone, rethrowIfPossible}) {
+                let code = "";
+                //...
+                code += `var _fn${tapIndex} = ${this.getTapFn(tapIndex)};\n`;
+                const tap = this.options.taps[tapIndex];
+                switch (tap.type) {
+                    case "promise":
+                        code += `var _hasResult${tapIndex} = false;\n`;
+                        code += `var _promise${tapIndex} = _fn${tapIndex}(${this.args({
+                            before: tap.context ? "_context" : undefined
+                        })});\n`;
+                        code += `if (!_promise${tapIndex} || !_promise${tapIndex}.then)\n`;
+                        code += `  throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise${tapIndex} + ')');\n`;
+                        code += `_promise${tapIndex}.then(_result${tapIndex} => {\n`;
+                        code += `_hasResult${tapIndex} = true;\n`;
+                        if (onResult) {
+                            code += onResult(`_result${tapIndex}`);
+                        }
+                        if (onDone) {
+                            code += onDone();
+                        }
+                        code += `}, _err${tapIndex} => {\n`;
+                        code += `if(_hasResult${tapIndex}) throw _err${tapIndex};\n`;
+                        code += onError(`_err${tapIndex}`);
+                        code += "});\n";
+                        break;
+                    //...
+                }
+                return code;
+            }
+    
+            //...
+        }
+    ```
+
+    ```javascript
+    class HookCodeFactory {
+        //...
+        getTapFn(idx) {
+            return `_x[${idx}]`;
+        }
+        //...
+    }
+    ```
+
+    又可以得出结论,在 callTap 方法中,'promise' 部分是根据 onError、有无 onResult 以及有无 onDone 来判断并拼接内容的.最后也再简化一下.
+
+    <div style="display: flex;justify-content: space-between;align-items: center;">
+        <div style="width: 49%;">
+            <img src="https://image.white-than-wood.zone/webpack/promise_on_result.png" alt="promise_on_result">
+        </div>
+        <div style="width: 49%;">
+            <img src="https://image.white-than-wood.zone/webpack/promise_on_done.png" alt="promise_on_done">
+        </div>
+    </div>
+
+    对于 Promise AsyncSeriesxxxHook 部分,除了循环钩子,最终得出了答案.
+
+    ```javascript
+    // AsyncSeriesHook,在这里都使用多参数名称、多 Promise 订阅方法集合来展示最终拼接结果.
+    this.promise = function lazyCompileHook(...args) {
+        return (function (args1, args2, _callback) {
+            'use strict';
+            return new Promise((_resolve, _reject) => {
+                var _sync = true;
+    
+                function _error(_err) {
+                    if (_sync)
+                        _resolve(Promise.resolve().then(() => throw _err));
+                    else
+                        _reject(_err);
+                }
+    
+                var _context;
+                var _x = this._x;
+    
+                function _next0() {
+                    var _fn1 = _x[1];
+                    var _hasResult1 = false;
+                    var _promise1 = _fn1(args1, args2);
+                    if (!_promise1 || !_promise1.then)
+                        throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise1 + ')');
+                    _promise1.then(_result1 => {
+                        _hasResult1 = true;
+                        _resolve();
+                    }, _err1 => {
+                        if (_hasResult1) throw _err1;
+                        _error(_err1);
+                    });
+                }
+    
+                var _fn0 = _x[0];
+                var _hasResult0 = false;
+                var _promise0 = _fn0(args1, args2);
+                if (!_promise0 || !_promise0.then)
+                    throw new Error('Tap function (tapPromise) did not return promise (returned ' + _promise0 + ')');
+                _promise0.then(_result0 => {
+                    _hasResult0 = true;
+                    _next0();
+                }, _err0 => {
+                    if (_hasResult0) throw _err0;
+                    _error(_err0);
+                });
+            });
+        })(...args);
+    }
     ```
 
     ```javascript
