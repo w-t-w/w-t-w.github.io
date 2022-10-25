@@ -762,7 +762,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#101;&#45;&#106;&#115;&#x40;&#x33;&#x2e;&#120;">&#99;&#x6f;&#114;&#101;&#45;&#106;&#115;&#x40;&#x33;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#111;&#114;&#101;&#x2d;&#x6a;&#x73;&#x40;&#x33;&#x2e;&#x78;">&#x63;&#111;&#114;&#101;&#x2d;&#x6a;&#x73;&#x40;&#x33;&#x2e;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -873,7 +873,7 @@ fancybox: true
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#x6f;&#97;&#100;&#101;&#114;&#45;&#117;&#116;&#105;&#108;&#x73;&#64;&#50;&#x2e;&#120;">&#x6c;&#x6f;&#97;&#100;&#101;&#114;&#45;&#117;&#116;&#105;&#108;&#x73;&#64;&#50;&#x2e;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#45;&#x75;&#116;&#x69;&#108;&#x73;&#x40;&#x33;&#46;&#120;">&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#45;&#x75;&#116;&#x69;&#108;&#x73;&#x40;&#x33;&#46;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#111;&#x61;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#115;&#64;&#x32;&#46;&#x78;">&#108;&#111;&#x61;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#115;&#64;&#x32;&#46;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#111;&#97;&#100;&#x65;&#114;&#x2d;&#x75;&#116;&#x69;&#108;&#x73;&#64;&#51;&#x2e;&#120;">&#108;&#111;&#97;&#100;&#x65;&#114;&#x2d;&#x75;&#116;&#x69;&#108;&#x73;&#64;&#51;&#x2e;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
 <p>contentBase</p>
 </blockquote>
@@ -1028,23 +1028,6 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-]]></content>
-      <categories>
-        <category>unresolved</category>
-      </categories>
-      <tags>
-        <tag>unresolved</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>create Simplepack</title>
     <url>/2022/10/14/create-simplepack/</url>
     <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
@@ -1081,33 +1064,20 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>javascript outline</title>
-    <url>/2022/10/25/javascript-outline/</url>
-    <content><![CDATA[<h1 id="var"><a href="#var" class="headerlink" title="var"></a>var</h1><ul>
-<li>变量提升</li>
-<li>重复声明</li>
-<li>全局作用域绑定</li>
-</ul>
-<h1 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h1><ul>
-<li>不再拥有 var 的缺陷特性</li>
-<li>TDZ(临时死区)</li>
-<li>块级作用域绑定</li>
-</ul>
-<h1 id="let"><a href="#let" class="headerlink" title="let"></a>let</h1><ul>
-<li>变量声明</li>
-</ul>
-<h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><ul>
-<li>常量声明</li>
-<li>优先声明最佳实践</li>
-</ul>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
 ]]></content>
       <categories>
-        <category>javascript</category>
+        <category>unresolved</category>
       </categories>
       <tags>
-        <tag>javascript</tag>
-        <tag>es6</tag>
-        <tag>outline</tag>
+        <tag>unresolved</tag>
       </tags>
   </entry>
   <entry>
@@ -1238,6 +1208,87 @@ fancybox: true
       <tags>
         <tag>webpack</tag>
         <tag>tapable</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>javascript outline</title>
+    <url>/2022/10/25/javascript-outline/</url>
+    <content><![CDATA[<h1 id="var"><a href="#var" class="headerlink" title="var"></a>var</h1><ul>
+<li>变量提升</li>
+<li>重复声明</li>
+<li>全局作用域绑定</li>
+</ul>
+<h1 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h1><ul>
+<li>不再拥有 var 的缺陷特性</li>
+<li>TDZ(临时死区)</li>
+<li>块级作用域绑定</li>
+</ul>
+<h1 id="let"><a href="#let" class="headerlink" title="let"></a>let</h1><ul>
+<li>变量声明</li>
+</ul>
+<h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><ul>
+<li>常量声明</li>
+<li>优先声明最佳实践</li>
+</ul>
+<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><blockquote>
+<p>utf-8</p>
+</blockquote>
+<ul>
+<li>2^8 码位</li>
+<li>基本多文种平面</li>
+<li>字符位: charAt</li>
+<li>字符编码: charCodeAt</li>
+<li>编码转换: fromCharCode</li>
+</ul>
+<blockquote>
+<p>utf-16</p>
+</blockquote>
+<ul>
+<li>2^16 码位</li>
+<li>辅助平面</li>
+<li>字符串长度</li>
+<li>正则表达式匹配: u</li>
+<li>字符编码: codePointAt</li>
+<li>编码转换: fromCodePoint</li>
+</ul>
+<blockquote>
+<p>方法</p>
+</blockquote>
+<ul>
+<li>获取字符子串: startsWith、endsWith、includes</li>
+<li>重复添加: repeat</li>
+</ul>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<ul>
+<li>粘滞描述符: y</li>
+<li>获取描述符内容: flags()</li>
+<li>获取正则内容: source()</li>
+<li>复制描述符覆盖</li>
+</ul>
+<blockquote>
+<p>模板字符串</p>
+</blockquote>
+<ul>
+<li>基本语法(占位符)</li>
+<li>多行字符串</li>
+</ul>
+<blockquote>
+<p>模板标签</p>
+</blockquote>
+<ul>
+<li>字符串集合长度 - 变量集合长度 = 1</li>
+<li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
+</ul>
+]]></content>
+      <categories>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+        <tag>es6</tag>
+        <tag>outline</tag>
       </tags>
   </entry>
 </search>
