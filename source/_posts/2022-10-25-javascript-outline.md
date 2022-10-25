@@ -52,6 +52,7 @@ category: javascript
 > 正则表达式
 
   - 粘滞描述符: y
+  - 判断是否存在粘滞描述符: sticky
   - 获取描述符内容: flags()
   - 获取正则内容: source()
   - 复制描述符覆盖
