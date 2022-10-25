@@ -29,7 +29,7 @@
 <meta property="og:description" content="var 变量提升 重复声明 全局作用域绑定  let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定  let 变量声明  const 常量声明 优先声明最佳实践  字符串 utf-8">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-25T03:41:26.000Z">
-<meta property="article:modified_time" content="2022-10-25T08:35:16.427Z">
+<meta property="article:modified_time" content="2022-10-25T15:04:26.600Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="javascript">
 <meta property="article:tag" content="es6">
@@ -231,7 +231,7 @@
               <span class="post-meta-item-text">发表于</span>
               
 
-              <time title="创建时间：2022-10-25 11:41:26 / 修改时间：16:35:16" itemprop="dateCreated datePublished" datetime="2022-10-25T11:41:26+08:00">2022-10-25</time>
+              <time title="创建时间：2022-10-25 11:41:26 / 修改时间：23:04:26" itemprop="dateCreated datePublished" datetime="2022-10-25T11:41:26+08:00">2022-10-25</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -323,6 +323,48 @@
 <li>字符串集合长度 - 变量集合长度 = 1</li>
 <li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
 </ul>
+<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
+<li>参数的默认值: 注意 TDZ 临时死区</li>
+<li>不定参数</li>
+<li>展开运算符</li>
+<li>功能增强的 Function 构造声明方式</li>
+<li>捕获函数的名称以便于堆栈追踪</li>
+<li>元属性: new.target</li>
+<li>块级函数声明</li>
+</ul>
+<blockquote>
+<p>箭头函数</p>
+</blockquote>
+<ul>
+<li><p>特性</p>
+<ul>
+<li>无 this、super、arguments 以及 new.target</li>
+<li>无原型链</li>
+<li>不能使用 new 构造调用</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>基本语法</li>
+<li>this、arguments 会继承自最近作用域执行时的上下文对象</li>
+</ul>
+<blockquote>
+<p>尾调用优化</p>
+</blockquote>
+<ul>
+<li><p>特性</p>
+<ul>
+<li>必须为函数的最后一步执行</li>
+<li>执行的结果必须实行返回</li>
+<li>执行时不得运算或者操作函数作用域内变量,防止产生闭包</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>原理: 避免建立多堆栈存储,防止堆栈溢出,单堆栈循环使用提高效率</li>
+<li>应用: 递归</li>
+<li>还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出</li>
+</ul>
 
     </div>
 
@@ -406,7 +448,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#var"><span class="nav-number">1.</span> <span class="nav-text">var</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#let%E3%80%81const"><span class="nav-number">2.</span> <span class="nav-text">let、const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#let"><span class="nav-number">3.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#const"><span class="nav-number">4.</span> <span class="nav-text">const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">5.</span> <span class="nav-text">字符串</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#var"><span class="nav-number">1.</span> <span class="nav-text">var</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#let%E3%80%81const"><span class="nav-number">2.</span> <span class="nav-text">let、const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#let"><span class="nav-number">3.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#const"><span class="nav-number">4.</span> <span class="nav-text">const</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">6.</span> <span class="nav-text">函数</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
