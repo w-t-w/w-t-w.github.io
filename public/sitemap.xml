@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    
+    <url>
+        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
+        
+        <lastmod>2022-10-25T03:53:53.932Z</lastmod>
+        
+        <date>1666669286000</date>
+        <title>javascript outline | wtw's Frontend</title>
+        
+        <desc>var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/10/15/think-of-tapable/</loc>
+        
+        <lastmod>2022-10-20T19:36:32.305Z</lastmod>
+        
+        <date>1665770437000</date>
+        <title>think of tapable | wtw's Frontend</title>
+        
+        <desc>Tapable 什么是 Tapable 简单来说,类似于 EventEmitter 的一种发布订阅模式,也就是观察者模式,但不同的是,Tapable 的流程以及应用场景要广泛复杂的多.Tapable 作为 Webpack 的主要骨架而流行,因此也受到前端开发爱好者的研究. 订阅模式类型 —— Hook 在 Tapable 中订阅模式类型被称为 Hook,也就是 “钩子”,基本分为四种. 普通钩子 </desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
+        
+        <lastmod>2022-10-14T18:05:11.556Z</lastmod>
+        
+        <date>1661856210000</date>
+        <title>think of nodejs | wtw's Frontend</title>
+        
+        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/10/14/create-simplepack/</loc>
+        
+        <lastmod>2022-10-14T17:36:18.909Z</lastmod>
+        
+        <date>1665749085000</date>
+        <title>create Simplepack | wtw's Frontend</title>
+        
+        <desc>create Simplepack搭建一个简易的 webpack —— Simplepack. 配置文件 12345678910111213141516// simplepack.config.jsconst &#123;resolve&#125; = require(&#x27;path&#x27;);const OUTPUT_DIR = resolve(process.cwd(), &#x27</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
+        
+        <lastmod>2022-10-13T18:43:39.762Z</lastmod>
+        
+        <date>1661847446000</date>
+        <title>think of webpack | wtw's Frontend</title>
+        
+        <desc>webpackentry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点’. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/09/20/unresolved-problems/</loc>
+        
+        <lastmod>2022-09-20T19:53:53.348Z</lastmod>
+        
+        <date>1663635199000</date>
+        <title>unresolved problems | wtw's Frontend</title>
+        
+        <desc>webpackspeed-measure-webpack-plugin 为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制? 现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题: 使用 .wrap 包</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/08/30/daily-problems/</loc>
+        
+        <lastmod>2022-09-18T15:53:56.927Z</lastmod>
+        
+        <date>1661856794000</date>
+        <title>daily problems | wtw's Frontend</title>
+        
+        <desc>npm npm run scripts 为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行? 解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/08/30/hexo-next/</loc>
+        
+        <lastmod>2022-09-02T07:01:47.811Z</lastmod>
+        
+        <date>1661845867000</date>
+        <title>hexo next | wtw's Frontend</title>
+        
+        <desc>引言此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~ hexo 安装 步骤 首先要用 npm 资源依赖管理工具安装全局命令 hexo-cli. npm install hexo-cli -g 然后使用 hexo 初始化博客目录,比如 blog 目录,目录名要与后续个人建立的 github 上 hexo 托管代码的 repository 库同名. he</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/archives/index.html</loc>
+        
+        <lastmod>2022-08-30T07:22:40.268Z</lastmod>
+        
+        <date>1661843883000</date>
+        <title>归档 | wtw's Frontend</title>
+        
+        <desc></desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/tags/index.html</loc>
+        
+        <lastmod>2022-08-30T07:22:02.195Z</lastmod>
+        
+        <date>1661843865000</date>
+        <title>标签 | wtw's Frontend</title>
+        
+        <desc></desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/categories/index.html</loc>
+        
+        <lastmod>2022-08-30T07:21:28.125Z</lastmod>
+        
+        <date>1661843891000</date>
+        <title>分类 | wtw's Frontend</title>
+        
+        <desc></desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/about/index.html</loc>
+        
+        <lastmod>2022-08-30T07:20:26.298Z</lastmod>
+        
+        <date>1661843874000</date>
+        <title>关于 | wtw's Frontend</title>
+        
+        <desc></desc>
+    </url>
+    
+</urlset>
