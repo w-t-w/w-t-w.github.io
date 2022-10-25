@@ -73,7 +73,7 @@ category: javascript
   - 不定参数
   - 展开运算符
   - 功能增强的 Function 构造声明方式
-  - 捕获函数的名称以便于堆栈追踪
+  - name 捕获函数的名称以便于堆栈追踪
   - 元属性: new.target
   - 块级函数声明
 
