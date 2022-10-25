@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
+        
+        <lastmod>2022-10-25T03:53:53.932Z</lastmod>
+        
+        <date>1666669286000</date>
+        <title>javascript outline | wtw's Frontend</title>
+        
+        <desc>var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/10/15/think-of-tapable/</loc>
         
         <lastmod>2022-10-20T19:36:32.305Z</lastmod>
