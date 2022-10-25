@@ -88,7 +88,7 @@ category: javascript
 
 
   - 基本语法
-  - this、arguments 会继承自最近作用域执行时的上下文对象
+  - this、arguments 会继承自最近词法作用域执行时的上下文对象
 
 > 尾调用优化
 
