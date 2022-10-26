@@ -74,7 +74,7 @@ category: javascript
   - 展开运算符
   - 功能增强的 Function 构造声明方式
   - name 捕获函数的名称以便于堆栈追踪
-  - 元属性: new.target
+  - 元属性: new.target, 绑定内置对象 \[\[Constructor\]\],当函数执行触发内置对象 \[\[Call\]\] 时,返回 undefined
   - 块级函数声明
 
 > 箭头函数
@@ -103,3 +103,15 @@ category: javascript
   - 原理: 避免建立多堆栈存储,防止堆栈溢出,单堆栈循环使用提高效率
   - 应用: 递归
   - 还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出
+
+# 对象
+
+  - 对象属性方法简化
+  - 可计算的对象属性方法
+  - 方法
+    - 判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同
+    - 浅复制: Object.assign
+  - 重复对象属性方法
+  - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加属性排列.
+  - 增强原型: Object.getPrototypeOf、Object.setPrototypeOf
+  - 原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 \[\[HomeObject\]\] 访问原型.
