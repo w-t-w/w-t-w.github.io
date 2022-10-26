@@ -69,8 +69,8 @@ category: javascript
 
 # 函数
 
-  - 参数的默认值: 注意 TDZ 临时死区
-  - 不定参数
+  - 参数的默认值,注意 TDZ 临时死区
+  - 不定参数,注意参数集合必须在参数末尾
   - 展开运算符
   - 功能增强的 Function 构造声明方式
   - name 捕获函数的名称以便于堆栈追踪
@@ -115,3 +115,20 @@ category: javascript
   - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.
   - 增强原型: Object.getPrototypeOf、Object.setPrototypeOf
   - 原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 \[\[HomeObject\]\] 访问原型.
+
+# 解构赋值
+
+  - 对象解构
+    - 解构赋值
+    - 默认值
+    - 非同名变量赋值
+    - 嵌套解构
+  - 数组解构
+    - 解构赋值
+    - 默认值
+    - 嵌套解构
+    - 不定元素,注意跟不定参数一致,元素集合必须在数组末尾
+  - 混合解构
+  - 解构参数
+    - 必须传值
+    - 默认值
