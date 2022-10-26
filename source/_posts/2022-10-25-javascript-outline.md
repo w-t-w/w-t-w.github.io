@@ -112,6 +112,6 @@ category: javascript
     - 判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同
     - 浅复制: Object.assign
   - 重复对象属性方法
-  - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加属性排列.
+  - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.
   - 增强原型: Object.getPrototypeOf、Object.setPrototypeOf
   - 原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 \[\[HomeObject\]\] 访问原型.
