@@ -138,7 +138,7 @@ category: javascript
 
 ## Symbol
 
-   - 基本用法,注意绑定于内置对象 \[\[Description\]\]
+   - 基本用法,注意绑定于内置对象 \[\[Description\]\] 内
    - 共享体系: Symbol.for、Symbol.keyFor
    - 属性遍历: Object.getOwnPropertySymbols、Reflect.ownKeys
    - wellKnown-Symbols
