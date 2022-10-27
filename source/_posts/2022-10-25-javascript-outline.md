@@ -4,28 +4,31 @@ date: 2022-10-25 11:41:26
 tags: [javascript, es6, outline]
 category: javascript
 ---
-# var 
+
+# ES6
+
+## var 
 
 - 变量提升
 - 重复声明
 - 全局作用域绑定
 
-# let、const
+## let、const
 
 - 不再拥有 var 的缺陷特性
 - TDZ(临时死区)
 - 块级作用域绑定
 
-# let
+## let
 
 - 变量声明
 
-# const
+## const
 
 - 常量声明
 - 优先声明最佳实践
 
-# 字符串
+## 字符串
 
 > utf-8
 
@@ -67,7 +70,7 @@ category: javascript
   - 字符串集合长度 - 变量集合长度 = 1
   - 字符串集合中每一个元素都拥有获取其原生内容的方法: raw
 
-# 函数
+## 函数
 
   - 参数的默认值,注意 TDZ 临时死区
   - 不定参数,注意参数集合必须在参数末尾
@@ -104,7 +107,7 @@ category: javascript
   - 应用: 递归
   - 还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出
 
-# 对象
+## 对象
 
   - 对象属性方法简化
   - 可计算的对象属性方法
@@ -116,7 +119,7 @@ category: javascript
   - 增强原型: Object.getPrototypeOf、Object.setPrototypeOf
   - 原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 \[\[HomeObject\]\] 访问原型.
 
-# 解构赋值
+## 解构赋值
 
   - 对象解构
     - 解构赋值
@@ -132,3 +135,15 @@ category: javascript
   - 解构参数
     - 必须传值
     - 默认值
+
+## Symbol
+
+   - 基本用法,注意绑定于内置对象 \[\[Description\]\]
+   - 共享体系: Symbol.for、Symbol.keyFor
+   - 属性遍历: Object.getOwnPropertySymbols、Reflect.ownKeys
+   - wellKnown-Symbols
+     - Symbol.hasInstance: 作为方法,用于重新定义 instanceof,判断构造对象是否在原型链上
+     - Symbol.isConcatSpreadable: 作为属性,用于重新定义类数组对象,判断其是否可被合并
+     - Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法.
+     - Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换).
+     - Symbol.toStringTag: 作为属性,用于重新定义对象类型识别.
