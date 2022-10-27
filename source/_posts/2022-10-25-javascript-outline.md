@@ -144,6 +144,6 @@ category: javascript
    - wellKnown-Symbols
      - Symbol.hasInstance: 作为方法,用于重新定义 instanceof,判断构造对象是否在原型链上
      - Symbol.isConcatSpreadable: 作为属性,用于重新定义类数组对象,判断其是否可被合并
-     - Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法.
-     - Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换).
-     - Symbol.toStringTag: 作为属性,用于重新定义对象类型识别.
+     - Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法
+     - Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换)
+     - Symbol.toStringTag: 作为属性,用于重新定义对象类型识别
