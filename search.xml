@@ -301,7 +301,7 @@
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#64;&#51;&#46;&#x78;">&#99;&#111;&#x72;&#101;&#45;&#x6a;&#x73;&#64;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#x73;&#64;&#51;&#x2e;&#x78;">&#99;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#x73;&#64;&#51;&#x2e;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -412,7 +412,7 @@
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#111;&#97;&#100;&#101;&#x72;&#45;&#117;&#x74;&#x69;&#x6c;&#x73;&#x40;&#50;&#46;&#120;">&#x6c;&#111;&#97;&#100;&#101;&#x72;&#45;&#117;&#x74;&#x69;&#x6c;&#x73;&#x40;&#50;&#46;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#x6c;&#115;&#x40;&#51;&#x2e;&#x78;">&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#x6c;&#115;&#x40;&#51;&#x2e;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#x6f;&#x61;&#x64;&#x65;&#x72;&#45;&#x75;&#x74;&#105;&#108;&#115;&#64;&#x32;&#46;&#x78;">&#x6c;&#x6f;&#x61;&#x64;&#x65;&#x72;&#45;&#x75;&#x74;&#105;&#108;&#115;&#64;&#x32;&#46;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#108;&#115;&#x40;&#51;&#46;&#x78;">&#x6c;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#108;&#115;&#x40;&#51;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
 <p>contentBase</p>
 </blockquote>
@@ -564,201 +564,6 @@
       </categories>
       <tags>
         <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>create Simplepack</title>
-    <url>/2022/10/14/create-simplepack/</url>
-    <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
-<blockquote>
-<p>配置文件</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// simplepack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> simplepackConfig = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="comment">// 作为 simplepack 构建打包的出口</span></span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包文件导出的位置目录</span></span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包导出文件的名称</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = simplepackConfig;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>目录</p>
-</blockquote>
-<p><img src="https://image.white-than-wood.zone/webpack/simplepack_path.png"></p>
-<blockquote>
-<p>Simplepack</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">if</span> (entry) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;找不到 webpack 构建打包的入口!&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getResources</span>(<span class="params">path, sourcePath</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> compile = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            compile.<span class="property">filename</span> = sourcePath ? sourcePath : path;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(compile);</span><br><span class="line">            <span class="keyword">const</span> &#123;dependencies = []&#125; = compile;</span><br><span class="line">            <span class="keyword">if</span> (dependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 路径中是否存在类型文件</span></span><br><span class="line">                <span class="keyword">const</span> hasFile = <span class="regexp">/\.js$/</span>;</span><br><span class="line">                dependencies.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">const</span> sourcePath = item;</span><br><span class="line">                    <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                    <span class="keyword">if</span> (hasFile.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">                        path = path.<span class="title function_">slice</span>(<span class="number">0</span>, path.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (!hasFile.<span class="title function_">test</span>(item)) &#123;</span><br><span class="line">                        item += <span class="string">&#x27;/index.js&#x27;</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    path = <span class="title function_">resolve</span>(path, item);</span><br><span class="line">                    <span class="comment">// 将拼接好的子依赖目录再次解析</span></span><br><span class="line">                    getResources.<span class="title function_">call</span>(<span class="variable language_">this</span>, path, sourcePath);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(entry);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emitFile</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Simplepack Parse 解析工具</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Result</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">require</span>(<span class="params">filename</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fn = <span class="variable language_">module</span>[filename];</span><br><span class="line">        <span class="keyword">var</span> modules = &#123;<span class="attr">exports</span>: &#123;&#125;&#125;;</span><br><span class="line">        <span class="title function_">fn</span>(<span class="built_in">require</span>, modules, <span class="built_in">exports</span>);</span><br><span class="line">        <span class="keyword">return</span> modules.<span class="property">exports</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;./src/index.js&#x27;</span>);</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="string">&#x27;./src/index.js&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> _modules = <span class="built_in">require</span>(<span class="string">&quot;./modules&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> wtw = (<span class="number">0</span>, _modules.<span class="property">getName</span>)(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(wtw);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;./modules&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="string">&quot;__esModule&quot;</span>, &#123;</span><br><span class="line">            <span class="attr">value</span>: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="built_in">exports</span>.<span class="property">getName</span> = getName;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">getName</span>(<span class="params">name</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;My name is &quot;</span>.<span class="title function_">concat</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javascript outline</title>
-    <url>/2022/10/25/javascript-outline/</url>
-    <content><![CDATA[<h1 id="var"><a href="#var" class="headerlink" title="var"></a>var</h1><ul>
-<li>变量提升</li>
-<li>重复声明</li>
-<li>全局作用域绑定</li>
-</ul>
-<h1 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h1><ul>
-<li>不再拥有 var 的缺陷特性</li>
-<li>TDZ(临时死区)</li>
-<li>块级作用域绑定</li>
-</ul>
-<h1 id="let"><a href="#let" class="headerlink" title="let"></a>let</h1><ul>
-<li>变量声明</li>
-</ul>
-<h1 id="const"><a href="#const" class="headerlink" title="const"></a>const</h1><ul>
-<li>常量声明</li>
-<li>优先声明最佳实践</li>
-</ul>
-<h1 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h1><blockquote>
-<p>utf-8</p>
-</blockquote>
-<ul>
-<li>2^8 码位</li>
-<li>基本多文种平面</li>
-<li>字符位: charAt</li>
-<li>字符编码: charCodeAt</li>
-<li>编码转换: fromCharCode</li>
-</ul>
-<blockquote>
-<p>utf-16</p>
-</blockquote>
-<ul>
-<li>2^16 码位</li>
-<li>辅助平面</li>
-<li>字符串长度</li>
-<li>正则表达式匹配: u</li>
-<li>字符编码: codePointAt</li>
-<li>编码转换: fromCodePoint</li>
-</ul>
-<blockquote>
-<p>方法</p>
-</blockquote>
-<ul>
-<li>获取字符子串: startsWith、endsWith、includes</li>
-<li>重复添加: repeat</li>
-</ul>
-<blockquote>
-<p>正则表达式</p>
-</blockquote>
-<ul>
-<li>粘滞描述符: y</li>
-<li>判断是否存在粘滞描述符: sticky</li>
-<li>获取描述符内容: flags()</li>
-<li>获取正则内容: source()</li>
-<li>复制描述符覆盖</li>
-</ul>
-<blockquote>
-<p>模板字符串</p>
-</blockquote>
-<ul>
-<li>基本语法(占位符)</li>
-<li>多行字符串</li>
-</ul>
-<blockquote>
-<p>模板标签</p>
-</blockquote>
-<ul>
-<li>字符串集合长度 - 变量集合长度 = 1</li>
-<li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
-</ul>
-<h1 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h1><ul>
-<li>参数的默认值,注意 TDZ 临时死区</li>
-<li>不定参数,注意参数集合必须在参数末尾</li>
-<li>展开运算符</li>
-<li>功能增强的 Function 构造声明方式</li>
-<li>name 捕获函数的名称以便于堆栈追踪</li>
-<li>元属性: new.target, 绑定内置对象 [[Constructor]],当函数执行触发内置对象 [[Call]] 时,返回 undefined</li>
-<li>块级函数声明</li>
-</ul>
-<blockquote>
-<p>箭头函数</p>
-</blockquote>
-<ul>
-<li><p>特性</p>
-<ul>
-<li>无 this、super、arguments 以及 new.target</li>
-<li>无原型链</li>
-<li>不能使用 new 构造调用</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>基本语法</li>
-<li>this、arguments 会继承自最近词法作用域执行时的上下文对象</li>
-</ul>
-<blockquote>
-<p>尾调用优化</p>
-</blockquote>
-<ul>
-<li><p>特性</p>
-<ul>
-<li>必须为函数的最后一步执行</li>
-<li>执行的结果必须实行返回</li>
-<li>执行时不得运算或者操作函数词法作用域内变量,防止产生闭包</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>原理: 避免建立多堆栈存储,防止堆栈溢出,单堆栈循环使用提高效率</li>
-<li>应用: 递归</li>
-<li>还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出</li>
-</ul>
-<h1 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h1><ul>
-<li>对象属性方法简化</li>
-<li>可计算的对象属性方法</li>
-<li>方法<ul>
-<li>判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同</li>
-<li>浅复制: Object.assign</li>
-</ul>
-</li>
-<li>重复对象属性方法</li>
-<li>自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.</li>
-<li>增强原型: Object.getPrototypeOf、Object.setPrototypeOf</li>
-<li>原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 [[HomeObject]] 访问原型.</li>
-</ul>
-<h1 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h1><ul>
-<li>对象解构<ul>
-<li>解构赋值</li>
-<li>默认值</li>
-<li>非同名变量赋值</li>
-<li>嵌套解构</li>
-</ul>
-</li>
-<li>数组解构<ul>
-<li>解构赋值</li>
-<li>默认值</li>
-<li>嵌套解构</li>
-<li>不定元素,注意跟不定参数一致,元素集合必须在数组末尾</li>
-</ul>
-</li>
-<li>混合解构</li>
-<li>解构参数<ul>
-<li>必须传值</li>
-<li>默认值</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-        <tag>es6</tag>
-        <tag>outline</tag>
       </tags>
   </entry>
   <entry>
@@ -1240,6 +1045,178 @@ fancybox: true
       </tags>
   </entry>
   <entry>
+    <title>javascript outline</title>
+    <url>/2022/10/25/javascript-outline/</url>
+    <content><![CDATA[<h1 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h1><h2 id="var"><a href="#var" class="headerlink" title="var"></a>var</h2><ul>
+<li>变量提升</li>
+<li>重复声明</li>
+<li>全局作用域绑定</li>
+</ul>
+<h2 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h2><ul>
+<li>不再拥有 var 的缺陷特性</li>
+<li>TDZ(临时死区)</li>
+<li>块级作用域绑定</li>
+</ul>
+<h2 id="let"><a href="#let" class="headerlink" title="let"></a>let</h2><ul>
+<li>变量声明</li>
+</ul>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><ul>
+<li>常量声明</li>
+<li>优先声明最佳实践</li>
+</ul>
+<h2 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h2><blockquote>
+<p>utf-8</p>
+</blockquote>
+<ul>
+<li>2^8 码位</li>
+<li>基本多文种平面</li>
+<li>字符位: charAt</li>
+<li>字符编码: charCodeAt</li>
+<li>编码转换: fromCharCode</li>
+</ul>
+<blockquote>
+<p>utf-16</p>
+</blockquote>
+<ul>
+<li>2^16 码位</li>
+<li>辅助平面</li>
+<li>字符串长度</li>
+<li>正则表达式匹配: u</li>
+<li>字符编码: codePointAt</li>
+<li>编码转换: fromCodePoint</li>
+</ul>
+<blockquote>
+<p>方法</p>
+</blockquote>
+<ul>
+<li>获取字符子串: startsWith、endsWith、includes</li>
+<li>重复添加: repeat</li>
+</ul>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<ul>
+<li>粘滞描述符: y</li>
+<li>判断是否存在粘滞描述符: sticky</li>
+<li>获取描述符内容: flags()</li>
+<li>获取正则内容: source()</li>
+<li>复制描述符覆盖</li>
+</ul>
+<blockquote>
+<p>模板字符串</p>
+</blockquote>
+<ul>
+<li>基本语法(占位符)</li>
+<li>多行字符串</li>
+</ul>
+<blockquote>
+<p>模板标签</p>
+</blockquote>
+<ul>
+<li>字符串集合长度 - 变量集合长度 = 1</li>
+<li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
+</ul>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><ul>
+<li>参数的默认值,注意 TDZ 临时死区</li>
+<li>不定参数,注意参数集合必须在参数末尾</li>
+<li>展开运算符</li>
+<li>功能增强的 Function 构造声明方式</li>
+<li>name 捕获函数的名称以便于堆栈追踪</li>
+<li>元属性: new.target, 绑定内置对象 [[Constructor]],当函数执行触发内置对象 [[Call]] 时,返回 undefined</li>
+<li>块级函数声明</li>
+</ul>
+<blockquote>
+<p>箭头函数</p>
+</blockquote>
+<ul>
+<li><p>特性</p>
+<ul>
+<li>无 this、super、arguments 以及 new.target</li>
+<li>无原型链</li>
+<li>不能使用 new 构造调用</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>基本语法</li>
+<li>this、arguments 会继承自最近词法作用域执行时的上下文对象</li>
+</ul>
+<blockquote>
+<p>尾调用优化</p>
+</blockquote>
+<ul>
+<li><p>特性</p>
+<ul>
+<li>必须为函数的最后一步执行</li>
+<li>执行的结果必须实行返回</li>
+<li>执行时不得运算或者操作函数词法作用域内变量,防止产生闭包</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>原理: 避免建立多堆栈存储,防止堆栈溢出,单堆栈循环使用提高效率</li>
+<li>应用: 递归</li>
+<li>还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出</li>
+</ul>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><ul>
+<li>对象属性方法简化</li>
+<li>可计算的对象属性方法</li>
+<li>方法<ul>
+<li>判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同</li>
+<li>浅复制: Object.assign</li>
+</ul>
+</li>
+<li>重复对象属性方法</li>
+<li>自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.</li>
+<li>增强原型: Object.getPrototypeOf、Object.setPrototypeOf</li>
+<li>原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 [[HomeObject]] 访问原型.</li>
+</ul>
+<h2 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h2><ul>
+<li>对象解构<ul>
+<li>解构赋值</li>
+<li>默认值</li>
+<li>非同名变量赋值</li>
+<li>嵌套解构</li>
+</ul>
+</li>
+<li>数组解构<ul>
+<li>解构赋值</li>
+<li>默认值</li>
+<li>嵌套解构</li>
+<li>不定元素,注意跟不定参数一致,元素集合必须在数组末尾</li>
+</ul>
+</li>
+<li>混合解构</li>
+<li>解构参数<ul>
+<li>必须传值</li>
+<li>默认值</li>
+</ul>
+</li>
+</ul>
+<h2 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h2><ul>
+<li>基本用法,注意绑定于内置对象 [[Description]]</li>
+<li>共享体系: Symbol.for、Symbol.keyFor</li>
+<li>属性遍历: Object.getOwnPropertySymbols、Reflect.ownKeys</li>
+<li>wellKnown-Symbols<ul>
+<li>Symbol.hasInstance: 作为方法,用于重新定义 instanceof,判断构造对象是否在原型链上</li>
+<li>Symbol.isConcatSpreadable: 作为属性,用于重新定义类数组对象,判断其是否可被合并</li>
+<li>Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法.</li>
+<li>Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换).</li>
+<li>Symbol.toStringTag: 作为属性,用于重新定义对象类型识别.</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+        <tag>es6</tag>
+        <tag>outline</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of tapable</title>
     <url>/2022/10/15/think-of-tapable/</url>
     <content><![CDATA[<h1 id="Tapable"><a href="#Tapable" class="headerlink" title="Tapable"></a>Tapable</h1><blockquote>
@@ -1367,6 +1344,42 @@ fancybox: true
       <tags>
         <tag>webpack</tag>
         <tag>tapable</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>create Simplepack</title>
+    <url>/2022/10/14/create-simplepack/</url>
+    <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
+<blockquote>
+<p>配置文件</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// simplepack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> simplepackConfig = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="comment">// 作为 simplepack 构建打包的出口</span></span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包文件导出的位置目录</span></span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包导出文件的名称</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = simplepackConfig;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>目录</p>
+</blockquote>
+<p><img src="https://image.white-than-wood.zone/webpack/simplepack_path.png"></p>
+<blockquote>
+<p>Simplepack</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">if</span> (entry) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;找不到 webpack 构建打包的入口!&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getResources</span>(<span class="params">path, sourcePath</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> compile = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            compile.<span class="property">filename</span> = sourcePath ? sourcePath : path;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(compile);</span><br><span class="line">            <span class="keyword">const</span> &#123;dependencies = []&#125; = compile;</span><br><span class="line">            <span class="keyword">if</span> (dependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="comment">// 路径中是否存在类型文件</span></span><br><span class="line">                <span class="keyword">const</span> hasFile = <span class="regexp">/\.js$/</span>;</span><br><span class="line">                dependencies.<span class="title function_">forEach</span>(<span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">                    <span class="keyword">const</span> sourcePath = item;</span><br><span class="line">                    <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                    <span class="keyword">if</span> (hasFile.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">                        path = path.<span class="title function_">slice</span>(<span class="number">0</span>, path.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>));</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (!hasFile.<span class="title function_">test</span>(item)) &#123;</span><br><span class="line">                        item += <span class="string">&#x27;/index.js&#x27;</span>;</span><br><span class="line">                    &#125;</span><br><span class="line">                    path = <span class="title function_">resolve</span>(path, item);</span><br><span class="line">                    <span class="comment">// 将拼接好的子依赖目录再次解析</span></span><br><span class="line">                    getResources.<span class="title function_">call</span>(<span class="variable language_">this</span>, path, sourcePath);</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(entry);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emitFile</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Simplepack Parse 解析工具</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Result</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">require</span>(<span class="params">filename</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fn = <span class="variable language_">module</span>[filename];</span><br><span class="line">        <span class="keyword">var</span> modules = &#123;<span class="attr">exports</span>: &#123;&#125;&#125;;</span><br><span class="line">        <span class="title function_">fn</span>(<span class="built_in">require</span>, modules, <span class="built_in">exports</span>);</span><br><span class="line">        <span class="keyword">return</span> modules.<span class="property">exports</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;./src/index.js&#x27;</span>);</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="string">&#x27;./src/index.js&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> _modules = <span class="built_in">require</span>(<span class="string">&quot;./modules&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> wtw = (<span class="number">0</span>, _modules.<span class="property">getName</span>)(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(wtw);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;./modules&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="string">&quot;__esModule&quot;</span>, &#123;</span><br><span class="line">            <span class="attr">value</span>: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="built_in">exports</span>.<span class="property">getName</span> = getName;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">getName</span>(<span class="params">name</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;My name is &quot;</span>.<span class="title function_">concat</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
       </tags>
   </entry>
 </search>

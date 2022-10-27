@@ -4,12 +4,12 @@
     <url>
         <loc>http://example.com/2022/10/25/javascript-outline/</loc>
         
-        <lastmod>2022-10-26T23:43:07.091Z</lastmod>
+        <lastmod>2022-10-27T05:18:57.228Z</lastmod>
         
         <date>1666669286000</date>
         <title>javascript outline | wtw's Frontend</title>
         
-        <desc>var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践 字符串 utf-8</desc>
+        <desc>ES6var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践 字符串</desc>
     </url>
     
     <url>
