@@ -188,7 +188,7 @@ category: javascript
      - keys: 循环字典内映射实行操作
      - values: 循环字典内数据实行操作
      - entries: 循环字典内映射、数据实行操作,类似于 forEach
-   - 初始化声明并添加数据
+   - 初始化声明并添加映射、数据: new Map([[]])
 
 ### WeakMap
 
