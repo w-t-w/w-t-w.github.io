@@ -7,28 +7,28 @@ category: javascript
 
 # ES6
 
-## var 
+### var 
 
 - 变量提升
 - 重复声明
 - 全局作用域绑定
 
-## let、const
+### let、const
 
 - 不再拥有 var 的缺陷特性
 - TDZ(临时死区)
 - 块级作用域绑定
 
-## let
+### let
 
 - 变量声明
 
-## const
+### const
 
 - 常量声明
 - 优先声明最佳实践
 
-## 字符串
+### 字符串
 
 > utf-8
 
@@ -70,7 +70,7 @@ category: javascript
   - 字符串集合长度 - 变量集合长度 = 1
   - 字符串集合中每一个元素都拥有获取其原生内容的方法: raw
 
-## 函数
+### 函数
 
   - 参数的默认值,注意 TDZ 临时死区
   - 不定参数,注意参数集合必须在参数末尾
@@ -103,11 +103,11 @@ category: javascript
   
 
 
-  - 原理: 避免建立多堆栈存储,防止堆栈溢出,单堆栈循环使用提高效率
+  - 原理: 避免建立多堆栈存储,防止堆栈溢出、内存泄露,单堆栈循环使用提高效率
   - 应用: 递归
-  - 还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出
+  - 还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出、内存泄露
 
-## 对象
+### 对象
 
   - 对象属性方法简化
   - 可计算的对象属性方法
@@ -115,11 +115,11 @@ category: javascript
     - 判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同
     - 浅复制: Object.assign
   - 重复对象属性方法
-  - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify 以及 Object.keys 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.
+  - 自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify、Object.keys 以及 Object.entries 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.
   - 增强原型: Object.getPrototypeOf、Object.setPrototypeOf
   - 原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 \[\[HomeObject\]\] 访问原型.
 
-## 解构赋值
+### 解构赋值
 
   - 对象解构
     - 解构赋值
@@ -136,7 +136,7 @@ category: javascript
     - 必须传值
     - 默认值
 
-## Symbol
+### Symbol
 
    - 基本用法,注意绑定于内置对象 \[\[Description\]\] 内
    - 共享体系: Symbol.for、Symbol.keyFor
@@ -147,3 +147,56 @@ category: javascript
      - Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法
      - Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换)
      - Symbol.toStringTag: 作为属性,用于重新定义对象类型识别
+     
+### Set
+
+   - 基本用法
+   - 属性
+     - size: 获取集合的长度
+   - 方法
+     - add: 向集合内添加数据
+     - has: 判断集合内是否存在指定数据
+     - delete: 删除集合内指定数据
+     - clear: 清空集合内所有数据
+     - forEach: 循环集合内数据、数据索引实行操作
+     - keys: 循环集合内数据索引实行操作
+     - values: 循环集合内数据实行操作
+     - entries: 循环集合内数据索引、数据实行操作,类似于 forEach
+   - 初始化声明并添加数据: new Set([])
+   - 转化为数组: \[...set\],注意 set 构造对象必须配合数组、展开运算符才可实行转化
+
+### WeakSet
+
+   - 基本用法
+   - 区别
+     - 只能向弱类型集合中添加引用类型数据
+     - size、clear、forEach、keys、values 以及 entries 失效
+     - 一旦与添加的引用类型数据失去绑定或者引用类型数据失效,集合内数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露
+   
+### Map
+
+   - 基本用法
+   - 属性
+     - size: 获取字典的大小
+   - 方法
+     - set: 向字典中添加映射、数据
+     - get: 根据指定映射获取字典内相对应的数据
+     - has: 根据指定映射判断字典内是否存在相对应的数据
+     - delete: 根据指定映射删除字典内相对应的数据
+     - clear: 清空字典内所有的映射、数据
+     - forEach: 循环字典内数据、映射实行操作
+     - keys: 循环字典内映射实行操作
+     - values: 循环字典内数据实行操作
+     - entries: 循环字典内映射、数据实行操作,类似于 forEach
+   - 初始化声明并添加数据
+
+### WeakMap
+
+   - 基本用法
+   - 区别
+     - 只能向弱类型字典中添加引用类型的映射以及所对应的数据
+     - size、clear、forEach、keys、values 以及 entries 失效
+     - 一旦与添加的引用类型映射失去绑定或者引用类型映射失效,字典内映射以及所对应的数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露
+     - 私有数据
+       - ES5 使用私有对象保存,闭包产生的内存数据永远无法被清除,久而久之会出现堆栈溢出、内存泄露
+       - ES6 使用 WeakMap 保存更加简洁,不会产生任何堆栈溢出、内存泄露的问题
