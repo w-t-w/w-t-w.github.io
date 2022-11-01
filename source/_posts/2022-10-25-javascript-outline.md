@@ -304,3 +304,24 @@ category: javascript
          - 定型数组特有方法
            - set: 用于向定型数组中覆盖指定范围的数组元素
            - subarray: 类似于 slice 方法,用于截取定型数组
+
+### promise
+
+   - 基本用法
+     - pending: 处理中
+     - fulfilled: 处理完成
+     - reject: 拒绝处理
+   - 创建未完成的 Promise: new Promise((resolve, reject) => {})
+   - 创建已处理的 Promise: Promise.resolve,Promise.reject,注意对于 Promise.resolve 如果传入 Promise 参数,则会将此 Promise 直接返回
+   - 全局 Promise 拒绝处理程序: 在事件循环执行机制中,若 Promise 被拒绝,且没有拒绝处理程序时,会触发执行 unhandledRejection 事件; 若 Promise 被拒绝,且监听到拒绝处理程序时,则会触发 rejectionHandled 事件
+     - unhandledRejection: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onunhandledrejection
+     - rejectionHandled: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onrejectionhandled
+   - Promise 执行抛出错误: 使用 catch 拦截
+   - Promise 串行链
+     - 在 Promise 链中抛出错误
+     - 在 Promise 链中的返回值
+     - 在 Promise 链中返回 Promise
+   - Promise.all: 当 Promise 数组中的每一个处理都完成时,才会实行返回,接收到的数据也才是一个数组,分别代表着每一个完成处理传递的数据,一旦存在有一个拒绝处理,则会立即返回,接收的将是拒绝处理程序传递的数据
+   - Promise.race: 当 Promise 数组中任意一个处理完成或者拒绝时,都会立即返回,接收到完成或者拒绝处理程序传递的数据
+   - 派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 \[Symbol.species\] 确定值类型的,由此类对象是在派生类的原型链上
+   - Promise 的异步生成器
