@@ -323,5 +323,5 @@ category: javascript
      - 在 Promise 链中返回 Promise
    - Promise.all: 当 Promise 数组中的每一个处理都完成时,才会实行返回,接收到的数据也才是一个数组,分别代表着每一个完成处理传递的数据,一旦存在有一个拒绝处理,则会立即返回,接收的将是拒绝处理程序传递的数据
    - Promise.race: 当 Promise 数组中任意一个处理完成或者拒绝时,都会立即返回,接收到完成或者拒绝处理程序传递的数据
-   - 派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 \[Symbol.species\] 确定值类型的,由此类对象是在派生类的原型链上
+   - 派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 \[Symbol.species\] 确定值类型的,由此,类对象是在派生类的原型链上
    - Promise 的异步生成器
