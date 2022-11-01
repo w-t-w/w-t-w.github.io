@@ -248,6 +248,59 @@ category: javascript
      - 派生类所继承的静态成员
      - 继承自普通函数或者函数表达式
      - 内置对象继承
-     - Symbol.species: 作为静态的访问器属性,用于重新自定义创建派生类对象
+     - Symbol.species: 作为静态的访问器属性,用于重新自定义创建派生类对象,确定值类型
    - 元属性 new.target 在类中的使用
      - 抽象基类
+
+### 改进的数组
+
+   - Array.of: 用于规整数组声明时混乱意义的参数,注意 Array.of 创建的类对象并不是由静态访问器属性 \[Symbol.species\] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型
+   - Array.from: 用于将可迭代对象以及类数组对象转化为数组,同时可实行操作,并可改变操作函数的 this 绑定,注意 Array.from 创建的类对象并不是由静态访问器属性 \[Symbol.species\] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型
+   - 方法
+     - find: 匹配符合条件的第一个数组元素
+     - findIndex: 匹配符合条件的第一个数组元素下标
+     - fill: 向指定的数组位置填充指定的数据
+     - copyWithin: 向指定的数组位置填充指定数组范围的数据
+   - 定型数组
+     - 创建方式
+       - 使用自定义数组缓冲区创建视图
+       - 使用定型数组声明创建
+       - 使用已声明的定型数组构造对象创建
+         - 注意,上述创建方式都可指定字节偏移量、以及字节长度
+     - 区别
+       - 相似之处
+          - 通用方法
+            - map
+            - forEach
+            - keys
+            - values
+            - entries
+            - some
+            - every
+            - filter
+            - reduce
+            - reduceRight
+            - indexOf
+            - lastIndexOf
+            - join
+            - reverse
+            - sort
+            - find
+            - findIndex
+            - fill
+            - copyWithin
+          - 同属于可迭代对象,可使用展开运算符
+       - 不同之处
+         - 定型数组缺失方法
+           - push
+           - pop
+           - shift
+           - unshift
+           - concat
+           - splice
+         - 定型数组缺失特性
+           - 数组元素不可扩展
+           - 数组长度不可配置、不可修改
+         - 定型数组特有方法
+           - set: 用于向定型数组中覆盖指定范围的数组元素
+           - subarray: 类似于 slice 方法,用于截取定型数组
