@@ -338,7 +338,7 @@ category: javascript
        - Object.setPrototypeOf: 是绑定至内置对象 \[\[SetPrototypeOf\]\] 内,其执行结果如果成功则返回第一个参数,失败则抛出错误
        - Reflect.setPrototypeOf: 是绑定至内置对象 \[\[SetPrototypeOf\]\] 的包裹器,存在数据验证,只会返回 true 或者 false
        - Object.getPrototypeOf: 是绑定至内置对象 \[\[GetPrototypeOf\]\] 内,可将基本类型的数据强制转化为相关的构造对象
-       - Reflect.getPrototypeOf: 是绑定至内置对象 \[\[GetPrototypeOf\]\] 的包裹器,参数只能接收引用类型对象,传递基本类型数据会直接抛出错误
+       - Reflect.getPrototypeOf: 是绑定至内置对象 \[\[GetPrototypeOf\]\] 的包裹器,存在数据验证,参数只能接收引用类型对象,传递基本类型数据会直接抛出错误
    - 对象可扩展性代理陷阱: isExtensiable、preventExtensions
      - 区别: 除了主要功能相同之外
        - Object.isExtensiable: 可将基本类型的数据强制转化为相关的构造对象
@@ -366,3 +366,7 @@ category: javascript
      - 在原型中使用 get 代理陷阱
      - 在原型中使用 has 代理陷阱
      - 将代理陷阱作为类的原型
+
+### 模块的导入导出
+
+   - 
