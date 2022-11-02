@@ -359,6 +359,7 @@ category: javascript
      - 不使用 new 构造调用: 通过在 apply 代理陷阱中调用 construct 代理陷阱即可绕过函数的元属性 new.target new 构造调用校验
      - 覆写抽象基类: 通过在 construct 代理陷阱中将 new.target 修改成普通类或者普通函数即可绕过抽象基类的 new.target 抽象基类校验
      - 可调用的类: 通过在 apply 代理陷阱中调用 construct 代理陷阱或者直接在 apply 代理陷阱中使用 new 构造调用即可绕过类的只可实行 new 构造调用的校验
+   - 可撤销的代理陷阱: 通过 Proxy.revocable revoke 方法可实现撤销代理陷阱
    - 拥有数组特性的类
    - 将代理陷阱作为原型
      - 在原型中使用 set 代理陷阱
