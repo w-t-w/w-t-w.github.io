@@ -307,7 +307,7 @@ category: javascript
 
 ### promise
 
-   - 基本用法
+   - 基本用法: 注意 promise 是绑定至内置对象 \[\[PromiseState\]\] 内
      - pending: 处理中
      - fulfilled: 处理完成
      - reject: 拒绝处理
@@ -325,3 +325,43 @@ category: javascript
    - Promise.race: 当 Promise 数组中任意一个处理完成或者拒绝时,都会立即返回,接收到完成或者拒绝处理程序传递的数据
    - 派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 \[Symbol.species\] 确定值类型的,由此,类对象是在派生类的原型链上
    - Promise 的异步生成器
+
+### proxy
+
+   - 基本用法
+   - set 代理陷阱验证对象属性
+   - get 代理陷阱验证对象结构
+   - has 代理陷阱隐藏对象属性
+   - deleteProperty 代理陷阱防止删除对象属性
+   - 原型代理陷阱: setPrototypeOf、getPrototypeOf
+     - 区别: 除了主要功能相同之外
+       - Object.setPrototypeOf: 是绑定至内置对象 \[\[SetPrototypeOf\]\] 内,其执行结果如果成功则返回第一个参数,失败则抛出错误
+       - Reflect.setPrototypeOf: 是绑定至内置对象 \[\[SetPrototypeOf\]\] 的包裹器,存在数据验证,只会返回 true 或者 false
+       - Object.getPrototypeOf: 是绑定至内置对象 \[\[GetPrototypeOf\]\] 内,可将基本类型的数据强制转化为相关的构造对象
+       - Reflect.getPrototypeOf: 是绑定至内置对象 \[\[GetPrototypeOf\]\] 的包裹器,参数只能接收引用类型对象,传递基本类型数据会直接抛出错误
+   - 对象可扩展性代理陷阱: isExtensiable、preventExtensions
+     - 区别: 除了主要功能相同之外
+       - Object.isExtensiable: 可将基本类型的数据强制转化为相关的构造对象
+       - Reflect.isExtensiable: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误
+       - Object.preventExtensions: 可将基本类型的数据强制转化为相关的构造对象
+       - Reflect.preventExtensions: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误
+   - 对象属性描述符代理陷阱: defineProperty、getOwnPropertyDescriptor
+     - 使用 defineProperty 来添加属性限制
+     - 描述符属性的限制: defineProperty、getOwnPropertyDescriptor 所能操作的描述符属性只有 value、get、set、writable、enumerable、configurable
+     - 区别: 除了主要功能相同之外
+       - Object.defineProperty: 执行结果如果成功则返回第一个参数,失败则抛出错误
+       - Reflect.defineProperty: 只会返回 true 或者 false
+       - Object.getOwnPropertyDescriptor: 可将基本类型的数据强制转化为相关的构造对象
+       - Reflect.getOwnPropertyDescriptor: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误
+   - ownKeys 代理陷阱
+   - 函数执行 apply、construct 代理陷阱
+     - 验证函数参数
+     - 不使用 new 构造调用: 通过在 apply 代理陷阱中调用 construct 代理陷阱即可绕过函数的元属性 new.target new 构造调用校验
+     - 覆写抽象基类: 通过在 construct 代理陷阱中将 new.target 修改成普通类或者普通函数即可绕过抽象基类的 new.target 抽象基类校验
+     - 可调用的类: 通过在 apply 代理陷阱中调用 construct 代理陷阱或者直接在 apply 代理陷阱中使用 new 构造调用即可绕过类的只可实行 new 构造调用的校验
+   - 拥有数组特性的类
+   - 将代理陷阱作为原型
+     - 在原型中使用 set 代理陷阱
+     - 在原型中使用 get 代理陷阱
+     - 在原型中使用 has 代理陷阱
+     - 将代理陷阱作为类的原型
