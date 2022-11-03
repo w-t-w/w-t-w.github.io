@@ -390,3 +390,19 @@ category: javascript
      - 递归下载并解析入口模块所导入的资源
      - 递归执行入口模块所导入的资源
      - 执行入口模块
+
+# ES6+
+
+### 数字
+
+   - 方法
+     - Number.isInteger: 判断数据是否是一个整数
+     - Number.isSafeInteger: 判断数据是否是一个安全整数,注意安全整数的范围在 -(2^53 - 1) 与 2^53 - 1 之间
+     - Number.MAX_SAFE_INTEGER: 安全整数范围内的最大值
+     - Number.MIN_SAFE_INTEGER: 安全整数范围内的最小值
+   - 运算符
+     - **: 幂运算符,与 Math.pow() 的执行结果相同
+
+### 数组
+
+   - includes: 用于判断数组内是否含有某个数据
