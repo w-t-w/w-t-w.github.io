@@ -261,6 +261,7 @@ category: javascript
      - findIndex: 匹配符合条件的第一个数组元素下标
      - fill: 向指定的数组位置填充覆盖指定的数据
      - copyWithin: 向指定的数组位置填充覆盖指定数组范围的数据
+     - includes: 用于判断数组内是否含有某个数据
    - 定型数组
      - 创建方式
        - 使用自定义数组缓冲区创建视图
@@ -400,7 +401,3 @@ category: javascript
      - Number.MIN_SAFE_INTEGER: 安全整数范围内的最小值
    - 运算符
      - **: 幂运算符,与 Math.pow() 的执行结果相同
-
-### 数组
-
-   - includes: 用于判断数组内是否含有某个数据
