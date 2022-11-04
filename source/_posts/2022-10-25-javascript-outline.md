@@ -51,6 +51,8 @@ category: javascript
 
   - 获取字符子串: startsWith、endsWith、includes
   - 重复添加: repeat
+  - 填充扩展字符串
+    - padStart: 从字符串左边填充指定字符(不指定为空字符串),注意如果填充的长度小于字符串长度则直接返回此字符串
 
 > 正则表达式
 
