@@ -404,3 +404,9 @@ category: javascript
      - Number.MIN_SAFE_INTEGER: 安全整数范围内的最小值
    - 运算符
      - **: 幂运算符,与 Math.pow() 的执行结果相同
+
+### async/await
+
+   - 基本用法
+     - async: async 函数执行后会返回一个 Promise
+     - await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出
