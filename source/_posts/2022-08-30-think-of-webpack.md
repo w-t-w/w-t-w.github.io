@@ -11,7 +11,7 @@ categories: webpack
 
 > 作用
 
-  作为 webpack 构建打包的入口,搜索全局资源的起点'.
+  作为 webpack 构建打包的入口,搜索全局资源的起点.
 
 > 属性值
 
