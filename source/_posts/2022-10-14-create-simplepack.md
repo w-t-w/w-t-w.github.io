@@ -50,35 +50,30 @@ class Simplepack {
 
     // 运行
     run() {
-        const {entry = ''} = this.options;
-        if (entry) {
-            throw new Error('找不到 webpack 构建打包的入口!');
-        }
         // 递归获取资源列表
-        (function getResources(path, sourcePath) {
-            const compile = this.compile(path);
-            compile.filename = sourcePath ? sourcePath : path;
-            this.resources.push(compile);
-            const {dependencies = []} = compile;
-            if (dependencies.length > 0) {
-                // 路径中是否存在类型文件
-                const hasFile = /\.js$/;
-                dependencies.forEach(item => {
-                    const sourcePath = item;
-                    // 拼接父子依赖目录
-                    if (hasFile.test(path)) {
-                        path = path.slice(0, path.lastIndexOf('/'));
-                    }
-                    if (!hasFile.test(item)) {
-                        item += '/index.js';
-                    }
-                    path = resolve(path, item);
-                    // 将拼接好的子依赖目录再次解析
-                    getResources.call(this, path, sourcePath);
+        (function getFileInfo(entry, upperLevel = '') {
+            let path = entry;
+            const cwd = process.cwd();
+            // 判断是否是绝对路径
+            if (!path.includes(cwd)) {
+                // 拼接父子依赖目录
+                path = resolve(cwd, upperLevel, `${path.endsWith('.js') ? path : `${path}/index.js`}`);
+            }
+            if (!existsSync(path)) {
+                throw new Error(`请检查目录,不存在 ${entry} 模块`);
+            }
+
+            const fileInfo = this.compile(path);
+            const { dependencies: fileDependencies } = fileInfo;
+            if (fileDependencies.length > 0) {
+                fileDependencies.forEach((item) => {
+                    getFileInfo.call(this, item, entry.substring(0, entry.lastIndexOf('/') + 1));
                 });
             }
-        }.bind(this))(entry);
-        this.emitFile();
+            fileInfo.filename = entry;
+            this.resources.push(fileInfo);
+        }.bind(this))(this.entry);
+        this.emit();
     }
 
     // 解析
