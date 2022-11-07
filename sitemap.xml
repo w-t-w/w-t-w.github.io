@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/14/create-simplepack/</loc>
+        
+        <lastmod>2022-11-07T18:00:24.443Z</lastmod>
+        
+        <date>1665749085000</date>
+        <title>create Simplepack | wtw's Frontend</title>
+        
+        <desc>create Simplepack搭建一个简易的 webpack —— Simplepack. 配置文件 12345678910111213141516// simplepack.config.jsconst &#123;resolve&#125; = require(&#x27;path&#x27;);const OUTPUT_DIR = resolve(process.cwd(), &#x27</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
         
         <lastmod>2022-11-07T08:47:23.868Z</lastmod>
@@ -43,17 +54,6 @@
         <title>think of nodejs | wtw's Frontend</title>
         
         <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/10/14/create-simplepack/</loc>
-        
-        <lastmod>2022-10-14T17:36:18.909Z</lastmod>
-        
-        <date>1665749085000</date>
-        <title>create Simplepack | wtw's Frontend</title>
-        
-        <desc>create Simplepack搭建一个简易的 webpack —— Simplepack. 配置文件 12345678910111213141516// simplepack.config.jsconst &#123;resolve&#125; = require(&#x27;path&#x27;);const OUTPUT_DIR = resolve(process.cwd(), &#x27</desc>
     </url>
     
     <url>
