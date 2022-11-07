@@ -591,6 +591,60 @@ categories: webpack
 
   用此属性就可选择性清空构建打包导出的位置目录内容.
 
+> image-minimizer-webpack-plugin
+
+  image-minimizer-webpack-plugin 图片资源模块压缩功能插件有什么作用?
+
+  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩的最佳处理方式.
+
+  ```javascript
+  const ImageMinimizerWebpackPlugin = require('image-minimizer-webpack-plugin');
+  module.exports = {
+    //...
+    optimization: {
+        minimizer: [
+            //...
+            new ImageMinimizerWebpackPlugin({
+                minimizer: {
+                    implementation: ImageMinimizerWebpackPlugin.imageminMinify,
+                    options: {
+                        plugins: [
+                            ["gifsicle", { interlaced: true }],
+                            ["jpegtran", { progressive: true }],
+                            ["optipng", { optimizationLevel: 5 }],
+                            [
+                                "svgo",
+                                {
+                                    plugins: [
+                                        {
+                                            name: "preset-default",
+                                            params: {
+                                                overrides: {
+                                                    removeViewBox: false,
+                                                    addAttributesToSVGElement: {
+                                                        params: {
+                                                            attributes: [
+                                                                { xmlns: "http://www.w3.org/2000/svg" },
+                                                            ],
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                    ],
+                                },
+                            ],
+                        ]
+                    }
+                }
+            }),
+            //...
+        ]
+    }
+    //...
+  };
+  ```
+
 #### commit rules
 
 > 规范说明
