@@ -21,15 +21,15 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="webpackentry 作用    作为 webpack 构建打包的入口,搜索全局资源的起点’.  属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值">
+  <meta name="description" content="webpackentry 作用    作为 webpack 构建打包的入口,搜索全局资源的起点.  属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永">
 <meta property="og:type" content="article">
 <meta property="og:title" content="think of webpack">
 <meta property="og:url" content="http://example.com/2022/08/30/think-of-webpack/index.html">
 <meta property="og:site_name" content="wtw&#39;s Frontend">
-<meta property="og:description" content="webpackentry 作用    作为 webpack 构建打包的入口,搜索全局资源的起点’.  属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值">
+<meta property="og:description" content="webpackentry 作用    作为 webpack 构建打包的入口,搜索全局资源的起点.  属性值    为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?   解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-08-30T08:17:26.000Z">
-<meta property="article:modified_time" content="2022-10-13T18:43:39.762Z">
+<meta property="article:modified_time" content="2022-11-07T08:47:23.868Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="webpack">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-10-14 02:43:39" itemprop="dateModified" datetime="2022-10-14T02:43:39+08:00">2022-10-14</time>
+                <time title="修改时间：2022-11-07 16:47:23" itemprop="dateModified" datetime="2022-11-07T16:47:23+08:00">2022-11-07</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -261,7 +261,7 @@
         <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
 <p>作用</p>
 </blockquote>
-<p>  作为 webpack 构建打包的入口,搜索全局资源的起点’.</p>
+<p>  作为 webpack 构建打包的入口,搜索全局资源的起点.</p>
 <blockquote>
 <p>属性值</p>
 </blockquote>
@@ -412,7 +412,7 @@
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#101;&#45;&#x6a;&#x73;&#64;&#51;&#x2e;&#120;">&#99;&#x6f;&#114;&#101;&#45;&#x6a;&#x73;&#64;&#51;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#x72;&#x65;&#45;&#106;&#x73;&#64;&#51;&#46;&#x78;">&#99;&#x6f;&#x72;&#x65;&#45;&#106;&#x73;&#64;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -523,7 +523,7 @@
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#111;&#97;&#x64;&#101;&#114;&#x2d;&#117;&#116;&#x69;&#108;&#x73;&#x40;&#x32;&#46;&#x78;">&#x6c;&#111;&#97;&#x64;&#101;&#114;&#x2d;&#117;&#116;&#x69;&#108;&#x73;&#x40;&#x32;&#46;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#45;&#117;&#116;&#x69;&#x6c;&#x73;&#x40;&#51;&#46;&#x78;">&#x6c;&#111;&#97;&#x64;&#x65;&#114;&#45;&#117;&#116;&#x69;&#x6c;&#x73;&#x40;&#51;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#x2d;&#x75;&#x74;&#105;&#108;&#115;&#x40;&#x32;&#46;&#x78;">&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#x2d;&#x75;&#x74;&#105;&#108;&#115;&#x40;&#x32;&#46;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#101;&#114;&#x2d;&#x75;&#x74;&#105;&#108;&#115;&#x40;&#x33;&#x2e;&#x78;">&#108;&#x6f;&#97;&#x64;&#101;&#114;&#x2d;&#x75;&#x74;&#105;&#108;&#115;&#x40;&#x33;&#x2e;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
 <p>contentBase</p>
 </blockquote>
@@ -580,6 +580,13 @@
 <li>cleanOnceBeforeBuildPatterns: 用于筛选在 Webpack Compile 编译前实行清空的位置目录内容.</li>
 </ul>
 <p>  用此属性就可选择性清空构建打包导出的位置目录内容.</p>
+<blockquote>
+<p>image-minimizer-webpack-plugin</p>
+</blockquote>
+<p>  image-minimizer-webpack-plugin 图片资源模块压缩功能插件有什么作用?</p>
+<p>  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩的最佳处理方式.</p>
+  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">ImageMinimizerWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;image-minimizer-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="keyword">new</span> <span class="title class_">ImageMinimizerWebpackPlugin</span>(&#123;</span><br><span class="line">              <span class="attr">minimizer</span>: &#123;</span><br><span class="line">                  <span class="attr">implementation</span>: <span class="title class_">ImageMinimizerWebpackPlugin</span>.<span class="property">imageminMinify</span>,</span><br><span class="line">                  <span class="attr">options</span>: &#123;</span><br><span class="line">                      <span class="attr">plugins</span>: [</span><br><span class="line">                          [<span class="string">&quot;gifsicle&quot;</span>, &#123; <span class="attr">interlaced</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;jpegtran&quot;</span>, &#123; <span class="attr">progressive</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;optipng&quot;</span>, &#123; <span class="attr">optimizationLevel</span>: <span class="number">5</span> &#125;],</span><br><span class="line">                          [</span><br><span class="line">                              <span class="string">&quot;svgo&quot;</span>,</span><br><span class="line">                              &#123;</span><br><span class="line">                                  <span class="attr">plugins</span>: [</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="attr">name</span>: <span class="string">&quot;preset-default&quot;</span>,</span><br><span class="line">                                          <span class="attr">params</span>: &#123;</span><br><span class="line">                                              <span class="attr">overrides</span>: &#123;</span><br><span class="line">                                                  <span class="attr">removeViewBox</span>: <span class="literal">false</span>,</span><br><span class="line">                                                  <span class="attr">addAttributesToSVGElement</span>: &#123;</span><br><span class="line">                                                      <span class="attr">params</span>: &#123;</span><br><span class="line">                                                          <span class="attr">attributes</span>: [</span><br><span class="line">                                                              &#123; <span class="attr">xmlns</span>: <span class="string">&quot;http://www.w3.org/2000/svg&quot;</span> &#125;,</span><br><span class="line">                                                          ],</span><br><span class="line">                                                      &#125;,</span><br><span class="line">                                                  &#125;,</span><br><span class="line">                                              &#125;,</span><br><span class="line">                                          &#125;,</span><br><span class="line">                                      &#125;,</span><br><span class="line">                                  ],</span><br><span class="line">                              &#125;,</span><br><span class="line">                          ],</span><br><span class="line">                      ]</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;),</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
 <h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4><blockquote>
 <p>规范说明</p>
 </blockquote>
