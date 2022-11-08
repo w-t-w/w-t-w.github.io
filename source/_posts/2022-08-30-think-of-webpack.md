@@ -522,6 +522,30 @@ categories: webpack
 
   解: 是用于测试自定义的 loader 而存在的,可以使用 loader-utils@2.x 中的 getOptions(this) 获取 loader > options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -> options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 loader-utils@3.x 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.
 
+  ```javascript
+  const {readFile} = require('fs');
+  const {resolve} = require('path');
+  const {runLoaders} = require('loader-runner');
+  
+  runLoaders({
+      resource: resolve(process.cwd(), './src/styles/index.less'),
+      context: {minimize: true},
+      loaders: [{
+          loader: resolve(process.cwd(), './lib/loaders/sprite_loader.js'),
+          options: {
+              name: 'sprite',
+              path: 'src/styles'
+          }
+      }],
+      readResource: readFile.bind(this)
+  }, (err, stats) => {
+      if(err) {
+          throw new Error(`测试自定义 loader 出现错误: ${err}`);
+      }
+      console.log(stats);
+  });
+  ```
+
 #### devServer
 
 > contentBase
