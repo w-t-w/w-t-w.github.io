@@ -714,10 +714,10 @@ categories: webpack
 
     <div style="display: flex;justify-content: space-between;align-items: center;">
       <div style="width: 49%;">
-          <img src="https://image.white-than-wood.zone/webpack/async_on_result.png" alt="async_on_result">
+          <img src="https://image.white-than-wood.zone/webpack/_async_on_result.png" alt="async_on_result">
       </div>
       <div style="width: 49%;">
-          <img src="https://image.white-than-wood.zone/webpack/async_on_done.png" alt="async_on_done">
+          <img src="https://image.white-than-wood.zone/webpack/_async_on_done.png" alt="async_on_done">
       </div>
     </div>
 
