@@ -212,14 +212,14 @@ class JsZipPlugin {
         // 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)
         compiler.hooks.emit.tapAsync('JsZipPlugin', (compilation, callback) => {
             // 生成空的压缩打包文件
-            jszip.folder(name);
+            const folder = jszip.folder(name);
             for (let filename in compilation.assets) {
                 // 生成填入 webpack 构建打包源代码的压缩打包文件
-                jszip.file(filename, compilation.assets[filename].source());
+                folder.file(filename, compilation.assets[filename].source());
             }
             // 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.
             jszip.generatorAsync({type: 'nodebuffer'}).then((content) => {
-                compilation.assets[name] = new RawSource(content);
+                compilation.assets[`${name}.zip`] = new RawSource(content);
                 callback();
             });
         });
