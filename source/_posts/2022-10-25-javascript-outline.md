@@ -5,7 +5,9 @@ tags: [javascript, es6, outline]
 category: javascript
 ---
 
-# ES6
+# javascript outline
+
+## ES6
 
 ### var 
 
@@ -410,3 +412,56 @@ category: javascript
    - 基本用法
      - async: async 函数执行后会返回一个 Promise
      - await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出
+
+## webpack
+
+### tapable
+
+- 订阅模式类型
+
+    - tap -> 'sync'
+    - tapAsync -> 'async'
+    - tapPromise -> 'promise'
+
+- 发布类型
+
+    - call -> 'sync'
+    - callAsync -> 'async'
+    - promise -> 'promise'
+
+- 原理
+
+  tapable 实际上是根据订阅模式类型、发布类型以及传递的参数来构建 Function 构造声明的
+
+- 类
+
+    - Hook
+        - 流程方法(important)
+            - lazyCompile
+            - _createCall
+            - compile
+
+    - HookCodeFactory
+
+        - 流程方法(important)
+            - setup
+            - create(结果由发布类型决定)
+            - header(结果由发布类型决定)
+            - callTapsSeries(结果由订阅模式类型决定)
+            - callTap(结果由订阅模式类型决定)
+
+- 伪代码
+
+  ```text
+  this.发布类型函数 = function lazyCompile(参数) {
+    function func(参数) {
+        setup()
+        create()
+        header()
+        onError()
+        onResult()
+        onDone()
+    }
+    func(参数)
+  }
+  ```
