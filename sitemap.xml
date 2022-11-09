@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
+        
+        <lastmod>2022-11-09T12:42:39.874Z</lastmod>
+        
+        <date>1666669286000</date>
+        <title>javascript outline | wtw's Frontend</title>
+        
+        <desc>javascript outlineES6var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/10/15/think-of-tapable/</loc>
         
         <lastmod>2022-11-08T16:48:46.718Z</lastmod>
@@ -43,17 +54,6 @@
         <title>create Simplepack | wtw's Frontend</title>
         
         <desc>create Simplepack搭建一个简易的 webpack —— Simplepack. 配置文件 12345678910111213141516// simplepack.config.jsconst &#123;resolve&#125; = require(&#x27;path&#x27;);const OUTPUT_DIR = resolve(process.cwd(), &#x27</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
-        
-        <lastmod>2022-11-04T04:58:47.107Z</lastmod>
-        
-        <date>1666669286000</date>
-        <title>javascript outline | wtw's Frontend</title>
-        
-        <desc>ES6var 变量提升 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践 字符串</desc>
     </url>
     
     <url>
