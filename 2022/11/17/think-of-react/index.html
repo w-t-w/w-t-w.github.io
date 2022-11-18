@@ -21,31 +21,34 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Pisces","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":true,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":"gitalk","storage":true,"lazyload":false,"nav":{"disqus":{"text":"Load Disqus","order":-1},"gitalk":{"order":-2}},"activeClass":"gitalk"},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
   </script>
 
-  <meta name="description" content="前端领域内所不知道的都探索于此!">
-<meta property="og:type" content="website">
-<meta property="og:title" content="wtw&#39;s Frontend">
-<meta property="og:url" content="http://example.com/index.html">
+  <meta name="description" content="react 源码解析createElement123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293">
+<meta property="og:type" content="article">
+<meta property="og:title" content="think of react">
+<meta property="og:url" content="http://example.com/2022/11/17/think-of-react/index.html">
 <meta property="og:site_name" content="wtw&#39;s Frontend">
-<meta property="og:description" content="前端领域内所不知道的都探索于此!">
+<meta property="og:description" content="react 源码解析createElement123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293">
 <meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-17T03:48:59.000Z">
+<meta property="article:modified_time" content="2022-11-17T05:55:28.512Z">
 <meta property="article:author" content="wtw(比木白)">
-<meta property="article:tag" content="hexo,hexo blog,webpack">
+<meta property="article:tag" content="react">
+<meta property="article:tag" content="source">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/">
+<link rel="canonical" href="http://example.com/2022/11/17/think-of-react/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : true,
-    isPost : false,
+    isHome : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>wtw's Frontend</title>
+  <title>think of react | wtw's Frontend</title>
   
 
 
@@ -196,9 +199,10 @@
         <div class="content-wrap">
           
 
-          <div class="content index posts-expand">
+          <div class="content post posts-expand">
             
-      
+
+    
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
@@ -214,10 +218,9 @@
       <meta itemprop="name" content="wtw's Frontend">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/11/17/think-of-react/" class="post-title-link" itemprop="url">think of react</a>
-        </h2>
+        <h1 class="post-title" itemprop="name headline">
+          think of react
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
@@ -250,7 +253,7 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          <h1 id="react-源码解析"><a href="#react-源码解析" class="headerlink" title="react 源码解析"></a>react 源码解析</h1><h2 id="createElement"><a href="#createElement" class="headerlink" title="createElement"></a>createElement</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create and return a new ReactElement of the given type.</span></span><br><span class="line"><span class="comment"> * See https://reactjs.org/docs/react-api.html#createelement</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createElement</span>(<span class="params">type, config, children</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> propName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> props = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> key = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> ref = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> source = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断 config 是否存在</span></span><br><span class="line">    <span class="keyword">if</span> (config != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 判断是否存在 props =&gt; ref </span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">hasValidRef</span>(config)) &#123;</span><br><span class="line">            ref = config.<span class="property">ref</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">                <span class="title function_">warnIfStringRefCannotBeAutoConverted</span>(config);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否存在 props =&gt; key</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">hasValidKey</span>(config)) &#123;</span><br><span class="line">            key = <span class="string">&#x27;&#x27;</span> + config.<span class="property">key</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        self = config.<span class="property">__self</span> === <span class="literal">undefined</span> ? <span class="literal">null</span> : config.<span class="property">__self</span>;</span><br><span class="line">        source = config.<span class="property">__source</span> === <span class="literal">undefined</span> ? <span class="literal">null</span> : config.<span class="property">__source</span>;</span><br><span class="line">        <span class="comment">// 将除了 ref、key、__self 以及 __source 的 props 赋给内部对象 props</span></span><br><span class="line">        <span class="keyword">for</span> (propName <span class="keyword">in</span> config) &#123;</span><br><span class="line">            <span class="keyword">if</span> (</span><br><span class="line">                hasOwnProperty.<span class="title function_">call</span>(config, propName) &amp;&amp;</span><br><span class="line">                !<span class="variable constant_">RESERVED_PROPS</span>.<span class="title function_">hasOwnProperty</span>(propName)</span><br><span class="line">            ) &#123;</span><br><span class="line">                props[propName] = config[propName];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 children 部分</span></span><br><span class="line">    <span class="keyword">const</span> childrenLength = <span class="variable language_">arguments</span>.<span class="property">length</span> - <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (childrenLength === <span class="number">1</span>) &#123;</span><br><span class="line">        props.<span class="property">children</span> = children;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childrenLength &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> childArray = <span class="title class_">Array</span>(childrenLength);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; childrenLength; i++) &#123;</span><br><span class="line">            childArray[i] = <span class="variable language_">arguments</span>[i + <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title class_">Object</span>.<span class="property">freeze</span>) &#123;</span><br><span class="line">                <span class="title class_">Object</span>.<span class="title function_">freeze</span>(childArray);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        props.<span class="property">children</span> = childArray;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果存在原生标签组件,将原生标签组件上的原生属性赋给 props</span></span><br><span class="line">    <span class="keyword">if</span> (type &amp;&amp; type.<span class="property">defaultProps</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> defaultProps = type.<span class="property">defaultProps</span>;</span><br><span class="line">        <span class="keyword">for</span> (propName <span class="keyword">in</span> defaultProps) &#123;</span><br><span class="line">            <span class="keyword">if</span> (props[propName] === <span class="literal">undefined</span>) &#123;</span><br><span class="line">                props[propName] = defaultProps[propName];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="keyword">if</span> (key || ref) &#123;</span><br><span class="line">            <span class="keyword">const</span> displayName =</span><br><span class="line">                <span class="keyword">typeof</span> type === <span class="string">&#x27;function&#x27;</span></span><br><span class="line">                    ? type.<span class="property">displayName</span> || type.<span class="property">name</span> || <span class="string">&#x27;Unknown&#x27;</span></span><br><span class="line">                    : type;</span><br><span class="line">            <span class="keyword">if</span> (key) &#123;</span><br><span class="line">                <span class="title function_">defineKeyPropWarningGetter</span>(props, displayName);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ref) &#123;</span><br><span class="line">                <span class="title function_">defineRefPropWarningGetter</span>(props, displayName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 交给 ReactElement 处理</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">ReactElement</span>(</span><br><span class="line">        type,</span><br><span class="line">        key,</span><br><span class="line">        ref,</span><br><span class="line">        self,</span><br><span class="line">        source,</span><br><span class="line">        <span class="title class_">ReactCurrentOwner</span>.<span class="property">current</span>,</span><br><span class="line">        props,</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h1 id="react-源码解析"><a href="#react-源码解析" class="headerlink" title="react 源码解析"></a>react 源码解析</h1><h2 id="createElement"><a href="#createElement" class="headerlink" title="createElement"></a>createElement</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Create and return a new ReactElement of the given type.</span></span><br><span class="line"><span class="comment"> * See https://reactjs.org/docs/react-api.html#createelement</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createElement</span>(<span class="params">type, config, children</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> propName;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> props = &#123;&#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> key = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> ref = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> self = <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">let</span> source = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 判断 config 是否存在</span></span><br><span class="line">    <span class="keyword">if</span> (config != <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="comment">// 判断是否存在 props =&gt; ref </span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">hasValidRef</span>(config)) &#123;</span><br><span class="line">            ref = config.<span class="property">ref</span>;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">                <span class="title function_">warnIfStringRefCannotBeAutoConverted</span>(config);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 判断是否存在 props =&gt; key</span></span><br><span class="line">        <span class="keyword">if</span> (<span class="title function_">hasValidKey</span>(config)) &#123;</span><br><span class="line">            key = <span class="string">&#x27;&#x27;</span> + config.<span class="property">key</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        self = config.<span class="property">__self</span> === <span class="literal">undefined</span> ? <span class="literal">null</span> : config.<span class="property">__self</span>;</span><br><span class="line">        source = config.<span class="property">__source</span> === <span class="literal">undefined</span> ? <span class="literal">null</span> : config.<span class="property">__source</span>;</span><br><span class="line">        <span class="comment">// 将除了 ref、key、__self 以及 __source 的 props 赋给内部对象 props</span></span><br><span class="line">        <span class="keyword">for</span> (propName <span class="keyword">in</span> config) &#123;</span><br><span class="line">            <span class="keyword">if</span> (</span><br><span class="line">                hasOwnProperty.<span class="title function_">call</span>(config, propName) &amp;&amp;</span><br><span class="line">                !<span class="variable constant_">RESERVED_PROPS</span>.<span class="title function_">hasOwnProperty</span>(propName)</span><br><span class="line">            ) &#123;</span><br><span class="line">                props[propName] = config[propName];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 获取 children 部分</span></span><br><span class="line">    <span class="keyword">const</span> childrenLength = <span class="variable language_">arguments</span>.<span class="property">length</span> - <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">if</span> (childrenLength === <span class="number">1</span>) &#123;</span><br><span class="line">        props.<span class="property">children</span> = children;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childrenLength &gt; <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> childArray = <span class="title class_">Array</span>(childrenLength);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; childrenLength; i++) &#123;</span><br><span class="line">            childArray[i] = <span class="variable language_">arguments</span>[i + <span class="number">2</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="title class_">Object</span>.<span class="property">freeze</span>) &#123;</span><br><span class="line">                <span class="title class_">Object</span>.<span class="title function_">freeze</span>(childArray);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        props.<span class="property">children</span> = childArray;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 如果存在原生标签组件,将原生标签组件上的原生属性赋给 props</span></span><br><span class="line">    <span class="keyword">if</span> (type &amp;&amp; type.<span class="property">defaultProps</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> defaultProps = type.<span class="property">defaultProps</span>;</span><br><span class="line">        <span class="keyword">for</span> (propName <span class="keyword">in</span> defaultProps) &#123;</span><br><span class="line">            <span class="keyword">if</span> (props[propName] === <span class="literal">undefined</span>) &#123;</span><br><span class="line">                props[propName] = defaultProps[propName];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="keyword">if</span> (key || ref) &#123;</span><br><span class="line">            <span class="keyword">const</span> displayName =</span><br><span class="line">                <span class="keyword">typeof</span> type === <span class="string">&#x27;function&#x27;</span></span><br><span class="line">                    ? type.<span class="property">displayName</span> || type.<span class="property">name</span> || <span class="string">&#x27;Unknown&#x27;</span></span><br><span class="line">                    : type;</span><br><span class="line">            <span class="keyword">if</span> (key) &#123;</span><br><span class="line">                <span class="title function_">defineKeyPropWarningGetter</span>(props, displayName);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (ref) &#123;</span><br><span class="line">                <span class="title function_">defineRefPropWarningGetter</span>(props, displayName);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 交给 ReactElement 处理</span></span><br><span class="line">    <span class="keyword">return</span> <span class="title class_">ReactElement</span>(</span><br><span class="line">        type,</span><br><span class="line">        key,</span><br><span class="line">        ref,</span><br><span class="line">        self,</span><br><span class="line">        source,</span><br><span class="line">        <span class="title class_">ReactCurrentOwner</span>.<span class="property">current</span>,</span><br><span class="line">        props,</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="不同种类的-fiber-Tag"><a href="#不同种类的-fiber-Tag" class="headerlink" title="不同种类的 fiber Tag"></a>不同种类的 fiber Tag</h3><blockquote>
 <p>tag 与 element 的对应关系</p>
@@ -260,796 +263,41 @@
 <h2 id="render"><a href="#render" class="headerlink" title="render"></a>render</h2><figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">render</span>(<span class="params"></span></span><br><span class="line"><span class="params">    element: React$Element&lt;<span class="built_in">any</span>&gt;,</span></span><br><span class="line"><span class="params">    container: Container,</span></span><br><span class="line"><span class="params">    callback: ?<span class="built_in">Function</span>,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">React</span>$Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt; | <span class="title class_">PublicInstance</span> | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(</span><br><span class="line">            <span class="string">&#x27;ReactDOM.render is no longer supported in React 18. Use createRoot &#x27;</span> +</span><br><span class="line">            <span class="string">&#x27;instead. Until you switch to the new API, your app will behave as &#x27;</span> +</span><br><span class="line">            <span class="string">&quot;if it&#x27;s running React 17. Learn &quot;</span> +</span><br><span class="line">            <span class="string">&#x27;more: https://reactjs.org/link/switch-to-createroot&#x27;</span>,</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!<span class="title function_">isValidContainerLegacy</span>(container)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&#x27;Target container is not a DOM element.&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="keyword">const</span> isModernRoot =</span><br><span class="line">            <span class="title function_">isContainerMarkedAsRoot</span>(container) &amp;&amp;</span><br><span class="line">            container.<span class="property">_reactRootContainer</span> === <span class="literal">undefined</span>;</span><br><span class="line">        <span class="keyword">if</span> (isModernRoot) &#123;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">error</span>(</span><br><span class="line">                <span class="string">&#x27;You are calling ReactDOM.render() on a container that was previously &#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;passed to ReactDOMClient.createRoot(). This is not supported. &#x27;</span> +</span><br><span class="line">                <span class="string">&#x27;Did you mean to call root.render(element)?&#x27;</span>,</span><br><span class="line">            );</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">legacyRenderSubtreeIntoContainer</span>(</span><br><span class="line">        <span class="literal">null</span>,</span><br><span class="line">        element,</span><br><span class="line">        container,</span><br><span class="line">        <span class="literal">false</span>,</span><br><span class="line">        callback,</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">legacyRenderSubtreeIntoContainer</span>(<span class="params"></span></span><br><span class="line"><span class="params">    parentComponent: ?React$Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span><br><span class="line"><span class="params">    children: ReactNodeList,</span></span><br><span class="line"><span class="params">    container: Container,</span></span><br><span class="line"><span class="params">    forceHydrate: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    callback: ?<span class="built_in">Function</span>,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">React</span>$Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt; | <span class="title class_">PublicInstance</span> | <span class="literal">null</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="title function_">topLevelUpdateWarnings</span>(container);</span><br><span class="line">        <span class="title function_">warnOnInvalidCallback</span>(callback === <span class="literal">undefined</span> ? <span class="literal">null</span> : callback, <span class="string">&#x27;render&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> maybeRoot = container.<span class="property">_reactRootContainer</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="attr">root</span>: <span class="title class_">FiberRoot</span>;</span><br><span class="line">    <span class="keyword">if</span> (!maybeRoot) &#123;</span><br><span class="line">        <span class="comment">// Initial mount</span></span><br><span class="line">        root = <span class="title function_">legacyCreateRootFromDOMContainer</span>(</span><br><span class="line">            container,</span><br><span class="line">            children,</span><br><span class="line">            parentComponent,</span><br><span class="line">            callback,</span><br><span class="line">            forceHydrate,</span><br><span class="line">        );</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        root = maybeRoot;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> callback === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> originalCallback = callback;</span><br><span class="line">            callback = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">const</span> instance = <span class="title function_">getPublicRootInstance</span>(root);</span><br><span class="line">                originalCallback.<span class="title function_">call</span>(instance);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// Update</span></span><br><span class="line">        <span class="title function_">updateContainer</span>(children, root, parentComponent, callback);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">getPublicRootInstance</span>(root);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">legacyCreateRootFromDOMContainer</span>(<span class="params"></span></span><br><span class="line"><span class="params">    container: Container,</span></span><br><span class="line"><span class="params">    initialChildren: ReactNodeList,</span></span><br><span class="line"><span class="params">    parentComponent: ?React$Component&lt;<span class="built_in">any</span>, <span class="built_in">any</span>&gt;,</span></span><br><span class="line"><span class="params">    callback: ?<span class="built_in">Function</span>,</span></span><br><span class="line"><span class="params">    isHydrationContainer: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">FiberRoot</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (isHydrationContainer) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> callback === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> originalCallback = callback;</span><br><span class="line">            callback = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">const</span> instance = <span class="title function_">getPublicRootInstance</span>(root);</span><br><span class="line">                originalCallback.<span class="title function_">call</span>(instance);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> root = <span class="title function_">createHydrationContainer</span>(</span><br><span class="line">            initialChildren,</span><br><span class="line">            callback,</span><br><span class="line">            container,</span><br><span class="line">            <span class="title class_">LegacyRoot</span>,</span><br><span class="line">            <span class="literal">null</span>, <span class="comment">// hydrationCallbacks</span></span><br><span class="line">            <span class="literal">false</span>, <span class="comment">// isStrictMode</span></span><br><span class="line">            <span class="literal">false</span>, <span class="comment">// concurrentUpdatesByDefaultOverride,</span></span><br><span class="line">            <span class="string">&#x27;&#x27;</span>, <span class="comment">// identifierPrefix</span></span><br><span class="line">            noopOnRecoverableError,</span><br><span class="line">            <span class="comment">// TODO(luna) Support hydration later</span></span><br><span class="line">            <span class="literal">null</span>,</span><br><span class="line">        );</span><br><span class="line">        container.<span class="property">_reactRootContainer</span> = root;</span><br><span class="line">        <span class="title function_">markContainerAsRoot</span>(root.<span class="property">current</span>, container);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> rootContainerElement =</span><br><span class="line">            container.<span class="property">nodeType</span> === <span class="variable constant_">COMMENT_NODE</span> ? container.<span class="property">parentNode</span> : container;</span><br><span class="line">        <span class="comment">// $FlowFixMe[incompatible-call]</span></span><br><span class="line">        <span class="title function_">listenToAllSupportedEvents</span>(rootContainerElement);</span><br><span class="line"></span><br><span class="line">        <span class="title function_">flushSync</span>();</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// First clear any existing content.</span></span><br><span class="line">        <span class="keyword">let</span> rootSibling;</span><br><span class="line">        <span class="keyword">while</span> ((rootSibling = container.<span class="property">lastChild</span>)) &#123;</span><br><span class="line">            container.<span class="title function_">removeChild</span>(rootSibling);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">typeof</span> callback === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> originalCallback = callback;</span><br><span class="line">            callback = <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">                <span class="keyword">const</span> instance = <span class="title function_">getPublicRootInstance</span>(root);</span><br><span class="line">                originalCallback.<span class="title function_">call</span>(instance);</span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> root = <span class="title function_">createContainer</span>(</span><br><span class="line">            container,</span><br><span class="line">            <span class="title class_">LegacyRoot</span>,</span><br><span class="line">            <span class="literal">null</span>, <span class="comment">// hydrationCallbacks</span></span><br><span class="line">            <span class="literal">false</span>, <span class="comment">// isStrictMode</span></span><br><span class="line">            <span class="literal">false</span>, <span class="comment">// concurrentUpdatesByDefaultOverride,</span></span><br><span class="line">            <span class="string">&#x27;&#x27;</span>, <span class="comment">// identifierPrefix</span></span><br><span class="line">            noopOnRecoverableError, <span class="comment">// onRecoverableError</span></span><br><span class="line">            <span class="literal">null</span>, <span class="comment">// transitionCallbacks</span></span><br><span class="line">        );</span><br><span class="line">        container.<span class="property">_reactRootContainer</span> = root;</span><br><span class="line">        <span class="title function_">markContainerAsRoot</span>(root.<span class="property">current</span>, container);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">const</span> rootContainerElement =</span><br><span class="line">            container.<span class="property">nodeType</span> === <span class="variable constant_">COMMENT_NODE</span> ? container.<span class="property">parentNode</span> : container;</span><br><span class="line">        <span class="comment">// $FlowFixMe[incompatible-call]</span></span><br><span class="line">        <span class="title function_">listenToAllSupportedEvents</span>(rootContainerElement);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Initial mount should not be batched.</span></span><br><span class="line">        <span class="title function_">flushSync</span>(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">            <span class="title function_">updateContainer</span>(initialChildren, root, parentComponent, callback);</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br><span class="line">258</span><br><span class="line">259</span><br><span class="line">260</span><br><span class="line">261</span><br><span class="line">262</span><br><span class="line">263</span><br><span class="line">264</span><br><span class="line">265</span><br><span class="line">266</span><br><span class="line">267</span><br><span class="line">268</span><br><span class="line">269</span><br><span class="line">270</span><br><span class="line">271</span><br><span class="line">272</span><br><span class="line">273</span><br><span class="line">274</span><br><span class="line">275</span><br><span class="line">276</span><br><span class="line">277</span><br><span class="line">278</span><br><span class="line">279</span><br><span class="line">280</span><br><span class="line">281</span><br><span class="line">282</span><br><span class="line">283</span><br><span class="line">284</span><br><span class="line">285</span><br><span class="line">286</span><br><span class="line">287</span><br><span class="line">288</span><br><span class="line">289</span><br><span class="line">290</span><br><span class="line">291</span><br><span class="line">292</span><br><span class="line">293</span><br><span class="line">294</span><br><span class="line">295</span><br><span class="line">296</span><br><span class="line">297</span><br><span class="line">298</span><br><span class="line">299</span><br><span class="line">300</span><br><span class="line">301</span><br><span class="line">302</span><br><span class="line">303</span><br><span class="line">304</span><br><span class="line">305</span><br><span class="line">306</span><br><span class="line">307</span><br><span class="line">308</span><br><span class="line">309</span><br><span class="line">310</span><br><span class="line">311</span><br><span class="line">312</span><br><span class="line">313</span><br><span class="line">314</span><br><span class="line">315</span><br><span class="line">316</span><br><span class="line">317</span><br><span class="line">318</span><br><span class="line">319</span><br><span class="line">320</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createContainer</span>(<span class="params"></span></span><br><span class="line"><span class="params">  containerInfo: Container,</span></span><br><span class="line"><span class="params">  tag: RootTag,</span></span><br><span class="line"><span class="params">  hydrationCallbacks: <span class="literal">null</span> | SuspenseHydrationCallbacks,</span></span><br><span class="line"><span class="params">  isStrictMode: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">  concurrentUpdatesByDefaultOverride: <span class="literal">null</span> | <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">  identifierPrefix: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">  onRecoverableError: (error: mixed) =&gt; <span class="built_in">void</span>,</span></span><br><span class="line"><span class="params">  transitionCallbacks: <span class="literal">null</span> | TransitionTracingCallbacks,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">OpaqueRoot</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> hydrate = <span class="literal">false</span>;</span><br><span class="line">  <span class="keyword">const</span> initialChildren = <span class="literal">null</span>;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">createFiberRoot</span>(</span><br><span class="line">    containerInfo,</span><br><span class="line">    tag,</span><br><span class="line">    hydrate,</span><br><span class="line">    initialChildren,</span><br><span class="line">    hydrationCallbacks,</span><br><span class="line">    isStrictMode,</span><br><span class="line">    concurrentUpdatesByDefaultOverride,</span><br><span class="line">    identifierPrefix,</span><br><span class="line">    onRecoverableError,</span><br><span class="line">    transitionCallbacks,</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createFiberRoot</span>(<span class="params"></span></span><br><span class="line"><span class="params">    containerInfo: Container,</span></span><br><span class="line"><span class="params">    tag: RootTag,</span></span><br><span class="line"><span class="params">    hydrate: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    initialChildren: ReactNodeList,</span></span><br><span class="line"><span class="params">    hydrationCallbacks: <span class="literal">null</span> | SuspenseHydrationCallbacks,</span></span><br><span class="line"><span class="params">    isStrictMode: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    concurrentUpdatesByDefaultOverride: <span class="literal">null</span> | <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    <span class="comment">// <span class="doctag">TODO:</span> We have several of these arguments that are conceptually part of the</span></span></span><br><span class="line"><span class="params">    <span class="comment">// host config, but because they are passed in at runtime, we have to thread</span></span></span><br><span class="line"><span class="params">    <span class="comment">// them through the root constructor. Perhaps we should put them all into a</span></span></span><br><span class="line"><span class="params">    <span class="comment">// single type, like a DynamicHostConfig that is defined by the renderer.</span></span></span><br><span class="line"><span class="params">    identifierPrefix: <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    onRecoverableError: <span class="literal">null</span> | ((error: mixed) =&gt; <span class="built_in">void</span>),</span></span><br><span class="line"><span class="params">    transitionCallbacks: <span class="literal">null</span> | TransitionTracingCallbacks,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">FiberRoot</span> &#123;</span><br><span class="line">    <span class="comment">// $FlowFixMe[invalid-constructor] Flow no longer supports calling new on functions</span></span><br><span class="line">    <span class="keyword">const</span> <span class="attr">root</span>: <span class="title class_">FiberRoot</span> = (<span class="keyword">new</span> <span class="title class_">FiberRootNode</span>(</span><br><span class="line">        containerInfo,</span><br><span class="line">        tag,</span><br><span class="line">        hydrate,</span><br><span class="line">        identifierPrefix,</span><br><span class="line">        onRecoverableError,</span><br><span class="line">    ): <span class="built_in">any</span>);</span><br><span class="line">    <span class="keyword">if</span> (enableSuspenseCallback) &#123;</span><br><span class="line">        root.<span class="property">hydrationCallbacks</span> = hydrationCallbacks;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableTransitionTracing) &#123;</span><br><span class="line">        root.<span class="property">transitionCallbacks</span> = transitionCallbacks;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Cyclic construction. This cheats the type system right now because</span></span><br><span class="line">    <span class="comment">// stateNode is any.</span></span><br><span class="line">    <span class="keyword">const</span> uninitializedFiber = <span class="title function_">createHostRootFiber</span>(</span><br><span class="line">        tag,</span><br><span class="line">        isStrictMode,</span><br><span class="line">        concurrentUpdatesByDefaultOverride,</span><br><span class="line">    );</span><br><span class="line">    root.<span class="property">current</span> = uninitializedFiber;</span><br><span class="line">    uninitializedFiber.<span class="property">stateNode</span> = root;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableCache) &#123;</span><br><span class="line">        <span class="keyword">const</span> initialCache = <span class="title function_">createCache</span>();</span><br><span class="line">        <span class="title function_">retainCache</span>(initialCache);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// The pooledCache is a fresh cache instance that is used temporarily</span></span><br><span class="line">        <span class="comment">// for newly mounted boundaries during a render. In general, the</span></span><br><span class="line">        <span class="comment">// pooledCache is always cleared from the root at the end of a render:</span></span><br><span class="line">        <span class="comment">// it is either released when render commits, or moved to an Offscreen</span></span><br><span class="line">        <span class="comment">// component if rendering suspends. Because the lifetime of the pooled</span></span><br><span class="line">        <span class="comment">// cache is distinct from the main memoizedState.cache, it must be</span></span><br><span class="line">        <span class="comment">// retained separately.</span></span><br><span class="line">        root.<span class="property">pooledCache</span> = initialCache;</span><br><span class="line">        <span class="title function_">retainCache</span>(initialCache);</span><br><span class="line">        <span class="keyword">const</span> <span class="attr">initialState</span>: <span class="title class_">RootState</span> = &#123;</span><br><span class="line">            <span class="attr">element</span>: initialChildren,</span><br><span class="line">            <span class="attr">isDehydrated</span>: hydrate,</span><br><span class="line">            <span class="attr">cache</span>: initialCache,</span><br><span class="line">        &#125;;</span><br><span class="line">        uninitializedFiber.<span class="property">memoizedState</span> = initialState;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> <span class="attr">initialState</span>: <span class="title class_">RootState</span> = &#123;</span><br><span class="line">            <span class="attr">element</span>: initialChildren,</span><br><span class="line">            <span class="attr">isDehydrated</span>: hydrate,</span><br><span class="line">            <span class="attr">cache</span>: (<span class="attr">null</span>: <span class="built_in">any</span>), <span class="comment">// not enabled yet</span></span><br><span class="line">    &#125;;</span><br><span class="line">        uninitializedFiber.<span class="property">memoizedState</span> = initialState;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">initializeUpdateQueue</span>(uninitializedFiber);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> root;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">FiberRootNode</span>(<span class="params"></span></span><br><span class="line"><span class="params">    containerInfo,</span></span><br><span class="line"><span class="params">    tag,</span></span><br><span class="line"><span class="params">    hydrate,</span></span><br><span class="line"><span class="params">    identifierPrefix,</span></span><br><span class="line"><span class="params">    onRecoverableError,</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">tag</span> = tag;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">containerInfo</span> = containerInfo;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pendingChildren</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">current</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pingCache</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">finishedWork</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">timeoutHandle</span> = noTimeout;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">context</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pendingContext</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">callbackNode</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">callbackPriority</span> = <span class="title class_">NoLane</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">eventTimes</span> = <span class="title function_">createLaneMap</span>(<span class="title class_">NoLanes</span>);</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">expirationTimes</span> = <span class="title function_">createLaneMap</span>(<span class="title class_">NoTimestamp</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pendingLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">suspendedLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pingedLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">expiredLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">mutableReadLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">finishedLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">errorRecoveryDisabledLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">entangledLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">entanglements</span> = <span class="title function_">createLaneMap</span>(<span class="title class_">NoLanes</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">hiddenUpdates</span> = <span class="title function_">createLaneMap</span>(<span class="literal">null</span>);</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">identifierPrefix</span> = identifierPrefix;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">onRecoverableError</span> = onRecoverableError;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableCache) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pooledCache</span> = <span class="literal">null</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">pooledCacheLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (supportsHydration) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">mutableSourceEagerHydrationData</span> = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableSuspenseCallback) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">hydrationCallbacks</span> = <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">incompleteTransitions</span> = <span class="keyword">new</span> <span class="title class_">Map</span>();</span><br><span class="line">    <span class="keyword">if</span> (enableTransitionTracing) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">transitionCallbacks</span> = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">const</span> transitionLanesMap = (<span class="variable language_">this</span>.<span class="property">transitionLanes</span> = []);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="title class_">TotalLanes</span>; i++) &#123;</span><br><span class="line">            transitionLanesMap.<span class="title function_">push</span>(<span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableProfilerTimer &amp;&amp; enableProfilerCommitHooks) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">effectDuration</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">passiveEffectDuration</span> = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableUpdaterTracking) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">memoizedUpdaters</span> = <span class="keyword">new</span> <span class="title class_">Set</span>();</span><br><span class="line">        <span class="keyword">const</span> pendingUpdatersLaneMap = (<span class="variable language_">this</span>.<span class="property">pendingUpdatersLaneMap</span> = []);</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; <span class="title class_">TotalLanes</span>; i++) &#123;</span><br><span class="line">            pendingUpdatersLaneMap.<span class="title function_">push</span>(<span class="keyword">new</span> <span class="title class_">Set</span>());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (tag) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">ConcurrentRoot</span>:</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">_debugRootType</span> = hydrate ? <span class="string">&#x27;hydrateRoot()&#x27;</span> : <span class="string">&#x27;createRoot()&#x27;</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> <span class="title class_">LegacyRoot</span>:</span><br><span class="line">                <span class="variable language_">this</span>.<span class="property">_debugRootType</span> = hydrate ? <span class="string">&#x27;hydrate()&#x27;</span> : <span class="string">&#x27;render()&#x27;</span>;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">function</span> <span class="title function_">createHostRootFiber</span>(<span class="params"></span></span><br><span class="line"><span class="params">    tag: RootTag,</span></span><br><span class="line"><span class="params">    isStrictMode: <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params">    concurrentUpdatesByDefaultOverride: <span class="literal">null</span> | <span class="built_in">boolean</span>,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Fiber</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> mode;</span><br><span class="line">    <span class="keyword">if</span> (tag === <span class="title class_">ConcurrentRoot</span>) &#123;</span><br><span class="line">        mode = <span class="title class_">ConcurrentMode</span>;</span><br><span class="line">        <span class="keyword">if</span> (isStrictMode === <span class="literal">true</span> || createRootStrictEffectsByDefault) &#123;</span><br><span class="line">            mode |= <span class="title class_">StrictLegacyMode</span> | <span class="title class_">StrictEffectsMode</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (</span><br><span class="line">            <span class="comment">// We only use this flag for our repo tests to check both behaviors.</span></span><br><span class="line">            <span class="comment">// <span class="doctag">TODO:</span> Flip this flag and rename it something like &quot;forceConcurrentByDefaultForTesting&quot;</span></span><br><span class="line">            !enableSyncDefaultUpdates ||</span><br><span class="line">            <span class="comment">// Only for internal experiments.</span></span><br><span class="line">            (allowConcurrentByDefault &amp;&amp; concurrentUpdatesByDefaultOverride)</span><br><span class="line">        ) &#123;</span><br><span class="line">            mode |= <span class="title class_">ConcurrentUpdatesByDefaultMode</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mode = <span class="title class_">NoMode</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableProfilerTimer &amp;&amp; isDevToolsPresent) &#123;</span><br><span class="line">        <span class="comment">// Always collect profile timings when DevTools are present.</span></span><br><span class="line">        <span class="comment">// This enables DevTools to start capturing timing at any point–</span></span><br><span class="line">        <span class="comment">// Without some nodes in the tree having empty base times.</span></span><br><span class="line">        mode |= <span class="title class_">ProfileMode</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">createFiber</span>(<span class="title class_">HostRoot</span>, <span class="literal">null</span>, <span class="literal">null</span>, mode);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/ <span class="title class_">This</span> is a constructor <span class="keyword">function</span>, rather than a <span class="variable constant_">POJO</span> constructor, still</span><br><span class="line"><span class="comment">// please ensure we do the following:</span></span><br><span class="line"><span class="comment">// 1) Nobody should add any instance methods on this. Instance methods can be</span></span><br><span class="line"><span class="comment">//    more difficult to predict when they get optimized and they are almost</span></span><br><span class="line"><span class="comment">//    never inlined properly in static compilers.</span></span><br><span class="line"><span class="comment">// 2) Nobody should rely on `instanceof Fiber` for type testing. We should</span></span><br><span class="line"><span class="comment">//    always know when it is a fiber.</span></span><br><span class="line"><span class="comment">// 3) We might want to experiment with using numeric keys since they are easier</span></span><br><span class="line"><span class="comment">//    to optimize in a non-JIT environment.</span></span><br><span class="line"><span class="comment">// 4) We can easily go from a constructor to a createFiber object literal if that</span></span><br><span class="line"><span class="comment">//    is faster.</span></span><br><span class="line"><span class="comment">// 5) It should be easy to port this to a C struct and keep a C implementation</span></span><br><span class="line"><span class="comment">//    compatible.</span></span><br><span class="line"><span class="keyword">const</span> createFiber = <span class="keyword">function</span>(<span class="params"></span></span><br><span class="line"><span class="params">    tag: WorkTag,</span></span><br><span class="line"><span class="params">    pendingProps: mixed,</span></span><br><span class="line"><span class="params">    key: <span class="literal">null</span> | <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    mode: TypeOfMode,</span></span><br><span class="line"><span class="params"></span>): <span class="title class_">Fiber</span> &#123;</span><br><span class="line">    <span class="comment">// $FlowFixMe: the shapes are exact here but Flow doesn&#x27;t like constructors</span></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">FiberNode</span>(tag, pendingProps, key, mode);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">FiberNode</span>(<span class="params"></span></span><br><span class="line"><span class="params">    tag: WorkTag,</span></span><br><span class="line"><span class="params">    pendingProps: mixed,</span></span><br><span class="line"><span class="params">    key: <span class="literal">null</span> | <span class="built_in">string</span>,</span></span><br><span class="line"><span class="params">    mode: TypeOfMode,</span></span><br><span class="line"><span class="params"></span>) &#123;</span><br><span class="line">    <span class="comment">// Instance</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">tag</span> = tag;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">key</span> = key;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">elementType</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">type</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">stateNode</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Fiber</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">return</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">child</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">sibling</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">index</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">ref</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">pendingProps</span> = pendingProps;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">memoizedProps</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">updateQueue</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">memoizedState</span> = <span class="literal">null</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">dependencies</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">mode</span> = mode;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Effects</span></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">flags</span> = <span class="title class_">NoFlags</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">subtreeFlags</span> = <span class="title class_">NoFlags</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">deletions</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">lanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">childLanes</span> = <span class="title class_">NoLanes</span>;</span><br><span class="line"></span><br><span class="line">    <span class="variable language_">this</span>.<span class="property">alternate</span> = <span class="literal">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (enableProfilerTimer) &#123;</span><br><span class="line">        <span class="comment">// Note: The following is done to avoid a v8 performance cliff.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Initializing the fields below to smis and later updating them with</span></span><br><span class="line">        <span class="comment">// double values will cause Fibers to end up having separate shapes.</span></span><br><span class="line">        <span class="comment">// This behavior/bug has something to do with Object.preventExtension().</span></span><br><span class="line">        <span class="comment">// Fortunately this only impacts DEV builds.</span></span><br><span class="line">        <span class="comment">// Unfortunately it makes React unusably slow for some applications.</span></span><br><span class="line">        <span class="comment">// To work around this, initialize the fields below with doubles.</span></span><br><span class="line">        <span class="comment">//</span></span><br><span class="line">        <span class="comment">// Learn more about this here:</span></span><br><span class="line">        <span class="comment">// https://github.com/facebook/react/issues/14365</span></span><br><span class="line">        <span class="comment">// https://bugs.chromium.org/p/v8/issues/detail?id=8538</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">actualDuration</span> = <span class="title class_">Number</span>.<span class="property">NaN</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">actualStartTime</span> = <span class="title class_">Number</span>.<span class="property">NaN</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">selfBaseDuration</span> = <span class="title class_">Number</span>.<span class="property">NaN</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">treeBaseDuration</span> = <span class="title class_">Number</span>.<span class="property">NaN</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// It&#x27;s okay to replace the initial doubles with smis after initialization.</span></span><br><span class="line">        <span class="comment">// This won&#x27;t trigger the performance cliff mentioned above,</span></span><br><span class="line">        <span class="comment">// and it simplifies other profiler code (including DevTools).</span></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">actualDuration</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">actualStartTime</span> = -<span class="number">1</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">selfBaseDuration</span> = <span class="number">0</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">treeBaseDuration</span> = <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (__DEV__) &#123;</span><br><span class="line">        <span class="comment">// This isn&#x27;t directly used but is handy for debugging internals:</span></span><br><span class="line"></span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_debugSource</span> = <span class="literal">null</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_debugOwner</span> = <span class="literal">null</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_debugNeedsRemount</span> = <span class="literal">false</span>;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">_debugHookTypes</span> = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (!hasBadMapPolyfill &amp;&amp; <span class="keyword">typeof</span> <span class="title class_">Object</span>.<span class="property">preventExtensions</span> === <span class="string">&#x27;function&#x27;</span>) &#123;</span><br><span class="line">            <span class="title class_">Object</span>.<span class="title function_">preventExtensions</span>(<span class="variable language_">this</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/11/17/think-of-react/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
     </div>
 
     
     
     
+
       <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
+          <div class="post-tags">
+              <a href="/tags/react/" rel="tag"># react</a>
+              <a href="/tags/source/" rel="tag"># source</a>
+          </div>
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/25/javascript-outline/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/25/javascript-outline/" class="post-title-link" itemprop="url">javascript outline</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-25 11:41:26" itemprop="dateCreated datePublished" datetime="2022-10-25T11:41:26+08:00">2022-10-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-16 08:19:18" itemprop="dateModified" datetime="2022-11-16T08:19:18+08:00">2022-11-16</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="javascript-outline"><a href="#javascript-outline" class="headerlink" title="javascript outline"></a>javascript outline</h1><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><ul>
-<li>变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针)</li>
-<li>重复声明</li>
-<li>全局作用域绑定</li>
-</ul>
-<h3 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h3><ul>
-<li>不再拥有 var 的缺陷特性</li>
-<li>TDZ(临时死区)</li>
-<li>块级作用域绑定</li>
-</ul>
-<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><ul>
-<li>变量声明</li>
-</ul>
-<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ul>
-<li>常量声明</li>
-<li>优先声明最佳实践</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/25/javascript-outline/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
-    </div>
 
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
 
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/15/think-of-tapable/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/15/think-of-tapable/" class="post-title-link" itemprop="url">think of tapable</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-15 02:00:37" itemprop="dateCreated datePublished" datetime="2022-10-15T02:00:37+08:00">2022-10-15</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-09 00:48:46" itemprop="dateModified" datetime="2022-11-09T00:48:46+08:00">2022-11-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="Tapable"><a href="#Tapable" class="headerlink" title="Tapable"></a>Tapable</h1><blockquote>
-<p>什么是 Tapable</p>
-</blockquote>
-<p>  简单来说,类似于 EventEmitter 的一种发布订阅模式,也就是观察者模式,但不同的是,Tapable 的流程以及应用场景要广泛复杂的多.Tapable 作为 Webpack 的主要骨架而流行,因此也受到前端开发爱好者的研究.</p>
-<blockquote>
-<p>订阅模式类型 —— Hook</p>
-</blockquote>
-<p>  在 Tapable 中订阅模式类型被称为 Hook,也就是 “钩子”,基本分为四种.</p>
-<ul>
-<li>普通钩子</li>
-<li>熔断钩子</li>
-<li>瀑布钩子</li>
-<li>循环钩子</li>
-</ul>
-<p>  在此分类基础上,再添加发布时同步(Sync)、异步(Async)以及 Promise 的区分.</p>
-<blockquote>
-<p>整体源码分析</p>
-</blockquote>
-<p>  先按照整体流程大体看一遍源码,再具体分析各个分类,就先拿最简单 SyncHook 同步普通钩子举例.</p>
-  <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    MIT License http://www.opensource.org/licenses/mit-license.php</span></span><br><span class="line"><span class="comment">    Author Tobias Koppers @sokra</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="meta">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">Hook</span> = <span class="built_in">require</span>(<span class="string">&quot;./Hook&quot;</span>);</span><br><span class="line"><span class="keyword">const</span> <span class="title class_">HookCodeFactory</span> = <span class="built_in">require</span>(<span class="string">&quot;./HookCodeFactory&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 内容则是由 HookCodeFactory 生成</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SyncHookCodeFactory</span> <span class="keyword">extends</span> <span class="title class_ inherited__">HookCodeFactory</span> &#123;</span><br><span class="line">    <span class="title function_">content</span>(<span class="params">&#123; onError, onDone, rethrowIfPossible &#125;</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="title function_">callTapsSeries</span>(&#123;</span><br><span class="line">            <span class="attr">onError</span>: <span class="function">(<span class="params">i, err</span>) =&gt;</span> <span class="title function_">onError</span>(err),</span><br><span class="line">            onDone,</span><br><span class="line">            rethrowIfPossible</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> factory = <span class="keyword">new</span> <span class="title class_">SyncHookCodeFactory</span>();</span><br><span class="line"></span><br><span class="line"><span class="comment">// 继承自 Hook 源类</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SyncHook</span> <span class="keyword">extends</span> <span class="title class_ inherited__">Hook</span> &#123;</span><br><span class="line">    <span class="comment">// 同步的订阅模式类型 Hook 不能调用 tapAsync、tapPromise 异步订阅方法</span></span><br><span class="line">    <span class="title function_">tapAsync</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;tapAsync is not supported on a SyncHook&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="title function_">tapPromise</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">&quot;tapPromise is not supported on a SyncHook&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 编译方法生成并导出最终的函数</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        factory.<span class="title function_">setup</span>(<span class="variable language_">this</span>, options);</span><br><span class="line">        <span class="keyword">return</span> factory.<span class="title function_">create</span>(options);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = <span class="title class_">SyncHook</span>;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/15/think-of-tapable/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
         
-      
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/10/25/javascript-outline/" rel="prev" title="javascript outline">
+      <i class="fa fa-chevron-left"></i> javascript outline
+    </a></div>
+      <div class="post-nav-item"></div>
     </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
       </footer>
+    
   </article>
   
   
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/14/create-simplepack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/10/14/create-simplepack/" class="post-title-link" itemprop="url">create Simplepack</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-10-14 20:04:45" itemprop="dateCreated datePublished" datetime="2022-10-14T20:04:45+08:00">2022-10-14</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-08 02:00:24" itemprop="dateModified" datetime="2022-11-08T02:00:24+08:00">2022-11-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
-<blockquote>
-<p>配置文件</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// simplepack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> simplepackConfig = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="comment">// 作为 simplepack 构建打包的出口</span></span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包文件导出的位置目录</span></span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包导出文件的名称</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = simplepackConfig;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>目录</p>
-</blockquote>
-<p><img src="https://image.white-than-wood.zone/webpack/simplepack_path.png"></p>
-<blockquote>
-<p>Simplepack</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getFileInfo</span>(<span class="params">entry, upperLevel = <span class="string">&#x27;&#x27;</span></span>) &#123;</span><br><span class="line">            <span class="keyword">let</span> path = entry;</span><br><span class="line">            <span class="keyword">const</span> cwd = process.<span class="title function_">cwd</span>();</span><br><span class="line">            <span class="comment">// 判断是否是绝对路径</span></span><br><span class="line">            <span class="keyword">if</span> (!path.<span class="title function_">includes</span>(cwd)) &#123;</span><br><span class="line">                <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                path = <span class="title function_">resolve</span>(cwd, upperLevel, <span class="string">`<span class="subst">$&#123;path.endsWith(<span class="string">&#x27;.js&#x27;</span>) ? path : <span class="string">`<span class="subst">$&#123;path&#125;</span>/index.js`</span>&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_">existsSync</span>(path)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`请检查目录,不存在 <span class="subst">$&#123;entry&#125;</span> 模块`</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> fileInfo = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            <span class="keyword">const</span> &#123; <span class="attr">dependencies</span>: fileDependencies &#125; = fileInfo;</span><br><span class="line">            <span class="keyword">if</span> (fileDependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                fileDependencies.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">                    getFileInfo.<span class="title function_">call</span>(<span class="variable language_">this</span>, item, entry.<span class="title function_">substring</span>(<span class="number">0</span>, entry.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>));</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            fileInfo.<span class="property">filename</span> = entry;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(fileInfo);</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(<span class="variable language_">this</span>.<span class="property">entry</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emit</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Simplepack Parse 解析工具</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/10/14/create-simplepack/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/09/20/unresolved-problems/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/09/20/unresolved-problems/" class="post-title-link" itemprop="url">unresolved problems</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-09-20 08:53:19" itemprop="dateCreated datePublished" datetime="2022-09-20T08:53:19+08:00">2022-09-20</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-21 03:53:53" itemprop="dateModified" datetime="2022-09-21T03:53:53+08:00">2022-09-21</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/unresolved/" itemprop="url" rel="index"><span itemprop="name">unresolved</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a target="_blank" rel="noopener" href="https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171">Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a target="_blank" rel="noopener" href="https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861">“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/09/20/unresolved-problems/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/30/daily-problems/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/daily-problems/" class="post-title-link" itemprop="url">daily problems</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 18:53:14" itemprop="dateCreated datePublished" datetime="2022-08-30T18:53:14+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-18 23:53:56" itemprop="dateModified" datetime="2022-09-18T23:53:56+08:00">2022-09-18</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/problems/" itemprop="url" rel="index"><span itemprop="name">problems</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
-<p>npm run scripts</p>
-</blockquote>
-<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
-<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
-<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
-<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><blockquote>
-<p>闭包</p>
-</blockquote>
-<p>  什么是闭包?</p>
-<p>  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.</p>
-<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/daily-problems/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/30/think-of-nodejs/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/think-of-nodejs/" class="post-title-link" itemprop="url">think of nodejs</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 18:43:30" itemprop="dateCreated datePublished" datetime="2022-08-30T18:43:30+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-19 07:29:11" itemprop="dateModified" datetime="2022-11-19T07:29:11+08:00">2022-11-19</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/nodejs/" itemprop="url" rel="index"><span itemprop="name">nodejs</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>  Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境</p>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>事件驱动</li>
-<li>非阻塞 I/O</li>
-</ul>
-<blockquote>
-<p>非阻塞 I/O</p>
-</blockquote>
-<p>  实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入</p>
-<blockquote>
-<p>规范</p>
-</blockquote>
-<p>  nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/think-of-nodejs/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/30/think-of-webpack/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/think-of-webpack/" class="post-title-link" itemprop="url">think of webpack</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 16:17:26" itemprop="dateCreated datePublished" datetime="2022-08-30T16:17:26+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-08 22:16:23" itemprop="dateModified" datetime="2022-11-08T22:16:23+08:00">2022-11-08</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/webpack/" itemprop="url" rel="index"><span itemprop="name">webpack</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  作为 webpack 构建打包的入口,搜索全局资源的起点.</p>
-<blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.</p>
-<h4 id="output"><a href="#output" class="headerlink" title="output"></a>output</h4><blockquote>
-<p>filename</p>
-</blockquote>
-<p>  output.filename 的作用是什么?</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/think-of-webpack/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/30/hexo-next/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
-      <meta itemprop="name" content="wtw(比木白)">
-      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="wtw's Frontend">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2022/08/30/hexo-next/" class="post-title-link" itemprop="url">hexo next</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2022-08-30 15:51:07" itemprop="dateCreated datePublished" datetime="2022-08-30T15:51:07+08:00">2022-08-30</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-09-02 15:01:47" itemprop="dateModified" datetime="2022-09-02T15:01:47+08:00">2022-09-02</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
-<h1 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h1><blockquote>
-<p>步骤</p>
-</blockquote>
-<p>首先要用 npm 资源依赖管理工具安装全局命令 hexo-cli.</p>
-<pre><code>npm install hexo-cli -g
-</code></pre>
-<p>然后使用 hexo 初始化博客目录,比如 blog 目录,目录名要与后续个人建立的 github 上 hexo 托管代码的 repository 库同名.</p>
-<pre><code>hexo init blog
-</code></pre>
-<p>接着 github 建库: 建立一个以 w-t-w(我的账号).github.io 结尾的 repository 库,作为 hexo 托管代码的库, github 默认<br>.github.io 结尾作为用户的网站二级域名,建立一个新的分支作为创作分支(因为主分支是用来发布呈现网站的); 之后,进入生成的 blog<br>文件夹,在本地添加与远程 repository 库链接关联的句柄简称,并设置本地句柄简称推送/同步远程库上游的分支,与远程库建立安全关联,最后同步远程最新资源.</p>
-<pre><code>git remote add origin git@github.com:w-t-w/w-t-w.github.io.git
-git pull --set-upstream origin master
-</code></pre>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/08/30/hexo-next/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-
   
 
 
 
           </div>
           
+    <div class="comments" id="gitalk-container"></div>
 
 <script>
   window.addEventListener('tabs:register', () => {
@@ -1096,6 +344,7 @@ git pull --set-upstream origin master
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#react-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">react 源码解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#createElement"><span class="nav-number">1.1.</span> <span class="nav-text">createElement</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E7%A7%8D%E7%B1%BB%E7%9A%84-fiber-Tag"><span class="nav-number">1.1.1.</span> <span class="nav-text">不同种类的 fiber Tag</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#render"><span class="nav-number">1.2.</span> <span class="nav-text">render</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -1228,6 +477,25 @@ git pull --set-upstream origin master
 
   
 
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.css">
+
+<script>
+NexT.utils.loadComments(document.querySelector('#gitalk-container'), () => {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js', () => {
+    var gitalk = new Gitalk({
+      clientID    : '7acc3800eafbf2654d8e',
+      clientSecret: '9a46a2a95a66258b9a9cb22bd2c58e5bb7d2ce50',
+      repo        : 'w-t-w.github.io',
+      owner       : 'w-t-w',
+      admin       : ['w-t-w'],
+      id          : 'c993908f530939befe8fe5d21c5d5613',
+        language: 'zh-CN',
+      distractionFreeMode: true
+    });
+    gitalk.render('gitalk-container');
+  }, window.Gitalk);
+});
+</script>
 
 </body>
 </html>

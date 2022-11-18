@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
+        
+        <lastmod>2022-11-18T23:29:11.415Z</lastmod>
+        
+        <date>1661856210000</date>
+        <title>think of nodejs | wtw's Frontend</title>
+        
+        <desc>nodejs本 nodejs 概念 Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境 特性 事件驱动 非阻塞 I/O 非阻塞 I/O 实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入 规范 nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/11/17/think-of-react/</loc>
+        
+        <lastmod>2022-11-17T05:55:28.512Z</lastmod>
+        
+        <date>1668656939000</date>
+        <title>think of react | wtw's Frontend</title>
+        
+        <desc>react 源码解析createElement123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/10/25/javascript-outline/</loc>
         
         <lastmod>2022-11-16T00:19:18.264Z</lastmod>
@@ -21,17 +43,6 @@
         <title>think of tapable | wtw's Frontend</title>
         
         <desc>Tapable 什么是 Tapable 简单来说,类似于 EventEmitter 的一种发布订阅模式,也就是观察者模式,但不同的是,Tapable 的流程以及应用场景要广泛复杂的多.Tapable 作为 Webpack 的主要骨架而流行,因此也受到前端开发爱好者的研究. 订阅模式类型 —— Hook 在 Tapable 中订阅模式类型被称为 Hook,也就是 “钩子”,基本分为四种. 普通钩子 </desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-nodejs/</loc>
-        
-        <lastmod>2022-11-08T15:37:51.327Z</lastmod>
-        
-        <date>1661856210000</date>
-        <title>think of nodejs | wtw's Frontend</title>
-        
-        <desc>npmbrowserslist 作用 用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选. 分类 [“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.[“defaults”]: 相当于 “&gt;0.2%</desc>
     </url>
     
     <url>
