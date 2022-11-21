@@ -61,3 +61,10 @@ categories: problems
   __dirname 与 process.cwd() 的区别是什么?
   
   解: __dirname 指的是当前文件所在的位置目录. process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//...),修改后 process.cwd() 就会发生改变.
+  
+> require
+
+  require.resolve 的作用是什么?
+  
+  解: 用于探查某个模块的完整路径
+  

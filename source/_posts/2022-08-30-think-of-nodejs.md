@@ -246,6 +246,12 @@ class JsZipPlugin {
 }
 ```
 
+#### import-local
+
+> 作用
+
+  用于优先使用本地 node_modules 下的模块,比如全局环境变量下的 webpack 脚本命令是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的模块
+
 #### express
 
 > 特性
