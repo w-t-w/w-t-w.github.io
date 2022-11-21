@@ -131,3 +131,18 @@ categories: css
       transform: translate(-50%, -50%);
   }
   ```
+
+#### BFC
+
+> 分类
+
+  - 浮动元素 float,除了 none 以外的情况
+  - 定位元素 position(absolute、fixed)
+  - display(inline-block、table-caption、table-cell)
+  - overflow(auto、hidden、scroll)
+
+> 特性
+
+  - BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响
+  - BFC 的高度计算会联同浮动元素的高度
+  - BFC 的区域不会与浮动元素的区域重叠
