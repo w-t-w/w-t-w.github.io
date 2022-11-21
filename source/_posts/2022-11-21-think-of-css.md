@@ -68,6 +68,7 @@ categories: css
   .parent {
       display: table-cell;
       vertical-align: middle;
+      height: 100px;
   }
 
   .children {
@@ -128,19 +129,5 @@ categories: css
       left: 50%;
       top: 50%;
       transform: translate(-50%, -50%);
-  }
-  ```
-
-> table-cell + inline-block + vertical-align + text-align
-
-  ```css
-  .parent {
-      text-align: center;
-      display: table-cell;
-      vertical-align: middle;
-  }
-
-  .children {
-      display: inline-block;
   }
   ```
