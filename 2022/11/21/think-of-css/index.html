@@ -29,7 +29,7 @@
 <meta property="og:description" content="css水平居中  对于父子关系的布局，如何让子元素居中就是一个课题~  text-align + inline-block    1234567.parent &amp;#123;    text-align: center;&amp;#125;.children &amp;#123;    display: inline-block;&amp;#125;   absolute + transform(translate)">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-21T12:01:20.000Z">
-<meta property="article:modified_time" content="2022-11-21T23:24:14.526Z">
+<meta property="article:modified_time" content="2022-11-21T23:53:25.248Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="css">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-22 07:24:14" itemprop="dateModified" datetime="2022-11-22T07:24:14+08:00">2022-11-22</time>
+                <time title="修改时间：2022-11-22 07:53:25" itemprop="dateModified" datetime="2022-11-22T07:53:25+08:00">2022-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -303,6 +303,25 @@
 <p>absolute + transform(translate)</p>
 </blockquote>
   <figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>浮动元素 float,除了 none 以外的情况</li>
+<li>定位元素 position(absolute、fixed)</li>
+<li>display(inline-block、table-caption、table-cell)</li>
+<li>overflow(auto、hidden、scroll)</li>
+</ul>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
+<li>BFC 的高度计算会联同浮动元素的高度</li>
+<li>BFC 的区域不会与浮动元素的区域重叠</li>
+</ul>
+
     </div>
 
     
@@ -383,7 +402,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#css"><span class="nav-number">1.</span> <span class="nav-text">css</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">水平居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">垂直居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">水平垂直居中</span></a></li></ol></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#css"><span class="nav-number">1.</span> <span class="nav-text">css</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">水平居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">垂直居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%9E%82%E7%9B%B4%E5%B1%85%E4%B8%AD"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">水平垂直居中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BFC"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">BFC</span></a></li></ol></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
