@@ -69,6 +69,9 @@ categories: css
       display: table-cell;
       vertical-align: middle;
   }
+
+  .children {
+  }
   ```
 
 > absolute + transform(translate)
@@ -128,7 +131,7 @@ categories: css
   }
   ```
 
-> table-cell + vertical-align + text-align
+> table-cell + inline-block + vertical-align + text-align
 
   ```css
   .parent {
@@ -138,5 +141,6 @@ categories: css
   }
 
   .children {
+      display: inline-block;
   }
   ```
