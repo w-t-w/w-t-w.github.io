@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
+        
+        <lastmod>2022-11-22T09:28:16.986Z</lastmod>
+        
+        <date>1669101986000</date>
+        <title>think of javascript | wtw's Frontend</title>
+        
+        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/22/think-of-v8/</loc>
         
         <lastmod>2022-11-22T01:51:15.774Z</lastmod>
