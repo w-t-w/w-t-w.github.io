@@ -24,7 +24,7 @@
   <meta name="description" content="前端领域内所不知道的都探索于此!">
 <meta property="og:type" content="website">
 <meta property="og:title" content="wtw&#39;s Frontend">
-<meta property="og:url" content="http://example.com/tags/tapable/index.html">
+<meta property="og:url" content="http://example.com/page/2/index.html">
 <meta property="og:site_name" content="wtw&#39;s Frontend">
 <meta property="og:description" content="前端领域内所不知道的都探索于此!">
 <meta property="og:locale" content="zh_CN">
@@ -32,20 +32,20 @@
 <meta property="article:tag" content="hexo,hexo blog,webpack">
 <meta name="twitter:card" content="summary">
 
-<link rel="canonical" href="http://example.com/tags/tapable/">
+<link rel="canonical" href="http://example.com/page/2/">
 
 
 <script id="page-configurations">
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome : false,
+    isHome : true,
     isPost : false,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>标签: tapable | wtw's Frontend</title>
+  <title>wtw's Frontend</title>
   
 
 
@@ -196,52 +196,107 @@
         <div class="content-wrap">
           
 
-          <div class="content tag">
+          <div class="content index posts-expand">
             
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/08/30/hexo-next/">
 
-  
-  
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">tapable
-          <small>标签</small>
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
+      <meta itemprop="name" content="wtw(比木白)">
+      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wtw's Frontend">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/08/30/hexo-next/" class="post-title-link" itemprop="url">hexo next</a>
         </h2>
-      </div>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-08-30 15:51:07" itemprop="dateCreated datePublished" datetime="2022-08-30T15:51:07+08:00">2022-08-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2022-09-02 15:01:47" itemprop="dateModified" datetime="2022-09-02T15:01:47+08:00">2022-09-02</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/hexo/" itemprop="url" rel="index"><span itemprop="name">hexo</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2022</span>
+          <h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
+<h1 id="hexo-安装"><a href="#hexo-安装" class="headerlink" title="hexo 安装"></a>hexo 安装</h1><blockquote>
+<p>步骤</p>
+</blockquote>
+<p>首先要用 npm 资源依赖管理工具安装全局命令 hexo-cli.</p>
+<pre><code>npm install hexo-cli -g
+</code></pre>
+<p>然后使用 hexo 初始化博客目录,比如 blog 目录,目录名要与后续个人建立的 github 上 hexo 托管代码的 repository 库同名.</p>
+<pre><code>hexo init blog
+</code></pre>
+<p>接着 github 建库: 建立一个以 w-t-w(我的账号).github.io 结尾的 repository 库,作为 hexo 托管代码的库, github 默认<br>.github.io 结尾作为用户的网站二级域名,建立一个新的分支作为创作分支(因为主分支是用来发布呈现网站的); 之后,进入生成的 blog<br>文件夹,在本地添加与远程 repository 库链接关联的句柄简称,并设置本地句柄简称推送/同步远程库上游的分支,与远程库建立安全关联,最后同步远程最新资源.</p>
+<pre><code>git remote add origin git@github.com:w-t-w/w-t-w.github.io.git
+git pull --set-upstream origin master
+</code></pre>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/08/30/hexo-next/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2022-10-15T02:00:37+08:00"
-              content="2022-10-15">
-          10-15
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2022/10/15/think-of-tapable/" itemprop="url">
-            <span itemprop="name">think of tapable</span>
-          </a>
-      </div>
-
-    </header>
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
   </article>
-
-    </div>
-  </div>
   
   
   
 
+
   
+  <nav class="pagination">
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="上一页"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+  </nav>
 
 
 
