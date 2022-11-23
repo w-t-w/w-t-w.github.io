@@ -527,3 +527,31 @@ const pick = (o, property) => {
     return deepClone(o);
 };
 ```
+
+#### new
+
+> ES5
+
+```javascript
+
+```
+
+> ES6
+
+```javascript
+
+```
+
+#### instanceof
+
+> ES5
+
+```javascript
+
+```
+
+> ES6
+
+```javascript
+
+```
