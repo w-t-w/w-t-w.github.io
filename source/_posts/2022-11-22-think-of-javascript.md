@@ -277,6 +277,7 @@ function throttle(fn, timeout) {
         }
         if (first) {
             fn.apply(self, args);
+            first = false;
             return true;
         }
         timer = setTimeout(() => {
@@ -300,6 +301,7 @@ const throttle = (fn, timeout) => {
         }
         if (first) {
             fn(...args);
+            first = false;
             return true;
         }
         timer = setTimeout(() => {
