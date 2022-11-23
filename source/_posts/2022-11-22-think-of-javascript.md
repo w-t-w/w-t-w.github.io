@@ -661,24 +661,28 @@ Function.prototype.mycall = function () {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
     var args = Array.prototype.slice.call(arguments),
-        o = args[0],
-        params = args.slice(1),
+        o = args[0] || window,
+        params = args.slice(1) || [],
         symbolFunc = Symbol.for('func');
     o[symbolFunc] = this;
-    return o[symbolFunc](...args);
+    const res = o[symbolFunc](...params);
+    delete o[symbolFunc];
+    return res;
 };
 ```
 
 > ES6
 
 ```javascript
-Function.prototype.mycall = function (o, ...args) {
+Function.prototype.mycall = function (o = window, ...args) {
     if (typeof this !== 'function') {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
     const symbolFunc = Symbol.for('func');
     o[symbolFunc] = this;
-    return o[symbolFunc](...args);
+    const res = o[symbolFunc](...args);
+    delete o[symbolFunc];
+    return res;
 };
 ```
 
@@ -692,24 +696,28 @@ Function.prototype.myapply = function () {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
     var args = Array.prototype.slice.call(arguments),
-        o = args[0],
-        params = args[1],
+        o = args[0] || window,
+        params = args[1] || [],
         symbolFunc = Symbol.for('func');
     o[symbolFunc] = this;
-    return o[symbolFunc](...params);
+    const res = o[symbolFunc](...params);
+    delete o[symbolFunc];
+    return res;
 };
 ```
 
 > ES6
 
 ```javascript
-Function.prototype.myapply = function (o, args) {
+Function.prototype.myapply = function (o = window, args = []) {
     if (typeof this !== 'function') {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
     const symbolFunc = Symbol.for('func');
     o[symbolFunc] = this;
-    return o[symbolFunc](...args);
+    const res = o[symbolFunc](...args);
+    delete o[symbolFunc];
+    return res;
 };
 ```
 
