@@ -569,11 +569,35 @@ const myNew = (fn, ...args) => {
 > ES5
 
 ```javascript
-
+function myInstanceof(targetObj, targetClass) {
+    if (!targetObj || !targetClass || !targetObj.__proto__ || !targetClass.prototype) {
+        return false;
+    }
+    var current = targetObj;
+    while (current) {
+        if (current.__proto__ === targetClass.prototype) {
+            return true;
+        }
+        current = current.__proto__;
+    }
+    return false;
+}
 ```
 
 > ES6
 
 ```javascript
-
+const myInstanceof = (targetObj, targetClass) => {
+    if (!targetObj || !targetClass || !targetObj.__proto__ || !targetClass.prototype) {
+        return false;
+    }
+    let current = targetObj;
+    while (current) {
+        if (current.__proto__ === targetClass.prototype) {
+            return true;
+        }
+        current = current.__proto__;
+    }
+    return false;
+};
 ```
