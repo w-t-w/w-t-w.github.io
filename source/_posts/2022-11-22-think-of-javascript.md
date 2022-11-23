@@ -601,3 +601,50 @@ const myInstanceof = (targetObj, targetClass) => {
     return false;
 };
 ```
+
+#### unit
+
+> ES5
+
+```javascript
+function unit(desc, fn) {
+    try {
+        fn();
+        console.log(`${desc} -> PASS!`);
+    } catch (e) {
+        console.error(`${desc} -> FAILED:`, e);
+    }
+}
+
+function test(res) {
+    return {
+        toBe: function (expectRes) {
+            if (res !== expectRes) {
+                throw new Error(`期望值是${expectRes}, 但实际上得到的是${res}`);
+            }
+        }
+    }
+}
+```
+
+> ES6
+
+```javascript
+const unit = (desc, fn) => {
+    try {
+        fn();
+        console.log(`${desc} -> PASS!`);
+    } catch (e) {
+        console.error(`${desc} -> FAILED:`, e);
+    }
+}
+const test = (res) => {
+    return {
+        toBe(expectRes) {
+            if (res !== expectRes) {
+                throw new Error(`期望值是${expectRes}，但实际上得到的是${res}`);
+            }
+        }
+    };
+}
+```
