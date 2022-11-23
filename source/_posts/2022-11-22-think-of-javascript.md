@@ -327,7 +327,7 @@ function factorial(n) {
 > ES6
 
 ```javascript
-const factorial = (n) => (n === 1) ? n : n * factorial(n - 1);
+const factorial = n => (n === 1) ? n : n * factorial(n - 1);
 ```
 
 #### tailCall factorial
@@ -350,4 +350,180 @@ function factorial(n, p) {
 
 ```javascript
 const factorial = (n, p = 1) => n === 1 ? p : factorial(n - 1, p * n);
+```
+
+#### shallow copy
+
+> ES5
+
+```javascript
+function shallowCopy(o) {
+    var _o = Array.isArray(o) ? [] : {};
+    for (var key in o) {
+        if (o.hasOwnProperty(key)) {
+            _o[key] = o[key];
+        }
+    }
+    return _o;
+}
+```
+
+> ES6
+
+```javascript
+const shallowCopy = o => {
+    const _o = Array.isArray(o) ? [] : {};
+    for (const key in o) {
+        if (o.hasOwnProperty(key)) {
+            _o[key] = o[key];
+        }
+    }
+    return _o;
+}
+```
+
+#### deep clone
+
+> ES5
+
+```javascript
+function deepClone(o) {
+    var _o = Array.isArray(o) ? [] : {};
+    for (var key of Reflect.ownKeys(o)) {
+        if (o.hasOwnProperty(key)) {
+            if (o[key] && typeof o[key] === 'object') {
+                _o[key] = deepClone(o[key]);
+            } else {
+                _o[key] = o[key];
+            }
+        }
+    }
+    return _o;
+}
+```
+
+> ES6
+
+```javascript
+const deepClone = o => {
+    const _o = Array.isArray(o) ? [] : {};
+    for (const key of Reflect.ownKeys(o)) {
+        if (o.hasOwnProperty(key)) {
+            if (o[key] && typeof o[key] === 'object') {
+                _o[key] = deepClone(o[key]);
+            } else {
+                _o[key] = o[key];
+            }
+        }
+    }
+    return _o;
+}
+```
+
+#### deep clone loop
+
+> ES5
+
+```javascript
+function deepClone(o) {
+    var weakMap = new WeakMap();
+
+    function deepCloneFunc(o) {
+        var _o = Array.isArray(o) ? [] : {};
+        var existObj = weakMap.get(o);
+        if (existObj) return existObj;
+        weakMap.set(o, o);
+        for (var key of Reflect.ownKeys(o)) {
+            if (o.hasOwnProperty(key)) {
+                if (o[key] && typeof o[key] === 'object') {
+                    _o[key] = deepCloneFunc(o[key]);
+                } else {
+                    _o[key] = o[key];
+                }
+            }
+        }
+        return _o;
+    }
+
+    return deepCloneFunc(o);
+}
+```
+
+> ES6
+
+```javascript
+const deepClone = o => {
+    const weakMap = new WeakMap();
+
+    const deepCloneFunc = o => {
+        const _o = Array.isArray(o) ? [] : {};
+        const existObj = weakMap.get(o);
+        if (existObj) return existObj;
+        weakMap.set(o, o);
+        for (const key of Reflect.ownKeys(o)) {
+            if (o.hasOwnProperty(key)) {
+                if (o[key] && typeof o[key] === 'object') {
+                    _o[key] = deepCloneFunc(o[key]);
+                } else {
+                    _o[key] = o[key];
+                }
+            }
+        }
+        return _o;
+    };
+
+    return deepCloneFunc(o);
+};
+```
+
+#### pick
+
+> ES5
+
+```javascript
+function pick(o, property) {
+    var weakMap = new WeakMap();
+
+    function deepClone(o) {
+        var _o = Array.isArray(o) ? [] : {};
+        var existObj = weakMap.get(o);
+        if (existObj) return existObj;
+        weakMap.set(o, o);
+        for (var key of Reflect.ownKeys(o)) {
+            if (o.hasOwnProperty(key) && property.includes(key)) {
+                if (o[key] && typeof o[key] === 'object') {
+                    _o[key] = deepClone(o[key]);
+                } else {
+                    _o[key] = o[key];
+                }
+            }
+        }
+        return _o;
+    }
+
+    return deepClone(o);
+}
+```
+
+> ES6
+
+```javascript
+const pick = (o, property) => {
+    const weakMap = new WeakMap();
+    const deepClone = (o) => {
+        const _o = Array.isArray(o) ? [] : {};
+        const existObj = weakMap.get(o);
+        if (existObj) return existObj;
+        weakMap.set(o, o);
+        for (const key of Reflect.ownKeys(o)) {
+            if (o.hasOwnProperty(key) && property.includes(key)) {
+                _o[key] = deepClone(o[key]);
+            } else {
+                _o[key] = o[key];
+            }
+        }
+        return _o;
+    };
+    return deepClone(o);
+};
 ```
