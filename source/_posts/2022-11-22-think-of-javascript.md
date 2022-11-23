@@ -612,9 +612,9 @@ const myInstanceof = (targetObj, targetClass) => {
 function unit(desc, fn) {
     try {
         fn();
-        console.log(`${desc} -> PASS!`);
+        console.log(desc + ' -> PASS!');
     } catch (e) {
-        console.error(`${desc} -> FAILED:`, e);
+        console.error(desc + ' -> FAILED:', e);
     }
 }
 
@@ -622,7 +622,7 @@ function test(res) {
     return {
         toBe: function (expectRes) {
             if (res !== expectRes) {
-                throw new Error(`期望值是${expectRes}, 但实际上得到的是${res}`);
+                throw new Error('期望值是' + expectRes + ', 但实际上得到的是' + res);
             }
         }
     }
@@ -640,7 +640,7 @@ const unit = (desc, fn) => {
         console.error(`${desc} -> FAILED:`, e);
     }
 }
-const test = (res) => {
+const test = res => {
     return {
         toBe(expectRes) {
             if (res !== expectRes) {
@@ -650,3 +650,69 @@ const test = (res) => {
     };
 }
 ```
+
+#### call
+
+> ES5
+
+```javascript
+Function.prototype.mycall = function () {
+    if (typeof this !== 'function') {
+        throw new TypeError('call 方法必须被一个函数调用!');
+    }
+    var args = Array.prototype.slice.call(arguments),
+        o = args[0],
+        params = args.slice(1),
+        symbolFunc = Symbol.for('func');
+    o[symbolFunc] = this;
+    return o[symbolFunc](...args);
+};
+```
+
+> ES6
+
+```javascript
+Function.prototype.mycall = function (o, ...args) {
+    if (typeof this !== 'function') {
+        throw new TypeError('call 方法必须被一个函数调用!');
+    }
+    const symbolFunc = Symbol.for('func');
+    o[symbolFunc] = this;
+    return o[symbolFunc](...args);
+};
+```
+
+#### apply
+
+> ES5
+
+```javascript
+Function.prototype.myapply = function () {
+    if (typeof this !== 'function') {
+        throw new TypeError('call 方法必须被一个函数调用!');
+    }
+    var args = Array.prototype.slice.call(arguments),
+        o = args[0],
+        params = args[1],
+        symbolFunc = Symbol.for('func');
+    o[symbolFunc] = this;
+    return o[symbolFunc](...params);
+};
+```
+
+> ES6
+
+```javascript
+Function.prototype.myapply = function (o, args) {
+    if (typeof this !== 'function') {
+        throw new TypeError('call 方法必须被一个函数调用!');
+    }
+    const symbolFunc = Symbol.for('func');
+    o[symbolFunc] = this;
+    return o[symbolFunc](...args);
+};
+```
+
+#### bind
+
+#### Promise
