@@ -656,7 +656,7 @@ const test = res => {
 > ES5
 
 ```javascript
-Function.prototype.mycall = function () {
+Function.prototype.myCall = function () {
     if (typeof this !== 'function') {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
@@ -674,7 +674,7 @@ Function.prototype.mycall = function () {
 > ES6
 
 ```javascript
-Function.prototype.mycall = function (o = window, ...args) {
+Function.prototype.myCall = function (o = window, ...args) {
     if (typeof this !== 'function') {
         throw new TypeError('call 方法必须被一个函数调用!');
     }
@@ -691,9 +691,9 @@ Function.prototype.mycall = function (o = window, ...args) {
 > ES5
 
 ```javascript
-Function.prototype.myapply = function () {
+Function.prototype.myApply = function () {
     if (typeof this !== 'function') {
-        throw new TypeError('call 方法必须被一个函数调用!');
+        throw new TypeError('apply 方法必须被一个函数调用!');
     }
     var args = Array.prototype.slice.call(arguments),
         o = args[0] || window,
@@ -709,9 +709,9 @@ Function.prototype.myapply = function () {
 > ES6
 
 ```javascript
-Function.prototype.myapply = function (o = window, args = []) {
+Function.prototype.myApply = function (o = window, args = []) {
     if (typeof this !== 'function') {
-        throw new TypeError('call 方法必须被一个函数调用!');
+        throw new TypeError('apply 方法必须被一个函数调用!');
     }
     const symbolFunc = Symbol.for('func');
     o[symbolFunc] = this;
@@ -723,4 +723,102 @@ Function.prototype.myapply = function (o = window, args = []) {
 
 #### bind
 
+> ES5
+
+```javascript
+Function.prototype.myBind = function (context) {
+    if (typeof this !== 'function') {
+        throw new TypeError('bind 方法必须被一个函数调用!');
+    }
+    var args = Array.prototype.slice.call(arguments, 1),
+        self = this,
+        fBind,
+        F = function () {
+        };
+    fBind = function () {
+        var innerArgs = Array.prototype.slice.call(arguments);
+        return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+    };
+    F.prototype = self.prototype;
+    Object.setPrototypeOf(fBind.prototype, F.prototype);
+    return fBind;
+};
+```
+
+> ES6
+
+```javascript
+Function.prototype.myBind = function (context, ...args) {
+    if (typeof this !== 'function') {
+        throw new TypeError('bind 方法必须被一个函数调用!');
+    }
+    const self = this,
+        F = function () {
+        };
+    let fBind;
+    fBind = function (...innerArgs) {
+        return self.apply(this instanceof fBind ? this : context, [...args, ...innerArgs]);
+    };
+    F.prototype = self.prototype;
+    Object.setPrototypeOf(fBind.prototype, F.prototype);
+    return fBind;
+};
+```
+
+#### softBind
+
+> ES5
+
+```javascript
+Function.prototype.myBind = function (context) {
+    if (typeof this !== 'function') {
+        throw new TypeError('bind 方法必须被一个函数调用!');
+    }
+    var args = Array.prototype.slice.call(arguments, 1),
+        self = this,
+        fBind,
+        F = function () {
+        };
+    fBind = function () {
+        var innerArgs = Array.prototype.slice.call(arguments);
+        return self.apply(this instanceof fBind ? this : context, args.concat(innerArgs));
+    };
+    F.prototype = self.prototype;
+    Object.setPrototypeOf(fBind.prototype, F.prototype);
+    return fBind;
+};
+```
+
+> ES6
+
+```javascript
+Function.prototype.myBind = function (context, ...args) {
+    if (typeof this !== 'function') {
+        throw new TypeError('bind 方法必须被一个函数调用!');
+    }
+    const self = this,
+        F = function () {
+        };
+    let fBind;
+    fBind = function (...innerArgs) {
+        return self.apply(this instanceof fBind ? this : context, [...args, ...innerArgs]);
+    };
+    F.prototype = self.prototype;
+    Object.setPrototypeOf(fBind.prototype, F.prototype);
+    return fBind;
+};
+```
+
 #### Promise
+
+> ES5
+
+```javascript
+
+```
+
+> ES6
+
+```javascript
+
+```
