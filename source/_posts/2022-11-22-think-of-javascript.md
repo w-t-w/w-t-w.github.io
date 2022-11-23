@@ -112,6 +112,30 @@ function fibonacci(n) {
 const fibonacci = n => (n === 1 || n === 0) ? n : (fibonacci(n - 1) + fibonacci(n - 2));
 ```
 
+#### tailCall fibonacci
+
+> ES5
+
+```javascript
+function fibonacci(n, n1, n2) {
+    if (typeof n1 === 'undefined' && typeof n2 === 'undefined') {
+        n1 = 0;
+        n2 = 1;
+    }
+    if (n === 0) {
+        return n1;
+    }
+    return fibonacci(n - 1, n2, n1 + n2);
+
+}
+```
+
+> ES6
+
+```javascript
+const fibonacci = (n, n1 = 0, n2 = 1) => (n === 0) ? n1 : fibonacci(n - 1, n2, n1 + n2);
+```
+
 #### cache fibonacci
 
 > ES5
@@ -285,4 +309,45 @@ const throttle = (fn, timeout) => {
         }, timeout);
     };
 }
+```
+
+#### factorial
+
+> ES5
+
+```javascript
+function factorial(n) {
+    if (n === 1) {
+        return n;
+    }
+    return n * factorial(n - 1);
+}
+```
+
+> ES6
+
+```javascript
+const factorial = (n) => (n === 1) ? n : n * factorial(n - 1);
+```
+
+#### tailCall factorial
+
+> ES5
+
+```javascript
+function factorial(n, p) {
+    if (typeof p === 'undefined') {
+        p = 1;
+    }
+    if (n === 1) {
+        return p;
+    }
+    return factorial(n - 1, p * n);
+}
+```
+
+> ES6
+
+```javascript
+const factorial = (n, p = 1) => n === 1 ? p : factorial(n - 1, p * n);
 ```
