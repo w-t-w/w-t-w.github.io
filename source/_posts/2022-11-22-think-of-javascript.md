@@ -533,13 +533,35 @@ const pick = (o, property) => {
 > ES5
 
 ```javascript
+function myNew(fn) {
+    var obj = {},
+        args = Array.prototype.slice.call(arguments, 1),
+        result = fn.apply(obj, args),
+        isObject = typeof result === 'object' && result !== null,
+        isFunction = typeof result === 'function';
+    if (isFunction || isObject) {
+        return result;
+    }
 
+    obj.__proto__ = fn.prototype;
+    return obj;
+}
 ```
 
 > ES6
 
 ```javascript
-
+const myNew = (fn, ...args) => {
+    const obj = {},
+        result = fn.call(obj, ...args),
+        isObject = typeof result === 'object' && result !== null,
+        isFunction = typeof result === 'function';
+    if (isObject || isFunction) {
+        return result;
+    }
+    obj.__proto__ = fn.prototype;
+    return obj;
+};
 ```
 
 #### instanceof
