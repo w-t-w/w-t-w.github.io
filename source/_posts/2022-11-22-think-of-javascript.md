@@ -834,6 +834,17 @@ Function.prototype.softBind = function (context, ...args) {
 
 > nodejs
 
+  nodejs 中的 Event Loop 就有所不同, 其运行的阶段分为:
+
+  - timer: 执行 setTimeout、setInterval 回调事件
+  - pending callbacks: 执行延迟到下一个 I/O 回调
+  - idle,prepare: 仅系统内部使用
+  - poll: 检索新的 I/O 事件,执行与 I/O 相关的回调
+  - check: 执行 setImmediate 回调 
+  - close callbacks: 一些关闭的回调函数,如 socket.close 
+
+  注意: poll队列执行完后,如果没有 setImmediate,但是有定时器到期,会绕回去执行定时器阶段
+
 #### Promise
 
 > ES5
