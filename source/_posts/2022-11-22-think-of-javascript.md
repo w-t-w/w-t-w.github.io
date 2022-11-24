@@ -811,6 +811,10 @@ Function.prototype.softBind = function (context, ...args) {
 
 #### Event Loop
 
+> browser
+
+> nodejs
+
 #### Promise
 
 > ES5
