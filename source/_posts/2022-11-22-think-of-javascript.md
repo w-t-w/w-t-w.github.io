@@ -843,7 +843,7 @@ Function.prototype.softBind = function (context, ...args) {
   - check: 执行 setImmediate 回调 
   - close callbacks: 执行一些关闭的回调函数,如 socket.close 
 
-  注意: poll 队列执行完后,如果没有 setImmediate,但是有定时器到期,会绕回去执行定时器 timer 阶段
+  注意: poll 队列执行完后,如果没有 setImmediate,但是有定时器到期,会绕回执行定时器 timer 阶段
 
 #### Promise
 
