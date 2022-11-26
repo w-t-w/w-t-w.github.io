@@ -316,7 +316,7 @@ category: javascript
    - 基本用法: 注意 promise 是绑定至内置对象 \[\[PromiseState\]\] 内
      - pending: 处理中
      - fulfilled: 处理完成
-     - reject: 拒绝处理
+     - rejected: 拒绝处理
    - 创建未完成的 Promise: new Promise((resolve, reject) => {})
    - 创建已处理的 Promise: Promise.resolve,Promise.reject,注意对于 Promise.resolve 如果传入 Promise 参数,则会将此 Promise 直接返回
    - 全局 Promise 拒绝处理程序: 在事件循环执行机制中,若 Promise 被拒绝,且没有拒绝处理程序时,会触发执行 unhandledRejection 事件; 若 Promise 被拒绝,且监听到拒绝处理程序时,则会触发 rejectionHandled 事件,注意若同步立即设置拒绝处理程序,则不会触发任何事件
