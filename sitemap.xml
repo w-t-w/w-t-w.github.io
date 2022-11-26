@@ -4,12 +4,23 @@
     <url>
         <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
         
-        <lastmod>2022-11-26T03:39:53.539Z</lastmod>
+        <lastmod>2022-11-26T10:52:40.586Z</lastmod>
         
         <date>1669101986000</date>
         <title>think of javascript | wtw's Frontend</title>
         
         <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
+        
+        <lastmod>2022-11-26T09:33:13.019Z</lastmod>
+        
+        <date>1666669286000</date>
+        <title>javascript outline | wtw's Frontend</title>
+        
+        <desc>javascript outlineES6var 变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针) 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
     </url>
     
     <url>
@@ -87,17 +98,6 @@
         <title>think of react | wtw's Frontend</title>
         
         <desc>react 源码解析createElement123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475767778798081828384858687888990919293</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
-        
-        <lastmod>2022-11-16T00:19:18.264Z</lastmod>
-        
-        <date>1666669286000</date>
-        <title>javascript outline | wtw's Frontend</title>
-        
-        <desc>javascript outlineES6var 变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针) 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
     </url>
     
     <url>
