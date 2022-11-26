@@ -1239,3 +1239,9 @@ const Promise = (() => {
     return Promise;
 })();
 ```
+
+#### complete Promise
+
+> ES5
+
+> ES6
