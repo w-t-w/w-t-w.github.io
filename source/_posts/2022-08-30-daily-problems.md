@@ -68,3 +68,10 @@ categories: problems
   
   解: 用于探查某个模块的完整路径
   
+# browser
+
+> console
+
+  "Warning: Mixed Content: The page at '\<URL\>' was loaded over HTTPS, but requested an insecure element '\<URL\>'. This request was automatically upgraded to HTTPS, For more information see \<URL\>"所表示的含义?如何消除?
+  
+  解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告

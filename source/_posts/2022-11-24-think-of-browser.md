@@ -21,3 +21,13 @@ categories: browser
     - GPU 进程
     - 插件进程
     - 网络进程
+
+#### OPTIONS
+
+> 概念
+
+  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个"预检"请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.
+  
+> 场景
+
+  - 跨域请求
