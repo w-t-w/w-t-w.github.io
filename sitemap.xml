@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/21/think-of-css/</loc>
+        
+        <lastmod>2022-11-27T09:39:43.292Z</lastmod>
+        
+        <date>1669032080000</date>
+        <title>think of css | wtw's Frontend</title>
+        
+        <desc>css水平居中对于父子关系的布局，如何让子元素居中就是一个课题~ text-align + inline-block 1234567 .parent &#123; text-align: center;&#125;.children &#123; display: inline-block;&#125; absolute + transform(translate) 123456789 .pare</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/26/think-of-algorithm/</loc>
         
         <lastmod>2022-11-27T06:58:22.373Z</lastmod>
@@ -54,17 +65,6 @@
         <title>think of v8 | wtw's Frontend</title>
         
         <desc>v8 垃圾回收机制 使用分代回收策略,分为新、老生代. 新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤: 查找 from 中还存活的对象,将其全部移入到 to 反转 from 和 to 对 to 尽数回收 新生代 -&gt; 老生代 新生代垃圾回收机</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/11/21/think-of-css/</loc>
-        
-        <lastmod>2022-11-22T00:09:54.408Z</lastmod>
-        
-        <date>1669032080000</date>
-        <title>think of css | wtw's Frontend</title>
-        
-        <desc>css水平居中 对于父子关系的布局，如何让子元素居中就是一个课题~ text-align + inline-block 1234567.parent &#123; text-align: center;&#125;.children &#123; display: inline-block;&#125; absolute + transform(translate) 123456789.paren</desc>
     </url>
     
     <url>
