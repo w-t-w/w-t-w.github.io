@@ -94,4 +94,36 @@ function mergeSort(arr) {
 
 > 快速排序
 
+```javascript
+function benchMark(arr, left, right) {
+    let i = left,
+        j = right,
+        x = arr[left];
+    while (i < j) {
+        while (i < j && arr[j] >= x) {
+            j--;
+        }
+        if (i < j) {
+            arr[i] = arr[j];
+        }
+        while (i < j && arr[i] <= x) {
+            i++
+        }
+        if (i < j) {
+            arr[j] = arr[i];
+        }
+    }
+    arr[i] = x;
+    return i;
+}
+
+function quickSort(arr, left = 0, right = arr.length - 1) {
+    if (left < right) {
+        const index = benchMark(arr, left, right);
+        quickSort(arr, left, index - 1);
+        quickSort(arr, index + 1, right);
+    }
+    return arr;
+}
+```
 
