@@ -51,9 +51,9 @@ categories: browser
 
   - 强制缓存与协商缓存
     - 会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存
-  - 强制缓存
+  - 协商缓存
     - ETag 与 Last-Modified
       - ETag > Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确
-  - 协商缓存
+  - 强制缓存
     - Expires 与 Cache-Control
       - Cache-Control > Expires
