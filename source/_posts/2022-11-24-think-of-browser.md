@@ -44,7 +44,7 @@ categories: browser
     - Cache-Control
       - max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存
       - immutable: 浏览器永远只能取本地缓存
-      - no-cache: 使用缓存前,强制要求把请求提交给服务器实行验证
+      - no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证
       - no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存
 
 > 优先级
