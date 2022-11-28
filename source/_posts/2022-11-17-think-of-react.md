@@ -26,7 +26,7 @@ categories: react
     - shouldComponentUpdate: 判断组件是否可以实行渲染更新
     - getSnapShotBeforeUpdate: 在组件渲染更新前需要的统计计算
     - render: react 组件内唯一的描述 UI 的方法,必须设置
-    - componentDidUpdate: 在组件渲染更新后要执行的一些操作
+    - componentDidUpdate: 在组件渲染更新完成后要执行的一些操作
   - 卸载阶段
     - componentWillUnmount: 在组件卸载时,用于资源释放
 
