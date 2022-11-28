@@ -1852,6 +1852,7 @@ function run(taskRun) {
     var task = taskRun();
 
     function next(err, data) {
+        if (err) task.throw(err);
         const result = task.next(data);
         if (result.done) return;
         result.value(next);
@@ -1868,9 +1869,10 @@ const Thunk = fn => (...args) => callback => fn.call(this, ...args, callback);
 const run = taskRun => {
     const task = taskRun();
     const next = (err, data) => {
-        const result = task.next(data);
-        if (result.done) return;
-        result.value(next);
+        if (err) task.throw(err);
+        const {value, done} = task.next(data);
+        if (done) return;
+        value(next);
     }
     next();
 };
