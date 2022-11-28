@@ -31,3 +31,9 @@ categories: browser
 > 场景
 
   - 跨域请求
+
+#### HTTP 缓存策略
+
+> 概念
+
+  
