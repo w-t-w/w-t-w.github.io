@@ -34,6 +34,26 @@ categories: browser
 
 #### HTTP 缓存策略
 
-> 概念
+> 分类
 
-  
+  - 协商缓存
+    - ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存
+    - Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存
+  - 强制缓存
+    - Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存
+    - Cache-Control
+      - max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求了,浏览器取本地缓存
+      - immutable: 浏览器永远只能取本地缓存
+      - no-cache: 使用缓存前,强制要求把请求提交给服务器实行验证
+      - no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存
+
+> 优先级
+
+  - 强制缓存与协商缓存
+    - 会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存
+  - 强制缓存
+    - ETag 与 Last-Modified
+      - ETag > Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确
+  - 协商缓存
+    - Expires 与 Cache-Control
+      - Cache-Control > Expires
