@@ -1833,3 +1833,45 @@ const Promise = (() => {
     return Promise;
 })();
 ```
+
+#### Generator thunk
+
+> ES5
+
+```javascript
+function Thunk(fn) {
+    var that = this;
+    return function (...args) {
+        return function (callback) {
+            return fn.call(that, ...args, callback);
+        }
+    }
+}
+
+function run(taskRun) {
+    var task = taskRun();
+
+    function next(err, data) {
+        const result = task.next(data);
+        if (result.done) return;
+        result.value(next);
+    }
+
+    next();
+}
+```
+
+> ES6
+
+```javascript
+const Thunk = fn => (...args) => callback => fn.call(this, ...args, callback);
+const run = taskRun => {
+    const task = taskRun();
+    const next = (err, data) => {
+        const result = task.next(data);
+        if (result.done) return;
+        result.value(next);
+    }
+    next();
+};
+```
