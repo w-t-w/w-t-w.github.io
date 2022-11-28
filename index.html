@@ -737,7 +737,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2022-11-28 17:15:46" itemprop="dateModified" datetime="2022-11-28T17:15:46+08:00">2022-11-28</time>
+                <time title="修改时间：2022-11-28 17:25:03" itemprop="dateModified" datetime="2022-11-28T17:25:03+08:00">2022-11-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -763,7 +763,7 @@
           <h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
 <li>数据驱动</li>
 <li>JSX 语法糖动态声明更加灵活</li>
-<li>Virtual Dom 与 Diff 算法配合,可保证性能</li>
+<li>Virtual DOM 与 Diff 算法配合使用,可保证性能</li>
 </ul>
 <h4 id="基于-class"><a href="#基于-class" class="headerlink" title="基于 class"></a>基于 class</h4><ul>
 <li>生命周期<ul>
@@ -789,7 +789,19 @@
 </ul>
 </li>
 </ul>
-
+<h4 id="Diff-算法"><a href="#Diff-算法" class="headerlink" title="Diff 算法"></a>Diff 算法</h4><blockquote>
+<p>复杂度</p>
+</blockquote>
+<p>  O(n ^ 3) -&gt; O(n),只对比同层兄弟组件,不实行跨层对比</p>
+<blockquote>
+<p>节点</p>
+</blockquote>
+<ul>
+<li>属性变化</li>
+<li>位置变化</li>
+<li>类型变化</li>
+<li>跨层移动</li>
+</ul>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/11/17/think-of-react/#more" rel="contents">
