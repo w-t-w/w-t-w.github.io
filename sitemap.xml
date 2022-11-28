@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
+        
+        <lastmod>2022-11-28T03:49:49.830Z</lastmod>
+        
+        <date>1669101986000</date>
+        <title>think of javascript | wtw's Frontend</title>
+        
+        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/24/think-of-browser/</loc>
         
         <lastmod>2022-11-28T02:23:38.073Z</lastmod>
@@ -43,17 +54,6 @@
         <title>think of algorithm | wtw's Frontend</title>
         
         <desc>算法排序 冒泡排序 1234567891011121314function bubbleSort(array) &#123; const result = [...array], length = result.length; for (let i = 0; i &lt; length; i++) &#123; for (let j = 0; j &lt; length - i; j++) &#1</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
-        
-        <lastmod>2022-11-26T10:52:40.586Z</lastmod>
-        
-        <date>1669101986000</date>
-        <title>think of javascript | wtw's Frontend</title>
-        
-        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
     </url>
     
     <url>
