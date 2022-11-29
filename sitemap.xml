@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
+        
+        <lastmod>2022-11-29T15:39:54.083Z</lastmod>
+        
+        <date>1661847446000</date>
+        <title>think of webpack | wtw's Frontend</title>
+        
+        <desc>webpackwebpack-cli 作用 引入 yargs,对命令行实行定制 分析命令行参数,对各个参数实行转换,组成编译配置项 导入 webpack,根据编译配置项进行编译和构建 entry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
         
         <lastmod>2022-11-29T07:37:30.259Z</lastmod>
@@ -87,17 +98,6 @@
         <title>think of v8 | wtw's Frontend</title>
         
         <desc>v8 垃圾回收机制 使用分代回收策略,分为新、老生代. 新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤: 查找 from 中还存活的对象,将其全部移入到 to 反转 from 和 to 对 to 尽数回收 新生代 -&gt; 老生代 新生代垃圾回收机</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
-        
-        <lastmod>2022-11-21T07:35:35.101Z</lastmod>
-        
-        <date>1661847446000</date>
-        <title>think of webpack | wtw's Frontend</title>
-        
-        <desc>webpackwebpack-cli 作用 引入 yargs,对命令行实行定制 分析命令行参数,对各个参数实行转换,组成编译配置项 导入 webpack,根据配置进行编译和构建 entry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全局资源</desc>
     </url>
     
     <url>
