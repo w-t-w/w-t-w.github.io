@@ -13,7 +13,7 @@ categories: webpack
 
   - 引入 yargs,对命令行实行定制
   - 分析命令行参数,对各个参数实行转换,组成编译配置项
-  - 导入 webpack,根据配置进行编译和构建
+  - 导入 webpack,根据编译配置项进行编译和构建
 
 #### entry
 
