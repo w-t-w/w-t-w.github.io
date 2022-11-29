@@ -197,7 +197,7 @@ categories: css
 
 > 属性值
 
-  - absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素
+  - absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位
   - relative: 相对定位,会相对于当前元素位置定位
   - fixed: 绝对定位,会相对于浏览器 web 整个页面定位
   - static: 默认值,不定位
