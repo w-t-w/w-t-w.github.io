@@ -1877,3 +1877,33 @@ const run = taskRun => {
     next();
 };
 ```
+
+#### promise timeout
+
+> ES5
+
+```javascript
+function timeoutPromise(promise, timeout) {
+    return Promise.race([promise, new Promise(function (resolve, reject) {
+        setTimeout(function () {
+            reject({
+                status: 'rejected',
+                reason: '请求超时'
+            });
+        }, timeout);
+    })]);
+}
+```
+
+> ES6
+
+```javascript
+const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((resolve, reject) => {
+    setTimeout(() => {
+        reject({
+            status: 'rejected',
+            reason: '请求超时'
+        });
+    }, timeout);
+})]);
+```
