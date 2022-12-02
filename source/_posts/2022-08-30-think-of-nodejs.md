@@ -11,84 +11,84 @@ categories: nodejs
 
 > 概念
 
-  Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境
+Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境
 
 > 特性
 
-  - 事件驱动
-  - 非阻塞 I/O
+- 事件驱动
+- 非阻塞 I/O
 
 > 非阻塞 I/O
 
-  实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入
+实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入
 
 > 规范
 
-  nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式
-  
+nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式
+
 #### browserslist
 
 > 作用
 
-  用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.
+用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.
 
 > 分类
 
-  \[">0.2%"\]: 指的是现阶段的用户比例>0.2%的所有浏览器版本.
-  \["last 2 versions"\]: 指的是现阶段所有浏览器最近发布的两个版本.
-  \["not dead"\]: 指的是现阶段没有被删除销毁的所有浏览器版本.
-  \["defaults"\]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \[">0.2%","last 2 versions","not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \[">0.2% and last 2 versions and not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的交集.
-  \[">0.2% or last 2 versions or not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
-  \["not >0.2%"\]: 指的是现阶段的用户比例 <=0.2% 的所有浏览器版本.
+\[">0.2%"\]: 指的是现阶段的用户比例>0.2%的所有浏览器版本.
+\["last 2 versions"\]: 指的是现阶段所有浏览器最近发布的两个版本.
+\["not dead"\]: 指的是现阶段没有被删除销毁的所有浏览器版本.
+\["defaults"\]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\[">0.2%","last 2 versions","not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\[">0.2% and last 2 versions and not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的交集.
+\[">0.2% or last 2 versions or not dead"]: 相当于 ">0.2%"、"last 2 versions"以及"not dead" 浏览器版本的并集.
+\["not >0.2%"\]: 指的是现阶段的用户比例 <=0.2% 的所有浏览器版本.
 
 #### version
 
 > 作用
 
-  用于发布构建/依赖/工具时,对于版本号的分类管理.
+用于发布构建/依赖/工具时,对于版本号的分类管理.
 
 > 分类
 
-  - patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.
-  - minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.
-  - major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.
+- patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.
+- minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.
+- major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.
 
 #### pre-version
 
 > 作用
 
-  先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.
+先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.
 
 > 分类
 
-  - alpha: 是内测版本,一般会有很多 Bug,内测人员使用.
-  - beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.
-  - rc: 公测版本,会完全对外开放测试,不再开发添加新功能.
+- alpha: 是内测版本,一般会有很多 Bug,内测人员使用.
+- beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.
+- rc: 公测版本,会完全对外开放测试,不再开发添加新功能.
 
 #### npx
 
 > 作用
 
-  是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.
+是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.
 
 > 原理
 
-  其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.
+其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.
 
 > 参数
 
-  - --no-install: 指的是强制使用本地模块,禁止下载远程模块.
+- --no-install: 指的是强制使用本地模块,禁止下载远程模块.
 
 #### inquirer
 
 > 作用
 
-  是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.
+是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.
 
-  ```javascript
-  const inquirer = require('inquirer');
+```javascript
+const inquirer = require('inquirer');
 const prompt = inquirer.createPromptModule();
 const env = prompt([{
     type: 'list',
@@ -104,27 +104,27 @@ const env = prompt([{
 }]);
 const _env = env['env'];
 console.log(_env);
-  ```
+```
 
 #### shelljs
 
 > 作用
 
-  是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.
+是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.
 
-  ```javascript
-  const {exec} = require('shelljs');
+```javascript
+const {exec} = require('shelljs');
 exec('webpack');
-  ```
+```
 
 #### yargs
 
 > 作用
 
-  是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.
+是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.
 
-  ```javascript
-  const yargs = require('yargs');
+```javascript
+const yargs = require('yargs');
 const argv = process.argv;
 const env = '';
 yargs.parse(argv.slice(2), (err, argv) => {
@@ -135,47 +135,47 @@ yargs.parse(argv.slice(2), (err, argv) => {
     env = argv['env'];
 });
 console.log(env);
-  ```
+```
 
 #### rimraf
 
 > 作用
 
-  是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().
+是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().
 
-  ```javascript
-  const rimraf = require('rimraf');
+```javascript
+const rimraf = require('rimraf');
 // 首参数: 相对于 node 所作用的位置目录.
 // 回调函数: 在操作过后执行的步骤.
 rimraf('./dist', () => {
     //...
     //...
 });
-  ```
+```
 
 #### spritesmith
 
 > 作用
 
-  是用于合并多个图片形成雪碧图的依赖.
+是用于合并多个图片形成雪碧图的依赖.
 
-  ```javascript
-  const {run} = require('spritesmith');
+```javascript
+const {run} = require('spritesmith');
 // 位置目录必须为绝对路径
 run({src: ['pic1.png', 'pic2.png']}, (err, image) => {
     // 会生成 16进制 Buffer
     console.log(image.image);
 })
-  ```
+```
 
 #### jszip
 
 > 作用
 
-  用于使用 js 实现 zip 压缩打包的依赖.
+用于使用 js 实现 zip 压缩打包的依赖.
 
-  ```javascript
-  const JsZip = require('jszip');
+```javascript
+const JsZip = require('jszip');
 const jszip = new JsZip();
 // 生成空的压缩打包文件
 jszip.folder('offline');
@@ -250,50 +250,50 @@ class JsZipPlugin {
 
 > 作用
 
-  用于优先使用本地 node_modules 下的模块,比如全局环境变量下的 webpack 脚本命令是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的模块
+用于优先使用本地 node_modules 下的模块,比如全局环境变量下的 webpack 脚本命令是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的模块
 
 #### express
 
 > 特性
 
-  - 拥有强大的路由分发功能
-  - 对于 http 处理方面做了一系列的封装,比如说 302 重定向
-  - 可配合多种模板引擎
-  - 洋葱模型的机制,处理更加灵活
+- 拥有强大的路由分发功能
+- 对于 http 处理方面做了一系列的封装,比如说 302 重定向
+- 可配合多种模板引擎
+- 洋葱模型的机制,处理更加灵活
 
 > 缺陷
 
-  - 洋葱模型不可处理异步事件
+- 洋葱模型不可处理异步事件
 
 > 应用
 
-  - 比较适合于较小的工程和应用
+- 比较适合于较小的工程和应用
 
 #### koa
 
 > 特性
 
-  - 采用 async/await,解决了处理异步事件的问题
-  - 使用中间件、微内核的模式,更关注性能
+- 采用 async/await,解决了处理异步事件的问题
+- 使用中间件、微内核的模式,更关注性能
 
 > 缺陷
 
-  - 由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件
+- 由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件
 
 > 应用
 
-  - 比较适合于大型的工程项目
+- 比较适合于大型的工程项目
 
 #### RPC
 
 > 特点
- 
-  RPC 与 Ajax 对比可知:
-  
-  - 寻址服务不一定基于 DNS
-  - 基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好
-  - 通信方式
-    - 单工通信: S/C 两端只能一端向另外一端推送数据包
-    - 半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)
-    - 全双工通信: S/C 两端可自由推送数据包
+
+RPC 与 Ajax 对比可知:
+
+- 寻址服务不一定基于 DNS
+- 基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好
+- 通信方式
+  - 单工通信: S/C 两端只能一端向另外一端推送数据包
+  - 半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)
+  - 全双工通信: S/C 两端可自由推送数据包
 
