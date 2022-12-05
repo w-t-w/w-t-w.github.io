@@ -913,10 +913,10 @@ var Promise = (function () {
         if (this.status === FULFILLED) {
             promise = new Promise(function (resolve, reject) {
                 setTimeout(function () {
-                    if (typeof onFulfilled !== 'function') {
-                        resolve(that.value);
-                    } else {
-                        (function thenable(value) {
+                    (function thenable(value) {
+                        if (typeof onFulfilled !== 'function') {
+                            resolve(value);
+                        } else {
                             then = value.then;
                             if (typeof then === 'function') {
                                 then.call(that, function (y) {
@@ -928,8 +928,8 @@ var Promise = (function () {
                                 const x = onFulfilled(value);
                                 resolvePromise(promise, x, resolve, reject);
                             }
-                        })(that.value);
-                    }
+                        }
+                    })(that.value);
                 }, 0);
             });
         }
@@ -954,10 +954,10 @@ var Promise = (function () {
                 that.onFulfilledCallbacks.push(function () {
                     setTimeout(function () {
                         try {
-                            if (typeof onFulfilled !== 'function') {
-                                resolve(that.value);
-                            } else {
-                                (function thenable(value) {
+                            (function thenable(value) {
+                                if (typeof onFulfilled !== 'function') {
+                                    resolve(value);
+                                } else {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(that, function (y) {
@@ -969,8 +969,8 @@ var Promise = (function () {
                                         const x = onFulfilled(value);
                                         resolvePromise(promise, x, resolve, reject);
                                     }
-                                })(that.value);
-                            }
+                                }
+                            })(that.value);
                         } catch (error) {
                             reject(error);
                         }
@@ -1105,10 +1105,10 @@ const Promise = (() => {
                 promise = new Promise((resolve, reject) => {
                     setTimeout(() => {
                         try {
-                            if (typeof onFulfilled !== 'function') {
-                                resolve(this.value);
-                            } else {
-                                (function thenable(value) {
+                            (function thenable(value) {
+                                if (typeof onFulfilled !== 'function') {
+                                    resolve(value);
+                                } else {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(this, y => {
@@ -1120,8 +1120,8 @@ const Promise = (() => {
                                         const x = onFulfilled(value);
                                         resolvePromise(promise, x, resolve, reject);
                                     }
-                                }.bind(this))(this.value);
-                            }
+                                }
+                            }.bind(this))(this.value);
                         } catch (err) {
                             reject(err);
                         }
@@ -1149,10 +1149,10 @@ const Promise = (() => {
                     this.onFulfilledCallbacks.push(() => {
                         setTimeout(() => {
                             try {
-                                if (typeof onFulfilled !== 'function') {
-                                    resolve(this.value);
-                                } else {
-                                    (function thenable(value) {
+                                (function thenable(value) {
+                                    if (typeof onFulfilled !== 'function') {
+                                        resolve(value);
+                                    } else {
                                         then = value.then;
                                         if (typeof then === 'function') {
                                             then.call(this, y => {
@@ -1164,8 +1164,8 @@ const Promise = (() => {
                                             const x = onFulfilled(value);
                                             resolvePromise(promise, x, resolve, reject);
                                         }
-                                    }.bind(this))(this.value);
-                                }
+                                    }
+                                }.bind(this))(this.value);
                             } catch (err) {
                                 reject(err);
                             }
