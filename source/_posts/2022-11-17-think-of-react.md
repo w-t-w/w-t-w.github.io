@@ -12,6 +12,7 @@ categories: react
 - 数据驱动
 - JSX 语法糖动态声明更加灵活
 - Virtual DOM 与 Diff 算法配合使用,可保证性能
+- Fiber 的任务调度和数据结构令 react 的性能更出色
 
 #### 基于 class
 
