@@ -103,4 +103,4 @@ categories: react
 
 > 混合
 
-  要想在类组件中使用 hooks,通过 HOC 的属性代理即可
+  要想在 react 类组件中使用 hooks,通过 HOC 的属性代理即可
