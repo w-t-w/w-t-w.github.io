@@ -4,12 +4,12 @@
     <url>
         <loc>http://example.com/2022/11/17/think-of-react/</loc>
         
-        <lastmod>2022-12-06T06:15:59.354Z</lastmod>
+        <lastmod>2022-12-06T07:12:21.021Z</lastmod>
         
         <date>1668656939000</date>
         <title>think of react | wtw's Frontend</title>
         
-        <desc>react特性 数据驱动 JSX 语法糖动态声明更加灵活 Virtual DOM 与 Diff 算法配合使用,可保证性能 基于 class 生命周期 创建阶段 constructor: 初始化 getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用 render: react 组件内唯一的描述 UI 的方法,必须设置 componentDid</desc>
+        <desc>react特性 数据驱动 JSX 语法糖动态声明更加灵活 Virtual DOM 与 Diff 算法配合使用,可保证性能 Fiber 的任务调度和数据结构令 react 的性能更出色 基于 class 生命周期 创建阶段 constructor: 初始化 getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用 render: react 组件</desc>
     </url>
     
     <url>

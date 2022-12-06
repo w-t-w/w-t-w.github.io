@@ -54,184 +54,6 @@
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境</p>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>事件驱动</li>
-<li>非阻塞 I/O</li>
-</ul>
-<blockquote>
-<p>非阻塞 I/O</p>
-</blockquote>
-<p>实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入</p>
-<blockquote>
-<p>规范</p>
-</blockquote>
-<p>nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</p>
-<h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>[“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>[“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>[“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
-<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
-<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
-<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
-</ul>
-<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
-<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
-<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
-</ul>
-<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<p>其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
-</ul>
-<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于合并多个图片形成雪碧图的依赖.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h4 id="jszip"><a href="#jszip" class="headerlink" title="jszip"></a>jszip</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于使用 js 实现 zip 压缩打包的依赖.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZip</span>();</span><br><span class="line"><span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">folder</span>(<span class="string">&#x27;offline&#x27;</span>);</span><br><span class="line"><span class="comment">// 生成填入内容的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">file</span>(<span class="string">&#x27;index.js&#x27;</span>, <span class="string">&#x27;console.log(&quot;wtw&quot;)&#x27;</span>);</span><br><span class="line"><span class="comment">// 将压缩打包文件实行各种数据类型转换</span></span><br><span class="line">jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(content);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>自定义 webpack 插件以生成离线压缩包</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义的生成离线压缩包的 webpack 插件</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">JsZipPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;./lib/jsZipPlugin.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;index.js&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;offline&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = wbpackConfig;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="title class_">RawSource</span>&#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-sources&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsZipPlugin</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 所有的 webpack 插件都遵循其 tapable 插件体制,类似于 EnventEmitter 那种观察订阅模式</span></span><br><span class="line">    <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;name = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>();</span><br><span class="line">        <span class="comment">// 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)</span></span><br><span class="line">        compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;JsZipPlugin&#x27;</span>, <span class="function">(<span class="params">compilation, callback</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">            <span class="keyword">const</span> folder = jszip.<span class="title function_">folder</span>(name);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> filename <span class="keyword">in</span> compilation.<span class="property">assets</span>) &#123;</span><br><span class="line">                <span class="comment">// 生成填入 webpack 构建打包源代码的压缩打包文件</span></span><br><span class="line">                folder.<span class="title function_">file</span>(filename, compilation.<span class="property">assets</span>[filename].<span class="title function_">source</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.</span></span><br><span class="line">            jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">                compilation.<span class="property">assets</span>[<span class="string">`<span class="subst">$&#123;name&#125;</span>.zip`</span>] = <span class="keyword">new</span> <span class="title class_">RawSource</span>(content);</span><br><span class="line">                <span class="title function_">callback</span>();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="import-local"><a href="#import-local" class="headerlink" title="import-local"></a>import-local</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于优先使用本地 node_modules 下的模块,比如全局环境变量下的 webpack 脚本命令是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的模块</p>
-<h4 id="express"><a href="#express" class="headerlink" title="express"></a>express</h4><blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>拥有强大的路由分发功能</li>
-<li>对于 http 处理方面做了一系列的封装,比如说 302 重定向</li>
-<li>可配合多种模板引擎</li>
-<li>洋葱模型的机制,处理更加灵活</li>
-</ul>
-<blockquote>
-<p>缺陷</p>
-</blockquote>
-<ul>
-<li>洋葱模型不可处理异步事件</li>
-</ul>
-<blockquote>
-<p>应用</p>
-</blockquote>
-<ul>
-<li>比较适合于较小的工程和应用</li>
-</ul>
-<h4 id="koa"><a href="#koa" class="headerlink" title="koa"></a>koa</h4><blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>采用 async/await,解决了处理异步事件的问题</li>
-<li>使用中间件、微内核的模式,更关注性能</li>
-</ul>
-<blockquote>
-<p>缺陷</p>
-</blockquote>
-<ul>
-<li>由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件</li>
-</ul>
-<blockquote>
-<p>应用</p>
-</blockquote>
-<ul>
-<li>比较适合于大型的工程项目</li>
-</ul>
-<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><blockquote>
-<p>特点</p>
-</blockquote>
-<p>RPC 与 Ajax 对比可知:</p>
-<ul>
-<li>寻址服务不一定基于 DNS</li>
-<li>基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好</li>
-<li>通信方式<ul>
-<li>单工通信: S/C 两端只能一端向另外一端推送数据包</li>
-<li>半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)</li>
-<li>全双工通信: S/C 两端可自由推送数据包</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -693,20 +515,181 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境</p>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>事件驱动</li>
+<li>非阻塞 I/O</li>
+</ul>
+<blockquote>
+<p>非阻塞 I/O</p>
+</blockquote>
+<p>实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入</p>
+<blockquote>
+<p>规范</p>
+</blockquote>
+<p>nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</p>
+<h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>[“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>[“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>[“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
+<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
+<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
+<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于合并多个图片形成雪碧图的依赖.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="jszip"><a href="#jszip" class="headerlink" title="jszip"></a>jszip</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于使用 js 实现 zip 压缩打包的依赖.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZip</span>();</span><br><span class="line"><span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">folder</span>(<span class="string">&#x27;offline&#x27;</span>);</span><br><span class="line"><span class="comment">// 生成填入内容的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">file</span>(<span class="string">&#x27;index.js&#x27;</span>, <span class="string">&#x27;console.log(&quot;wtw&quot;)&#x27;</span>);</span><br><span class="line"><span class="comment">// 将压缩打包文件实行各种数据类型转换</span></span><br><span class="line">jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(content);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>自定义 webpack 插件以生成离线压缩包</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义的生成离线压缩包的 webpack 插件</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">JsZipPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;./lib/jsZipPlugin.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;index.js&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;offline&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = wbpackConfig;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="title class_">RawSource</span>&#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-sources&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsZipPlugin</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 所有的 webpack 插件都遵循其 tapable 插件体制,类似于 EnventEmitter 那种观察订阅模式</span></span><br><span class="line">    <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;name = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>();</span><br><span class="line">        <span class="comment">// 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)</span></span><br><span class="line">        compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;JsZipPlugin&#x27;</span>, <span class="function">(<span class="params">compilation, callback</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">            <span class="keyword">const</span> folder = jszip.<span class="title function_">folder</span>(name);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> filename <span class="keyword">in</span> compilation.<span class="property">assets</span>) &#123;</span><br><span class="line">                <span class="comment">// 生成填入 webpack 构建打包源代码的压缩打包文件</span></span><br><span class="line">                folder.<span class="title function_">file</span>(filename, compilation.<span class="property">assets</span>[filename].<span class="title function_">source</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.</span></span><br><span class="line">            jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">                compilation.<span class="property">assets</span>[<span class="string">`<span class="subst">$&#123;name&#125;</span>.zip`</span>] = <span class="keyword">new</span> <span class="title class_">RawSource</span>(content);</span><br><span class="line">                <span class="title function_">callback</span>();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="import-local"><a href="#import-local" class="headerlink" title="import-local"></a>import-local</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于优先使用本地 node_modules 下的模块,比如全局环境变量下的 webpack 脚本命令是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的模块</p>
+<h4 id="express"><a href="#express" class="headerlink" title="express"></a>express</h4><blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>拥有强大的路由分发功能</li>
+<li>对于 http 处理方面做了一系列的封装,比如说 302 重定向</li>
+<li>可配合多种模板引擎</li>
+<li>洋葱模型的机制,处理更加灵活</li>
+</ul>
+<blockquote>
+<p>缺陷</p>
+</blockquote>
+<ul>
+<li>洋葱模型不可处理异步事件</li>
+</ul>
+<blockquote>
+<p>应用</p>
+</blockquote>
+<ul>
+<li>比较适合于较小的工程和应用</li>
+</ul>
+<h4 id="koa"><a href="#koa" class="headerlink" title="koa"></a>koa</h4><blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>采用 async/await,解决了处理异步事件的问题</li>
+<li>使用中间件、微内核的模式,更关注性能</li>
+</ul>
+<blockquote>
+<p>缺陷</p>
+</blockquote>
+<ul>
+<li>由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件</li>
+</ul>
+<blockquote>
+<p>应用</p>
+</blockquote>
+<ul>
+<li>比较适合于大型的工程项目</li>
+</ul>
+<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><blockquote>
+<p>特点</p>
+</blockquote>
+<p>RPC 与 Ajax 对比可知:</p>
+<ul>
+<li>寻址服务不一定基于 DNS</li>
+<li>基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好</li>
+<li>通信方式<ul>
+<li>单工通信: S/C 两端只能一端向另外一端推送数据包</li>
+<li>半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)</li>
+<li>全双工通信: S/C 两端可自由推送数据包</li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>unresolved</category>
+        <category>nodejs</category>
       </categories>
       <tags>
-        <tag>unresolved</tag>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
       </tags>
   </entry>
   <entry>
@@ -874,7 +857,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#x72;&#x65;&#x2d;&#x6a;&#115;&#64;&#x33;&#46;&#120;">&#99;&#111;&#x72;&#x65;&#x2d;&#x6a;&#115;&#64;&#x33;&#46;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#x72;&#x65;&#x2d;&#106;&#115;&#x40;&#x33;&#x2e;&#x78;">&#99;&#111;&#x72;&#x65;&#x2d;&#106;&#115;&#x40;&#x33;&#x2e;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -985,7 +968,7 @@ fancybox: true
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#50;&#46;&#120;">&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#50;&#46;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#x6f;&#x61;&#100;&#x65;&#x72;&#x2d;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#51;&#46;&#x78;">&#108;&#x6f;&#x61;&#100;&#x65;&#x72;&#x2d;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#51;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x2d;&#x75;&#x74;&#105;&#108;&#x73;&#64;&#x32;&#46;&#120;">&#108;&#x6f;&#97;&#x64;&#x65;&#114;&#x2d;&#x75;&#x74;&#105;&#108;&#x73;&#64;&#x32;&#46;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#x2d;&#117;&#x74;&#105;&#x6c;&#115;&#64;&#51;&#x2e;&#120;">&#108;&#x6f;&#97;&#x64;&#x65;&#x72;&#x2d;&#117;&#x74;&#105;&#x6c;&#115;&#64;&#51;&#x2e;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
   <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFile&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;runLoaders&#125; = <span class="built_in">require</span>(<span class="string">&#x27;loader-runner&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">runLoaders</span>(&#123;</span><br><span class="line">    <span class="attr">resource</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./src/styles/index.less&#x27;</span>),</span><br><span class="line">    <span class="attr">context</span>: &#123;<span class="attr">minimize</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./lib/loaders/sprite_loader.js&#x27;</span>),</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;sprite&#x27;</span>,</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;src/styles&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">readResource</span>: readFile.<span class="title function_">bind</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;, <span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`测试自定义 loader 出现错误: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(stats);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
@@ -1146,6 +1129,23 @@ fancybox: true
       </categories>
       <tags>
         <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
+      <categories>
+        <category>unresolved</category>
+      </categories>
+      <tags>
+        <tag>unresolved</tag>
       </tags>
   </entry>
   <entry>
@@ -1874,6 +1874,7 @@ fancybox: true
 <li>数据驱动</li>
 <li>JSX 语法糖动态声明更加灵活</li>
 <li>Virtual DOM 与 Diff 算法配合使用,可保证性能</li>
+<li>Fiber 的任务调度和数据结构令 react 的性能更出色</li>
 </ul>
 <h4 id="基于-class"><a href="#基于-class" class="headerlink" title="基于 class"></a>基于 class</h4><ul>
 <li>生命周期<ul>
@@ -1993,6 +1994,10 @@ fancybox: true
 <p>混合</p>
 </blockquote>
 <p>  要想在 react 类组件中使用 hooks,通过 HOC 的属性代理即可</p>
+<h4 id="Fiber"><a href="#Fiber" class="headerlink" title="Fiber"></a>Fiber</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>  由于 react 处理组件的渲染更新是同步的,那么当同一时间内</p>
 ]]></content>
       <categories>
         <category>react</category>
@@ -2000,168 +2005,6 @@ fancybox: true
       <tags>
         <tag>react</tag>
         <tag>source</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of browser</title>
-    <url>/2022/11/24/think-of-browser/</url>
-    <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
-<p>分析</p>
-</blockquote>
-<ul>
-<li>浏览器的进程<ul>
-<li>浏览器进程</li>
-<li>渲染进程<ul>
-<li>GUI 线程: 用于处理解析渲染 html、css</li>
-<li>JS 线程: 也就是程序员所说的所谓 “JS 单线程”</li>
-<li>定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程</li>
-<li>事件触发线程: Event Loop 事件循环执行机制</li>
-<li>异步 HTTP 请求线程: 处理 http 请求,将符合条件的回调事件移入至事件触发线程</li>
-</ul>
-</li>
-<li>GPU 进程</li>
-<li>插件进程</li>
-<li>网络进程</li>
-</ul>
-</li>
-</ul>
-<h4 id="request"><a href="#request" class="headerlink" title="request"></a>request</h4><blockquote>
-<p>请求头</p>
-</blockquote>
-<ul>
-<li>content-type: 向服务器端请求获取资源的类型</li>
-<li>referer: 包含了当前请求页面的来源页面的地址</li>
-<li>user-agent: 则是用于告知服务器端,访问者是由什么工具请求的</li>
-</ul>
-<h4 id="OPTIONS"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个”预检”请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.</p>
-<blockquote>
-<p>场景</p>
-</blockquote>
-<ul>
-<li>跨域请求</li>
-</ul>
-<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h4><blockquote>
-<p>状态码</p>
-</blockquote>
-<p>  301: A 地址资源被永久性的移除,A 地址资源不可被访问<br>  302: A 地址资源被暂时性的转移,A 地址资源仍然可被访问,只是临时的从 A 地址跳转到了 B 地址</p>
-<h4 id="HTTP-缓存策略"><a href="#HTTP-缓存策略" class="headerlink" title="HTTP 缓存策略"></a>HTTP 缓存策略</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>协商缓存<ul>
-<li>ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
-<li>Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
-</ul>
-</li>
-<li>强制缓存<ul>
-<li>Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存</li>
-<li>Cache-Control<ul>
-<li>max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存</li>
-<li>immutable: 浏览器永远只能取本地缓存</li>
-<li>no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证</li>
-<li>no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>优先级</p>
-</blockquote>
-<ul>
-<li>强制缓存与协商缓存<ul>
-<li>会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存</li>
-</ul>
-</li>
-<li>协商缓存<ul>
-<li>ETag 与 Last-Modified<ul>
-<li>ETag &gt; Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>强制缓存<ul>
-<li>Expires 与 Cache-Control<ul>
-<li>Cache-Control &gt; Expires</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>browser</category>
-      </categories>
-      <tags>
-        <tag>browser</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of v8</title>
-    <url>/2022/11/22/think-of-v8/</url>
-    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
-<p>垃圾回收机制</p>
-</blockquote>
-<p>  使用分代回收策略,分为新、老生代.</p>
-<ul>
-<li>新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
-<li>查找 from 中还存活的对象,将其全部移入到 to</li>
-<li>反转 from 和 to</li>
-<li>对 to 尽数回收</li>
-</ul>
-</li>
-<li>新生代 -&gt; 老生代<ul>
-<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
-<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
-</ul>
-</li>
-<li>老生代<ul>
-<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
-<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>v8</category>
-      </categories>
-      <tags>
-        <tag>v8</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of algorithm</title>
-    <url>/2022/11/26/think-of-algorithm/</url>
-    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>冒泡排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>插入排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>归并排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>快速排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>algorithm</category>
-      </categories>
-      <tags>
-        <tag>algorithm</tag>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2271,6 +2114,39 @@ fancybox: true
       </categories>
       <tags>
         <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of v8</title>
+    <url>/2022/11/22/think-of-v8/</url>
+    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
+<p>垃圾回收机制</p>
+</blockquote>
+<p>  使用分代回收策略,分为新、老生代.</p>
+<ul>
+<li>新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
+<li>查找 from 中还存活的对象,将其全部移入到 to</li>
+<li>反转 from 和 to</li>
+<li>对 to 尽数回收</li>
+</ul>
+</li>
+<li>新生代 -&gt; 老生代<ul>
+<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
+<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
+</ul>
+</li>
+<li>老生代<ul>
+<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
+<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>v8</category>
+      </categories>
+      <tags>
+        <tag>v8</tag>
       </tags>
   </entry>
   <entry>
@@ -2592,6 +2468,135 @@ fancybox: true
       </categories>
       <tags>
         <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of algorithm</title>
+    <url>/2022/11/26/think-of-algorithm/</url>
+    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>冒泡排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>插入排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>归并排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>快速排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>algorithm</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of browser</title>
+    <url>/2022/11/24/think-of-browser/</url>
+    <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
+<p>分析</p>
+</blockquote>
+<ul>
+<li>浏览器的进程<ul>
+<li>浏览器进程</li>
+<li>渲染进程<ul>
+<li>GUI 线程: 用于处理解析渲染 html、css</li>
+<li>JS 线程: 也就是程序员所说的所谓 “JS 单线程”</li>
+<li>定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程</li>
+<li>事件触发线程: Event Loop 事件循环执行机制</li>
+<li>异步 HTTP 请求线程: 处理 http 请求,将符合条件的回调事件移入至事件触发线程</li>
+</ul>
+</li>
+<li>GPU 进程</li>
+<li>插件进程</li>
+<li>网络进程</li>
+</ul>
+</li>
+</ul>
+<h4 id="request"><a href="#request" class="headerlink" title="request"></a>request</h4><blockquote>
+<p>请求头</p>
+</blockquote>
+<ul>
+<li>content-type: 向服务器端请求获取资源的类型</li>
+<li>referer: 包含了当前请求页面的来源页面的地址</li>
+<li>user-agent: 则是用于告知服务器端,访问者是由什么工具请求的</li>
+</ul>
+<h4 id="OPTIONS"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个”预检”请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.</p>
+<blockquote>
+<p>场景</p>
+</blockquote>
+<ul>
+<li>跨域请求</li>
+</ul>
+<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h4><blockquote>
+<p>状态码</p>
+</blockquote>
+<p>  301: A 地址资源被永久性的移除,A 地址资源不可被访问<br>  302: A 地址资源被暂时性的转移,A 地址资源仍然可被访问,只是临时的从 A 地址跳转到了 B 地址</p>
+<h4 id="HTTP-缓存策略"><a href="#HTTP-缓存策略" class="headerlink" title="HTTP 缓存策略"></a>HTTP 缓存策略</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>协商缓存<ul>
+<li>ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+<li>Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存</li>
+<li>Cache-Control<ul>
+<li>max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存</li>
+<li>immutable: 浏览器永远只能取本地缓存</li>
+<li>no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证</li>
+<li>no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>优先级</p>
+</blockquote>
+<ul>
+<li>强制缓存与协商缓存<ul>
+<li>会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存</li>
+</ul>
+</li>
+<li>协商缓存<ul>
+<li>ETag 与 Last-Modified<ul>
+<li>ETag &gt; Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires 与 Cache-Control<ul>
+<li>Cache-Control &gt; Expires</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>browser</category>
+      </categories>
+      <tags>
+        <tag>browser</tag>
       </tags>
   </entry>
 </search>
