@@ -80,7 +80,7 @@ categories: react
     - 用于利用副作用
     - 包含了基于 class 组件的生命周期: componentDidMount、componentDidUpdate、componentWillUnmount
     - 基于依赖项数组内的数组元素发生改变,回调函数才会执行
-      - 依赖项数组内的数组元素必须在回调函数内执行
+      - 依赖项数组内的数组元素必须在回调函数内使用,才会具有意义
       - 依赖项数组必须是一个常量数组,不能为变量
       - 依赖项数组内的数组元素不能为引用类型的数据
   - useCallback
