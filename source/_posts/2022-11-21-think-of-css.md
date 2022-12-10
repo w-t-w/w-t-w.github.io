@@ -202,4 +202,4 @@ categories: css
   - fixed: 绝对定位,是基于浏览器 web 整个页面定位
   - static: 默认值,不定位
   - inherit: 继承父元素的定位属性值
-  - sticky: 绝对定位,基本是基于浏览器 web 整个页面定位,是 relative 与 fixed 的混合
+  - sticky: 绝对定位,基本是基于浏览器 web 整个页面定位,是 relative 与 fixed 的混合定位
