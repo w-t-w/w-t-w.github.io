@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
+        
+        <lastmod>2022-12-10T08:05:52.710Z</lastmod>
+        
+        <date>1669101986000</date>
+        <title>think of javascript | wtw's Frontend</title>
+        
+        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/26/think-of-algorithm/</loc>
         
         <lastmod>2022-12-09T17:35:33.374Z</lastmod>
@@ -32,17 +43,6 @@
         <title>think of react | wtw's Frontend</title>
         
         <desc>react特性 数据驱动 JSX 语法糖动态声明更加灵活 Virtual DOM 与 Diff 算法配合使用,可保证性能 Fiber 的任务调度和数据结构令 react 的性能更出色 基于 class 生命周期 创建阶段 constructor: 初始化 getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用 render: react 组件</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
-        
-        <lastmod>2022-12-03T11:35:52.702Z</lastmod>
-        
-        <date>1669101986000</date>
-        <title>think of javascript | wtw's Frontend</title>
-        
-        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
     </url>
     
     <url>
