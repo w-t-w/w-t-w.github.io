@@ -831,7 +831,7 @@ Function.prototype.softBind = function (context, ...args) {
         - Promise
         - process.nextTick(Node.js)
         - Object.observe
-        - MutaionObserver
+        - MutationObserver
 
 > nodejs
 

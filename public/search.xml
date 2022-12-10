@@ -249,1024 +249,6 @@
       </tags>
   </entry>
   <entry>
-    <title>create Simplepack</title>
-    <url>/2022/10/14/create-simplepack/</url>
-    <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
-<blockquote>
-<p>配置文件</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// simplepack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> simplepackConfig = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="comment">// 作为 simplepack 构建打包的出口</span></span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包文件导出的位置目录</span></span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包导出文件的名称</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = simplepackConfig;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>目录</p>
-</blockquote>
-<p><img src="https://image.white-than-wood.zone/webpack/simplepack_path.png"></p>
-<blockquote>
-<p>Simplepack</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getFileInfo</span>(<span class="params">entry, upperLevel = <span class="string">&#x27;&#x27;</span></span>) &#123;</span><br><span class="line">            <span class="keyword">let</span> path = entry;</span><br><span class="line">            <span class="keyword">const</span> cwd = process.<span class="title function_">cwd</span>();</span><br><span class="line">            <span class="comment">// 判断是否是绝对路径</span></span><br><span class="line">            <span class="keyword">if</span> (!path.<span class="title function_">includes</span>(cwd)) &#123;</span><br><span class="line">                <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                path = <span class="title function_">resolve</span>(cwd, upperLevel, <span class="string">`<span class="subst">$&#123;path.endsWith(<span class="string">&#x27;.js&#x27;</span>) ? path : <span class="string">`<span class="subst">$&#123;path&#125;</span>/index.js`</span>&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_">existsSync</span>(path)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`请检查目录,不存在 <span class="subst">$&#123;entry&#125;</span> 模块`</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> fileInfo = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            <span class="keyword">const</span> &#123; <span class="attr">dependencies</span>: fileDependencies &#125; = fileInfo;</span><br><span class="line">            <span class="keyword">if</span> (fileDependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                fileDependencies.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">                    getFileInfo.<span class="title function_">call</span>(<span class="variable language_">this</span>, item, entry.<span class="title function_">substring</span>(<span class="number">0</span>, entry.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>));</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            fileInfo.<span class="property">filename</span> = entry;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(fileInfo);</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(<span class="variable language_">this</span>.<span class="property">entry</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emit</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Simplepack Parse 解析工具</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>Result</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">require</span>(<span class="params">filename</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fn = <span class="variable language_">module</span>[filename];</span><br><span class="line">        <span class="keyword">var</span> modules = &#123;<span class="attr">exports</span>: &#123;&#125;&#125;;</span><br><span class="line">        <span class="title function_">fn</span>(<span class="built_in">require</span>, modules, <span class="built_in">exports</span>);</span><br><span class="line">        <span class="keyword">return</span> modules.<span class="property">exports</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;./src/index.js&#x27;</span>);</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="string">&#x27;./src/index.js&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> _modules = <span class="built_in">require</span>(<span class="string">&quot;./modules&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> wtw = (<span class="number">0</span>, _modules.<span class="property">getName</span>)(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(wtw);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;./modules&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="string">&quot;__esModule&quot;</span>, &#123;</span><br><span class="line">            <span class="attr">value</span>: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="built_in">exports</span>.<span class="property">getName</span> = getName;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">getName</span>(<span class="params">name</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;My name is &quot;</span>.<span class="title function_">concat</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of react</title>
-    <url>/2022/11/17/think-of-react/</url>
-    <content><![CDATA[<h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
-<li>数据驱动</li>
-<li>JSX 语法糖动态声明更加灵活</li>
-<li>Virtual DOM 与 Diff 算法配合使用,可保证性能</li>
-<li>Fiber 的任务调度和数据结构令 react 的性能更出色</li>
-</ul>
-<h4 id="基于-class"><a href="#基于-class" class="headerlink" title="基于 class"></a>基于 class</h4><ul>
-<li>生命周期<ul>
-<li>创建阶段<ul>
-<li>constructor: 初始化</li>
-<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
-<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
-<li>componentDidMount: 在组件首次挂载结束之后,需要实行的如异步 http 资源请求的步骤</li>
-</ul>
-</li>
-<li>更新阶段<ul>
-<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
-<li>shouldComponentUpdate: 判断组件是否可以实行渲染更新</li>
-<li>getSnapShotBeforeUpdate: 在组件渲染更新前需要的统计计算</li>
-<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
-<li>componentDidUpdate: 在组件渲染更新完成后要执行的一些操作</li>
-</ul>
-</li>
-<li>卸载阶段<ul>
-<li>componentWillUnmount: 在组件卸载时,用于资源释放</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h4 id="Diff-算法"><a href="#Diff-算法" class="headerlink" title="Diff 算法"></a>Diff 算法</h4><blockquote>
-<p>复杂度</p>
-</blockquote>
-<p>  O(n ^ 3) -&gt; O(n),只对比同层兄弟组件,不实行跨层对比</p>
-<blockquote>
-<p>节点</p>
-</blockquote>
-<ul>
-<li>属性变化</li>
-<li>位置变化</li>
-<li>类型变化</li>
-<li>跨层移动</li>
-</ul>
-<p>  上述节点的变化,react 处理的都很简单粗暴,不会实现跨层检索校验,只是进行简单的增加、删除以及替换,而这种情况是建立在 Virtual DOM 结构一般比较稳定,基本上不会出现跨层移动的情况,大多是同层的属性、位置以及类型的变化</p>
-<blockquote>
-<p>key</p>
-</blockquote>
-<p>  key 适用于那些需要频繁变换位置的组件节点,稳定的类型指向会保证这些组件节点不会被剃掉删除,更不会额外增加 DOM 操作开销,而只是替换位置</p>
-<h4 id="HOC"><a href="#HOC" class="headerlink" title="HOC"></a>HOC</h4><blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>属性代理</li>
-<li>反向集成</li>
-<li>渲染劫持</li>
-</ul>
-<h4 id="class-与-hooks"><a href="#class-与-hooks" class="headerlink" title="class 与 hooks"></a>class 与 hooks</h4><blockquote>
-<p>区别</p>
-</blockquote>
-<ul>
-<li>class<ul>
-<li>很少使用 class 类的特性: new 构造调用、继承与派生</li>
-<li>class 的 react 组件复用过于复杂,必须基于 HOC,产生了冗余的逻辑,创建了不必要的组件节点</li>
-<li>class 将业务逻辑全部分散在各个生命周期中,更关注于技术部分的逻辑</li>
-</ul>
-</li>
-<li>hooks<ul>
-<li>react 组件复用更加简洁,不会产生额外的逻辑,更不会创建多余的组件节点</li>
-<li>更关注于业务与技术的彻底分离</li>
-</ul>
-</li>
-</ul>
-<h4 id="hooks"><a href="#hooks" class="headerlink" title="hooks"></a>hooks</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>useState<ul>
-<li>用于维持组件的状态</li>
-<li>一旦组件拥有了状态,那么每一次使用时都会存在恢复状态的过程</li>
-</ul>
-</li>
-<li>useEffect<ul>
-<li>用于利用副作用</li>
-<li>包含了基于 class 组件的生命周期: componentDidMount、componentDidUpdate、componentWillUnmount</li>
-<li>基于依赖项数组内的数组元素发生改变,回调函数才会执行<ul>
-<li>依赖项数组内的数组元素必须在回调函数内使用,才会具有意义</li>
-<li>依赖项数组必须是一个常量数组,不能为变量</li>
-<li>依赖项数组内的数组元素不能为引用类型的数据</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>useCallback<ul>
-<li>用于缓存回调函数</li>
-<li>为了避免不必要的创建回调函数和 react 组件的渲染更新</li>
-</ul>
-</li>
-<li>useMemo<ul>
-<li>用于缓存计算结果</li>
-<li>为了避免不必要的计算过程和 react 组件的渲染更新</li>
-<li>可模拟 useCallback</li>
-</ul>
-</li>
-<li>useRef<ul>
-<li>用于在多次渲染之间存储、共享数据</li>
-<li>大多应用于存储 setTimeout、setInterval 产生的 id,再就是应用于存储 DOM 对象</li>
-</ul>
-</li>
-<li>useContext<ul>
-<li>用于实现数据绑定,在每一次祖先组件的数据发生更新时,子孙用到此数据的组件都会自动渲染更新</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>限制</p>
-</blockquote>
-<ul>
-<li>hooks 只可在函数组件或者其他 hooks 内使用</li>
-<li>hooks 只可在函数组件的顶级作用域内使用,不可在循环、条件判断或者嵌套函数内使用</li>
-</ul>
-<blockquote>
-<p>混合</p>
-</blockquote>
-<p>  要想在 react 类组件中使用 hooks,通过 HOC 的属性代理即可</p>
-<h4 id="Fiber"><a href="#Fiber" class="headerlink" title="Fiber"></a>Fiber</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>  由于 react 处理组件的渲染更新是同步的,那么当同一时间内有大量的 react 组件需要渲染更新时,JS 线程处理的时间可能会很长,在这期间浏览器不会响应任何事件,因为 JS 线程和 GUI 线程是互斥的,那么 Fiber 就是用于解决此类问题的,Fiber 会将长时间的同步任务,切割成多个小的同步任务,启用新的任务调度和数据结构</p>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>新的任务调度<ul>
-<li>当存在有高优先级的任务时,会先将浏览器让出来响应,等浏览器空闲了,再继续执行</li>
-</ul>
-</li>
-<li>新的数据结构<ul>
-<li>采用链表结构,可随时中断,也可接回重连<ul>
-<li>child: 父组件指向的第一个子组件的指针</li>
-<li>return: 所有的子组件都存在指向父组件的指针</li>
-<li>sibling: 在第一个组件之后,指向兄弟组件的指针</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>react</category>
-      </categories>
-      <tags>
-        <tag>react</tag>
-        <tag>source</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of css</title>
-    <url>/2022/11/21/think-of-css/</url>
-    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
-<blockquote>
-<p>text-align + inline-block</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>table + margin</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + justify-content</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
-<p>table-cell + vertical-align</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + align-items</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
-<p>flex</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>浮动元素 float,除了 none 以外的情况</li>
-<li>定位元素 position(absolute、fixed)</li>
-<li>display(inline-block、table-caption、table-cell)</li>
-<li>overflow(auto、hidden、scroll)</li>
-</ul>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
-<li>BFC 的高度计算会联同浮动元素的高度</li>
-<li>BFC 的区域不会与浮动元素的区域重叠</li>
-</ul>
-<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>flex-grow: 设置元素的扩展比例</li>
-<li>flex-shrink: 设置元素的收缩比例</li>
-<li>flex-basis: 设置元素的初始值</li>
-</ul>
-<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
-<p>区别</p>
-</blockquote>
-<ul>
-<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
-<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
-</ul>
-<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<ul>
-<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
-<li>relative: 相对定位,会相对于当前元素位置定位</li>
-<li>fixed: 绝对定位,会相对于浏览器 web 整个页面定位</li>
-<li>static: 默认值,不定位</li>
-<li>inherit: 继承父元素的定位属性值</li>
-</ul>
-]]></content>
-      <categories>
-        <category>css</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of v8</title>
-    <url>/2022/11/22/think-of-v8/</url>
-    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
-<p>垃圾回收机制</p>
-</blockquote>
-<p>  使用分代回收策略,分为新、老生代.</p>
-<ul>
-<li>新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
-<li>查找 from 中还存活的对象,将其全部移入到 to</li>
-<li>反转 from 和 to</li>
-<li>对 to 尽数回收</li>
-</ul>
-</li>
-<li>新生代 -&gt; 老生代<ul>
-<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
-<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
-</ul>
-</li>
-<li>老生代<ul>
-<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
-<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>v8</category>
-      </categories>
-      <tags>
-        <tag>v8</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of browser</title>
-    <url>/2022/11/24/think-of-browser/</url>
-    <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
-<p>分析</p>
-</blockquote>
-<ul>
-<li>浏览器的进程<ul>
-<li>浏览器进程</li>
-<li>渲染进程<ul>
-<li>GUI 线程: 用于处理解析渲染 html、css</li>
-<li>JS 线程: 也就是程序员所说的所谓 “JS 单线程”</li>
-<li>定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程</li>
-<li>事件触发线程: Event Loop 事件循环执行机制</li>
-<li>异步 HTTP 请求线程: 处理 http 请求,将符合条件的回调事件移入至事件触发线程</li>
-</ul>
-</li>
-<li>GPU 进程</li>
-<li>插件进程</li>
-<li>网络进程</li>
-</ul>
-</li>
-</ul>
-<h4 id="request"><a href="#request" class="headerlink" title="request"></a>request</h4><blockquote>
-<p>请求头</p>
-</blockquote>
-<ul>
-<li>content-type: 向服务器端请求获取资源的类型</li>
-<li>referer: 包含了当前请求页面的来源页面的地址</li>
-<li>user-agent: 则是用于告知服务器端,访问者是由什么工具请求的</li>
-</ul>
-<h4 id="OPTIONS"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个”预检”请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.</p>
-<blockquote>
-<p>场景</p>
-</blockquote>
-<ul>
-<li>跨域请求</li>
-</ul>
-<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h4><blockquote>
-<p>状态码</p>
-</blockquote>
-<p>  301: A 地址资源被永久性的移除,A 地址资源不可被访问<br>  302: A 地址资源被暂时性的转移,A 地址资源仍然可被访问,只是临时的从 A 地址跳转到了 B 地址</p>
-<h4 id="HTTP-缓存策略"><a href="#HTTP-缓存策略" class="headerlink" title="HTTP 缓存策略"></a>HTTP 缓存策略</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>协商缓存<ul>
-<li>ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
-<li>Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
-</ul>
-</li>
-<li>强制缓存<ul>
-<li>Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存</li>
-<li>Cache-Control<ul>
-<li>max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存</li>
-<li>immutable: 浏览器永远只能取本地缓存</li>
-<li>no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证</li>
-<li>no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>优先级</p>
-</blockquote>
-<ul>
-<li>强制缓存与协商缓存<ul>
-<li>会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存</li>
-</ul>
-</li>
-<li>协商缓存<ul>
-<li>ETag 与 Last-Modified<ul>
-<li>ETag &gt; Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>强制缓存<ul>
-<li>Expires 与 Cache-Control<ul>
-<li>Cache-Control &gt; Expires</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>browser</category>
-      </categories>
-      <tags>
-        <tag>browser</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of algorithm</title>
-    <url>/2022/11/26/think-of-algorithm/</url>
-    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>冒泡排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>插入排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>归并排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>快速排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>algorithm</category>
-      </categories>
-      <tags>
-        <tag>algorithm</tag>
-        <tag>算法</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>javascript outline</title>
-    <url>/2022/10/25/javascript-outline/</url>
-    <content><![CDATA[<h1 id="javascript-outline"><a href="#javascript-outline" class="headerlink" title="javascript outline"></a>javascript outline</h1><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><ul>
-<li>变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针)</li>
-<li>重复声明</li>
-<li>全局作用域绑定</li>
-</ul>
-<h3 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h3><ul>
-<li>不再拥有 var 的缺陷特性</li>
-<li>TDZ(临时死区)</li>
-<li>块级作用域绑定</li>
-</ul>
-<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><ul>
-<li>变量声明</li>
-</ul>
-<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ul>
-<li>常量声明</li>
-<li>优先声明最佳实践</li>
-</ul>
-<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
-<p>utf-8</p>
-</blockquote>
-<ul>
-<li>2^8 码位</li>
-<li>基本多文种平面</li>
-<li>字符位: charAt</li>
-<li>字符编码: charCodeAt</li>
-<li>编码转换: fromCharCode</li>
-</ul>
-<blockquote>
-<p>utf-16</p>
-</blockquote>
-<ul>
-<li>2^16 码位</li>
-<li>辅助平面</li>
-<li>字符串长度</li>
-<li>正则表达式匹配: u</li>
-<li>字符编码: codePointAt</li>
-<li>编码转换: fromCodePoint</li>
-</ul>
-<blockquote>
-<p>方法</p>
-</blockquote>
-<ul>
-<li>获取字符子串: startsWith、endsWith、includes</li>
-<li>重复添加: repeat</li>
-<li>填充扩展字符串<ul>
-<li>padStart: 从字符串左边填充指定字符(不指定为空字符),注意如果填充的长度小于字符串长度则直接返回此字符串</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>正则表达式</p>
-</blockquote>
-<ul>
-<li>粘滞描述符: y</li>
-<li>判断是否存在粘滞描述符: sticky</li>
-<li>获取描述符内容: flags()</li>
-<li>获取正则内容: source()</li>
-<li>复制描述符覆盖</li>
-</ul>
-<blockquote>
-<p>模板字符串</p>
-</blockquote>
-<ul>
-<li>基本语法(占位符)</li>
-<li>多行字符串</li>
-</ul>
-<blockquote>
-<p>模板标签</p>
-</blockquote>
-<ul>
-<li>字符串集合长度 - 变量集合长度 = 1</li>
-<li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
-</ul>
-<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
-<li>参数的默认值,注意 TDZ 临时死区</li>
-<li>不定参数,注意参数集合必须在参数末尾</li>
-<li>展开运算符</li>
-<li>功能增强的 Function 构造声明方式</li>
-<li>name 捕获函数的名称以便于堆栈追踪</li>
-<li>元属性: new.target, 绑定内置对象 [[Construct]],当函数执行触发内置对象 [[Call]] 时,返回 undefined</li>
-<li>块级函数声明</li>
-</ul>
-<blockquote>
-<p>箭头函数</p>
-</blockquote>
-<ul>
-<li><p>特性</p>
-<ul>
-<li>无 this、super、arguments 以及 new.target</li>
-<li>无原型链</li>
-<li>不能使用 new 构造调用</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>基本语法</li>
-<li>this、arguments 会继承自最近词法作用域执行时的上下文对象</li>
-</ul>
-<blockquote>
-<p>尾调用优化</p>
-</blockquote>
-<ul>
-<li><p>特性</p>
-<ul>
-<li>必须为函数的最后一步执行</li>
-<li>执行的结果必须实行返回</li>
-<li>执行时不得运算或者操作函数词法作用域内变量,防止产生闭包</li>
-</ul>
-</li>
-</ul>
-<ul>
-<li>原理: 避免建立多堆栈存储,防止堆栈溢出、内存泄露,单堆栈循环使用提高效率</li>
-<li>应用: 递归</li>
-<li>还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出、内存泄露</li>
-</ul>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><ul>
-<li>对象属性方法简化</li>
-<li>可计算的对象属性方法</li>
-<li>方法<ul>
-<li>判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同</li>
-<li>浅复制: Object.assign</li>
-</ul>
-</li>
-<li>重复对象属性方法</li>
-<li>自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify、Object.keys 以及 Object.entries 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.</li>
-<li>增强原型: Object.getPrototypeOf、Object.setPrototypeOf</li>
-<li>原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 [[HomeObject]] 访问原型.</li>
-</ul>
-<h3 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h3><ul>
-<li>对象解构<ul>
-<li>解构赋值</li>
-<li>默认值</li>
-<li>非同名变量赋值</li>
-<li>嵌套解构</li>
-</ul>
-</li>
-<li>数组解构<ul>
-<li>解构赋值</li>
-<li>默认值</li>
-<li>嵌套解构</li>
-<li>不定元素,注意跟不定参数一致,元素集合必须在数组末尾</li>
-</ul>
-</li>
-<li>混合解构</li>
-<li>解构参数<ul>
-<li>必须传值</li>
-<li>默认值</li>
-</ul>
-</li>
-</ul>
-<h3 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h3><ul>
-<li>基本用法,注意绑定于内置对象 [[Description]] 内</li>
-<li>共享体系: Symbol.for、Symbol.keyFor</li>
-<li>属性遍历: Object.getOwnPropertySymbols、Reflect.ownKeys</li>
-<li>wellKnown-Symbols<ul>
-<li>Symbol.hasInstance: 作为方法,用于重新定义 instanceof,判断构造对象是否在原型链上</li>
-<li>Symbol.isConcatSpreadable: 作为属性,用于重新定义类数组对象,判断其是否可被合并</li>
-<li>Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法</li>
-<li>Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换)</li>
-<li>Symbol.toStringTag: 作为属性,用于重新定义对象类型识别</li>
-</ul>
-</li>
-</ul>
-<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ul>
-<li>基本用法</li>
-<li>属性<ul>
-<li>size: 获取集合的长度</li>
-</ul>
-</li>
-<li>方法<ul>
-<li>add: 向集合内添加数据</li>
-<li>has: 判断集合内是否存在指定数据</li>
-<li>delete: 删除集合内指定数据</li>
-<li>clear: 清空集合内所有数据</li>
-<li>forEach: 循环集合内数据、数据索引实行操作</li>
-<li>keys: 循环集合内数据索引实行操作</li>
-<li>values: 循环集合内数据实行操作</li>
-<li>entries: 循环集合内数据索引、数据实行操作,类似于 forEach</li>
-</ul>
-</li>
-<li>初始化声明并添加数据: new Set([])</li>
-<li>转化为数组: […set],注意 set 构造对象必须配合数组、展开运算符才可实行转化</li>
-</ul>
-<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><ul>
-<li>基本用法</li>
-<li>区别<ul>
-<li>只能向弱类型集合中添加引用类型数据</li>
-<li>size、clear、forEach、keys、values 以及 entries 失效</li>
-<li>一旦与添加的引用类型数据失去绑定或者引用类型数据失效,集合内数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露</li>
-</ul>
-</li>
-</ul>
-<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><ul>
-<li>基本用法</li>
-<li>属性<ul>
-<li>size: 获取字典的大小</li>
-</ul>
-</li>
-<li>方法<ul>
-<li>set: 向字典中添加映射、数据</li>
-<li>get: 根据指定映射获取字典内相对应的数据</li>
-<li>has: 根据指定映射判断字典内是否存在相对应的数据</li>
-<li>delete: 根据指定映射删除字典内相对应的数据</li>
-<li>clear: 清空字典内所有的映射、数据</li>
-<li>forEach: 循环字典内数据、映射实行操作</li>
-<li>keys: 循环字典内映射实行操作</li>
-<li>values: 循环字典内数据实行操作</li>
-<li>entries: 循环字典内映射、数据实行操作,类似于 forEach</li>
-</ul>
-</li>
-<li>初始化声明并添加映射、数据: new Map([[]])</li>
-</ul>
-<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><ul>
-<li>基本用法</li>
-<li>区别<ul>
-<li>只能向弱类型字典中添加引用类型的映射以及所对应的数据</li>
-<li>size、clear、forEach、keys、values 以及 entries 失效</li>
-<li>一旦与添加的引用类型映射失去绑定或者引用类型映射失效,字典内映射以及所对应的数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露</li>
-<li>私有数据<ul>
-<li>ES5 使用私有对象保存,闭包产生的内存数据永远无法被清除,久而久之会出现堆栈溢出、内存泄露</li>
-<li>ES6 使用 WeakMap 保存更加简洁,不会产生任何堆栈溢出、内存泄露的问题</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><ul>
-<li>基本用法,注意可以模拟迭代器</li>
-<li>访问默认迭代器: 可迭代的对象(数组、集合、字典以及字符串等)调用 [Symbol.iterator]() 即可</li>
-<li>创造可迭代对象: 实际上就是对于普通对象模拟迭代器,{*[Symbol.iterator]() {yield *Object.values(this);}},注意这里还使用了委托生成器</li>
-<li>可迭代对象<ul>
-<li>数组: 默认迭代器是针对数组元素,实际上调用的是其 values 方法</li>
-<li>集合: 默认迭代器是针对集合数据,实际上调用的是其 values 方法</li>
-<li>字典: 默认迭代器是针对字典映射以及其所对应的数据,实际上调用的是其 entries 方法</li>
-<li>字符串: 默认迭代器是针对字符串中的字符,注意这里已经扩展至 UTF-16 范围内的字符</li>
-<li>NodeList 对象: 默认迭代器是针对 NodeList 集合中的节点元素</li>
-</ul>
-</li>
-</ul>
-<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><ul>
-<li>基本用法</li>
-<li>生成器函数表达式</li>
-<li>生成器对象方法</li>
-<li>向迭代器传递参数</li>
-<li>在迭代器中抛出错误,注意抛出错误后,在没有 try-catch 的情况下,会直接停止,不会继续迭代</li>
-<li>在生成器中返回语句</li>
-<li>委托生成器,注意对于数组、函数的委托生成,会对其中的可迭代元素分别迭代</li>
-<li>异步生成器,注意异步执行时的事件循环执行机制</li>
-</ul>
-<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><ul>
-<li>基本用法</li>
-<li>特性<ul>
-<li>存在 TDZ 临时死区</li>
-<li>类赋值不可在类内部实行修改</li>
-<li>只可使用 new 构造调用</li>
-<li>类原型链上的方法不可枚举且不可使用 new 构造调用</li>
-<li>类原型链上的访问器属性不可枚举</li>
-<li>相对于 ES5 继承时,继承是基于派生类的 this,父类只是在此基础上实行修饰,ES6 的继承则是永远基于父类的 this,派生类是在此基础上实行修改,两套继承模式完全相反</li>
-</ul>
-</li>
-<li>类表达式</li>
-<li>命名的类表达式</li>
-<li>类作为参数传递</li>
-<li>类声明的同时实行 new 构造调用</li>
-<li>类的访问器属性</li>
-<li>可计算的类成员</li>
-<li>生成器方法: 注意可创作可迭代构造对象</li>
-<li>类静态成员</li>
-<li>继承与派生<ul>
-<li>派生类的方法遮蔽</li>
-<li>派生类所继承的访问器属性</li>
-<li>派生类所继承的静态成员</li>
-<li>继承自普通函数或者函数表达式</li>
-<li>内置对象继承</li>
-<li>Symbol.species: 作为静态的访问器属性,用于重新自定义创建派生类对象,确定值类型</li>
-</ul>
-</li>
-<li>元属性 new.target 在类中的使用<ul>
-<li>抽象基类</li>
-</ul>
-</li>
-</ul>
-<h3 id="改进的数组"><a href="#改进的数组" class="headerlink" title="改进的数组"></a>改进的数组</h3><ul>
-<li>Array.of: 用于规整数组声明时混乱意义的参数,注意 Array.of 创建的类对象并不是由静态访问器属性 [Symbol.species] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型</li>
-<li>Array.from: 用于将可迭代对象以及类数组对象转化为数组,同时可实行操作,并可改变操作函数的 this 绑定,注意 Array.from 创建的类对象并不是由静态访问器属性 [Symbol.species] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型</li>
-<li>方法<ul>
-<li>find: 匹配符合条件的第一个数组元素</li>
-<li>findIndex: 匹配符合条件的第一个数组元素下标</li>
-<li>fill: 向指定的数组位置填充覆盖指定的数据</li>
-<li>copyWithin: 向指定的数组位置填充覆盖指定数组范围的数据</li>
-<li>includes: 用于判断数组内是否含有某个数据</li>
-<li>fromEntries: 用于将二维可迭代对象或者二维类数组对象转换为普通对象</li>
-</ul>
-</li>
-<li>定型数组<ul>
-<li>创建方式<ul>
-<li>使用自定义数组缓冲区创建视图</li>
-<li>使用定型数组声明创建</li>
-<li>使用已声明的定型数组构造对象创建<ul>
-<li>注意,上述创建方式都可指定字节偏移量、以及字节长度</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>区别<ul>
-<li>相似之处<ul>
-<li>通用方法<ul>
-<li>map</li>
-<li>forEach</li>
-<li>keys</li>
-<li>values</li>
-<li>entries</li>
-<li>some</li>
-<li>every</li>
-<li>filter</li>
-<li>reduce</li>
-<li>reduceRight</li>
-<li>indexOf</li>
-<li>lastIndexOf</li>
-<li>join</li>
-<li>reverse</li>
-<li>sort</li>
-<li>find</li>
-<li>findIndex</li>
-<li>fill</li>
-<li>copyWithin</li>
-</ul>
-</li>
-<li>同属于可迭代对象,可使用展开运算符</li>
-</ul>
-</li>
-<li>不同之处<ul>
-<li>定型数组缺失方法<ul>
-<li>push</li>
-<li>pop</li>
-<li>shift</li>
-<li>unshift</li>
-<li>concat</li>
-<li>splice</li>
-</ul>
-</li>
-<li>定型数组缺失特性<ul>
-<li>数组元素不可扩展</li>
-<li>数组长度不可配置、不可修改</li>
-</ul>
-</li>
-<li>定型数组特有方法<ul>
-<li>set: 用于向定型数组中覆盖指定范围的数组元素</li>
-<li>subarray: 类似于 slice 方法,用于截取定型数组</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h3><ul>
-<li>基本用法: 注意 promise 是绑定至内置对象 [[PromiseState]] 内<ul>
-<li>pending: 处理中</li>
-<li>fulfilled: 处理完成</li>
-<li>rejected: 拒绝处理</li>
-</ul>
-</li>
-<li>创建未完成的 Promise: new Promise((resolve, reject) =&gt; {})</li>
-<li>创建已处理的 Promise: Promise.resolve,Promise.reject,注意对于 Promise.resolve 如果传入 Promise 参数,则会将此 Promise 直接返回</li>
-<li>全局 Promise 拒绝处理程序: 在事件循环执行机制中,若 Promise 被拒绝,且没有拒绝处理程序时,会触发执行 unhandledRejection 事件; 若 Promise 被拒绝,且监听到拒绝处理程序时,则会触发 rejectionHandled 事件,注意若同步立即设置拒绝处理程序,则不会触发任何事件<ul>
-<li>unhandledRejection: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onunhandledrejection</li>
-<li>rejectionHandled: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onrejectionhandled</li>
-</ul>
-</li>
-<li>Promise 执行抛出错误: 使用 catch 拦截</li>
-<li>Promise 串行链<ul>
-<li>在 Promise 链中抛出错误</li>
-<li>在 Promise 链中的返回值</li>
-<li>在 Promise 链中返回 Promise</li>
-</ul>
-</li>
-<li>Promise.all: 当 Promise 数组中的每一个处理都完成时,才会实行返回,接收到的数据也才是一个数组,分别代表着每一个完成处理传递的数据,一旦存在有一个拒绝处理,则会立即返回,接收的将是拒绝处理程序传递的数据</li>
-<li>Promise.race: 当 Promise 数组中任意一个处理完成或者拒绝时,都会立即返回,接收到完成或者拒绝处理程序传递的数据</li>
-<li>派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 [Symbol.species] 确定值类型的,由此,类对象是在派生类的原型链上</li>
-<li>Promise 的异步生成器</li>
-</ul>
-<h3 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h3><ul>
-<li>基本用法</li>
-<li>set 代理陷阱验证对象属性</li>
-<li>get 代理陷阱验证对象结构</li>
-<li>has 代理陷阱隐藏对象属性</li>
-<li>deleteProperty 代理陷阱防止删除对象属性</li>
-<li>原型代理陷阱: setPrototypeOf、getPrototypeOf<ul>
-<li>区别: 除了主要功能相同之外<ul>
-<li>Object.setPrototypeOf: 是绑定至内置对象 [[SetPrototypeOf]] 内,其执行结果如果成功则返回第一个参数,失败则抛出错误</li>
-<li>Reflect.setPrototypeOf: 是绑定至内置对象 [[SetPrototypeOf]] 的包裹器,存在数据验证,只会返回 true 或者 false</li>
-<li>Object.getPrototypeOf: 是绑定至内置对象 [[GetPrototypeOf]] 内,可将基本类型的数据强制转化为相关的构造对象</li>
-<li>Reflect.getPrototypeOf: 是绑定至内置对象 [[GetPrototypeOf]] 的包裹器,存在数据验证,参数只能接收引用类型对象,传递基本类型数据会直接抛出错误</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>对象可扩展性代理陷阱: isExtensiable、preventExtensions<ul>
-<li>区别: 除了主要功能相同之外<ul>
-<li>Object.isExtensiable: 可将基本类型的数据强制转化为相关的构造对象</li>
-<li>Reflect.isExtensiable: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
-<li>Object.preventExtensions: 可将基本类型的数据强制转化为相关的构造对象</li>
-<li>Reflect.preventExtensions: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>对象属性描述符代理陷阱: defineProperty、getOwnPropertyDescriptor<ul>
-<li>使用 defineProperty 来添加属性限制</li>
-<li>描述符属性的限制: defineProperty、getOwnPropertyDescriptor 所能操作的描述符属性只有 value、get、set、writable、enumerable、configurable</li>
-<li>区别: 除了主要功能相同之外<ul>
-<li>Object.defineProperty: 执行结果如果成功则返回第一个参数,失败则抛出错误</li>
-<li>Reflect.defineProperty: 只会返回 true 或者 false</li>
-<li>Object.getOwnPropertyDescriptor: 可将基本类型的数据强制转化为相关的构造对象</li>
-<li>Reflect.getOwnPropertyDescriptor: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
-</ul>
-</li>
-</ul>
-</li>
-<li>ownKeys 代理陷阱</li>
-<li>函数执行 apply、construct 代理陷阱<ul>
-<li>验证函数参数</li>
-<li>不使用 new 构造调用: 通过在 apply 代理陷阱中调用 construct 代理陷阱即可绕过函数的元属性 new.target new 构造调用校验</li>
-<li>覆写抽象基类: 通过在 construct 代理陷阱中将 new.target 修改成普通类或者普通函数即可绕过 new.target 抽象基类校验</li>
-<li>可调用的类: 通过在 apply 代理陷阱中调用 construct 代理陷阱或者直接在 apply 代理陷阱中使用 new 构造调用即可绕过类的只可实行 new 构造调用的校验</li>
-</ul>
-</li>
-<li>可撤销的代理陷阱: 通过 Proxy.revocable revoke 方法可实现撤销代理陷阱</li>
-<li>拥有数组特性的类</li>
-<li>将代理陷阱作为原型<ul>
-<li>在原型中使用 set 代理陷阱</li>
-<li>在原型中使用 get 代理陷阱</li>
-<li>在原型中使用 has 代理陷阱</li>
-<li>将代理陷阱作为类的原型</li>
-</ul>
-</li>
-</ul>
-<h3 id="模块的导入导出"><a href="#模块的导入导出" class="headerlink" title="模块的导入导出"></a>模块的导入导出</h3><ul>
-<li>普通用法<ul>
-<li>导出模块</li>
-<li>导入模块<ul>
-<li>导入单个绑定</li>
-<li>导入多个绑定</li>
-<li>导入整个模块,注意可直接导入模块的默认值,通过 default 调用</li>
-</ul>
-</li>
-<li>重命名导入导出模块</li>
-<li>模块的默认值<ul>
-<li>导入模块的默认值</li>
-<li>导出模块的默认值: 注意只能导出一个模块的默认值,出现导出多个默认值会直接抛出语法错误</li>
-<li>重命名导入导出模块默认值</li>
-</ul>
-</li>
-<li>重新导出绑定</li>
-<li>无绑定导入模块</li>
-</ul>
-</li>
-<li>ESM 的特性<ul>
-<li>静态分析</li>
-<li>赋值引用</li>
-</ul>
-</li>
-<li>Web 浏览器内同步加载模块的顺序<ul>
-<li>下载并解析入口模块</li>
-<li>递归下载并解析入口模块所导入的资源</li>
-<li>递归执行入口模块所导入的资源</li>
-<li>执行入口模块</li>
-</ul>
-</li>
-</ul>
-<h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><ul>
-<li>方法<ul>
-<li>Number.isInteger: 判断数据是否是一个整数</li>
-<li>Number.isSafeInteger: 判断数据是否是一个安全整数,注意安全整数的范围在 -(2^53 - 1) 与 2^53 - 1 之间</li>
-<li>Number.MAX_SAFE_INTEGER: 安全整数范围内的最大值</li>
-<li>Number.MIN_SAFE_INTEGER: 安全整数范围内的最小值</li>
-</ul>
-</li>
-<li>运算符<ul>
-<li>**: 幂运算符,与 Math.pow() 的执行结果相同</li>
-</ul>
-</li>
-</ul>
-<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
-<li>基本用法<ul>
-<li>async: async 函数执行后会返回一个 Promise</li>
-<li>await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出</li>
-</ul>
-</li>
-</ul>
-<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><h3 id="tapable"><a href="#tapable" class="headerlink" title="tapable"></a>tapable</h3><ul>
-<li><p>订阅模式类型</p>
-<ul>
-<li>tap -&gt; ‘sync’</li>
-<li>tapAsync -&gt; ‘async’</li>
-<li>tapPromise -&gt; ‘promise’</li>
-</ul>
-</li>
-<li><p>发布类型</p>
-<ul>
-<li>call -&gt; ‘sync’</li>
-<li>callAsync -&gt; ‘async’</li>
-<li>promise -&gt; ‘promise’</li>
-</ul>
-</li>
-<li><p>原理</p>
-<p>tapable 实际上是根据订阅模式类型、发布类型以及传递的参数来构建 Function 构造声明的</p>
-</li>
-<li><p>类</p>
-<ul>
-<li><p>Hook</p>
-<ul>
-<li>流程方法(important)<ul>
-<li>lazyCompile</li>
-<li>_createCall</li>
-<li>compile</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>HookCodeFactory</p>
-<ul>
-<li>流程方法(important)<ul>
-<li>setup</li>
-<li>create(结果由发布类型决定)</li>
-<li>header(结果由发布类型决定)</li>
-<li>callTapsSeries(结果由订阅模式类型决定)</li>
-<li>callTap(结果由订阅模式类型决定)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>伪代码</p>
-<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">this.发布类型函数 = function lazyCompile(参数) &#123;</span><br><span class="line">  function func(参数) &#123;</span><br><span class="line">      setup()</span><br><span class="line">      create()</span><br><span class="line">      header()</span><br><span class="line">      onError()</span><br><span class="line">      onResult()</span><br><span class="line">      onDone()</span><br><span class="line">  &#125;</span><br><span class="line">  func(参数)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>javascript</category>
-      </categories>
-      <tags>
-        <tag>javascript</tag>
-        <tag>es6</tag>
-        <tag>outline</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -1728,6 +710,553 @@ fancybox: true
       </tags>
   </entry>
   <entry>
+    <title>javascript outline</title>
+    <url>/2022/10/25/javascript-outline/</url>
+    <content><![CDATA[<h1 id="javascript-outline"><a href="#javascript-outline" class="headerlink" title="javascript outline"></a>javascript outline</h1><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><ul>
+<li>变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针)</li>
+<li>重复声明</li>
+<li>全局作用域绑定</li>
+</ul>
+<h3 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h3><ul>
+<li>不再拥有 var 的缺陷特性</li>
+<li>TDZ(临时死区)</li>
+<li>块级作用域绑定</li>
+</ul>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><ul>
+<li>变量声明</li>
+</ul>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ul>
+<li>常量声明</li>
+<li>优先声明最佳实践</li>
+</ul>
+<h3 id="字符串"><a href="#字符串" class="headerlink" title="字符串"></a>字符串</h3><blockquote>
+<p>utf-8</p>
+</blockquote>
+<ul>
+<li>2^8 码位</li>
+<li>基本多文种平面</li>
+<li>字符位: charAt</li>
+<li>字符编码: charCodeAt</li>
+<li>编码转换: fromCharCode</li>
+</ul>
+<blockquote>
+<p>utf-16</p>
+</blockquote>
+<ul>
+<li>2^16 码位</li>
+<li>辅助平面</li>
+<li>字符串长度</li>
+<li>正则表达式匹配: u</li>
+<li>字符编码: codePointAt</li>
+<li>编码转换: fromCodePoint</li>
+</ul>
+<blockquote>
+<p>方法</p>
+</blockquote>
+<ul>
+<li>获取字符子串: startsWith、endsWith、includes</li>
+<li>重复添加: repeat</li>
+<li>填充扩展字符串<ul>
+<li>padStart: 从字符串左边填充指定字符(不指定为空字符),注意如果填充的长度小于字符串长度则直接返回此字符串</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>正则表达式</p>
+</blockquote>
+<ul>
+<li>粘滞描述符: y</li>
+<li>判断是否存在粘滞描述符: sticky</li>
+<li>获取描述符内容: flags()</li>
+<li>获取正则内容: source()</li>
+<li>复制描述符覆盖</li>
+</ul>
+<blockquote>
+<p>模板字符串</p>
+</blockquote>
+<ul>
+<li>基本语法(占位符)</li>
+<li>多行字符串</li>
+</ul>
+<blockquote>
+<p>模板标签</p>
+</blockquote>
+<ul>
+<li>字符串集合长度 - 变量集合长度 = 1</li>
+<li>字符串集合中每一个元素都拥有获取其原生内容的方法: raw</li>
+</ul>
+<h3 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h3><ul>
+<li>参数的默认值,注意 TDZ 临时死区</li>
+<li>不定参数,注意参数集合必须在参数末尾</li>
+<li>展开运算符</li>
+<li>功能增强的 Function 构造声明方式</li>
+<li>name 捕获函数的名称以便于堆栈追踪</li>
+<li>元属性: new.target, 绑定内置对象 [[Construct]],当函数执行触发内置对象 [[Call]] 时,返回 undefined</li>
+<li>块级函数声明</li>
+</ul>
+<blockquote>
+<p>箭头函数</p>
+</blockquote>
+<ul>
+<li>特性<ul>
+<li>无 this、super、arguments 以及 new.target</li>
+<li>无原型链</li>
+<li>不能使用 new 构造调用</li>
+</ul>
+</li>
+<li>基本语法</li>
+<li>this、arguments 会继承自最近词法作用域执行时的上下文对象</li>
+</ul>
+<blockquote>
+<p>尾调用优化</p>
+</blockquote>
+<ul>
+<li>特性<ul>
+<li>必须为函数的最后一步执行</li>
+<li>执行的结果必须实行返回</li>
+<li>执行时不得运算或者操作函数词法作用域内变量,防止产生闭包</li>
+</ul>
+</li>
+<li>原理: 避免建立多堆栈存储,防止堆栈溢出、内存泄露,单堆栈循环使用提高效率</li>
+<li>应用: 递归</li>
+<li>还没有被大规模推行,目前只在 safari 浏览器中实现,其他浏览器开发环境应用极其容易发生堆栈溢出、内存泄露</li>
+</ul>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><ul>
+<li>对象属性方法简化</li>
+<li>可计算的对象属性方法</li>
+<li>方法<ul>
+<li>判断两个值是否相等: Object.is,注意除了 (+0,-0)、NaN 之外,其他执行结果与 === 相同</li>
+<li>浅复制: Object.assign</li>
+</ul>
+</li>
+<li>重复对象属性方法</li>
+<li>自有属性方法枚举排序: Object.getOwnPropertyNames、Reflect.ownKeys、for-in、JSON.stringify、Object.keys 以及 Object.entries 在各大厂商都是按照数字提升升序排列,字符串按照添加顺序排列.</li>
+<li>增强原型: Object.getPrototypeOf、Object.setPrototypeOf</li>
+<li>原型访问 Super 引用: 在正式的方法也就是简化的对象方法内,super 引用可直接绑定 [[HomeObject]] 访问原型.</li>
+</ul>
+<h3 id="解构赋值"><a href="#解构赋值" class="headerlink" title="解构赋值"></a>解构赋值</h3><ul>
+<li>对象解构<ul>
+<li>解构赋值</li>
+<li>默认值</li>
+<li>非同名变量赋值</li>
+<li>嵌套解构</li>
+</ul>
+</li>
+<li>数组解构<ul>
+<li>解构赋值</li>
+<li>默认值</li>
+<li>嵌套解构</li>
+<li>不定元素,注意跟不定参数一致,元素集合必须在数组末尾</li>
+</ul>
+</li>
+<li>混合解构</li>
+<li>解构参数<ul>
+<li>必须传值</li>
+<li>默认值</li>
+</ul>
+</li>
+</ul>
+<h3 id="Symbol"><a href="#Symbol" class="headerlink" title="Symbol"></a>Symbol</h3><ul>
+<li>基本用法,注意绑定于内置对象 [[Description]] 内</li>
+<li>共享体系: Symbol.for、Symbol.keyFor</li>
+<li>属性遍历: Object.getOwnPropertySymbols、Reflect.ownKeys</li>
+<li>wellKnown-Symbols<ul>
+<li>Symbol.hasInstance: 作为方法,用于重新定义 instanceof,判断构造对象是否在原型链上</li>
+<li>Symbol.isConcatSpreadable: 作为属性,用于重新定义类数组对象,判断其是否可被合并</li>
+<li>Symbol.search、Symbol.replace、Symbol.match、Symbol.split: 作为方法,用于重新定义字符串查找、替换、匹配以及分割方法</li>
+<li>Symbol.toPrimitive: 作为方法,用于重新定义对象强制类型转换后的结果(包含数字模式以及字符串模式转换)</li>
+<li>Symbol.toStringTag: 作为属性,用于重新定义对象类型识别</li>
+</ul>
+</li>
+</ul>
+<h3 id="Set"><a href="#Set" class="headerlink" title="Set"></a>Set</h3><ul>
+<li>基本用法</li>
+<li>属性<ul>
+<li>size: 获取集合的长度</li>
+</ul>
+</li>
+<li>方法<ul>
+<li>add: 向集合内添加数据</li>
+<li>has: 判断集合内是否存在指定数据</li>
+<li>delete: 删除集合内指定数据</li>
+<li>clear: 清空集合内所有数据</li>
+<li>forEach: 循环集合内数据、数据索引实行操作</li>
+<li>keys: 循环集合内数据索引实行操作</li>
+<li>values: 循环集合内数据实行操作</li>
+<li>entries: 循环集合内数据索引、数据实行操作,类似于 forEach</li>
+</ul>
+</li>
+<li>初始化声明并添加数据: new Set([])</li>
+<li>转化为数组: […set],注意 set 构造对象必须配合数组、展开运算符才可实行转化</li>
+</ul>
+<h3 id="WeakSet"><a href="#WeakSet" class="headerlink" title="WeakSet"></a>WeakSet</h3><ul>
+<li>基本用法</li>
+<li>区别<ul>
+<li>只能向弱类型集合中添加引用类型数据</li>
+<li>size、clear、forEach、keys、values 以及 entries 失效</li>
+<li>一旦与添加的引用类型数据失去绑定或者引用类型数据失效,集合内数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露</li>
+</ul>
+</li>
+</ul>
+<h3 id="Map"><a href="#Map" class="headerlink" title="Map"></a>Map</h3><ul>
+<li>基本用法</li>
+<li>属性<ul>
+<li>size: 获取字典的大小</li>
+</ul>
+</li>
+<li>方法<ul>
+<li>set: 向字典中添加映射、数据</li>
+<li>get: 根据指定映射获取字典内相对应的数据</li>
+<li>has: 根据指定映射判断字典内是否存在相对应的数据</li>
+<li>delete: 根据指定映射删除字典内相对应的数据</li>
+<li>clear: 清空字典内所有的映射、数据</li>
+<li>forEach: 循环字典内数据、映射实行操作</li>
+<li>keys: 循环字典内映射实行操作</li>
+<li>values: 循环字典内数据实行操作</li>
+<li>entries: 循环字典内映射、数据实行操作,类似于 forEach</li>
+</ul>
+</li>
+<li>初始化声明并添加映射、数据: new Map([[]])</li>
+</ul>
+<h3 id="WeakMap"><a href="#WeakMap" class="headerlink" title="WeakMap"></a>WeakMap</h3><ul>
+<li>基本用法</li>
+<li>区别<ul>
+<li>只能向弱类型字典中添加引用类型的映射以及所对应的数据</li>
+<li>size、clear、forEach、keys、values 以及 entries 失效</li>
+<li>一旦与添加的引用类型映射失去绑定或者引用类型映射失效,字典内映射以及所对应的数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露</li>
+<li>私有数据<ul>
+<li>ES5 使用私有对象保存,闭包产生的内存数据永远无法被清除,久而久之会出现堆栈溢出、内存泄露</li>
+<li>ES6 使用 WeakMap 保存更加简洁,不会产生任何堆栈溢出、内存泄露的问题</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="Iterator"><a href="#Iterator" class="headerlink" title="Iterator"></a>Iterator</h3><ul>
+<li>基本用法,注意可以模拟迭代器</li>
+<li>访问默认迭代器: 可迭代的对象(数组、集合、字典以及字符串等)调用 [Symbol.iterator]() 即可</li>
+<li>创造可迭代对象: 实际上就是对于普通对象模拟迭代器,{*[Symbol.iterator]() {yield *Object.values(this);}},注意这里还使用了委托生成器</li>
+<li>可迭代对象<ul>
+<li>数组: 默认迭代器是针对数组元素,实际上调用的是其 values 方法</li>
+<li>集合: 默认迭代器是针对集合数据,实际上调用的是其 values 方法</li>
+<li>字典: 默认迭代器是针对字典映射以及其所对应的数据,实际上调用的是其 entries 方法</li>
+<li>字符串: 默认迭代器是针对字符串中的字符,注意这里已经扩展至 UTF-16 范围内的字符</li>
+<li>NodeList 对象: 默认迭代器是针对 NodeList 集合中的节点元素</li>
+</ul>
+</li>
+</ul>
+<h3 id="Generator"><a href="#Generator" class="headerlink" title="Generator"></a>Generator</h3><ul>
+<li>基本用法</li>
+<li>生成器函数表达式</li>
+<li>生成器对象方法</li>
+<li>向迭代器传递参数</li>
+<li>在迭代器中抛出错误,注意抛出错误后,在没有 try-catch 的情况下,会直接停止,不会继续迭代</li>
+<li>在生成器中返回语句</li>
+<li>委托生成器,注意对于数组、函数的委托生成,会对其中的可迭代元素分别迭代</li>
+<li>异步生成器,注意异步执行时的事件循环执行机制</li>
+</ul>
+<h3 id="class"><a href="#class" class="headerlink" title="class"></a>class</h3><ul>
+<li>基本用法</li>
+<li>特性<ul>
+<li>存在 TDZ 临时死区</li>
+<li>类赋值不可在类内部实行修改</li>
+<li>只可使用 new 构造调用</li>
+<li>类原型链上的方法不可枚举且不可使用 new 构造调用</li>
+<li>类原型链上的访问器属性不可枚举</li>
+<li>相对于 ES5 继承时,继承是基于派生类的 this,父类只是在此基础上实行修饰,ES6 的继承则是永远基于父类的 this,派生类是在此基础上实行修改,两套继承模式完全相反</li>
+</ul>
+</li>
+<li>类表达式</li>
+<li>命名的类表达式</li>
+<li>类作为参数传递</li>
+<li>类声明的同时实行 new 构造调用</li>
+<li>类的访问器属性</li>
+<li>可计算的类成员</li>
+<li>生成器方法: 注意可创作可迭代构造对象</li>
+<li>类静态成员</li>
+<li>继承与派生<ul>
+<li>派生类的方法遮蔽</li>
+<li>派生类所继承的访问器属性</li>
+<li>派生类所继承的静态成员</li>
+<li>继承自普通函数或者函数表达式</li>
+<li>内置对象继承</li>
+<li>Symbol.species: 作为静态的访问器属性,用于重新自定义创建派生类对象,确定值类型</li>
+</ul>
+</li>
+<li>元属性 new.target 在类中的使用<ul>
+<li>抽象基类</li>
+</ul>
+</li>
+</ul>
+<h3 id="改进的数组"><a href="#改进的数组" class="headerlink" title="改进的数组"></a>改进的数组</h3><ul>
+<li>Array.of: 用于规整数组声明时混乱意义的参数,注意 Array.of 创建的类对象并不是由静态访问器属性 [Symbol.species] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型</li>
+<li>Array.from: 用于将可迭代对象以及类数组对象转化为数组,同时可实行操作,并可改变操作函数的 this 绑定,注意 Array.from 创建的类对象并不是由静态访问器属性 [Symbol.species] 来确定值类型,而是直接绑定至构造对象 this 上,由构造函数来确定值类型</li>
+<li>方法<ul>
+<li>find: 匹配符合条件的第一个数组元素</li>
+<li>findIndex: 匹配符合条件的第一个数组元素下标</li>
+<li>fill: 向指定的数组位置填充覆盖指定的数据</li>
+<li>copyWithin: 向指定的数组位置填充覆盖指定数组范围的数据</li>
+<li>includes: 用于判断数组内是否含有某个数据</li>
+<li>fromEntries: 用于将二维可迭代对象或者二维类数组对象转换为普通对象</li>
+</ul>
+</li>
+<li>定型数组<ul>
+<li>创建方式<ul>
+<li>使用自定义数组缓冲区创建视图</li>
+<li>使用定型数组声明创建</li>
+<li>使用已声明的定型数组构造对象创建<ul>
+<li>注意,上述创建方式都可指定字节偏移量、以及字节长度</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>区别<ul>
+<li>相似之处<ul>
+<li>通用方法<ul>
+<li>map</li>
+<li>forEach</li>
+<li>keys</li>
+<li>values</li>
+<li>entries</li>
+<li>some</li>
+<li>every</li>
+<li>filter</li>
+<li>reduce</li>
+<li>reduceRight</li>
+<li>indexOf</li>
+<li>lastIndexOf</li>
+<li>join</li>
+<li>reverse</li>
+<li>sort</li>
+<li>find</li>
+<li>findIndex</li>
+<li>fill</li>
+<li>copyWithin</li>
+</ul>
+</li>
+<li>同属于可迭代对象,可使用展开运算符</li>
+</ul>
+</li>
+<li>不同之处<ul>
+<li>定型数组缺失方法<ul>
+<li>push</li>
+<li>pop</li>
+<li>shift</li>
+<li>unshift</li>
+<li>concat</li>
+<li>splice</li>
+</ul>
+</li>
+<li>定型数组缺失特性<ul>
+<li>数组元素不可扩展</li>
+<li>数组长度不可配置、不可修改</li>
+</ul>
+</li>
+<li>定型数组特有方法<ul>
+<li>set: 用于向定型数组中覆盖指定范围的数组元素</li>
+<li>subarray: 类似于 slice 方法,用于截取定型数组</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="promise"><a href="#promise" class="headerlink" title="promise"></a>promise</h3><ul>
+<li>基本用法: 注意 promise 是绑定至内置对象 [[PromiseState]] 内<ul>
+<li>pending: 处理中</li>
+<li>fulfilled: 处理完成</li>
+<li>rejected: 拒绝处理</li>
+</ul>
+</li>
+<li>创建未完成的 Promise: new Promise((resolve, reject) =&gt; {})</li>
+<li>创建已处理的 Promise: Promise.resolve,Promise.reject,注意对于 Promise.resolve 如果传入 Promise 参数,则会将此 Promise 直接返回</li>
+<li>全局 Promise 拒绝处理程序: 在事件循环执行机制中,若 Promise 被拒绝,且没有拒绝处理程序时,会触发执行 unhandledRejection 事件; 若 Promise 被拒绝,且监听到拒绝处理程序时,则会触发 rejectionHandled 事件,注意若同步立即设置拒绝处理程序,则不会触发任何事件<ul>
+<li>unhandledRejection: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onunhandledrejection</li>
+<li>rejectionHandled: 在 Node.js 中使用 process.on 监听,在 web 中则是触发 window 事件 onrejectionhandled</li>
+</ul>
+</li>
+<li>Promise 执行抛出错误: 使用 catch 拦截</li>
+<li>Promise 串行链<ul>
+<li>在 Promise 链中抛出错误</li>
+<li>在 Promise 链中的返回值</li>
+<li>在 Promise 链中返回 Promise</li>
+</ul>
+</li>
+<li>Promise.all: 当 Promise 数组中的每一个处理都完成时,才会实行返回,接收到的数据也才是一个数组,分别代表着每一个完成处理传递的数据,一旦存在有一个拒绝处理,则会立即返回,接收的将是拒绝处理程序传递的数据</li>
+<li>Promise.race: 当 Promise 数组中任意一个处理完成或者拒绝时,都会立即返回,接收到完成或者拒绝处理程序传递的数据</li>
+<li>派生类继承自 Promise: 注意 Promise 的静态成员 resolve、reject 创建的类对象是由静态访问器属性 [Symbol.species] 确定值类型的,由此,类对象是在派生类的原型链上</li>
+<li>Promise 的异步生成器</li>
+</ul>
+<h3 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h3><ul>
+<li>基本用法</li>
+<li>set 代理陷阱验证对象属性</li>
+<li>get 代理陷阱验证对象结构</li>
+<li>has 代理陷阱隐藏对象属性</li>
+<li>deleteProperty 代理陷阱防止删除对象属性</li>
+<li>原型代理陷阱: setPrototypeOf、getPrototypeOf<ul>
+<li>区别: 除了主要功能相同之外<ul>
+<li>Object.setPrototypeOf: 是绑定至内置对象 [[SetPrototypeOf]] 内,其执行结果如果成功则返回第一个参数,失败则抛出错误</li>
+<li>Reflect.setPrototypeOf: 是绑定至内置对象 [[SetPrototypeOf]] 的包裹器,存在数据验证,只会返回 true 或者 false</li>
+<li>Object.getPrototypeOf: 是绑定至内置对象 [[GetPrototypeOf]] 内,可将基本类型的数据强制转化为相关的构造对象</li>
+<li>Reflect.getPrototypeOf: 是绑定至内置对象 [[GetPrototypeOf]] 的包裹器,存在数据验证,参数只能接收引用类型对象,传递基本类型数据会直接抛出错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对象可扩展性代理陷阱: isExtensiable、preventExtensions<ul>
+<li>区别: 除了主要功能相同之外<ul>
+<li>Object.isExtensiable: 可将基本类型的数据强制转化为相关的构造对象</li>
+<li>Reflect.isExtensiable: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
+<li>Object.preventExtensions: 可将基本类型的数据强制转化为相关的构造对象</li>
+<li>Reflect.preventExtensions: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>对象属性描述符代理陷阱: defineProperty、getOwnPropertyDescriptor<ul>
+<li>使用 defineProperty 来添加属性限制</li>
+<li>描述符属性的限制: defineProperty、getOwnPropertyDescriptor 所能操作的描述符属性只有 value、get、set、writable、enumerable、configurable</li>
+<li>区别: 除了主要功能相同之外<ul>
+<li>Object.defineProperty: 执行结果如果成功则返回第一个参数,失败则抛出错误</li>
+<li>Reflect.defineProperty: 只会返回 true 或者 false</li>
+<li>Object.getOwnPropertyDescriptor: 可将基本类型的数据强制转化为相关的构造对象</li>
+<li>Reflect.getOwnPropertyDescriptor: 参数只能接收引用类型数据,传递基本类型数据会直接抛出错误</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>ownKeys 代理陷阱</li>
+<li>函数执行 apply、construct 代理陷阱<ul>
+<li>验证函数参数</li>
+<li>不使用 new 构造调用: 通过在 apply 代理陷阱中调用 construct 代理陷阱即可绕过函数的元属性 new.target new 构造调用校验</li>
+<li>覆写抽象基类: 通过在 construct 代理陷阱中将 new.target 修改成普通类或者普通函数即可绕过 new.target 抽象基类校验</li>
+<li>可调用的类: 通过在 apply 代理陷阱中调用 construct 代理陷阱或者直接在 apply 代理陷阱中使用 new 构造调用即可绕过类的只可实行 new 构造调用的校验</li>
+</ul>
+</li>
+<li>可撤销的代理陷阱: 通过 Proxy.revocable revoke 方法可实现撤销代理陷阱</li>
+<li>拥有数组特性的类</li>
+<li>将代理陷阱作为原型<ul>
+<li>在原型中使用 set 代理陷阱</li>
+<li>在原型中使用 get 代理陷阱</li>
+<li>在原型中使用 has 代理陷阱</li>
+<li>将代理陷阱作为类的原型</li>
+</ul>
+</li>
+</ul>
+<h3 id="模块的导入导出"><a href="#模块的导入导出" class="headerlink" title="模块的导入导出"></a>模块的导入导出</h3><ul>
+<li>普通用法<ul>
+<li>导出模块</li>
+<li>导入模块<ul>
+<li>导入单个绑定</li>
+<li>导入多个绑定</li>
+<li>导入整个模块,注意可直接导入模块的默认值,通过 default 调用</li>
+</ul>
+</li>
+<li>重命名导入导出模块</li>
+<li>模块的默认值<ul>
+<li>导入模块的默认值</li>
+<li>导出模块的默认值: 注意只能导出一个模块的默认值,出现导出多个默认值会直接抛出语法错误</li>
+<li>重命名导入导出模块默认值</li>
+</ul>
+</li>
+<li>重新导出绑定</li>
+<li>无绑定导入模块</li>
+</ul>
+</li>
+<li>ESM 的特性<ul>
+<li>静态分析</li>
+<li>赋值引用</li>
+</ul>
+</li>
+<li>Web 浏览器内同步加载模块的顺序<ul>
+<li>下载并解析入口模块</li>
+<li>递归下载并解析入口模块所导入的资源</li>
+<li>递归执行入口模块所导入的资源</li>
+<li>执行入口模块</li>
+</ul>
+</li>
+</ul>
+<h3 id="数字"><a href="#数字" class="headerlink" title="数字"></a>数字</h3><ul>
+<li>方法<ul>
+<li>Number.isInteger: 判断数据是否是一个整数</li>
+<li>Number.isSafeInteger: 判断数据是否是一个安全整数,注意安全整数的范围在 -(2^53 - 1) 与 2^53 - 1 之间</li>
+<li>Number.MAX_SAFE_INTEGER: 安全整数范围内的最大值</li>
+<li>Number.MIN_SAFE_INTEGER: 安全整数范围内的最小值</li>
+</ul>
+</li>
+<li>运算符<ul>
+<li>**: 幂运算符,与 Math.pow() 的执行结果相同</li>
+</ul>
+</li>
+</ul>
+<h3 id="async-await"><a href="#async-await" class="headerlink" title="async/await"></a>async/await</h3><ul>
+<li>基本用法<ul>
+<li>async: async 函数执行后会返回一个 Promise</li>
+<li>await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出</li>
+</ul>
+</li>
+</ul>
+<h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><h3 id="tapable"><a href="#tapable" class="headerlink" title="tapable"></a>tapable</h3><ul>
+<li><p>订阅模式类型</p>
+<ul>
+<li>tap -&gt; ‘sync’</li>
+<li>tapAsync -&gt; ‘async’</li>
+<li>tapPromise -&gt; ‘promise’</li>
+</ul>
+</li>
+<li><p>发布类型</p>
+<ul>
+<li>call -&gt; ‘sync’</li>
+<li>callAsync -&gt; ‘async’</li>
+<li>promise -&gt; ‘promise’</li>
+</ul>
+</li>
+<li><p>原理</p>
+<p>tapable 实际上是根据订阅模式类型、发布类型以及传递的参数来构建 Function 构造声明的</p>
+</li>
+<li><p>类</p>
+<ul>
+<li><p>Hook</p>
+<ul>
+<li>流程方法(important)<ul>
+<li>lazyCompile</li>
+<li>_createCall</li>
+<li>compile</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>HookCodeFactory</p>
+<ul>
+<li>流程方法(important)<ul>
+<li>setup</li>
+<li>create(结果由发布类型决定)</li>
+<li>header(结果由发布类型决定)</li>
+<li>callTapsSeries(结果由订阅模式类型决定)</li>
+<li>callTap(结果由订阅模式类型决定)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>伪代码</p>
+<figure class="highlight text"><table><tr><td class="code"><pre><span class="line">this.发布类型函数 = function lazyCompile(参数) &#123;</span><br><span class="line">  function func(参数) &#123;</span><br><span class="line">      setup()</span><br><span class="line">      create()</span><br><span class="line">      header()</span><br><span class="line">      onError()</span><br><span class="line">      onResult()</span><br><span class="line">      onDone()</span><br><span class="line">  &#125;</span><br><span class="line">  func(参数)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>javascript</category>
+      </categories>
+      <tags>
+        <tag>javascript</tag>
+        <tag>es6</tag>
+        <tag>outline</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of webpack</title>
     <url>/2022/08/30/think-of-webpack/</url>
     <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="webpack-cli"><a href="#webpack-cli" class="headerlink" title="webpack-cli"></a>webpack-cli</h4><blockquote>
@@ -1892,7 +1421,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#101;&#x2d;&#x6a;&#x73;&#x40;&#51;&#46;&#120;">&#99;&#x6f;&#114;&#101;&#x2d;&#x6a;&#x73;&#x40;&#51;&#46;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#111;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#x2e;&#120;">&#99;&#111;&#114;&#x65;&#x2d;&#106;&#x73;&#64;&#51;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -2003,7 +1532,7 @@ fancybox: true
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#x6f;&#97;&#x64;&#101;&#x72;&#45;&#117;&#x74;&#105;&#108;&#115;&#64;&#50;&#x2e;&#x78;">&#108;&#x6f;&#97;&#x64;&#101;&#x72;&#45;&#117;&#x74;&#105;&#108;&#115;&#64;&#50;&#x2e;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#x6f;&#x61;&#x64;&#101;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#51;&#46;&#x78;">&#108;&#x6f;&#x61;&#x64;&#101;&#114;&#45;&#x75;&#x74;&#x69;&#x6c;&#x73;&#64;&#51;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#45;&#117;&#x74;&#x69;&#108;&#115;&#x40;&#x32;&#x2e;&#120;">&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#45;&#117;&#x74;&#x69;&#108;&#115;&#x40;&#x32;&#x2e;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#108;&#115;&#x40;&#51;&#46;&#120;">&#108;&#111;&#x61;&#x64;&#x65;&#x72;&#x2d;&#x75;&#116;&#105;&#108;&#115;&#x40;&#51;&#46;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
   <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFile&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;runLoaders&#125; = <span class="built_in">require</span>(<span class="string">&#x27;loader-runner&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">runLoaders</span>(&#123;</span><br><span class="line">    <span class="attr">resource</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./src/styles/index.less&#x27;</span>),</span><br><span class="line">    <span class="attr">context</span>: &#123;<span class="attr">minimize</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./lib/loaders/sprite_loader.js&#x27;</span>),</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;sprite&#x27;</span>,</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;src/styles&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">readResource</span>: readFile.<span class="title function_">bind</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;, <span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`测试自定义 loader 出现错误: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(stats);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
@@ -2167,6 +1696,115 @@ fancybox: true
       </tags>
   </entry>
   <entry>
+    <title>think of css</title>
+    <url>/2022/11/21/think-of-css/</url>
+    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
+<blockquote>
+<p>text-align + inline-block</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>table + margin</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + justify-content</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
+<p>table-cell + vertical-align</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + align-items</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
+<p>flex</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>浮动元素 float,除了 none 以外的情况</li>
+<li>定位元素 position(absolute、fixed)</li>
+<li>display(inline-block、table-caption、table-cell)</li>
+<li>overflow(auto、hidden、scroll)</li>
+</ul>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
+<li>BFC 的高度计算会联同浮动元素的高度</li>
+<li>BFC 的区域不会与浮动元素的区域重叠</li>
+</ul>
+<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>flex-grow: 设置元素的扩展比例</li>
+<li>flex-shrink: 设置元素的收缩比例</li>
+<li>flex-basis: 设置元素的初始值</li>
+</ul>
+<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
+<p>区别</p>
+</blockquote>
+<ul>
+<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
+<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
+</ul>
+<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<ul>
+<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
+<li>relative: 相对定位,会相对于当前元素位置定位</li>
+<li>fixed: 绝对定位,会相对于浏览器 web 整个页面定位</li>
+<li>static: 默认值,不定位</li>
+<li>inherit: 继承父元素的定位属性值</li>
+</ul>
+]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of tapable</title>
     <url>/2022/10/15/think-of-tapable/</url>
     <content><![CDATA[<h1 id="Tapable"><a href="#Tapable" class="headerlink" title="Tapable"></a>Tapable</h1><blockquote>
@@ -2294,6 +1932,73 @@ fancybox: true
       <tags>
         <tag>webpack</tag>
         <tag>tapable</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of v8</title>
+    <url>/2022/11/22/think-of-v8/</url>
+    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
+<p>垃圾回收机制</p>
+</blockquote>
+<p>  使用分代回收策略,分为新、老生代.</p>
+<ul>
+<li>新生代: 新生代的堆内存被分为多个 Semispace,每个 Semispace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
+<li>查找 from 中还存活的对象,将其全部移入到 to</li>
+<li>反转 from 和 to</li>
+<li>对 to 尽数回收</li>
+</ul>
+</li>
+<li>新生代 -&gt; 老生代<ul>
+<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
+<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
+</ul>
+</li>
+<li>老生代<ul>
+<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
+<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>v8</category>
+      </categories>
+      <tags>
+        <tag>v8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of algorithm</title>
+    <url>/2022/11/26/think-of-algorithm/</url>
+    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>冒泡排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>插入排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>归并排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>快速排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取最长字符子串"><a href="#获取最长字符子串" class="headerlink" title="获取最长字符子串"></a>获取最长字符子串</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getLongStr</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [], max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = arr.<span class="title function_">indexOf</span>(str[i]);</span><br><span class="line">        <span class="keyword">if</span> (index !== -<span class="number">1</span>) &#123;</span><br><span class="line">            arr.<span class="title function_">splice</span>(<span class="number">0</span>, index + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        arr.<span class="title function_">push</span>(str.<span class="title function_">charAt</span>(i));</span><br><span class="line">        max = <span class="title class_">Math</span>.<span class="title function_">max</span>(arr.<span class="property">length</span>, max);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>algorithm</tag>
+        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -2615,6 +2320,297 @@ fancybox: true
       </categories>
       <tags>
         <tag>javascript</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of browser</title>
+    <url>/2022/11/24/think-of-browser/</url>
+    <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
+<p>分析</p>
+</blockquote>
+<ul>
+<li>浏览器的进程<ul>
+<li>浏览器进程</li>
+<li>渲染进程<ul>
+<li>GUI 线程: 用于处理解析渲染 html、css</li>
+<li>JS 线程: 也就是程序员所说的所谓 “JS 单线程”</li>
+<li>定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程</li>
+<li>事件触发线程: Event Loop 事件循环执行机制</li>
+<li>异步 HTTP 请求线程: 处理 http 请求,将符合条件的回调事件移入至事件触发线程</li>
+</ul>
+</li>
+<li>GPU 进程</li>
+<li>插件进程</li>
+<li>网络进程</li>
+</ul>
+</li>
+</ul>
+<h4 id="request"><a href="#request" class="headerlink" title="request"></a>request</h4><blockquote>
+<p>请求头</p>
+</blockquote>
+<ul>
+<li>content-type: 向服务器端请求获取资源的类型</li>
+<li>referer: 包含了当前请求页面的来源页面的地址</li>
+<li>user-agent: 则是用于告知服务器端,访问者是由什么工具请求的</li>
+</ul>
+<h4 id="OPTIONS"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个”预检”请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.</p>
+<blockquote>
+<p>场景</p>
+</blockquote>
+<ul>
+<li>跨域请求</li>
+</ul>
+<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h4><blockquote>
+<p>状态码</p>
+</blockquote>
+<p>  301: A 地址资源被永久性的移除,A 地址资源不可被访问<br>  302: A 地址资源被暂时性的转移,A 地址资源仍然可被访问,只是临时的从 A 地址跳转到了 B 地址</p>
+<h4 id="HTTP-缓存策略"><a href="#HTTP-缓存策略" class="headerlink" title="HTTP 缓存策略"></a>HTTP 缓存策略</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>协商缓存<ul>
+<li>ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+<li>Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存</li>
+<li>Cache-Control<ul>
+<li>max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存</li>
+<li>immutable: 浏览器永远只能取本地缓存</li>
+<li>no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证</li>
+<li>no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>优先级</p>
+</blockquote>
+<ul>
+<li>强制缓存与协商缓存<ul>
+<li>会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存</li>
+</ul>
+</li>
+<li>协商缓存<ul>
+<li>ETag 与 Last-Modified<ul>
+<li>ETag &gt; Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires 与 Cache-Control<ul>
+<li>Cache-Control &gt; Expires</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>browser</category>
+      </categories>
+      <tags>
+        <tag>browser</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of react</title>
+    <url>/2022/11/17/think-of-react/</url>
+    <content><![CDATA[<h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>数据驱动</li>
+<li>JSX 语法糖动态声明更加灵活</li>
+<li>Virtual DOM 与 Diff 算法配合使用,可保证性能</li>
+<li>Fiber 的任务调度和数据结构令 react 的性能更出色</li>
+</ul>
+<h4 id="基于-class"><a href="#基于-class" class="headerlink" title="基于 class"></a>基于 class</h4><ul>
+<li>生命周期<ul>
+<li>创建阶段<ul>
+<li>constructor: 初始化</li>
+<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
+<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
+<li>componentDidMount: 在组件首次挂载结束之后,需要实行的如异步 http 资源请求的步骤</li>
+</ul>
+</li>
+<li>更新阶段<ul>
+<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
+<li>shouldComponentUpdate: 判断组件是否可以实行渲染更新</li>
+<li>getSnapShotBeforeUpdate: 在组件渲染更新前需要的统计计算</li>
+<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
+<li>componentDidUpdate: 在组件渲染更新完成后要执行的一些操作</li>
+</ul>
+</li>
+<li>卸载阶段<ul>
+<li>componentWillUnmount: 在组件卸载时,用于资源释放</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Diff-算法"><a href="#Diff-算法" class="headerlink" title="Diff 算法"></a>Diff 算法</h4><blockquote>
+<p>复杂度</p>
+</blockquote>
+<p>  O(n ^ 3) -&gt; O(n),只对比同层兄弟组件,不实行跨层对比</p>
+<blockquote>
+<p>节点</p>
+</blockquote>
+<ul>
+<li>属性变化</li>
+<li>位置变化</li>
+<li>类型变化</li>
+<li>跨层移动</li>
+</ul>
+<p>  上述节点的变化,react 处理的都很简单粗暴,不会实现跨层检索校验,只是进行简单的增加、删除以及替换,而这种情况是建立在 Virtual DOM 结构一般比较稳定,基本上不会出现跨层移动的情况,大多是同层的属性、位置以及类型的变化</p>
+<blockquote>
+<p>key</p>
+</blockquote>
+<p>  key 适用于那些需要频繁变换位置的组件节点,稳定的类型指向会保证这些组件节点不会被剃掉删除,更不会额外增加 DOM 操作开销,而只是替换位置</p>
+<h4 id="HOC"><a href="#HOC" class="headerlink" title="HOC"></a>HOC</h4><blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>属性代理</li>
+<li>反向集成</li>
+<li>渲染劫持</li>
+</ul>
+<h4 id="class-与-hooks"><a href="#class-与-hooks" class="headerlink" title="class 与 hooks"></a>class 与 hooks</h4><blockquote>
+<p>区别</p>
+</blockquote>
+<ul>
+<li>class<ul>
+<li>很少使用 class 类的特性: new 构造调用、继承与派生</li>
+<li>class 的 react 组件复用过于复杂,必须基于 HOC,产生了冗余的逻辑,创建了不必要的组件节点</li>
+<li>class 将业务逻辑全部分散在各个生命周期中,更关注于技术部分的逻辑</li>
+</ul>
+</li>
+<li>hooks<ul>
+<li>react 组件复用更加简洁,不会产生额外的逻辑,更不会创建多余的组件节点</li>
+<li>更关注于业务与技术的彻底分离</li>
+</ul>
+</li>
+</ul>
+<h4 id="hooks"><a href="#hooks" class="headerlink" title="hooks"></a>hooks</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>useState<ul>
+<li>用于维持组件的状态</li>
+<li>一旦组件拥有了状态,那么每一次使用时都会存在恢复状态的过程</li>
+</ul>
+</li>
+<li>useEffect<ul>
+<li>用于利用副作用</li>
+<li>包含了基于 class 组件的生命周期: componentDidMount、componentDidUpdate、componentWillUnmount</li>
+<li>基于依赖项数组内的数组元素发生改变,回调函数才会执行<ul>
+<li>依赖项数组内的数组元素必须在回调函数内使用,才会具有意义</li>
+<li>依赖项数组必须是一个常量数组,不能为变量</li>
+<li>依赖项数组内的数组元素不能为引用类型的数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>useCallback<ul>
+<li>用于缓存回调函数</li>
+<li>为了避免不必要的创建回调函数和 react 组件的渲染更新</li>
+</ul>
+</li>
+<li>useMemo<ul>
+<li>用于缓存计算结果</li>
+<li>为了避免不必要的计算过程和 react 组件的渲染更新</li>
+<li>可模拟 useCallback</li>
+</ul>
+</li>
+<li>useRef<ul>
+<li>用于在多次渲染之间存储、共享数据</li>
+<li>大多应用于存储 setTimeout、setInterval 产生的 id,再就是应用于存储 DOM 对象</li>
+</ul>
+</li>
+<li>useContext<ul>
+<li>用于实现数据绑定,在每一次祖先组件的数据发生更新时,子孙用到此数据的组件都会自动渲染更新</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>限制</p>
+</blockquote>
+<ul>
+<li>hooks 只可在函数组件或者其他 hooks 内使用</li>
+<li>hooks 只可在函数组件的顶级作用域内使用,不可在循环、条件判断或者嵌套函数内使用</li>
+</ul>
+<blockquote>
+<p>混合</p>
+</blockquote>
+<p>  要想在 react 类组件中使用 hooks,通过 HOC 的属性代理即可</p>
+<h4 id="Fiber"><a href="#Fiber" class="headerlink" title="Fiber"></a>Fiber</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>  由于 react 处理组件的渲染更新是同步的,那么当同一时间内有大量的 react 组件需要渲染更新时,JS 线程处理的时间可能会很长,在这期间浏览器不会响应任何事件,因为 JS 线程和 GUI 线程是互斥的,那么 Fiber 就是用于解决此类问题的,Fiber 会将长时间的同步任务,切割成多个小的同步任务,启用新的任务调度和数据结构</p>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>新的任务调度<ul>
+<li>当存在有高优先级的任务时,会先将浏览器让出来响应,等浏览器空闲了,再继续执行</li>
+</ul>
+</li>
+<li>新的数据结构<ul>
+<li>采用链表结构,可随时中断,也可接回重连<ul>
+<li>child: 父组件指向的第一个子组件的指针</li>
+<li>return: 所有的子组件都存在指向父组件的指针</li>
+<li>sibling: 在第一个组件之后,指向兄弟组件的指针</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>react</category>
+      </categories>
+      <tags>
+        <tag>react</tag>
+        <tag>source</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>create Simplepack</title>
+    <url>/2022/10/14/create-simplepack/</url>
+    <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
+<blockquote>
+<p>配置文件</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// simplepack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> simplepackConfig = &#123;</span><br><span class="line">    <span class="comment">// 入口</span></span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="comment">// 作为 simplepack 构建打包的出口</span></span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包文件导出的位置目录</span></span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="comment">// 作为 simplepack 构建打包导出文件的名称</span></span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;main.js&#x27;</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = simplepackConfig;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>目录</p>
+</blockquote>
+<p><img src="https://image.white-than-wood.zone/webpack/simplepack_path.png"></p>
+<blockquote>
+<p>Simplepack</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;writeFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>); </span><br><span class="line">    </span><br><span class="line"><span class="keyword">const</span> utils = <span class="built_in">require</span>(<span class="string">&#x27;../utils&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">Simplepack</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">resources</span> = [];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 运行</span></span><br><span class="line">    <span class="title function_">run</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="comment">// 递归获取资源列表</span></span><br><span class="line">        (<span class="keyword">function</span> <span class="title function_">getFileInfo</span>(<span class="params">entry, upperLevel = <span class="string">&#x27;&#x27;</span></span>) &#123;</span><br><span class="line">            <span class="keyword">let</span> path = entry;</span><br><span class="line">            <span class="keyword">const</span> cwd = process.<span class="title function_">cwd</span>();</span><br><span class="line">            <span class="comment">// 判断是否是绝对路径</span></span><br><span class="line">            <span class="keyword">if</span> (!path.<span class="title function_">includes</span>(cwd)) &#123;</span><br><span class="line">                <span class="comment">// 拼接父子依赖目录</span></span><br><span class="line">                path = <span class="title function_">resolve</span>(cwd, upperLevel, <span class="string">`<span class="subst">$&#123;path.endsWith(<span class="string">&#x27;.js&#x27;</span>) ? path : <span class="string">`<span class="subst">$&#123;path&#125;</span>/index.js`</span>&#125;</span>`</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (!<span class="title function_">existsSync</span>(path)) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`请检查目录,不存在 <span class="subst">$&#123;entry&#125;</span> 模块`</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">const</span> fileInfo = <span class="variable language_">this</span>.<span class="title function_">compile</span>(path);</span><br><span class="line">            <span class="keyword">const</span> &#123; <span class="attr">dependencies</span>: fileDependencies &#125; = fileInfo;</span><br><span class="line">            <span class="keyword">if</span> (fileDependencies.<span class="property">length</span> &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                fileDependencies.<span class="title function_">forEach</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> &#123;</span><br><span class="line">                    getFileInfo.<span class="title function_">call</span>(<span class="variable language_">this</span>, item, entry.<span class="title function_">substring</span>(<span class="number">0</span>, entry.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>));</span><br><span class="line">                &#125;);</span><br><span class="line">            &#125;</span><br><span class="line">            fileInfo.<span class="property">filename</span> = entry;</span><br><span class="line">            <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">push</span>(fileInfo);</span><br><span class="line">        &#125;.<span class="title function_">bind</span>(<span class="variable language_">this</span>))(<span class="variable language_">this</span>.<span class="property">entry</span>);</span><br><span class="line">        <span class="variable language_">this</span>.<span class="title function_">emit</span>();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 解析</span></span><br><span class="line">    <span class="title function_">compile</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="comment">// 对相对路径进行校验,将相对路径转化为绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> isRelative = <span class="regexp">/\.\/|\.\\/</span>;</span><br><span class="line">        <span class="keyword">if</span> (isRelative.<span class="title function_">test</span>(path)) &#123;</span><br><span class="line">            path = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), path);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 获取入口或者依赖模块的 AST 抽象语法树</span></span><br><span class="line">        <span class="keyword">const</span> ast = utils.<span class="title function_">getAST</span>(path);</span><br><span class="line">        <span class="keyword">return</span> &#123;</span><br><span class="line">            <span class="comment">// 获取相关依赖列表</span></span><br><span class="line">            <span class="attr">dependencies</span>: utils.<span class="title function_">getDependencies</span>(ast),</span><br><span class="line">            <span class="comment">// 获取相关代码</span></span><br><span class="line">            <span class="attr">source</span>: utils.<span class="title function_">getTransformFromAST</span>(ast)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 生成文件</span></span><br><span class="line">    <span class="title function_">emitFile</span>(<span class="params"></span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;entry = <span class="string">&#x27;&#x27;</span>, <span class="attr">output</span>: &#123;filename = <span class="string">&#x27;&#x27;</span>, path = <span class="string">&#x27;&#x27;</span>&#125;&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> outputPath = <span class="title function_">resolve</span>(path, filename);</span><br><span class="line">        <span class="comment">// 模拟 webpack IIFE 自执行函数表达式闭包,将每一个模块外加一层包裹,并将 import 转化为 __WEBPACK_REQUIRE__</span></span><br><span class="line">        <span class="keyword">const</span> <span class="variable language_">module</span> = <span class="variable language_">this</span>.<span class="property">resources</span>.<span class="title function_">map</span>(<span class="function"><span class="params">item</span> =&gt;</span> <span class="string">`&#x27;<span class="subst">$&#123;item.filename&#125;</span>&#x27;: function(require, modules, exports) &#123;<span class="subst">$&#123;item.source&#125;</span>`</span>).<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        <span class="keyword">const</span> bundle = <span class="string">`(function (module) &#123;</span></span><br><span class="line"><span class="string">            function require(filename) &#123;</span></span><br><span class="line"><span class="string">                var fn = module[filename];</span></span><br><span class="line"><span class="string">                var modules = &#123;exports: &#123;&#125;&#125;;</span></span><br><span class="line"><span class="string">                fn(require, modules, modules.exports);</span></span><br><span class="line"><span class="string">                return modules.exports;</span></span><br><span class="line"><span class="string">            &#125;</span></span><br><span class="line"><span class="string">            require(&#x27;<span class="subst">$&#123;entry&#125;</span>&#x27;);</span></span><br><span class="line"><span class="string">        &#125;)(&#123;<span class="subst">$&#123;<span class="variable language_">module</span>&#125;</span>&#125;)`</span>;</span><br><span class="line">        <span class="title function_">writeFileSync</span>(outputPath, bundle);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Simplepack Parse 解析工具</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFileSync&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;parse&#125; = <span class="built_in">require</span>(<span class="string">&#x27;babylon&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;traverse, transformFromAST&#125; = <span class="built_in">require</span>(<span class="string">&#x27;@babel/core&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> utils = &#123;</span><br><span class="line">    <span class="comment">// 通过 babylon 解析入口或者依赖模块的抽象语法树</span></span><br><span class="line">    <span class="title function_">getAST</span>(<span class="params">path</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> content = <span class="title function_">readFileSync</span>(path, <span class="string">&#x27;utf-8&#x27;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="title function_">parse</span>(content, &#123;</span><br><span class="line">            <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span></span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 traverse 遍历获取 import 导入的依赖模块</span></span><br><span class="line">    <span class="title function_">getDependencies</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> dependencies = [];</span><br><span class="line">        <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">            <span class="title class_">ImportDeclaration</span>(&#123;node&#125;) &#123;</span><br><span class="line">                dependencies.<span class="title function_">push</span>(node.<span class="property">source</span>.<span class="property">value</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> dependencies;</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="comment">// 通过 transformFromAST 获取被 babel 处理后的代码</span></span><br><span class="line">    <span class="title function_">getTransformFromAST</span>(<span class="params">ast</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;code&#125; = <span class="title function_">transformFromAST</span>(ast, <span class="literal">null</span>, &#123;</span><br><span class="line">            <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> code;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = utils;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>Result</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">(<span class="keyword">function</span>(<span class="params"><span class="variable language_">module</span></span>) &#123;</span><br><span class="line">    <span class="keyword">function</span> <span class="title function_">require</span>(<span class="params">filename</span>) &#123;</span><br><span class="line">        <span class="keyword">var</span> fn = <span class="variable language_">module</span>[filename];</span><br><span class="line">        <span class="keyword">var</span> modules = &#123;<span class="attr">exports</span>: &#123;&#125;&#125;;</span><br><span class="line">        <span class="title function_">fn</span>(<span class="built_in">require</span>, modules, <span class="built_in">exports</span>);</span><br><span class="line">        <span class="keyword">return</span> modules.<span class="property">exports</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">require</span>(<span class="string">&#x27;./src/index.js&#x27;</span>);</span><br><span class="line">&#125;)(&#123;</span><br><span class="line">    <span class="string">&#x27;./src/index.js&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">var</span> _modules = <span class="built_in">require</span>(<span class="string">&quot;./modules&quot;</span>);</span><br><span class="line">        <span class="keyword">var</span> wtw = (<span class="number">0</span>, _modules.<span class="property">getName</span>)(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;wtw&#x27;</span>);</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">log</span>(wtw);</span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="string">&#x27;./modules&#x27;</span>: <span class="keyword">function</span> (<span class="params"><span class="built_in">require</span>, modules, <span class="built_in">exports</span></span>) &#123;<span class="string">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(<span class="built_in">exports</span>, <span class="string">&quot;__esModule&quot;</span>, &#123;</span><br><span class="line">            <span class="attr">value</span>: <span class="literal">true</span></span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="built_in">exports</span>.<span class="property">getName</span> = getName;</span><br><span class="line">        <span class="keyword">function</span> <span class="title function_">getName</span>(<span class="params">name</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;My name is &quot;</span>.<span class="title function_">concat</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
       </tags>
   </entry>
 </search>
