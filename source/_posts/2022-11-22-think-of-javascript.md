@@ -1470,7 +1470,7 @@ var Promise = (function () {
     Promise.all = function (promiseLists) {
         return new Promise(function (resolve, reject) {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('parameter must be an array'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             var count = 0,
                 result = [],
@@ -1492,7 +1492,7 @@ var Promise = (function () {
     Promise.race = function (promiseLists) {
         return new Promise(function (resolve, reject) {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('parameter must be an array'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             promiseLists.forEach(function (promise) {
                 Promise.resolve(promise).then(function _resolve(value) {
@@ -1507,7 +1507,7 @@ var Promise = (function () {
     Promise.allSettled = function (promiseLists) {
         return new Promise(function (resolve, reject) {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('parameter must be an array'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             var count = 0,
                 result = [],
@@ -1704,7 +1704,7 @@ const Promise = (() => {
 
     function resolvePromise(promise, x, resolve, reject) {
         if (promise === x) {
-            return reject(new TypeError('The promise and the return value are the same'));
+            return reject(new ReferenceError('The promise and the return value are the same'));
         }
         if (x instanceof Promise) {
             x.then(y => {
@@ -1763,7 +1763,7 @@ const Promise = (() => {
     Promise.all = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('The promise and the return value are the same'));
+                reject(new ReferenceError('The promise and the return value are the same'));
             }
             let count = 0;
             const length = promiseLists.length,
@@ -1785,7 +1785,7 @@ const Promise = (() => {
     Promise.race = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('The promise and the return value are the same'));
+                reject(new ReferenceError('The promise and the return value are the same'));
             }
             promiseLists.forEach(promise => {
                 Promise.resolve(promise).then(value => {
@@ -1800,7 +1800,7 @@ const Promise = (() => {
     Promise.allSettled = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new TypeError('The promise and the return value are the same'));
+                reject(new ReferenceError('The promise and the return value are the same'));
             }
             let count = 0;
             const length = promiseLists.length,
