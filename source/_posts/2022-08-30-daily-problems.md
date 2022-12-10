@@ -75,3 +75,11 @@ categories: problems
   "Warning: Mixed Content: The page at '\<URL\>' was loaded over HTTPS, but requested an insecure element '\<URL\>'. This request was automatically upgraded to HTTPS, For more information see \<URL\>"所表示的含义?如何消除?
   
   解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告
+  
+# react
+
+> hooks
+
+  为何 hooks 不可写在循环、条件判断以及嵌套函数中呢?
+  
+  解: 由于 react hooks 使用的是新的数据结构: 采用链表的方式,可随时终端,也可接回重连.如果将 hooks 放入循环、条件判断以及嵌套函数中,就极有可能会导致 hooks 的取值出现偏移,从而导致异常发生
