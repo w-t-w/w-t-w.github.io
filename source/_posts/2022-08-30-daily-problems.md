@@ -25,7 +25,7 @@ categories: problems
 
 > script
 
-  defer 与 async 的区别
+  defer 与 async 的区别?
 
   - defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件
   - async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计
