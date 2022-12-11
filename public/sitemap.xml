@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/daily-problems/</loc>
+        
+        <lastmod>2022-12-10T12:08:53.874Z</lastmod>
+        
+        <date>1661856794000</date>
+        <title>daily problems | wtw's Frontend</title>
+        
+        <desc>npm npm run scripts 为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行? 解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/21/think-of-css/</loc>
         
         <lastmod>2022-12-10T11:03:44.293Z</lastmod>
@@ -87,17 +98,6 @@
         <title>think of browser | wtw's Frontend</title>
         
         <desc>browserprocess 分析 浏览器的进程 浏览器进程 渲染进程 GUI 线程: 用于处理解析渲染 html、css JS 线程: 也就是程序员所说的所谓 “JS 单线程” 定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程 事件触发线程: Event Loop 事件循环执行机制 异步 HTTP 请求线程: 处理 http 请求,</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/daily-problems/</loc>
-        
-        <lastmod>2022-11-27T09:59:26.523Z</lastmod>
-        
-        <date>1661856794000</date>
-        <title>daily problems | wtw's Frontend</title>
-        
-        <desc>npm npm run scripts 为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行? 解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell</desc>
     </url>
     
     <url>

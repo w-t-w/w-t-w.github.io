@@ -22,6 +22,13 @@ categories: problems
   什么是闭包?
   
   解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.
+
+> script
+
+  defer 与 async 的区别
+
+  - defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件
+  - async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计
   
 # webpack
 
@@ -83,3 +90,4 @@ categories: problems
   为何 hooks 不可写在循环、条件判断以及嵌套函数中呢?
   
   解: 由于 react hooks 使用的是新的数据结构: 采用链表的方式,可随时终端,也可接回重连.如果将 hooks 放入循环、条件判断以及嵌套函数中,就极有可能会导致 hooks 的取值出现偏移,从而导致异常发生
+  
