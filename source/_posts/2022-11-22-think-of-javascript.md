@@ -1907,3 +1907,40 @@ const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((r
     }, timeout);
 })]);
 ```
+#### dateFormat ago
+
+> ES5
+
+```javascript
+Date.prototype.__defineGetter__('ago', function () {
+    var differ = (new Date().getTime() - this.getTime()) / 1000,
+        day_differ = Math.floor(differ / 86400);
+    return !day_differ && (differ < 60 && 'Just now' ||
+        differ < 120 && '1 minute ago' ||
+        differ < 3600 && differ / 60 + ' minutes ago' ||
+        differ < 7200 && '1 hour ago' ||
+        differ < 86400 && differ / 3600 + ' hours ago'
+    ) || (day_differ === 1 && 'Yesterday' ||
+        day_differ < 7 && day_differ + ' days ago' ||
+        Math.ceil(day_differ / 7 + ' weeks ago')
+    );
+});
+```
+
+> ES6
+
+```javascript
+Date.prototype.__defineGetter__('ago', () => {
+    const differ = (new Date().getTime() - this.getTime()) / 1000,
+        day_differ = Math.floor(differ / 86400);
+    return !day_differ &&
+        (differ < 60 && 'Just now' ||
+            differ < 120 && '1 minute ago' ||
+            differ < 3600 && `${differ / 60} minutes ago` ||
+            differ < 7200 && '1 hour ago' ||
+            differ < 86400 && `${differ / 3600} hours ago`) ||
+        (day_differ === 1 && 'Yesterday' ||
+            day_differ < 7 && `${day_differ} days ago` ||
+            Math.ceil(`${day_differ / 7} weeks ago`));
+});
+```
