@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
+        
+        <lastmod>2022-12-16T23:43:16.586Z</lastmod>
+        
+        <date>1669101986000</date>
+        <title>think of javascript | wtw's Frontend</title>
+        
+        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/08/30/daily-problems/</loc>
         
         <lastmod>2022-12-11T17:40:24.926Z</lastmod>
@@ -21,17 +32,6 @@
         <title>think of css | wtw's Frontend</title>
         
         <desc>css水平居中对于父子关系的布局，如何让子元素居中就是一个课题~ text-align + inline-block 1234567 .parent &#123; text-align: center;&#125;.children &#123; display: inline-block;&#125; absolute + transform(translate) 123456789 .pare</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
-        
-        <lastmod>2022-12-10T10:51:56.543Z</lastmod>
-        
-        <date>1669101986000</date>
-        <title>think of javascript | wtw's Frontend</title>
-        
-        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
     </url>
     
     <url>
