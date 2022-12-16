@@ -1930,7 +1930,7 @@ Date.prototype.__defineGetter__('ago', function () {
 > ES6
 
 ```javascript
-Date.prototype.__defineGetter__('ago', () => {
+Date.prototype.__defineGetter__('ago', function (){
     const differ = (new Date().getTime() - this.getTime()) / 1000,
         day_differ = Math.floor(differ / 86400);
     return !day_differ &&
