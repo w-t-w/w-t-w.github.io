@@ -2123,15 +2123,103 @@ const resolvePathCli = () => {
 > ES5
 
 ```javascript
+var net = require('net');
+require('colors');
+
+var PORT = 4000;
+
 function tcpChat() {
-    
+    var count = 0;
+    var userCount = {};
+    var server = net.createServer(function (socket) {
+        var nickName = '';
+
+        function bucket(msg, expectUser) {
+            for (var key in userCount) {
+                if (!expectUser || key !== nickName) {
+                    userCount[key].write(msg);
+                }
+            }
+        }
+
+        socket.write('欢迎来到 node chat 聊天室!\n' +
+            '共有 ' + count + ' 位用户在聊天室内~\n' +
+            '请您输入自己的用户名: '.blue);
+        count++;
+        socket.on('data', function (buffer) {
+            buffer = buffer.replace('\r\n', '');
+            if (!nickName) {
+                if (userCount[nickName]) {
+                    socket.write('此用户名重复,请重新输入:');
+                } else {
+                    nickName = buffer;
+                    userCount[nickName] = socket;
+                    bucket(nickName + ' join this room~\n');
+                }
+            } else {
+                bucket((nickName + ' > ' + buffer + '\n').cyan, true);
+            }
+        });
+        socket.on('close', function () {
+            count--;
+            delete userCount[nickName];
+            bucket(nickName + ' left this room\n');
+        });
+        socket.setEncoding('utf-8');
+    });
+    server.listen(PORT, function () {
+        console.log('Server is running at ' + PORT + '~');
+    });
 }
 ```
 
 > ES6
 
 ```javascript
-const tcpChat = () => {
+const net = require('net');
+require('colors');
 
+const PORT = 4000;
+
+const tcpChat = () => {
+    let count = 0;
+    const userAccount = {};
+    const server = net.createServer(socket => {
+        let nickName = '';
+        const bucket = (msg, expectUser) => {
+            for (const key in userAccount) {
+                if (!expectUser || key !== nickName) {
+                    userAccount[key].write(msg);
+                }
+            }
+        };
+        socket.write(`欢迎来到 node chat 聊天室!
+共有 ${count} 位用户在聊天室内~
+请您输入自己的用户名: `.blue);
+        count++;
+        socket.on('data', buffer => {
+            buffer = buffer.replace('\r\n', '');
+            if (!nickName) {
+                if (userAccount[nickName]) {
+                    socket.write('此用户名重复,请重新输入:');
+                } else {
+                    nickName = buffer;
+                    userAccount[nickName] = socket;
+                    bucket(`${nickName} join this room~\n`);
+                }
+            } else {
+                bucket(`${nickName} > ${buffer}\n`.cyan, true);
+            }
+        });
+        socket.on('close', () => {
+            count--;
+            delete userAccount[nickName];
+            bucket(`${nickName} left this room~\n`);
+        });
+        socket.setEncoding('utf-8');
+    });
+    server.listen(PORT, () => {
+        console.log(`Server is running at ${PORT}~`);
+    });
 };
 ```
