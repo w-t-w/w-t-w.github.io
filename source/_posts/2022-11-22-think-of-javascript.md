@@ -1917,13 +1917,12 @@ Date.prototype.__defineGetter__('ago', function () {
         day_differ = Math.floor(differ / 86400);
     return !day_differ && (differ < 60 && 'Just now' ||
         differ < 120 && '1 minute ago' ||
-        differ < 3600 && differ / 60 + ' minutes ago' ||
+        differ < 3600 && Math.floor(differ / 60) + ' minutes ago' ||
         differ < 7200 && '1 hour ago' ||
-        differ < 86400 && differ / 3600 + ' hours ago'
+        differ < 86400 && Math.floor(differ / 3600) + ' hours ago'
     ) || (day_differ === 1 && 'Yesterday' ||
         day_differ < 7 && day_differ + ' days ago' ||
-        Math.ceil(day_differ / 7 + ' weeks ago')
-    );
+        Math.ceil(day_differ / 7) + ' weeks ago');
 });
 ```
 
@@ -1936,11 +1935,11 @@ Date.prototype.__defineGetter__('ago', function (){
     return !day_differ &&
         (differ < 60 && 'Just now' ||
             differ < 120 && '1 minute ago' ||
-            differ < 3600 && `${differ / 60} minutes ago` ||
+            differ < 3600 && `${Math.floor(differ / 60)} minutes ago` ||
             differ < 7200 && '1 hour ago' ||
-            differ < 86400 && `${differ / 3600} hours ago`) ||
+            differ < 86400 && `${Math.floor(differ / 3600)} hours ago`) ||
         (day_differ === 1 && 'Yesterday' ||
             day_differ < 7 && `${day_differ} days ago` ||
-            Math.ceil(`${day_differ / 7} weeks ago`));
+           `${Math.ceil(day_differ / 7)} weeks ago`);
 });
 ```
