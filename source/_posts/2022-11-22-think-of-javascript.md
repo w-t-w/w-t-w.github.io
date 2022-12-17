@@ -1943,3 +1943,118 @@ Date.prototype.__defineGetter__('ago', function (){
            `${Math.ceil(day_differ / 7)} weeks ago`);
 });
 ```
+
+#### resolvePath CLI
+
+> ES5
+
+```javascript
+var fs = require('fs');
+require('colors');
+
+function resolvePathCli() {
+    var map = new Map();
+    console.log('');
+    console.log('当前路径下的文件/目录列表如下:');
+    fs.readdir(process.cwd() + '/', function (err, files) {
+        error(err);
+        console.log('');
+        var length = files.length;
+
+        function filesOrDirFunc(i = 0) {
+            var filesOrDir = files[i];
+            fs.stat(process.cwd() + '/' + filesOrDir, function (err, stats) {
+                var statsResult = '';
+                map.set(i, stats);
+                if (stats.isDirectory()) {
+                    statsResult = '        ' + i + ': ' + filesOrDir + '/';
+                    console.log(statsResult.blue);
+                } else {
+                    statsResult = '        ' + i + ': ' + filesOrDir;
+                    console.log(statsResult.cyan);
+                }
+                if (++i === length) {
+                    read();
+                } else {
+                    filesOrDirFunc(i);
+                }
+            });
+        }
+
+        function read() {
+            console.log('');
+            process.stdout.write('请您选择当前路径下的文件/目录序号: ');
+            process.stdin.on('data', options);
+            process.stdin.setEncoding('utf-8');
+        }
+
+        function options(number) {
+            console.log('');
+            number = Number(number);
+            if (!files[number]) {
+                throw new TypeError('必须输入的是文件/目录序号!');
+            } else {
+                const filesOrDirStats = map.get(number);
+                if (filesOrDirStats.isDirectory()) {
+                    fs.readdir(process.cwd() + '/' + files[number], 'utf-8', function (err, files) {
+                        error(err);
+                        const filesLength = files.length;
+                        console.log('        共有 ' + filesLength + ' 件文件');
+                        console.log('');
+                        files.forEach(function file(item) {
+                            console.log('            - ' + item);
+                        });
+                        console.log('');
+                        process.stdin.pause();
+                    });
+                } else {
+                    fs.readFile(process.cwd() + '/' + files[number], 'utf-8', function (err, data) {
+                        error(err);
+                        console.log(data.replace(/(.*)/g, '        $1'));
+                        console.log('');
+                        process.stdin.pause();
+                    });
+                }
+            }
+        }
+
+        filesOrDirFunc();
+    });
+
+    function error(err) {
+        if (err) {
+            if (err instanceof Error) {
+                throw err;
+            } else {
+                throw new Error(err);
+            }
+        }
+    }
+}
+```
+
+> ES6
+```javascript
+const fs = require('fs');
+const resolvePathCli = () => {
+    
+};
+```
+
+#### tcp chat
+
+> ES5
+
+```javascript
+function tcpChat() {
+    
+}
+```
+
+> ES6
+
+```javascript
+const tcpChat = () => {
+
+};
+```
