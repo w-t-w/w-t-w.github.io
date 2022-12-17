@@ -2023,11 +2023,10 @@ function resolvePathCli() {
 
     function error(err) {
         if (err) {
-            if (err instanceof Error) {
+            if (err instanceof Error)
                 throw err;
-            } else {
+            else
                 throw new Error(err);
-            }
         }
     }
 }
@@ -2036,8 +2035,86 @@ function resolvePathCli() {
 > ES6
 ```javascript
 const fs = require('fs');
+require('colors');
+
 const resolvePathCli = () => {
-    
+    const map = new Map();
+    console.log('');
+    console.log('当前路径下的文件/目录列表如下:');
+    fs.readdir(`${process.cwd()}/`, (err, files) => {
+        error(err);
+
+        console.log('');
+        const length = files.length;
+
+        const filesOrDirFunc = (i = 0) => {
+            const filesOrDir = files[i];
+            fs.stat(`${process.cwd()}/${filesOrDir}`, (err, stats) => {
+                error(err);
+                map.set(i, stats);
+                if (stats.isDirectory()) {
+                    console.log(`        ${i}: ${filesOrDir}/`.blue);
+                } else {
+                    console.log(`        ${i}: ${filesOrDir}`.cyan);
+                }
+
+                if (++i === length) {
+                    read();
+                } else {
+                    filesOrDirFunc(i);
+                }
+            });
+        };
+
+        const read = () => {
+            console.log('');
+            process.stdout.write('请您选择当前路径下的文件/目录序号: ');
+            process.stdin.on('data', options);
+            process.stdin.setEncoding('utf-8');
+        };
+
+        const options = (number) => {
+            console.log('');
+            number = Number(number);
+            const filesDir = files[number];
+            if (!filesDir) {
+                throw new TypeError('');
+            } else {
+                const stats = map.get(number);
+                if (stats.isDirectory()) {
+                    fs.readdir(`${process.cwd()}/${filesDir}`, 'utf-8', (err, files) => {
+                        error(err);
+                        const filesLength = files.length;
+                        console.log(`        共有 ${filesLength} 件文件:`);
+                        console.log('');
+                        files.forEach(item => {
+                            console.log(`            - ${item}`);
+                        });
+                        console.log('');
+                        process.stdin.pause();
+                    });
+                } else {
+                    fs.readFile(`${process.cwd()}/${filesDir}`, 'utf-8', (err, data) => {
+                        error(err);
+                        console.log(data.replace(/(.*)/g, '        $1'));
+                        console.log('');
+                        process.stdin.pause();
+                    });
+                }
+            }
+        };
+
+        filesOrDirFunc();
+    });
+
+    function error(err) {
+        if (err) {
+            if (err instanceof Error)
+                throw err;
+            else
+                throw new Error(err);
+        }
+    }
 };
 ```
 
