@@ -71,7 +71,7 @@ function flat(source, initial) {
 const flat = (source, inital = []) => source.reduce((a, b) => Array.isArray(b) ? flat(b, a) : a.concat(b), inital);
 ```
 
-#### layer flat
+#### layer Flat
 
 > ES5
 
@@ -112,7 +112,7 @@ function fibonacci(n) {
 const fibonacci = n => (n === 1 || n === 0) ? n : (fibonacci(n - 1) + fibonacci(n - 2));
 ```
 
-#### tailCall fibonacci
+#### tailCall Fibonacci
 
 > ES5
 
@@ -136,7 +136,7 @@ function fibonacci(n, n1, n2) {
 const fibonacci = (n, n1 = 0, n2 = 1) => (n === 0) ? n1 : fibonacci(n - 1, n2, n1 + n2);
 ```
 
-#### cache fibonacci
+#### cache Fibonacci
 
 > ES5
 
@@ -332,7 +332,7 @@ function factorial(n) {
 const factorial = n => (n === 1) ? n : n * factorial(n - 1);
 ```
 
-#### tailCall factorial
+#### tailCall Factorial
 
 > ES5
 
@@ -354,7 +354,7 @@ function factorial(n, p) {
 const factorial = (n, p = 1) => n === 1 ? p : factorial(n - 1, p * n);
 ```
 
-#### shallow copy
+#### shallow Copy
 
 > ES5
 
@@ -384,7 +384,7 @@ const shallowCopy = o => {
 }
 ```
 
-#### deep clone
+#### deep Clone
 
 > ES5
 
@@ -422,7 +422,7 @@ const deepClone = o => {
 }
 ```
 
-#### deep clone loop
+#### deep Clone Loop
 
 > ES5
 
@@ -1834,7 +1834,7 @@ const Promise = (() => {
 })();
 ```
 
-#### Generator thunk
+#### generator Thunk
 
 > ES5
 
@@ -1872,6 +1872,48 @@ const run = taskRun => {
         if (err) task.throw(err);
         const {value, done} = task.next(data);
         if (done) return;
+        value(next);
+    }
+    next();
+};
+```
+
+#### promise Generator Thunk
+
+> ES5
+
+```javascript
+function Thunk(fn) {
+    var that = this;
+    return function (...args) {
+        return function (callback) {
+            return fn.call(that, ...args, callback);
+        }
+    }
+}
+
+function run(taskRun) {
+    const task = taskRun();
+    function next(err, data) {
+        if(err) task.throw(err);
+        const {value, done} = task.next(data);
+        if (done) return Promise.resolve(value);
+        value(next);
+    }
+    next();
+}
+```
+
+> ES6
+
+```javascript
+const Thunk = fn => (...args) => callback => fn(...args, callback);
+const run = taskRun => {
+    const task = taskRun();
+    function next(err, data) {
+        if (err) task.throw(err);
+        const {value, done} = task.next(data);
+        if (done) return Promise.resolve(value);
         value(next);
     }
     next();
