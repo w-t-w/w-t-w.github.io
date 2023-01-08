@@ -1893,7 +1893,7 @@ function Thunk(fn) {
 }
 
 function run(taskRun) {
-    return new Promise(resolve => {
+    return new Promise(function (resolve) {
         const task = taskRun();
         function next(err, data) {
             if (err) task.throw(err);
