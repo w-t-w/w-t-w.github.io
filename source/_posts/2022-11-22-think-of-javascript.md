@@ -1893,14 +1893,16 @@ function Thunk(fn) {
 }
 
 function run(taskRun) {
-    const task = taskRun();
-    function next(err, data) {
-        if(err) task.throw(err);
-        const {value, done} = task.next(data);
-        if (done) return Promise.resolve(value);
-        value(next);
-    }
-    next();
+    return new Promise(resolve => {
+        const task = taskRun();
+        function next(err, data) {
+            if (err) task.throw(err);
+            const {value, done} = task.next(data);
+            if (done) return resolve(value);
+            value(next);
+        }
+        next();
+    });
 }
 ```
 
@@ -1909,14 +1911,16 @@ function run(taskRun) {
 ```javascript
 const Thunk = fn => (...args) => callback => fn(...args, callback);
 const run = taskRun => {
-    const task = taskRun();
-    function next(err, data) {
-        if (err) task.throw(err);
-        const {value, done} = task.next(data);
-        if (done) return Promise.resolve(value);
-        value(next);
-    }
-    next();
+    return new Promise(resolve => {
+        const task = taskRun();
+        function next(err, data) {
+            if (err) task.throw(err);
+            const {value, done} = task.next(data);
+            if (done) return resolve(value);
+            value(next);
+        }
+        next();
+    });
 };
 ```
 
