@@ -1930,9 +1930,9 @@ const run = taskRun => {
 
 ```javascript
 function timeoutPromise(promise, timeout) {
-    return Promise.race([promise, new Promise(function (resolve, reject) {
+    return Promise.race([promise, new Promise(function (resolve, rejected) {
         setTimeout(function () {
-            reject({
+            rejected({
                 status: 'rejected',
                 reason: '请求超时'
             });
@@ -1944,9 +1944,9 @@ function timeoutPromise(promise, timeout) {
 > ES6
 
 ```javascript
-const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((resolve, reject) => {
+const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((resolve, rejected) => {
     setTimeout(() => {
-        reject({
+        rejected({
             status: 'rejected',
             reason: '请求超时'
         });
