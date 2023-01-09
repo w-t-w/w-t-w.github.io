@@ -25,7 +25,7 @@ categories: webpack
 
   为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?
 
-  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 所作用的构建打包项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.
+  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 构建打包所作用的项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.
 
 #### output
 
@@ -627,7 +627,7 @@ categories: webpack
 
   image-minimizer-webpack-plugin 图片资源模块压缩功能插件有什么作用?
 
-  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩的最佳处理方式.
+  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩打包功能的最佳处理方式.
 
   ```javascript
   const ImageMinimizerWebpackPlugin = require('image-minimizer-webpack-plugin');
