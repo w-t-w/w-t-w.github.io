@@ -167,7 +167,7 @@ category: javascript
    - 区别
      - 只能向弱类型集合中添加引用类型数据
      - size、clear、forEach、keys、values 以及 entries 失效
-     - 一旦与添加的引用类型数据失去绑定或者引用类型数据失效,集合内数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露
+     - 一旦与添加的引用类型数据失去绑定或者引用类型数据失效,集合内引用类型数据就会被释放并被垃圾回收机制及时清理,防止堆栈溢出、内存泄露
    
 ### Map
 
@@ -215,7 +215,7 @@ category: javascript
    - 生成器函数表达式
    - 生成器对象方法
    - 向迭代器传递参数
-   - 在迭代器中抛出错误,注意抛出错误后,在没有 try-catch 的情况下,会直接停止,不会继续迭代
+   - 在迭代器中抛出错误,注意抛出错误后,在没有 try-catch 的情况下,会直接停止运行,不再继续迭代
    - 在生成器中返回语句
    - 委托生成器,注意对于数组、函数的委托生成,会对其中的可迭代元素分别迭代
    - 异步生成器,注意异步执行时的事件循环执行机制
@@ -439,6 +439,7 @@ category: javascript
             - setup
             - create(结果由发布类型决定)
             - header(结果由发布类型决定)
+            - content(结果由订阅模式类型决定)
             - callTapsSeries(结果由订阅模式类型决定)
             - callTap(结果由订阅模式类型决定)
 
@@ -450,6 +451,7 @@ category: javascript
         setup()
         create()
         header()
+        content()
         onError()
         onResult()
         onDone()
