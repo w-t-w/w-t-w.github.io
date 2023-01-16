@@ -55,7 +55,7 @@ categories: react
 > 特性
   
   - 属性代理
-  - 反向集成
+  - 反向继承
   - 渲染劫持
 
 #### class 与 hooks
