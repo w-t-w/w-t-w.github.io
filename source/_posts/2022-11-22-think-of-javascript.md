@@ -818,7 +818,7 @@ Function.prototype.softBind = function (context, ...args) {
 - 首先 JS 线程会区分异/同步程序,遇到同步程序优先执行,遇到异步程序会将其移入至相关的处理线程(定时器线程、异步 HTTP
   请求线程)
 - 接着,会将相关的处理线程符合条件的回调事件移入至事件触发线程内,进入 Event Loop 事件循环执行机制
-- Event Loop 会等待至同步程序全部执行完后,轮询事件队列中的回调事件,触发执行
+- Event Loop 会等待至同步程序全部执行完成后,轮询事件队列中的回调事件,触发执行
 - Event Loop 中的事件队列分为两种: 宏事件、微事件,在每次触发宏事件之前,都会先去轮询执行微事件
     - 宏事件
         - script
@@ -844,7 +844,7 @@ nodejs 中的 Event Loop 就有所不同, 其运行的阶段分为:
 - check: 执行 setImmediate 回调
 - close callbacks: 执行一些关闭的回调函数,如 socket.close
 
-注意: poll 队列执行完后,如果没有 setImmediate,但是有定时器到期,会绕回执行定时器 timer 阶段
+注意: poll 队列执行完成后,如果没有 setImmediate,但是有定时器到期,会绕回执行定时器 timer 阶段
 
 #### Promise
 
