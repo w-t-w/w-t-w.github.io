@@ -1763,7 +1763,7 @@ const Promise = (() => {
     Promise.all = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new ReferenceError('The promise and the return value are the same'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             let count = 0;
             const length = promiseLists.length,
@@ -1785,7 +1785,7 @@ const Promise = (() => {
     Promise.race = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new ReferenceError('The promise and the return value are the same'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             promiseLists.forEach(promise => {
                 Promise.resolve(promise).then(value => {
@@ -1800,7 +1800,7 @@ const Promise = (() => {
     Promise.allSettled = promiseLists => {
         return new Promise((resolve, reject) => {
             if (!Array.isArray(promiseLists)) {
-                reject(new ReferenceError('The promise and the return value are the same'));
+                reject(new ReferenceError('parameter must be an array'));
             }
             let count = 0;
             const length = promiseLists.length,
