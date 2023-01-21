@@ -2064,6 +2064,80 @@ let classImitate = (() => {
 })();
 ```
 
+#### class with array attributes
+
+> ES5
+
+```javascript
+function toUnit32(key) {
+    return Math.floor(Math.abs(Number(key))) % Math.pow(2, 32);
+}
+
+function isArrayIndex(key) {
+    const numberRicKey = toUnit32(key);
+    return String(numberRicKey) === key && numberRicKey < Math.pow(2, 32) - 1;
+}
+
+function MyArray(...args) {
+    Array.call(this, ...args);
+    return new Proxy(this, {
+        set(target, key, value) {
+            const length = Reflect.get(target, 'length');
+            if (isArrayIndex(key)) {
+                if (key >= length) {
+                    Reflect.set(target, 'length', key + 1);
+                }
+            } else {
+                if (key < length) {
+                    for (let i = length; i >= key; i--) {
+                        Reflect.deleteProperty(target, i);
+                    }
+                }
+            }
+            return Reflect.set(target, key, value);
+        }
+    });
+}
+
+Object.setPrototypeOf(MyArray.prototype, Array.prototype);
+```
+
+> ES6
+
+```javascript
+class MyArray extends Array {
+    constructor(...args) {
+        super(...args);
+        return new Proxy(this, {
+            set(target, key, value) {
+                const length = Reflect.get(target, 'length');
+                if (target.isArrayIndex(key)) {
+                    if (key >= length) {
+                        Reflect.set(target, 'length', key + 1);
+                    }
+                } else {
+                    if (key < length) {
+                        for (let i = length; i >= key; i--) {
+                            Reflect.deleteProperty(target, i);
+                        }
+                    }
+                }
+                return Reflect.set(target, key, value);
+            }
+        });
+    }
+
+    isArrayIndex(key) {
+        const numberRic = this.toUnit32(key);
+        return String(numberRic) === key && numberRic < MyArray.pow(2, 32) - 1;
+    }
+
+    toUnit32(key) {
+        return Math.floor(Math.abs(Number(key))) % Math.pow(2, 32);
+    }
+}
+```
+
 #### dateFormat ago
 
 > ES5
