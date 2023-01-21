@@ -1924,7 +1924,7 @@ const run = taskRun => {
 };
 ```
 
-#### promise timeout
+#### promise Timeout
 
 > ES5
 
@@ -1953,6 +1953,117 @@ const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((r
     }, timeout);
 })]);
 ```
+
+#### get Character's Length
+
+> ES5
+
+```javascript
+function getLength(str) {
+    return str.match(/[\s\S]/ug).length;
+}
+```
+
+> ES6
+
+```javascript
+const getLength = str => str.match(/[\s\S]/ug).length;
+```
+
+#### judge UTF-16 Character
+
+> ES5
+
+```javascript
+function isUTF16(str) {
+    return str.codePointAt(0) > 0xFFFF;
+}
+```
+
+> ES6
+
+```javascript
+const isUTF16 = str => str.codePointAt(0) > 0xFFFF;
+```
+
+#### flags method imitate
+
+> ES5
+
+```javascript
+function flagsImitate(regExp) {
+    var regExpStr = String(regExp);
+    return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
+}
+```
+
+> ES6
+
+```javascript
+const flagsImitate = (regExp) => {
+    const regExpStr = String(regExp);
+    return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
+}
+```
+
+#### class imitate
+
+> ES5
+
+```javascript
+let classImitate = (function () {
+    const classImitate = function (...args) {
+        if (new.target === undefined) {
+            throw new TypeError('此类只可被 new 构造调用');
+        }
+        this.args = args;
+    };
+    Object.defineProperty(classImitate.prototype, 'method', {
+        value: function () {
+            if (new.target === undefined) {
+                throw new TypeError('此方法不可被 new 构造调用');
+            }
+            console.log('含有的类参数:', args);
+        },
+        enumerable: false
+    });
+    Object.defineProperty(classImitate.prototype, 'getter', {
+        set: function () {
+            return this.args.join(',');
+        },
+        enumerable: false
+    });
+})();
+```
+
+> ES6
+
+```javascript
+let classImitate = (() => {
+    const classImitate = function (...args) {
+        if (new.target === undefined) {
+            throw new TypeError('此类只可被 new 构造调用');
+        }
+        this.args = args;
+    };
+    Object.defineProperty(classImitate.prototype, 'method', {
+        value() {
+            if (new.target !== undefined) {
+                throw new TypeError('此方法不可被 new 构造调用');
+            }
+            console.log('含有的类参数:', args);
+        },
+        enumerable: false
+    });
+    Object.defineProperty(classImitate.prototype, 'getter', {
+        get() {
+            return this.args.join(',');
+        },
+        enumerable: false
+    });
+})();
+```
+
 #### dateFormat ago
 
 > ES5
