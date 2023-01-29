@@ -847,7 +847,7 @@ categories: webpack
   - Map、Set 替代 Object.
   - includes 替代 indexOf.
 - 使用更快的 md4 hash 加密算法.
-- webpack AST 可以直接通过 loader 传递给 AST,减少解析时间.
-- 使用字符串方法替代正则表达式.
+- webpack AST 可以直接通过 loader 传递给 AST,减少解析时间,解析速度更快.
+- 使用字符串方法替代正则表达式,运行速度更快.
 
   
