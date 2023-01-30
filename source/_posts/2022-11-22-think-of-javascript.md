@@ -1850,14 +1850,12 @@ function Thunk(fn) {
 
 function run(taskRun) {
     var task = taskRun();
-
     function next(err, data) {
         if (err) task.throw(err);
         const result = task.next(data);
         if (result.done) return;
         result.value(next);
     }
-
     next();
 }
 ```
@@ -1899,7 +1897,15 @@ function run(taskRun) {
             if (err) task.throw(err);
             const {value, done} = task.next(data);
             if (done) return resolve(value);
-            value(next);
+            if (typeof value === 'function') {
+                return value(next);
+            }
+            const promise = Promise.resolve(value);
+            promise.then(val => {
+                next(null, val);
+            }, reason => {
+                next(reason);
+            });
         }
         next();
     });
@@ -1917,7 +1923,15 @@ const run = taskRun => {
             if (err) task.throw(err);
             const {value, done} = task.next(data);
             if (done) return resolve(value);
-            value(next);
+            if (typeof value === 'function') {
+                return value(next);
+            }
+            const promise = Promise.resolve(value);
+            promise.then(val => {
+                next(null, val);
+            }, reason => {
+                next(reason);
+            });
         }
         next();
     });
