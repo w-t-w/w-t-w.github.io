@@ -172,7 +172,7 @@ categories: webpack
 
   module.noParse 的作用是什么?
 
-  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义.
+  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义的语句.
 
 #### externals
 

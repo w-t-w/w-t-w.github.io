@@ -2,6 +2,28 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
+        
+        <lastmod>2023-01-30T07:52:32.109Z</lastmod>
+        
+        <date>1669101986000</date>
+        <title>think of javascript | wtw's Frontend</title>
+        
+        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
+    </url>
+    
+    <url>
+        <loc>http://example.com/2023/01/30/think-of-git/</loc>
+        
+        <lastmod>2023-01-30T07:46:13.346Z</lastmod>
+        
+        <date>1675064773000</date>
+        <title>think of git | wtw's Frontend</title>
+        
+        <desc></desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/21/think-of-css/</loc>
         
         <lastmod>2023-01-29T18:03:17.948Z</lastmod>
@@ -21,17 +43,6 @@
         <title>think of webpack | wtw's Frontend</title>
         
         <desc>webpackwebpack-cli 作用 引入 yargs,对命令行实行定制 分析命令行参数,对各个参数实行转换,组成编译配置项 导入 webpack,根据编译配置项进行编译和构建 entry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
-        
-        <lastmod>2023-01-21T02:27:22.684Z</lastmod>
-        
-        <date>1669101986000</date>
-        <title>think of javascript | wtw's Frontend</title>
-        
-        <desc>jscompose ES5 12345678function compose() &#123; var args = Array.prototype.slice.call(arguments); return function (x) &#123; return args.reduceRight(function (a, b) &#123; return b(a); &#125;, x); &#1</desc>
     </url>
     
     <url>
