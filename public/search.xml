@@ -1,72 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>daily problems</title>
-    <url>/2022/08/30/daily-problems/</url>
-    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
-<p>npm run scripts</p>
-</blockquote>
-<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
-<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
-<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
-<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><blockquote>
-<p>闭包</p>
-</blockquote>
-<p>  什么是闭包?</p>
-<p>  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.</p>
-<blockquote>
-<p>script</p>
-</blockquote>
-<p>  defer 与 async 的区别?</p>
-<ul>
-<li>defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件</li>
-<li>async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计</li>
-</ul>
-<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
-<p>terser-webpack-plugin</p>
-</blockquote>
-<p>  众所周知,在 webpack 4.x以及之后的版本,开启 mode: ‘production’,相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: ‘production’,却不能实现压缩混淆,这是为什么呢?</p>
-<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 ‘…’ 元素就可生效.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="string">&#x27;...&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="ssr"><a href="#ssr" class="headerlink" title="ssr"></a>ssr</h1><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  ssr 服务端渲染相对于浏览器客户端渲染,其作用是什么?又有什么优势?</p>
-<ul>
-<li>HTML 模板以及数据等资源都存放于服务端,内网拉取资源速度更快.</li>
-<li>相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求次数.</li>
-<li>对于用户来说,最直观的就是,大大减少了页面白屏的时间;而对于开发一方来讲,SEO 爬虫页面解析更友好.</li>
-</ul>
-<h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><blockquote>
-<p>__dirname</p>
-</blockquote>
-<p>  __dirname 与 process.cwd() 的区别是什么?</p>
-<p>  解: __dirname 指的是当前文件所在的位置目录. process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//…),修改后 process.cwd() 就会发生改变.</p>
-<blockquote>
-<p>require</p>
-</blockquote>
-<p>  require.resolve 的作用是什么?</p>
-<p>  解: 用于探查某个模块的完整路径</p>
-<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><blockquote>
-<p>console</p>
-</blockquote>
-<p>  “Warning: Mixed Content: The page at ‘&lt;URL&gt;‘ was loaded over HTTPS, but requested an insecure element ‘&lt;URL&gt;‘. This request was automatically upgraded to HTTPS, For more information see &lt;URL&gt;“所表示的含义?如何消除?</p>
-<p>  解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告</p>
-<h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><blockquote>
-<p>hooks</p>
-</blockquote>
-<p>  为何 hooks 不可写在循环、条件判断以及嵌套函数中呢?</p>
-<p>  解: 由于 react hooks 使用的是新的数据结构: 采用链表的方式,可随时中断,也可接回重连.如果将 hooks 放入循环、条件判断以及嵌套函数中,就极有可能会导致 hooks 的取值出现偏移,从而导致异常发生</p>
-]]></content>
-      <categories>
-        <category>problems</category>
-      </categories>
-      <tags>
-        <tag>problems</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>think of nodejs</title>
     <url>/2022/08/30/think-of-nodejs/</url>
     <content><![CDATA[<h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
@@ -245,6 +179,89 @@
       </tags>
   </entry>
   <entry>
+    <title>daily problems</title>
+    <url>/2022/08/30/daily-problems/</url>
+    <content><![CDATA[<h1 id="npm"><a href="#npm" class="headerlink" title="npm"></a>npm</h1><blockquote>
+<p>npm run scripts</p>
+</blockquote>
+<p>  为何 npm 执行 package.json 中的 scripts 命令时,即使全局环境变量下不存在的脚本命令也能执行?</p>
+<p>  解: 首先 npm run package.json 中的 scripts 脚本命令时,会新建一个 shell 脚本,并将 scripts 中的脚本命令放入其中执行,因此 shell 命令(一般是 bash)完全可以执行;其次,shell 命令执行时,node_modules/.bin 子目录下的所有可执行脚本命令会放入至 $PATH 全局环境变量中,等到 shell 命令执行完毕,$PATH 才会恢复原样.最后 node_modules/.bin 子目录下的所有可执行脚本命令实际上是与 node_modules 下可执行模块建立了软链接的,因此在 node 此类项目下,即使全局环境变量下不存在的脚本命令,依然可以通过 node_modules 中的可执行模块在当前项目下转化执行.</p>
+<p>  线性图: node_modules/(可执行模块) -&gt; 通过软链接 =&gt; node_modules/.bin/(可执行脚本命令) -&gt; 通过 shell 脚本命令执行(添加至 $PATH 全局环境变量) =&gt; 即使全局环境变量下不存在的脚本命令也能执行.</p>
+<h1 id="javascript"><a href="#javascript" class="headerlink" title="javascript"></a>javascript</h1><blockquote>
+<p>闭包</p>
+</blockquote>
+<p>  什么是闭包?</p>
+<p>  解: A 函数内包裹 B 函数,B 函数在非 A 函数作用域内实行调用,依然能够使用或者调用 A 函数内的变量或者函数,这就是闭包.</p>
+<blockquote>
+<p>script</p>
+</blockquote>
+<p>  defer 与 async 的区别?</p>
+<ul>
+<li>defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件</li>
+<li>async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计</li>
+</ul>
+<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
+<p>terser-webpack-plugin</p>
+</blockquote>
+<p>  众所周知,在 webpack 4.x以及之后的版本,开启 mode: ‘production’,相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: ‘production’,却不能实现压缩混淆,这是为什么呢?</p>
+<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 ‘…’ 元素就可生效.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="string">&#x27;...&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h1 id="ssr"><a href="#ssr" class="headerlink" title="ssr"></a>ssr</h1><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  ssr 服务端渲染相对于浏览器客户端渲染,其作用是什么?又有什么优势?</p>
+<ul>
+<li>HTML 模板以及数据等资源都存放于服务端,内网拉取资源速度更快.</li>
+<li>相比于浏览器加载 HTML 以及接口数据等多个资源请求,ssr 服务端渲染只需要加载拼装好数据的一个 HTML 模板即可,大大减少了资源请求次数.</li>
+<li>对于用户来说,最直观的就是,大大减少了页面白屏的时间;而对于开发一方来讲,SEO 爬虫页面解析更友好.</li>
+</ul>
+<h1 id="node"><a href="#node" class="headerlink" title="node"></a>node</h1><blockquote>
+<p>__dirname</p>
+</blockquote>
+<p>  __dirname 与 process.cwd() 的区别是什么?</p>
+<p>  解: __dirname 指的是当前文件所在的位置目录. process.cwd() 指的是 node 所作用的位置目录.默认值为当前项目的根目录,可以实行修改: process.chdir(//…),修改后 process.cwd() 就会发生改变.</p>
+<blockquote>
+<p>require</p>
+</blockquote>
+<p>  require.resolve 的作用是什么?</p>
+<p>  解: 用于探查某个模块的完整路径</p>
+<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><blockquote>
+<p>console</p>
+</blockquote>
+<p>  “Warning: Mixed Content: The page at ‘&lt;URL&gt;‘ was loaded over HTTPS, but requested an insecure element ‘&lt;URL&gt;‘. This request was automatically upgraded to HTTPS, For more information see &lt;URL&gt;“所表示的含义?如何消除?</p>
+<p>  解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告</p>
+<h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><blockquote>
+<p>hooks</p>
+</blockquote>
+<p>  为何 hooks 不可写在循环、条件判断以及嵌套函数中呢?</p>
+<p>  解: 由于 react hooks 使用的是新的数据结构: 采用链表的方式,可随时中断,也可接回重连.如果将 hooks 放入循环、条件判断以及嵌套函数中,就极有可能会导致 hooks 的取值出现偏移,从而导致异常发生</p>
+]]></content>
+      <categories>
+        <category>problems</category>
+      </categories>
+      <tags>
+        <tag>problems</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
+      <categories>
+        <category>unresolved</category>
+      </categories>
+      <tags>
+        <tag>unresolved</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>create Simplepack</title>
     <url>/2022/10/14/create-simplepack/</url>
     <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
@@ -278,166 +295,6 @@
       </categories>
       <tags>
         <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-]]></content>
-      <categories>
-        <category>unresolved</category>
-      </categories>
-      <tags>
-        <tag>unresolved</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of css</title>
-    <url>/2022/11/21/think-of-css/</url>
-    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
-<blockquote>
-<p>text-align + inline-block</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>table + margin</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + justify-content</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
-<p>table-cell + vertical-align</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + align-items</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
-<p>flex</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>浮动元素 float,除了 none 以外的情况</li>
-<li>定位元素 position(absolute、fixed)</li>
-<li>display(inline-block、table-caption、table-cell)</li>
-<li>overflow(auto、hidden、scroll)</li>
-</ul>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
-<li>BFC 的高度计算会联同浮动元素的高度</li>
-<li>BFC 的区域不会与浮动元素的区域重叠</li>
-</ul>
-<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>flex-grow: 设置元素的扩展比例</li>
-<li>flex-shrink: 设置元素的收缩比例</li>
-<li>flex-basis: 设置元素的初始值</li>
-</ul>
-<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
-<p>区别</p>
-</blockquote>
-<ul>
-<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
-<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
-</ul>
-<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<ul>
-<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
-<li>relative: 相对定位,会相对于当前元素位置定位</li>
-<li>fixed: 绝对定位,是基于整个浏览器 web 页面定位</li>
-<li>static: 默认值,不定位</li>
-<li>inherit: 继承父元素的定位属性值</li>
-<li>sticky: 绝对定位,基本是基于整个浏览器 web 页面定位,是 relative 与 fixed 的混合定位</li>
-</ul>
-]]></content>
-      <categories>
-        <category>css</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of v8</title>
-    <url>/2022/11/22/think-of-v8/</url>
-    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
-<p>垃圾回收机制</p>
-</blockquote>
-<p>  使用分代回收策略,分为新、老生代.</p>
-<ul>
-<li>新生代: 新生代的堆内存被分为多个 SemiSpace 空间,每个 SemiSpace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
-<li>查找 from 中还存活的对象,将其全部移入到 to</li>
-<li>反转 from 和 to</li>
-<li>对 to 尽数回收</li>
-</ul>
-</li>
-<li>新生代 -&gt; 老生代<ul>
-<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
-<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
-</ul>
-</li>
-<li>老生代<ul>
-<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
-<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>v8</category>
-      </categories>
-      <tags>
-        <tag>v8</tag>
       </tags>
   </entry>
   <entry>
@@ -599,6 +456,194 @@
       </tags>
   </entry>
   <entry>
+    <title>think of v8</title>
+    <url>/2022/11/22/think-of-v8/</url>
+    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
+<p>垃圾回收机制</p>
+</blockquote>
+<p>  使用分代回收策略,分为新、老生代.</p>
+<ul>
+<li>新生代: 新生代的堆内存被分为多个 SemiSpace 空间,每个 SemiSpace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
+<li>查找 from 中还存活的对象,将其全部移入到 to</li>
+<li>反转 from 和 to</li>
+<li>对 to 尽数回收</li>
+</ul>
+</li>
+<li>新生代 -&gt; 老生代<ul>
+<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
+<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
+</ul>
+</li>
+<li>老生代<ul>
+<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
+<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>v8</category>
+      </categories>
+      <tags>
+        <tag>v8</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of css</title>
+    <url>/2022/11/21/think-of-css/</url>
+    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
+<blockquote>
+<p>text-align + inline-block</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>table + margin</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + justify-content</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
+<p>table-cell + vertical-align</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + align-items</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
+<p>flex</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>浮动元素 float,除了 none 以外的情况</li>
+<li>定位元素 position(absolute、fixed)</li>
+<li>display(inline-block、table-caption、table-cell)</li>
+<li>overflow(auto、hidden、scroll)</li>
+</ul>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
+<li>BFC 的高度计算会联同浮动元素的高度</li>
+<li>BFC 的区域不会与浮动元素的区域重叠</li>
+</ul>
+<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>flex-grow: 设置元素的扩展比例</li>
+<li>flex-shrink: 设置元素的收缩比例</li>
+<li>flex-basis: 设置元素的初始值</li>
+</ul>
+<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
+<p>区别</p>
+</blockquote>
+<ul>
+<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
+<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
+</ul>
+<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<ul>
+<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
+<li>relative: 相对定位,会相对于当前元素位置定位</li>
+<li>fixed: 绝对定位,是基于整个浏览器 web 页面定位</li>
+<li>static: 默认值,不定位</li>
+<li>inherit: 继承父元素的定位属性值</li>
+<li>sticky: 绝对定位,基本是基于整个浏览器 web 页面定位,是 relative 与 fixed 的混合定位</li>
+</ul>
+]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of algorithm</title>
+    <url>/2022/11/26/think-of-algorithm/</url>
+    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
+<p>冒泡排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>插入排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>归并排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>快速排序</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="获取最长字符子串"><a href="#获取最长字符子串" class="headerlink" title="获取最长字符子串"></a>获取最长字符子串</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getLongStr</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [], max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = arr.<span class="title function_">indexOf</span>(str[i]);</span><br><span class="line">        <span class="keyword">if</span> (index !== -<span class="number">1</span>) &#123;</span><br><span class="line">            arr.<span class="title function_">splice</span>(<span class="number">0</span>, index + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        arr.<span class="title function_">push</span>(str.<span class="title function_">charAt</span>(i));</span><br><span class="line">        max = <span class="title class_">Math</span>.<span class="title function_">max</span>(arr.<span class="property">length</span>, max);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>algorithm</category>
+      </categories>
+      <tags>
+        <tag>algorithm</tag>
+        <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of angular</title>
+    <url>/2023/01/17/think-of-angular/</url>
+    <content><![CDATA[<h1 id="angular"><a href="#angular" class="headerlink" title="angular"></a>angular</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4>]]></content>
+      <categories>
+        <category>angular</category>
+      </categories>
+      <tags>
+        <tag>angular</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>think of browser</title>
     <url>/2022/11/24/think-of-browser/</url>
     <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
@@ -693,51 +738,6 @@
       </categories>
       <tags>
         <tag>browser</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of angular</title>
-    <url>/2023/01/17/think-of-angular/</url>
-    <content><![CDATA[<h1 id="angular"><a href="#angular" class="headerlink" title="angular"></a>angular</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4>]]></content>
-      <categories>
-        <category>angular</category>
-      </categories>
-      <tags>
-        <tag>angular</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of algorithm</title>
-    <url>/2022/11/26/think-of-algorithm/</url>
-    <content><![CDATA[<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><h4 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h4><blockquote>
-<p>冒泡排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">bubbleSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = <span class="number">0</span>; j &lt; length - i; j++) &#123;</span><br><span class="line">            <span class="keyword">if</span> (result[j] &gt; result[j + <span class="number">1</span>]) &#123;</span><br><span class="line">                <span class="keyword">const</span> temp = result[j];</span><br><span class="line">                result[j] = result[j + <span class="number">1</span>];</span><br><span class="line">                result[j + <span class="number">1</span>] = temp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>插入排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">insertSort</span>(<span class="params">array</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> result = [...array],</span><br><span class="line">        length = result.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; length; i++) &#123;</span><br><span class="line">        <span class="keyword">let</span> j = i;</span><br><span class="line">        <span class="keyword">while</span> ((result[j - <span class="number">1</span>] &gt; result[j]) &amp;&amp; j &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">const</span> temp = result[j];</span><br><span class="line">            result[j] = result[j - <span class="number">1</span>];</span><br><span class="line">            result[j - <span class="number">1</span>] = temp;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>归并排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">merge</span>(<span class="params">a, b</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> a_length = a.<span class="property">length</span>,</span><br><span class="line">        b_length = b.<span class="property">length</span>,</span><br><span class="line">        arr = [];</span><br><span class="line">    <span class="keyword">let</span> i = <span class="number">0</span>,</span><br><span class="line">        j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> (i &lt; a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">if</span> (a[i] &lt;= b[j]) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (i === a_length &amp;&amp; j &lt; b_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (j &lt; b_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(b[j]);</span><br><span class="line">            j++;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (j === b_length &amp;&amp; i &lt; a_length) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; a_length) &#123;</span><br><span class="line">            arr.<span class="title function_">push</span>(a[i]);</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">mergeSort</span>(<span class="params">arr</span>) &#123;</span><br><span class="line">    <span class="keyword">const</span> length = arr.<span class="property">length</span>;</span><br><span class="line">    <span class="keyword">if</span> (length &lt;= <span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> arr;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">const</span> middle = <span class="title class_">Math</span>.<span class="title function_">floor</span>(length / <span class="number">2</span>),</span><br><span class="line">        left = arr.<span class="title function_">slice</span>(<span class="number">0</span>, middle),</span><br><span class="line">        right = arr.<span class="title function_">slice</span>(middle);</span><br><span class="line">    <span class="keyword">return</span> <span class="title function_">merge</span>(<span class="title function_">mergeSort</span>(left), <span class="title function_">mergeSort</span>(right));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>快速排序</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">benchMark</span>(<span class="params">arr, left, right</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> i = left,</span><br><span class="line">        j = right,</span><br><span class="line">        x = arr[left];</span><br><span class="line">    <span class="keyword">while</span> (i &lt; j) &#123;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[j] &gt;= x) &#123;</span><br><span class="line">            j--;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[i] = arr[j];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">while</span> (i &lt; j &amp;&amp; arr[i] &lt;= x) &#123;</span><br><span class="line">            i++</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (i &lt; j) &#123;</span><br><span class="line">            arr[j] = arr[i];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    arr[i] = x;</span><br><span class="line">    <span class="keyword">return</span> i;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">quickSort</span>(<span class="params">arr, left = <span class="number">0</span>, right = arr.length - <span class="number">1</span></span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (left &lt; right) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = <span class="title function_">benchMark</span>(arr, left, right);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, left, index - <span class="number">1</span>);</span><br><span class="line">        <span class="title function_">quickSort</span>(arr, index + <span class="number">1</span>, right);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> arr;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="获取最长字符子串"><a href="#获取最长字符子串" class="headerlink" title="获取最长字符子串"></a>获取最长字符子串</h4><figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">getLongStr</span>(<span class="params">str</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> arr = [], max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; str.<span class="property">length</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">const</span> index = arr.<span class="title function_">indexOf</span>(str[i]);</span><br><span class="line">        <span class="keyword">if</span> (index !== -<span class="number">1</span>) &#123;</span><br><span class="line">            arr.<span class="title function_">splice</span>(<span class="number">0</span>, index + <span class="number">1</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        arr.<span class="title function_">push</span>(str.<span class="title function_">charAt</span>(i));</span><br><span class="line">        max = <span class="title class_">Math</span>.<span class="title function_">max</span>(arr.<span class="property">length</span>, max);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>algorithm</category>
-      </categories>
-      <tags>
-        <tag>algorithm</tag>
-        <tag>算法</tag>
       </tags>
   </entry>
   <entry>
@@ -1891,7 +1891,7 @@ fancybox: true
 <p>noParse</p>
 </blockquote>
 <p>  module.noParse 的作用是什么?</p>
-<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义.</p>
+<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义的语句.</p>
 <h4 id="externals"><a href="#externals" class="headerlink" title="externals"></a>externals</h4><blockquote>
 <p>作用</p>
 </blockquote>
@@ -1919,7 +1919,7 @@ fancybox: true
 <p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
 <ul>
 <li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#x65;&#45;&#x6a;&#x73;&#x40;&#x33;&#x2e;&#120;">&#99;&#x6f;&#114;&#x65;&#45;&#x6a;&#x73;&#x40;&#x33;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#99;&#x6f;&#114;&#x65;&#45;&#106;&#x73;&#x40;&#x33;&#x2e;&#120;">&#99;&#x6f;&#114;&#x65;&#45;&#106;&#x73;&#x40;&#x33;&#x2e;&#120;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
 </li>
 <li><p>‘usage’</p>
 <p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
@@ -2030,7 +2030,7 @@ fancybox: true
 <p>loader-runner</p>
 </blockquote>
 <p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#111;&#x61;&#100;&#101;&#x72;&#45;&#x75;&#116;&#x69;&#108;&#115;&#x40;&#50;&#x2e;&#x78;">&#x6c;&#111;&#x61;&#100;&#101;&#x72;&#45;&#x75;&#116;&#x69;&#108;&#115;&#x40;&#50;&#x2e;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#111;&#97;&#100;&#x65;&#114;&#x2d;&#x75;&#x74;&#x69;&#x6c;&#115;&#x40;&#51;&#x2e;&#120;">&#x6c;&#111;&#97;&#100;&#x65;&#114;&#x2d;&#x75;&#x74;&#x69;&#x6c;&#115;&#x40;&#51;&#x2e;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#108;&#111;&#x61;&#100;&#101;&#114;&#45;&#117;&#x74;&#x69;&#108;&#115;&#x40;&#50;&#x2e;&#120;">&#108;&#111;&#x61;&#100;&#101;&#114;&#45;&#117;&#x74;&#x69;&#108;&#115;&#x40;&#50;&#x2e;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#108;&#x6f;&#x61;&#x64;&#x65;&#x72;&#45;&#x75;&#116;&#x69;&#x6c;&#x73;&#x40;&#x33;&#46;&#x78;">&#108;&#x6f;&#x61;&#x64;&#x65;&#x72;&#45;&#x75;&#116;&#x69;&#x6c;&#x73;&#x40;&#x33;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
   <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFile&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;runLoaders&#125; = <span class="built_in">require</span>(<span class="string">&#x27;loader-runner&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">runLoaders</span>(&#123;</span><br><span class="line">    <span class="attr">resource</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./src/styles/index.less&#x27;</span>),</span><br><span class="line">    <span class="attr">context</span>: &#123;<span class="attr">minimize</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./lib/loaders/sprite_loader.js&#x27;</span>),</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;sprite&#x27;</span>,</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;src/styles&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">readResource</span>: readFile.<span class="title function_">bind</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;, <span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`测试自定义 loader 出现错误: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(stats);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 
 <h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>

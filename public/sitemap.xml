@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
+        
+        <lastmod>2023-02-06T08:11:40.598Z</lastmod>
+        
+        <date>1661847446000</date>
+        <title>think of webpack | wtw's Frontend</title>
+        
+        <desc>webpackwebpack-cli 作用 引入 yargs,对命令行实行定制 分析命令行参数,对各个参数实行转换,组成编译配置项 导入 webpack,根据编译配置项进行编译和构建 entry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/11/22/think-of-javascript/</loc>
         
         <lastmod>2023-01-30T07:52:32.109Z</lastmod>
@@ -32,17 +43,6 @@
         <title>think of css | wtw's Frontend</title>
         
         <desc>css水平居中对于父子关系的布局，如何让子元素居中就是一个课题~ text-align + inline-block 1234567 .parent &#123; text-align: center;&#125;.children &#123; display: inline-block;&#125; absolute + transform(translate) 123456789 .pare</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
-        
-        <lastmod>2023-01-29T16:38:09.253Z</lastmod>
-        
-        <date>1661847446000</date>
-        <title>think of webpack | wtw's Frontend</title>
-        
-        <desc>webpackwebpack-cli 作用 引入 yargs,对命令行实行定制 分析命令行参数,对各个参数实行转换,组成编译配置项 导入 webpack,根据编译配置项进行编译和构建 entry 作用 作为 webpack 构建打包的入口,搜索全局资源的起点. 属性值 为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错? 解: entry 是 webpack 构建打包的入口,是搜索全</desc>
     </url>
     
     <url>
