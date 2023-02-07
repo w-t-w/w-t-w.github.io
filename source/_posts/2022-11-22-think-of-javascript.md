@@ -536,6 +536,9 @@ const pick = (o, property) => {
 
 ```javascript
 function myNew(fn) {
+    if (typeof fn !== 'function') {
+        throw new TypeError('The first argument to a function must be a method');
+    }
     var obj = {},
         args = Array.prototype.slice.call(arguments, 1),
         result = fn.apply(obj, args),
@@ -554,6 +557,9 @@ function myNew(fn) {
 
 ```javascript
 const myNew = (fn, ...args) => {
+    if (typeof fn !== 'function') {
+        throw new TypeError('The first argument to a function must be a method');
+    }
     const obj = {},
         result = fn.call(obj, ...args),
         isObject = typeof result === 'object' && result !== null,

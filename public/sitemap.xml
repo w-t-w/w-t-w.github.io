@@ -2,6 +2,17 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     
     <url>
+        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
+        
+        <lastmod>2023-02-06T12:54:20.943Z</lastmod>
+        
+        <date>1666669286000</date>
+        <title>javascript outline | wtw's Frontend</title>
+        
+        <desc>javascript outlineES6var 变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针) 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
+    </url>
+    
+    <url>
         <loc>http://example.com/2022/08/30/think-of-webpack/</loc>
         
         <lastmod>2023-02-06T08:11:40.598Z</lastmod>
@@ -87,17 +98,6 @@
         <title>think of v8 | wtw's Frontend</title>
         
         <desc>v8 垃圾回收机制 使用分代回收策略,分为新、老生代. 新生代: 新生代的堆内存被分为多个 SemiSpace 空间,每个 SemiSpace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤: 查找 from 中还存活的对象,将其全部移入到 to 反转 from 和 to 对 to 尽数回收 新生代 -&gt; 老生代 新生代垃圾</desc>
-    </url>
-    
-    <url>
-        <loc>http://example.com/2022/10/25/javascript-outline/</loc>
-        
-        <lastmod>2023-01-15T15:38:25.190Z</lastmod>
-        
-        <date>1666669286000</date>
-        <title>javascript outline | wtw's Frontend</title>
-        
-        <desc>javascript outlineES6var 变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针) 重复声明 全局作用域绑定 let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定 let 变量声明 const 常量声明 优先声明最佳实践</desc>
     </url>
     
     <url>
