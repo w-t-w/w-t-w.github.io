@@ -926,7 +926,7 @@ var Promise = (function () {
                             then = value.then;
                             if (typeof then === 'function') {
                                 then.call(that, function (y) {
-                                    thenable(y);
+                                    thenable.call(that, y);
                                 }, function (r) {
                                     reject(r);
                                 });
@@ -967,7 +967,7 @@ var Promise = (function () {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(that, function (y) {
-                                            thenable(y);
+                                            thenable.call(that, y);
                                         }, function (r) {
                                             reject(r);
                                         });
@@ -1118,7 +1118,7 @@ const Promise = (() => {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(this, y => {
-                                            thenable(y);
+                                            thenable.call(this, y);
                                         }, r => {
                                             reject(r);
                                         });
@@ -1162,7 +1162,7 @@ const Promise = (() => {
                                         then = value.then;
                                         if (typeof then === 'function') {
                                             then.call(this, y => {
-                                                thenable(y);
+                                                thenable.call(this, y);
                                             }, r => {
                                                 reject(r);
                                             });
@@ -1321,7 +1321,7 @@ var Promise = (function () {
                                 then = value.then;
                                 if (typeof then === 'function') {
                                     then.call(that, function (y) {
-                                        thenable(y);
+                                        thenable.call(that, y);
                                     }, function (r) {
                                         reject(r);
                                     });
@@ -1365,7 +1365,7 @@ var Promise = (function () {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(that, function (y) {
-                                            thenable(y);
+                                            thenable.call(that, y);
                                         }, function (r) {
                                             reject(r);
                                         });
@@ -1400,10 +1400,16 @@ var Promise = (function () {
     };
 
     Promise.prototype.catch = function (onRejected) {
+        if (typeof onRejected !== 'function') {
+            throw new TypeError('parameter must be a function');
+        }
         return this.then(null, onRejected);
     };
 
     Promise.prototype.finally = function (fn) {
+        if (typeof fn !== 'function') {
+            throw new TypeError('parameter must be a function');
+        }
         return this.then(function _resolve(value) {
             return Promise.resolve(fn()).then(function () {
                 return value;
@@ -1420,7 +1426,7 @@ var Promise = (function () {
             return reject(new TypeError('The promise and the return value are the same'));
         }
         if (x instanceof Promise) {
-            x.then(function (y) {
+            return x.then(function (y) {
                 resolvePromise(promise, y, resolve, reject);
             });
         }
@@ -1481,10 +1487,9 @@ var Promise = (function () {
             var count = 0,
                 result = [],
                 length = promiseLists.length;
-            promiseLists.forEach(function (promise, index) {
+            promiseLists.forEach(function (promise) {
                 Promise.resolve(promise).then(function _resolve(value) {
-                    count++;
-                    result[index] = value;
+                    result[count++] = value;
                     if (count === length) {
                         resolve(result);
                     }
@@ -1518,10 +1523,9 @@ var Promise = (function () {
             var count = 0,
                 result = [],
                 length = promiseLists.length;
-            promiseLists.forEach(function (promise, index) {
+            promiseLists.forEach(function (promise) {
                 Promise.resolve(promise).then(function _resolve(value) {
-                    count++;
-                    result[index] = {
+                    result[count++] = {
                         status: 'fulfilled',
                         value
                     };
@@ -1529,8 +1533,7 @@ var Promise = (function () {
                         resolve(result);
                     }
                 }, function _reject(reason) {
-                    count++;
-                    result[index] = {
+                    result[count++] = {
                         status: 'rejected',
                         reason
                     };
@@ -1615,7 +1618,7 @@ const Promise = (() => {
                                     then = value.then;
                                     if (typeof then === 'function') {
                                         then.call(this, y => {
-                                            thenable(y);
+                                            thenable.call(this, y);
                                         }, r => {
                                             reject(r);
                                         });
@@ -1659,7 +1662,7 @@ const Promise = (() => {
                                         then = value.then;
                                         if (typeof then === 'function') {
                                             then.call(this, y => {
-                                                thenable(y);
+                                                thenable.call(this, y);
                                             }, r => {
                                                 reject(r);
                                             });
@@ -1694,10 +1697,16 @@ const Promise = (() => {
         }
 
         catch(onRejected) {
+            if (typeof onRejected !== 'function') {
+                throw new TypeError('parameter must be a function');
+            }
             return this.then(null, onRejected);
         }
 
         finally(fn) {
+            if (typeof fn !== 'function') {
+                throw new TypeError('parameter must be a function');
+            }
             return this.then(value => {
                 return Promise.resolve(fn()).then(() => value);
             }, reason => {
@@ -1713,7 +1722,7 @@ const Promise = (() => {
             return reject(new ReferenceError('The promise and the return value are the same'));
         }
         if (x instanceof Promise) {
-            x.then(y => {
+            return x.then(y => {
                 resolvePromise(promise, y, resolve, reject);
             });
         }
@@ -1774,10 +1783,9 @@ const Promise = (() => {
             let count = 0;
             const length = promiseLists.length,
                 result = [];
-            promiseLists.forEach((promise, index) => {
+            promiseLists.forEach(promise => {
                 Promise.resolve(promise).then(value => {
-                    count++;
-                    result[index] = value;
+                    result[count++] = value;
                     if (count === length) {
                         resolve(result);
                     }
@@ -1811,10 +1819,9 @@ const Promise = (() => {
             let count = 0;
             const length = promiseLists.length,
                 result = [];
-            promiseLists.forEach((promise, index) => {
+            promiseLists.forEach(promise => {
                 Promise.resolve(promise).then(value => {
-                    count++;
-                    result[index] = {
+                    result[count++] = {
                         status: 'fulfilled',
                         value
                     };
@@ -1823,8 +1830,7 @@ const Promise = (() => {
                     }
                     resolve(result);
                 }, reason => {
-                    count++;
-                    result[index] = {
+                    result[count++] = {
                         status: 'rejected',
                         reason
                     };
