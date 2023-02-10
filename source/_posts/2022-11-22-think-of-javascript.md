@@ -2471,10 +2471,14 @@ function Thunk(fn) {
 function run(taskRun) {
     var task = taskRun();
     function next(err, data) {
-        if (err) task.throw(err);
+        if (err) return task.throw(err instanceof Error ? err : new Error(err));
         const result = task.next(data);
-        if (result.done) return;
-        result.value(next);
+        if (result.done) return true;
+        if (typeof result.value === 'function') {
+            result.value(next);
+        } else {
+            next(null, result.value);
+        }
     }
     next();
 }
@@ -2487,10 +2491,14 @@ const Thunk = fn => (...args) => callback => fn.call(this, ...args, callback);
 const run = taskRun => {
     const task = taskRun();
     const next = (err, data) => {
-        if (err) task.throw(err);
+        if (err) return task.throw(err instanceof Error ? err : new Error(err));
         const {value, done} = task.next(data);
-        if (done) return;
-        value(next);
+        if (done) return true;
+        if (typeof value === 'function') {
+            value(next);
+        } else {
+            next(null, value);
+        }
     }
     next();
 };
@@ -2511,10 +2519,10 @@ function Thunk(fn) {
 }
 
 function run(taskRun) {
-    return new Promise(function (resolve) {
+    return new Promise(function (resolve, reject) {
         const task = taskRun();
         function next(err, data) {
-            if (err) task.throw(err);
+            if (err) return reject(task.throw(err instanceof Error ? err : new Error(err)));
             const {value, done} = task.next(data);
             if (done) return resolve(value);
             if (typeof value === 'function') {
@@ -2537,10 +2545,10 @@ function run(taskRun) {
 ```javascript
 const Thunk = fn => (...args) => callback => fn(...args, callback);
 const run = taskRun => {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         const task = taskRun();
         function next(err, data) {
-            if (err) task.throw(err);
+            if (err) return reject(task.throw(err instanceof Error ? err : new Error(err)));
             const {value, done} = task.next(data);
             if (done) return resolve(value);
             if (typeof value === 'function') {
