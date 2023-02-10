@@ -2639,13 +2639,15 @@ function isUTF16(str) {
 const isUTF16 = str => (str.toString() || String(str)).codePointAt(0) > 0xFFFF;
 ```
 
-#### flags method imitate
+#### flags Method Imitate
 
 > ES5
 
 ```javascript
 function flagsImitate(regExp) {
-    var regExpStr = String(regExp);
+    if (!regExp instanceof RegExp)
+        throw new TypeError('parameter mast be a RegExp');
+    var regExpStr = regExp.toString() || String(regExp);
     return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
 }
 ```
@@ -2653,10 +2655,7 @@ function flagsImitate(regExp) {
 > ES6
 
 ```javascript
-const flagsImitate = (regExp) => {
-    const regExpStr = String(regExp);
-    return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
-}
+const flagsImitate = (regExp) => (!regExp instanceof RegExp) ? throw new TypeError('parameter mast be a RegExp') : (regExp).substring(regExpStr.lastIndexOf('/') + 1);
 ```
 
 #### class imitate
