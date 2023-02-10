@@ -2708,7 +2708,7 @@ let classImitate = (() => {
             if (new.target !== undefined) {
                 throw new TypeError('This method cannot be called by the new constructor');
             }
-            console.log('Contains class parameters::', args);
+            console.log('Contains class parameters:', args);
         },
         enumerable: false
     });
