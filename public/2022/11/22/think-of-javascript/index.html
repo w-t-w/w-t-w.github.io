@@ -29,7 +29,7 @@
 <meta property="og:description" content="jscompose ES5  12345678function compose() &amp;#123;    var args &#x3D; Array.prototype.slice.call(arguments);    return function (x) &amp;#123;        return args.reduceRight(function (a, b) &amp;#123;            ret">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-11-22T07:26:26.000Z">
-<meta property="article:modified_time" content="2023-02-10T11:13:44.323Z">
+<meta property="article:modified_time" content="2023-02-10T11:20:56.443Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="javascript">
 <meta name="twitter:card" content="summary">
@@ -235,7 +235,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-02-10 19:13:44" itemprop="dateModified" datetime="2023-02-10T19:13:44+08:00">2023-02-10</time>
+                <time title="修改时间：2023-02-10 19:20:56" itemprop="dateModified" datetime="2023-02-10T19:20:56+08:00">2023-02-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -617,7 +617,7 @@
 <blockquote>
 <p>ES6</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">flagsImitate</span> = (<span class="params">regExp</span>) =&gt; (!regExp <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>) ? <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;parameter mast be a RegExp&#x27;</span>) : (regExp).<span class="title function_">substring</span>(regExpStr.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">flagsImitate</span> = (<span class="params">regExp</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">if</span> (!regExp <span class="keyword">instanceof</span> <span class="title class_">RegExp</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;parameter mast be a RegExp&#x27;</span>);</span><br><span class="line">    <span class="keyword">const</span> regExpStr = regExp.<span class="title function_">toString</span>() || <span class="title class_">String</span>(regExp);</span><br><span class="line">    <span class="keyword">return</span> regExpStr.<span class="title function_">substring</span>(regExpStr.<span class="title function_">lastIndexOf</span>(<span class="string">&#x27;/&#x27;</span>) + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h4 id="class-imitate"><a href="#class-imitate" class="headerlink" title="class imitate"></a>class imitate</h4><blockquote>
 <p>ES5</p>

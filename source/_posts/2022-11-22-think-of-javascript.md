@@ -2671,16 +2671,16 @@ const flagsImitate = (regExp) => {
 let classImitate = (function () {
     const classImitate = function (...args) {
         if (new.target === undefined) {
-            throw new TypeError('此类只可被 new 构造调用');
+            throw new TypeError('This class can only be called by the new constructor');
         }
         this.args = args;
     };
     Object.defineProperty(classImitate.prototype, 'method', {
         value: function () {
             if (new.target === undefined) {
-                throw new TypeError('此方法不可被 new 构造调用');
+                throw new TypeError('This method cannot be called by the new constructor');
             }
-            console.log('含有的类参数:', args);
+            console.log('Contains class parameters:', args);
         },
         enumerable: false
     });
@@ -2699,16 +2699,16 @@ let classImitate = (function () {
 let classImitate = (() => {
     const classImitate = function (...args) {
         if (new.target === undefined) {
-            throw new TypeError('此类只可被 new 构造调用');
+            throw new TypeError('This class can only be called by the new constructor');
         }
         this.args = args;
     };
     Object.defineProperty(classImitate.prototype, 'method', {
         value() {
             if (new.target !== undefined) {
-                throw new TypeError('此方法不可被 new 构造调用');
+                throw new TypeError('This method cannot be called by the new constructor');
             }
-            console.log('含有的类参数:', args);
+            console.log('Contains class parameters::', args);
         },
         enumerable: false
     });
