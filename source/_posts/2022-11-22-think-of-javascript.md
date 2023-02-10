@@ -2611,14 +2611,15 @@ const timerPromise = (promise, timeout) => Promise.race([Promise.resolve(promise
 
 ```javascript
 function getLength(str) {
-    return str.match(/[\s\S]/ug).length;
+    const strTransform = str.toString() || String(str);
+    return strTransform.match(/[\s\S]/ug).length;
 }
 ```
 
 > ES6
 
 ```javascript
-const getLength = str => str.match(/[\s\S]/ug).length;
+const getLength = str => (str.toString() || String(str)).match(/[\s\S]/ug).length;
 ```
 
 #### judge UTF-16 Character
