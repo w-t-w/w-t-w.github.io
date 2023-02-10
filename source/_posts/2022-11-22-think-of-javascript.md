@@ -2572,11 +2572,16 @@ const run = taskRun => {
 
 ```javascript
 function timeoutPromise(promise, timeout) {
-    return Promise.race([promise, new Promise(function (resolve, rejected) {
+    return Promise.race([Promise.resolve(promise).then(function (value) {
+        return (typeof value !== 'object' || !value.hasOwnProperty('status')) ? {
+            status: 'fulfilled',
+            value
+        } : value
+    }), new Promise(function (resolve, rejected) {
         setTimeout(function () {
             rejected({
                 status: 'rejected',
-                reason: '请求超时'
+                reason: '请求超时!'
             });
         }, timeout);
     })]);
@@ -2586,11 +2591,15 @@ function timeoutPromise(promise, timeout) {
 > ES6
 
 ```javascript
-const timerPromise = (promise, timeout) => Promise.race([promise, new Promise((resolve, rejected) => {
+const timerPromise = (promise, timeout) => Promise.race([Promise.resolve(promise).then(value =>
+    (typeof value !== 'object' || !value.hasOwnProperty('status')) ? {
+        status: 'fulfilled',
+        value
+    } : value), new Promise((resolve, rejected) => {
     setTimeout(() => {
         rejected({
             status: 'rejected',
-            reason: '请求超时'
+            reason: '请求超时!'
         });
     }, timeout);
 })]);
