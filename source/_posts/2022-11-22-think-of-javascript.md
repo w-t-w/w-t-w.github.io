@@ -2628,14 +2628,15 @@ const getLength = str => (str.toString() || String(str)).match(/[\s\S]/ug).lengt
 
 ```javascript
 function isUTF16(str) {
-    return str.codePointAt(0) > 0xFFFF;
+    const strTransform = str.toString() || String(str);
+    return strTransform.codePointAt(0) > 0xFFFF;
 }
 ```
 
 > ES6
 
 ```javascript
-const isUTF16 = str => str.codePointAt(0) > 0xFFFF;
+const isUTF16 = str => (str.toString() || String(str)).codePointAt(0) > 0xFFFF;
 ```
 
 #### flags method imitate
