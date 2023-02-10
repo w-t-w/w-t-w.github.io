@@ -2655,7 +2655,12 @@ function flagsImitate(regExp) {
 > ES6
 
 ```javascript
-const flagsImitate = (regExp) => (!regExp instanceof RegExp) ? throw new TypeError('parameter mast be a RegExp') : (regExp).substring(regExpStr.lastIndexOf('/') + 1);
+const flagsImitate = (regExp) => {
+    if (!regExp instanceof RegExp)
+        throw new TypeError('parameter mast be a RegExp');
+    const regExpStr = regExp.toString() || String(regExp);
+    return regExpStr.substring(regExpStr.lastIndexOf('/') + 1);
+}
 ```
 
 #### class imitate
