@@ -2670,22 +2670,22 @@ const flagsImitate = (regExp) => {
 ```javascript
 let classImitate = (function () {
     const classImitate = function (...args) {
-        if (new.target === undefined) {
+        if (new.target === undefined)
             throw new TypeError('This class can only be called by the new constructor');
-        }
         this.args = args;
     };
     Object.defineProperty(classImitate.prototype, 'method', {
         value: function () {
-            if (new.target === undefined) {
+            if (new.target === undefined)
                 throw new TypeError('This method cannot be called by the new constructor');
-            }
             console.log('Contains class parameters:', args);
         },
-        enumerable: false
+        enumerable: false,
+        writable: true,
+        configurable: true
     });
     Object.defineProperty(classImitate.prototype, 'getter', {
-        set: function () {
+        get: function () {
             return this.args.join(',');
         },
         enumerable: false
@@ -2698,19 +2698,19 @@ let classImitate = (function () {
 ```javascript
 let classImitate = (() => {
     const classImitate = function (...args) {
-        if (new.target === undefined) {
+        if (new.target === undefined)
             throw new TypeError('This class can only be called by the new constructor');
-        }
         this.args = args;
     };
     Object.defineProperty(classImitate.prototype, 'method', {
         value() {
-            if (new.target !== undefined) {
+            if (new.target !== undefined)
                 throw new TypeError('This method cannot be called by the new constructor');
-            }
             console.log('Contains class parameters:', args);
         },
-        enumerable: false
+        enumerable: false,
+        writable: true,
+        configurable: true
     });
     Object.defineProperty(classImitate.prototype, 'getter', {
         get() {
@@ -2718,6 +2718,66 @@ let classImitate = (() => {
         },
         enumerable: false
     });
+})();
+```
+
+#### class Rename Imitate
+
+> ES5
+
+````javascript
+let classImitate = (function () {
+    const classImitateAnother = function (...args) {
+        if (new.target === undefined)
+            throw new TypeError('This class can only be called by the new constructor');
+        this.args = args;
+    };
+    Object.defineProperty(classImitateAnother.prototype, 'method', {
+        value: function () {
+            if (new.target !== undefined)
+                throw new TypeError('This method cannot be called by the new constructor');
+            console.log('Contains class parameters:', args);
+        },
+        enumerable: false,
+        writable: true,
+        configurable: true
+    });
+    Object.defineProperty(classImitateAnother.prototype, 'getter', {
+        get: function () {
+            return this.args.join(',');
+        },
+        enumerable: false
+    });
+    return classImitateAnother;
+})();
+````
+
+> ES6
+
+```javascript
+let classImitate = (() => {
+    const classImitateAnother = function (...args) {
+        if (new.target === undefined)
+            throw new TypeError('This class can only be called by the new constructor');
+        this.args = args;
+    };
+    Object.defineProperty(classImitateAnother.prototype, 'method', {
+        value() {
+            if (new.target !== undefined)
+                throw new TypeError('This method cannot be called by the new constructor');
+            console.log('Contains class parameters:', this.args);
+        },
+        enumerable: false,
+        writable: true,
+        configurable: true
+    });
+    Object.defineProperty(classImitateAnother.prototype, 'getter', {
+        get() {
+            return this.args.join(',');
+        },
+        enumerable: false
+    });
+    return classImitateAnother;
 })();
 ```
 

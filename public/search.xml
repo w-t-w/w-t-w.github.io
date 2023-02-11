@@ -67,6 +67,623 @@
       </tags>
   </entry>
   <entry>
+    <title>think of nodejs</title>
+    <url>/2022/08/30/think-of-nodejs/</url>
+    <content><![CDATA[<h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境</p>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>事件驱动</li>
+<li>非阻塞 I/O</li>
+</ul>
+<blockquote>
+<p>非阻塞 I/O</p>
+</blockquote>
+<p>实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入</p>
+<blockquote>
+<p>规范</p>
+</blockquote>
+<p>nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</p>
+<h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<p>[“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>[“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>[“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
+<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
+<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
+<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
+</ul>
+<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
+<blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
+<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
+<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
+</ul>
+<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
+<blockquote>
+<p>原理</p>
+</blockquote>
+<p>其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
+</ul>
+<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
+
+<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>是用于合并多个图片形成雪碧图的依赖.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+
+<h4 id="jszip"><a href="#jszip" class="headerlink" title="jszip"></a>jszip</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于使用 js 实现 zip 压缩打包的依赖.</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZip</span>();</span><br><span class="line"><span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">folder</span>(<span class="string">&#x27;offline&#x27;</span>);</span><br><span class="line"><span class="comment">// 生成填入内容的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">file</span>(<span class="string">&#x27;index.js&#x27;</span>, <span class="string">&#x27;console.log(&quot;wtw&quot;)&#x27;</span>);</span><br><span class="line"><span class="comment">// 将压缩打包文件实行各种数据类型转换</span></span><br><span class="line">jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(content);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>自定义 webpack 插件以生成离线压缩包</p>
+</blockquote>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义的生成离线压缩包的 webpack 插件</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">JsZipPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;./lib/jsZipPlugin.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;index.js&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;offline&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = wbpackConfig;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="title class_">RawSource</span>&#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-sources&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsZipPlugin</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 所有的 webpack 插件都遵循其 tapable 插件体制,类似于 EnventEmitter 那种观察订阅模式</span></span><br><span class="line">    <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;name = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>();</span><br><span class="line">        <span class="comment">// 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)</span></span><br><span class="line">        compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;JsZipPlugin&#x27;</span>, <span class="function">(<span class="params">compilation, callback</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">            <span class="keyword">const</span> folder = jszip.<span class="title function_">folder</span>(name);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> filename <span class="keyword">in</span> compilation.<span class="property">assets</span>) &#123;</span><br><span class="line">                <span class="comment">// 生成填入 webpack 构建打包源代码的压缩打包文件</span></span><br><span class="line">                folder.<span class="title function_">file</span>(filename, compilation.<span class="property">assets</span>[filename].<span class="title function_">source</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.</span></span><br><span class="line">            jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">                compilation.<span class="property">assets</span>[<span class="string">`<span class="subst">$&#123;name&#125;</span>.zip`</span>] = <span class="keyword">new</span> <span class="title class_">RawSource</span>(content);</span><br><span class="line">                <span class="title function_">callback</span>();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="import-local"><a href="#import-local" class="headerlink" title="import-local"></a>import-local</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>用于优先使用本地 node_modules 下的可执行模块,比如全局环境变量下的 webpack 脚本命令版本是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的 node_modules 下的可执行模块</p>
+<h4 id="express"><a href="#express" class="headerlink" title="express"></a>express</h4><blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>拥有强大的路由分发功能</li>
+<li>对于 http 处理方面做了一系列的封装,比如说 302 重定向</li>
+<li>可配合多种模板引擎</li>
+<li>洋葱模型的机制,处理更加灵活</li>
+</ul>
+<blockquote>
+<p>缺陷</p>
+</blockquote>
+<ul>
+<li>洋葱模型不可处理异步事件</li>
+</ul>
+<blockquote>
+<p>应用</p>
+</blockquote>
+<ul>
+<li>比较适合于较小的工程和应用</li>
+</ul>
+<h4 id="koa"><a href="#koa" class="headerlink" title="koa"></a>koa</h4><blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>采用 async/await,解决了处理异步事件的问题</li>
+<li>使用中间件、微内核的模式,更关注性能</li>
+</ul>
+<blockquote>
+<p>缺陷</p>
+</blockquote>
+<ul>
+<li>由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件</li>
+</ul>
+<blockquote>
+<p>应用</p>
+</blockquote>
+<ul>
+<li>比较适合于大型的工程项目</li>
+</ul>
+<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><blockquote>
+<p>特点</p>
+</blockquote>
+<p>RPC 与 Ajax 对比可知:</p>
+<ul>
+<li>寻址服务不一定基于 DNS</li>
+<li>基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好</li>
+<li>通信方式<ul>
+<li>单工通信: S/C 两端只能一端向另外一端推送数据包</li>
+<li>半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)</li>
+<li>全双工通信: S/C 两端可自由推送数据包</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>nodejs</category>
+      </categories>
+      <tags>
+        <tag>npm</tag>
+        <tag>nodejs</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of webpack</title>
+    <url>/2022/08/30/think-of-webpack/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="webpack-cli"><a href="#webpack-cli" class="headerlink" title="webpack-cli"></a>webpack-cli</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<ul>
+<li>引入 yargs,对命令行实行定制</li>
+<li>分析命令行参数,对各个参数实行转换,组成编译配置项</li>
+<li>导入 webpack,根据编译配置项进行编译和构建</li>
+</ul>
+<h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  作为 webpack 构建打包的入口,搜索全局资源的起点.</p>
+<blockquote>
+<p>属性值</p>
+</blockquote>
+<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
+<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 构建打包所作用的项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.</p>
+<h4 id="output"><a href="#output" class="headerlink" title="output"></a>output</h4><blockquote>
+<p>filename</p>
+</blockquote>
+<p>  output.filename 的作用是什么?</p>
+<p>  解: 作为 webpack 构建打包导出文件的名称.  </p>
+<blockquote>
+<p>path</p>
+</blockquote>
+<p>  output.path 的作用是什么?</p>
+<p>  解: 作为 webpack 构建打包文件导出的位置目录.</p>
+<blockquote>
+<p>publicPath</p>
+</blockquote>
+<p>  output.publicPath 的作用是什么?</p>
+<p>  解: 作为 webpack 构建打包文件导出的位置目录前缀.</p>
+<blockquote>
+<p>chunkFilename</p>
+</blockquote>
+<p>  output.chunkFilename 的作用是什么?</p>
+<p>  解: 作为 webpack 构建打包导出模块的名称.</p>
+<blockquote>
+<p>crossOriginLoading</p>
+</blockquote>
+<p>  output.crossOriginLoading 的作用是什么?</p>
+<p>  解: 其只在 target: ‘web’ 时生效,利用 JSONP 向文件内联 &lt;script&gt; 标签,实现按需加载模块.</p>
+<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
+<p>原理分析</p>
+</blockquote>
+<p>  webpack –watch 文件监听的原理是什么?</p>
+<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<p>  webpack –watch 文件监听有哪些参数?</p>
+<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
+<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
+<ul>
+<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
+<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
+<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
+</ul>
+<h4 id="devtool"><a href="#devtool" class="headerlink" title="devtool"></a>devtool</h4><blockquote>
+<p>sourceMap</p>
+</blockquote>
+<p>  sourceMap 的作用是什么?</p>
+<p>  解: 用于前端开发者根据 sourceMap 文件精确探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.</p>
+<blockquote>
+<p>参数</p>
+</blockquote>
+<p>  首先了解几个概念: cheap、eval、inline、module、source-map</p>
+<ul>
+<li>cheap: 构建打包的 sourceMap 文件只能通过行追踪.</li>
+<li>eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录.</li>
+<li>inline: sourceMap 通过内联 sourceMap dataURI 至构建打包文件,不会单独导出 .map 文件.</li>
+<li>module: 会导出未被 loader 处理的源代码.</li>
+<li>source-map: 构建打包会额外单独导出 .map 文件.</li>
+</ul>
+<p>  这几个概念按照逻辑排列组合,自然形成了各种参数.举几个🌰:</p>
+<ul>
+<li>source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码.</li>
+<li>cheap-source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
+<li>inline-source-map: 不会额外单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接精确探寻源代码.</li>
+<li>cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
+<li>eval: 不会额外单独导出 .map 文件,表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.</li>
+</ul>
+<h4 id="splitChunks"><a href="#splitChunks" class="headerlink" title="splitChunks"></a>splitChunks</h4><blockquote>
+<p>参数</p>
+</blockquote>
+<ul>
+<li>chunks: 有三个枚举选项,”async”、”initial “以及 “all”,默认为 “async”,表示对于异步、非异步以及全部的模块代码分割的选择.</li>
+<li>minChunks: 表示模块最少可被导入实现分割的次数,默认为 1.</li>
+<li>minSize: 表示模块最少可被分割的体积大小,默认为 30000,也就是 30kb.</li>
+<li>maxInitialRequests: 表示入口模块并发请求的最大次数,默认为 3.</li>
+<li>maxAsyncRequests: 表示模块按需加载并发请求的最大次数,默认为 5.</li>
+<li>name: 模块代码分割后导出模块的名称.</li>
+<li>cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.</li>
+<li>cacheGroups.test: 筛选要分割导出的模块.</li>
+<li>cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序,默认值为 -20.</li>
+</ul>
+<h4 id="TreeShaking"><a href="#TreeShaking" class="headerlink" title="TreeShaking"></a>TreeShaking</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.<br>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
+<h4 id="Scope-Hoisting"><a href="#Scope-Hoisting" class="headerlink" title="Scope Hoisting"></a>Scope Hoisting</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 <strong>webpack_require</strong>,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 “production”,就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.</p>
+<p>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
+<h4 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h4><blockquote>
+<p>alias</p>
+</blockquote>
+<p>  resolve.alias 的作用是什么?</p>
+<p>  解: 使用别名替代复杂的模块导入路径.</p>
+<blockquote>
+<p>mainFields</p>
+</blockquote>
+<p>  resolve.mainFields 的作用是什么?</p>
+<p>  解: 自定义依赖被导入的文件位置.</p>
+<blockquote>
+<p>extensions</p>
+</blockquote>
+<p>  resolve.extensions 的作用是什么?</p>
+<p>  解: 选择省略导入模块的后缀.</p>
+<blockquote>
+<p>modules</p>
+</blockquote>
+<p>  resolve.modules 的作用是什么?</p>
+<p>  解: 指定导入依赖的位置目录.</p>
+<blockquote>
+<p>enforceExtensions</p>
+</blockquote>
+<p>  resolve.enforceExtensions 的作用是什么?</p>
+<p>  解: 强制导入模块必须添加后缀.</p>
+<h4 id="module"><a href="#module" class="headerlink" title="module"></a>module</h4><blockquote>
+<p>noParse</p>
+</blockquote>
+<p>  module.noParse 的作用是什么?</p>
+<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义的语句.</p>
+<h4 id="externals"><a href="#externals" class="headerlink" title="externals"></a>externals</h4><blockquote>
+<p>作用</p>
+</blockquote>
+<p>  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖,最后直接作为全局变量内联入构建打包文件内.</p>
+<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
+<p>babel-loader</p>
+</blockquote>
+<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
+<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModule’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
+<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
+<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
+<ul>
+<li><p>何为 loose 松散模式?</p>
+<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
+</li>
+<li><p>loose 松散模式的优缺点?</p>
+<ul>
+<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
+<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
+<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
+</ul>
+</li>
+</ul>
+<p>  @babel/preset-env 的参数 useBuiltIns 的作用是什么?</p>
+<p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
+<ul>
+<li><p>‘entry’</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#115;&#x40;&#x33;&#46;&#x78;">&#x63;&#x6f;&#x72;&#x65;&#x2d;&#x6a;&#115;&#x40;&#x33;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
+</li>
+<li><p>‘usage’</p>
+<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
+</li>
+<li><p>false(极不推荐)</p>
+<p>会无视 browserslist 将所有的 @babel/polyfill 导入至 chunks 入口处.</p>
+</li>
+</ul>
+<p>  @babel/preset-env 的参数 corejs 的作用是什么?</p>
+<p>  解: 必须配合 useBuiltIns: ‘entry’ 或者 useBuiltIns: ‘usage’ 使用,基本上用于将未纳入 ECMASCRIPT 稳定语法的 proposal 新特性注入至 polyfill 中.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">presets</span>: [[</span><br><span class="line">      <span class="string">&#x27;@babel/preset-env&#x27;</span>, &#123;</span><br><span class="line">          <span class="attr">useBuiltIns</span>: <span class="string">&#x27;usage&#x27;</span>,</span><br><span class="line">          <span class="attr">corejs</span>: &#123;</span><br><span class="line">              <span class="attr">version</span>: <span class="number">3</span>,</span><br><span class="line">              <span class="attr">proposal</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  ]]</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>css-loader</p>
+</blockquote>
+<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
+<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
+<blockquote>
+<p>postcss-loader</p>
+</blockquote>
+<p>  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?</p>
+<p>  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.</p>
+<p>  为何 postcss.config.js &gt; plugins 与 postcss-loader &gt; postcssOptions &gt; plugins 同时存在的情况下,两者同时生效?</p>
+<p>  解: 两者同时存在的情况下,postcss.config.js &gt; plugins 不会被覆盖,而是会被继承合并同时生效.</p>
+<p>  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值( px )动态转化为 vw 呢?</p>
+<p>  首先要了解几个概念: </p>
+<ul>
+<li>vw/vh: 类似于百分比,不过是相对于理想视口设置的宽度以及高度.</li>
+<li>理想视口: 在不实行缩放的情况下,将物理像素精确转化为各个设备的 CSS 像素(dpr)的环境.</li>
+<li>DPR: DPR = 物理像素/分辨率.</li>
+</ul>
+<p>  使用 postcss-px-to-viewport 来将 px 动态转化为 vw.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//postcss.config.js</span></span><br><span class="line"><span class="keyword">const</span> postcssConfig = &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="string">&#x27;postcss-preset-env&#x27;</span>,</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&#x27;postcss-px-to-viewport&#x27;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">unitToConvert</span>: <span class="string">&#x27;px&#x27;</span>,</span><br><span class="line">                <span class="attr">unitPrecision</span>: <span class="number">8</span>,</span><br><span class="line">                <span class="attr">viewportUnit</span>: <span class="string">&#x27;vw&#x27;</span>,</span><br><span class="line">                <span class="attr">viewportWidth</span>: <span class="number">750</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = postcssConfig;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>url-loader</p>
+</blockquote>
+<p>  url-loader 与 file-loader 的区别是什么?</p>
+<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
+<blockquote>
+<p>Asset Module</p>
+</blockquote>
+<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
+<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
+<ul>
+<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
+<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
+<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
+<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
+</ul>
+<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
+<ul>
+<li><p>generator</p>
+<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
+<ul>
+<li><p>filename</p>
+<ul>
+<li>值必须为相对路径,可改变资源输出的目录;</li>
+<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
+<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
+</ul>
+</li>
+<li><p>dataUrl</p>
+<ul>
+<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
+<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
+<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>parser</p>
+<ul>
+<li><p>dataUrlCondition.maxSize:</p>
+<ul>
+<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
+<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
+<li>该属性仅适用于 asset 资源类型.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>  示例:</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>raw-loader</p>
+</blockquote>
+<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?</p>
+<p>  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.</p>
+<ul>
+<li>px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.</li>
+<li>lib-flexible: 用于动态计算元节点绝对像素值的工具.</li>
+<li>raw-loader: 用于内联资源模块,导出文件资源的源代码.</li>
+</ul>
+<p>  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块导出类型为 ‘EsModule’,转化成字符串为’[object Object]‘,要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 0.5.1 的 raw-loader 的限制.</p>
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之前  --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html lang=&quot;zh-CN&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">      &lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot;&gt;&lt;%= require(&quot;raw-loader?esModule=false!babel-loader!../node_modules/lib-flexible/flexible&quot;) %&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;div id=&quot;root-webpack&quot;&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之后  --&gt;</span><br><span class="line">&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">  &lt;script&gt;;(function (win, lib) &#123;</span><br><span class="line">          var doc = win.document;</span><br><span class="line">          var docEl = doc.documentElement;</span><br><span class="line">          var metaEl = doc.querySelector(&#x27;meta[name=&quot;viewport&quot;]&#x27;);</span><br><span class="line">          var flexibleEl = doc.querySelector(&#x27;meta[name=&quot;flexible&quot;]&#x27;);</span><br><span class="line">          var dpr = 0;</span><br><span class="line">          var scale = 0;</span><br><span class="line">          var tid;</span><br><span class="line">          var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">          if (metaEl) &#123;</span><br><span class="line">              console.warn(&#x27;将根据已有的meta标签来设置缩放比例&#x27;);</span><br><span class="line">              var match = metaEl.getAttribute(&#x27;content&#x27;).match(/initial\-scale=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">              if (match) &#123;</span><br><span class="line">                  scale = parseFloat(match[1]);</span><br><span class="line">                  dpr = parseInt(1 / scale);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; else if (flexibleEl) &#123;</span><br><span class="line">              var content = flexibleEl.getAttribute(&#x27;content&#x27;);</span><br><span class="line"></span><br><span class="line">              if (content) &#123;</span><br><span class="line">                  var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);</span><br><span class="line">                  var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">                  if (initialDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(initialDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  if (maximumDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(maximumDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          if (!dpr &amp;&amp; !scale) &#123;</span><br><span class="line">              var isAndroid = win.navigator.appVersion.match(/android/gi);</span><br><span class="line">              var isIPhone = win.navigator.appVersion.match(/iphone/gi);</span><br><span class="line">              var devicePixelRatio = win.devicePixelRatio;</span><br><span class="line"></span><br><span class="line">              if (isIPhone) &#123;</span><br><span class="line">                  // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</span><br><span class="line">                  if (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;</span><br><span class="line">                      dpr = 3;</span><br><span class="line">                  &#125; else if (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2)) &#123;</span><br><span class="line">                      dpr = 2;</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      dpr = 1;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  // 其他设备下，仍旧使用1倍的方案</span><br><span class="line">                  dpr = 1;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              scale = 1 / dpr;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          docEl.setAttribute(&#x27;data-dpr&#x27;, dpr);</span><br><span class="line"></span><br><span class="line">          if (!metaEl) &#123;</span><br><span class="line">              metaEl = doc.createElement(&#x27;meta&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;name&#x27;, &#x27;viewport&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;content&#x27;, &#x27;initial-scale=&#x27; + scale + &#x27;, maximum-scale=&#x27; + scale + &#x27;, minimum-scale=&#x27; + scale + &#x27;, user-scalable=no&#x27;);</span><br><span class="line"></span><br><span class="line">              if (docEl.firstElementChild) &#123;</span><br><span class="line">                  docEl.firstElementChild.appendChild(metaEl);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  var wrap = doc.createElement(&#x27;div&#x27;);</span><br><span class="line">                  wrap.appendChild(metaEl);</span><br><span class="line">                  doc.write(wrap.innerHTML);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          function refreshRem() &#123;</span><br><span class="line">              var width = docEl.getBoundingClientRect().width;</span><br><span class="line"></span><br><span class="line">              if (width / dpr &gt; 540) &#123;</span><br><span class="line">                  width = 540 * dpr;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              var rem = width / 10;</span><br><span class="line">              docEl.style.fontSize = rem + &#x27;px&#x27;;</span><br><span class="line">              flexible.rem = win.rem = rem;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          win.addEventListener(&#x27;resize&#x27;, function () &#123;</span><br><span class="line">              clearTimeout(tid);</span><br><span class="line">              tid = setTimeout(refreshRem, 300);</span><br><span class="line">          &#125;, false);</span><br><span class="line">          win.addEventListener(&#x27;pageshow&#x27;, function (e) &#123;</span><br><span class="line">              if (e.persisted) &#123;</span><br><span class="line">                  clearTimeout(tid);</span><br><span class="line">                  tid = setTimeout(refreshRem, 300);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;, false);</span><br><span class="line"></span><br><span class="line">          if (doc.readyState === &#x27;complete&#x27;) &#123;</span><br><span class="line">              doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              doc.addEventListener(&#x27;DOMContentLoaded&#x27;, function (e) &#123;</span><br><span class="line">                  doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">              &#125;, false);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          refreshRem();</span><br><span class="line">          flexible.dpr = win.dpr = dpr;</span><br><span class="line">          flexible.refreshRem = refreshRem;</span><br><span class="line"></span><br><span class="line">          flexible.rem2px = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) * this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">                  val += &#x27;px&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line"></span><br><span class="line">          flexible.px2rem = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) / this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">                  val += &#x27;rem&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line">      &#125;)(window, window[&#x27;lib&#x27;] || (window[&#x27;lib&#x27;] = &#123;&#125;));&lt;/script&gt;&lt;link href=&quot;./css/index.5c90e18c.css&quot; rel=&quot;stylesheet&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;root-webpack&quot;&gt;&lt;/div&gt;&lt;script defer=&quot;defer&quot; src=&quot;./js/index_7b84cb4c006925aa2404.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>thread-loader</p>
+</blockquote>
+<p>  thread-loader 的原理是什么?</p>
+<p>  解: webpack 每一次解析 loader 模块时,thread-loader 都会将它以及它所依赖的包分配给所对应的 worker 线程.</p>
+<blockquote>
+<p>loader-runner</p>
+</blockquote>
+<p>  loader-runner 的作用是什么?</p>
+<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#45;&#117;&#x74;&#x69;&#x6c;&#115;&#64;&#x32;&#x2e;&#x78;">&#x6c;&#x6f;&#x61;&#x64;&#x65;&#114;&#45;&#117;&#x74;&#x69;&#x6c;&#115;&#64;&#x32;&#x2e;&#x78;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#111;&#97;&#100;&#101;&#x72;&#x2d;&#117;&#116;&#x69;&#x6c;&#115;&#x40;&#51;&#46;&#120;">&#x6c;&#111;&#97;&#100;&#101;&#x72;&#x2d;&#117;&#116;&#x69;&#x6c;&#115;&#x40;&#51;&#46;&#120;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFile&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;runLoaders&#125; = <span class="built_in">require</span>(<span class="string">&#x27;loader-runner&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">runLoaders</span>(&#123;</span><br><span class="line">    <span class="attr">resource</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./src/styles/index.less&#x27;</span>),</span><br><span class="line">    <span class="attr">context</span>: &#123;<span class="attr">minimize</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./lib/loaders/sprite_loader.js&#x27;</span>),</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;sprite&#x27;</span>,</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;src/styles&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">readResource</span>: readFile.<span class="title function_">bind</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;, <span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`测试自定义 loader 出现错误: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(stats);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
+<p>contentBase</p>
+</blockquote>
+<p>  为何在 devServer 设置 contentBase 失效?</p>
+<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
+<blockquote>
+<p>historyApiFallback</p>
+</blockquote>
+<p>  devServer.historyApiFallback 的作用是什么?</p>
+<p>  解: devServer 本地代理服务指定遇到 404 或者 错误时重定向的页面.</p>
+<blockquote>
+<p>allowedHosts</p>
+</blockquote>
+<p>  devServer.allowedHosts 的作用是什么?</p>
+<p>  解: devServer 本地代理服务页面访问时 http 请求的白名单.</p>
+<blockquote>
+<p>https</p>
+</blockquote>
+<p>  devServer.https 的作用是什么?</p>
+<p>  解: devServer 本地代理服务是否开启 https 安全协议.</p>
+<blockquote>
+<p>compress</p>
+</blockquote>
+<p>  devServer.compress 的作用是什么?</p>
+<p>  解: devServer 本地代理服务是否开启 Gzip 压缩.</p>
+<blockquote>
+<p>open</p>
+</blockquote>
+<p>  devServer.open 的作用是什么?</p>
+<p>  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器实行访问.</p>
+<blockquote>
+<p>hot</p>
+</blockquote>
+<p>  热加载的工作原理是什么?</p>
+<p>  解: 首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
+<ul>
+<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
+<li>bundle server: 提供文件给浏览器实行访问.</li>
+<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
+<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
+</ul>
+<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.</p>
+<h4 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h4><blockquote>
+<p>friendly-errors-webpack-plugin</p>
+</blockquote>
+<p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
+<p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
+<blockquote>
+<p>clean-webpack-plugin</p>
+</blockquote>
+<p>  如何选择性清空构建打包导出的位置目录内容?</p>
+<p>  解: clean-webpack-plugin 存在一个参数属性 —— cleanOnceBeforeBuildPatterns.</p>
+<ul>
+<li>cleanOnceBeforeBuildPatterns: 用于筛选在 Webpack Compile 编译前实行清空的位置目录内容.</li>
+</ul>
+<p>  用此属性就可选择性清空构建打包导出的位置目录内容.</p>
+<blockquote>
+<p>image-minimizer-webpack-plugin</p>
+</blockquote>
+<p>  image-minimizer-webpack-plugin 图片资源模块压缩功能插件有什么作用?</p>
+<p>  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩打包功能的最佳处理方式.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">ImageMinimizerWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;image-minimizer-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="keyword">new</span> <span class="title class_">ImageMinimizerWebpackPlugin</span>(&#123;</span><br><span class="line">              <span class="attr">minimizer</span>: &#123;</span><br><span class="line">                  <span class="attr">implementation</span>: <span class="title class_">ImageMinimizerWebpackPlugin</span>.<span class="property">imageminMinify</span>,</span><br><span class="line">                  <span class="attr">options</span>: &#123;</span><br><span class="line">                      <span class="attr">plugins</span>: [</span><br><span class="line">                          [<span class="string">&quot;gifsicle&quot;</span>, &#123; <span class="attr">interlaced</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;jpegtran&quot;</span>, &#123; <span class="attr">progressive</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;optipng&quot;</span>, &#123; <span class="attr">optimizationLevel</span>: <span class="number">5</span> &#125;],</span><br><span class="line">                          [</span><br><span class="line">                              <span class="string">&quot;svgo&quot;</span>,</span><br><span class="line">                              &#123;</span><br><span class="line">                                  <span class="attr">plugins</span>: [</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="attr">name</span>: <span class="string">&quot;preset-default&quot;</span>,</span><br><span class="line">                                          <span class="attr">params</span>: &#123;</span><br><span class="line">                                              <span class="attr">overrides</span>: &#123;</span><br><span class="line">                                                  <span class="attr">removeViewBox</span>: <span class="literal">false</span>,</span><br><span class="line">                                                  <span class="attr">addAttributesToSVGElement</span>: &#123;</span><br><span class="line">                                                      <span class="attr">params</span>: &#123;</span><br><span class="line">                                                          <span class="attr">attributes</span>: [</span><br><span class="line">                                                              &#123; <span class="attr">xmlns</span>: <span class="string">&quot;http://www.w3.org/2000/svg&quot;</span> &#125;,</span><br><span class="line">                                                          ],</span><br><span class="line">                                                      &#125;,</span><br><span class="line">                                                  &#125;,</span><br><span class="line">                                              &#125;,</span><br><span class="line">                                          &#125;,</span><br><span class="line">                                      &#125;,</span><br><span class="line">                                  ],</span><br><span class="line">                              &#125;,</span><br><span class="line">                          ],</span><br><span class="line">                      ]</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;),</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4><blockquote>
+<p>规范说明</p>
+</blockquote>
+<p>  现阶段大多数前端开发者遵从的 git commit message 规范都是 Angular 团队的 Angular commit message.</p>
+  <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;  &lt;!-- 这一行为 header --&gt;</span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;body&gt;    </span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>header: 分为三部分,type、scope 以及 subject.<ul>
+<li>type: 表示提交类型.必填且必须为以下枚举之一: [‘build’, ‘chore’, ‘feat’, ‘fix’, ‘style’, ‘perf’, ‘docs’, ‘ci’, ‘test’, ‘refactor’].</li>
+<li>scope: 表示项目内文件修改的范围,比如说 fix 修复 bug 时,选择 hooks 部分还是 component 部分,选填.</li>
+<li>subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 ‘.’ 字符,必填.</li>
+</ul>
+</li>
+<li>body: 表示对本次提交的详细描述,选填.</li>
+<li>footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue,选填.<ul>
+<li>BREAKING CHANGES: 与当前 API 产生了较大的不兼容时,如重构,会详细描述本次提交的 BREAKING CHANGES,必须以 BREAKING CHANGES 开头.</li>
+<li>delete issue: 当需要删除本次 commit 所对应的 issue 时,也可详细描述.</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>type enum</p>
+</blockquote>
+<ul>
+<li>Angular commit message type.<ul>
+<li>build: 初始化打包.</li>
+<li>chore: 构建/依赖/工具.</li>
+<li>feat: 新功能.</li>
+<li>fix: 修复 Bug.</li>
+<li>style: 代码样式美化.</li>
+<li>perf: 性能优化.</li>
+<li>docs: 文档变更.</li>
+<li>test: 测试.</li>
+<li>ci: CI related changes.</li>
+<li>refactor: 重构.</li>
+</ul>
+</li>
+<li>gitmoji commit message type.<ul>
+<li>遵从且继承 Angular commit message type.</li>
+<li>revert: 回滚.</li>
+<li>wip: 建设进程中(不推荐使用).</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>规范化工具</p>
+</blockquote>
+<p>  通常使用 commitizen + cz-customizable 来实现 gitmoji commit message 规范化.</p>
+  <figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;commitizen&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">       <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node_modules/cz-customizable&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//.cz-config.js</span></span><br><span class="line"><span class="keyword">const</span> czConfig = &#123;</span><br><span class="line">    <span class="attr">types</span>: [&#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🍻 build: 初始化打包&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:beers: build&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📦️chore: 构建/依赖/工具&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:package: chore&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✨  feat: 新功能&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:sparkles: feat&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🐛 fix: 修复bug&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:bug: fix&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🎨 style: 代码样式优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:art: style&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📄 docs: 变更文档&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:page_facing_up: docs&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🚀 perf: 性能优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:rocket: perf&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✅  test: 测试&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:white_check_mark: test&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🔥 refactor: 重构&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:fire: refactor&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;👷 ci: CI related changes&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:construction_worker: ci&#x27;</span></span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">messages</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;请输入您本次提交类型(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">scope</span>: <span class="string">&#x27;请输入您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">customScope</span>: <span class="string">&#x27;请选择您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">subject</span>: <span class="string">&#x27;请简要描述本次提交(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">body</span>: <span class="string">&#x27;请对本次提交作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">breaking</span>: <span class="string">&#x27;请对本次提交与当前 API 产生比较大的不兼容作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">footer</span>: <span class="string">&#x27;请对本次提交删除的所对应的 issue 作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">confirmCommit</span>: <span class="string">&#x27;是否确认提交以上选择输入?&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">scopes</span>: [&#123;<span class="attr">name</span>: <span class="string">&#x27;components       [组件部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;hooks            [hooks部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;logics           [代码逻辑部分]&#x27;</span>&#125;],</span><br><span class="line">    <span class="attr">allowCustomScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">allowEmptyScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">customScopesName</span>: <span class="string">&#x27;custom           [自定义]&#x27;</span>,</span><br><span class="line">    <span class="attr">emptyScopesName</span>: <span class="string">&#x27;empty            [不指定]&#x27;</span>,</span><br><span class="line">    <span class="attr">allowBreakingChanges</span>: [<span class="string">&#x27;:sparkles: feat&#x27;</span>, <span class="string">&#x27;:bug: fix&#x27;</span>],</span><br><span class="line">    <span class="attr">subjectLimit</span>: <span class="number">80</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>强制校验 gitmoji commit message</p>
+</blockquote>
+<p>  通常使用 commitlint + husky + commitlint-config-gitmoji 来强制校验 git 提交时的 gitmoji commit message 规范.</p>
+  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// .commitlintrc.js</span></span><br><span class="line"><span class="keyword">const</span> commitlintrcConfig = &#123;</span><br><span class="line">  <span class="attr">extends</span>: [<span class="string">&#x27;gitmoji&#x27;</span>],</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = commitlintrcConfig;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成强制校验 git 操作的 hooks 容器.</span></span><br><span class="line">npx husky install</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/commet-msg &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">commitlint --edit 是对 git 最后一次本地提交进行强制校验,如若校验不通过则实行回退,本地提交不成功.</span></span><br><span class="line">npx --no-install commitlint --edit &quot;$1&quot;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>强制生成 CHANGELOG</p>
+</blockquote>
+<p>  通常使用 husky + standard-version + conventional-changelog-gitmoji-config 来强制生成 CHANGELOG.md 文件.</p>
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/pre-push &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
+
+  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成 CHANGELOG.md 文件的规则遵循 conventional-changelog-gitmoji-config,不可进行自定义.</span></span><br><span class="line">npx --no-install standard-version --preset gitmoji-config</span><br></pre></td></tr></table></figure>
+
+<h4 id="speed-optimization"><a href="#speed-optimization" class="headerlink" title="speed optimization"></a>speed optimization</h4><blockquote>
+<p>best answer</p>
+</blockquote>
+<p>  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此看出是速度优化的最佳答案.</p>
+<blockquote>
+<p>BREAKING CHANGES</p>
+</blockquote>
+<p>在 webpack 4.x 中做了一些速度优化升级:</p>
+<ul>
+<li>nodejs 必须下载 v8.5.0 以上的稳定版本才可使用,而新版本的 V8 带来了一些语法优化.<ul>
+<li>for-of 替代 forEach.</li>
+<li>Map、Set 替代 Object.</li>
+<li>includes 替代 indexOf.</li>
+</ul>
+</li>
+<li>使用更快的 md4 hash 加密算法.</li>
+<li>webpack AST 可以直接通过 loader 传递给 AST,减少解析时间,解析速度更快.</li>
+<li>使用字符串方法替代正则表达式,运行速度更快.</li>
+</ul>
+]]></content>
+      <categories>
+        <category>webpack</category>
+      </categories>
+      <tags>
+        <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>hexo next</title>
     <url>/2022/08/30/hexo-next/</url>
     <content><![CDATA[<h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><p><b>此博客用于搭建 hexo next 主题的字典工具类博客.基本不会探索深究配置的原因,敬请知悉~</b></p>
@@ -528,640 +1145,6 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>think of nodejs</title>
-    <url>/2022/08/30/think-of-nodejs/</url>
-    <content><![CDATA[<h1 id="nodejs"><a href="#nodejs" class="headerlink" title="nodejs"></a>nodejs</h1><h4 id="本-nodejs"><a href="#本-nodejs" class="headerlink" title="本 nodejs"></a>本 nodejs</h4><blockquote>
-<p>概念</p>
-</blockquote>
-<p>Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境</p>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>事件驱动</li>
-<li>非阻塞 I/O</li>
-</ul>
-<blockquote>
-<p>非阻塞 I/O</p>
-</blockquote>
-<p>实际上就是系统在接收输入与输出之间时,还可以继续处理其他输入</p>
-<blockquote>
-<p>规范</p>
-</blockquote>
-<p>nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式</p>
-<h4 id="browserslist"><a href="#browserslist" class="headerlink" title="browserslist"></a>browserslist</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于编译转化样式文件以兼容浏览器的对于各类浏览器版本的筛选.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<p>[“&gt;0.2%”]: 指的是现阶段的用户比例&gt;0.2%的所有浏览器版本.<br>[“last 2 versions”]: 指的是现阶段所有浏览器最近发布的两个版本.<br>[“not dead”]: 指的是现阶段没有被删除销毁的所有浏览器版本.<br>[“defaults”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2%”,”last 2 versions”,”not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“&gt;0.2% and last 2 versions and not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的交集.<br>[“&gt;0.2% or last 2 versions or not dead”]: 相当于 “&gt;0.2%”、”last 2 versions”以及”not dead” 浏览器版本的并集.<br>[“not &gt;0.2%”]: 指的是现阶段的用户比例 &lt;=0.2% 的所有浏览器版本.</p>
-<h4 id="version"><a href="#version" class="headerlink" title="version"></a>version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于发布构建/依赖/工具时,对于版本号的分类管理.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>patch: 是对此构建/依赖/工具的补丁,常指修复一些Bug、代码样式美化以及变更文档等.</li>
-<li>minor: 是对此构建/依赖/工具在当前 API 下新增一个功能.</li>
-<li>major: 是对此构建/依赖/工具与当前 API 出现比较大的不兼容,也就是 BREAKING CHANGES 的重构.</li>
-</ul>
-<h4 id="pre-version"><a href="#pre-version" class="headerlink" title="pre-version"></a>pre-version</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>先行版本号是作为构建/依赖/工具稳定版本生命周期的线性图,可确保其上线的质量、安全以及稳定性.</p>
-<blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>alpha: 是内测版本,一般会有很多 Bug,内测人员使用.</li>
-<li>beta: 测试版本,会开放一部分外部人员测试,这阶段还是会继续开发新功能.</li>
-<li>rc: 公测版本,会完全对外开放测试,不再开发添加新功能.</li>
-</ul>
-<h4 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是 npm 自带的包执行器.其主要作用就是可随时执行项目内安装的可执行模块,且可在全局环境变量下脚本命令不存在时,自动安装执行.</p>
-<blockquote>
-<p>原理</p>
-</blockquote>
-<p>其原理非常简单,就是轮询 node_modules/.bin 子目录以及 $PATH 全局环境变量下是否存在指定的脚本命令,如果存在就执行,本地不存在则自动安装下载执行.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>–no-install: 指的是强制使用本地模块,禁止下载远程模块.</li>
-</ul>
-<h4 id="inquirer"><a href="#inquirer" class="headerlink" title="inquirer"></a>inquirer</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于与用户进行简单互动的依赖,存在输入选择、判断选择、列表选择等互动方式.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> inquirer = <span class="built_in">require</span>(<span class="string">&#x27;inquirer&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> prompt = inquirer.<span class="title function_">createPromptModule</span>();</span><br><span class="line"><span class="keyword">const</span> env = <span class="title function_">prompt</span>([&#123;</span><br><span class="line">    <span class="attr">type</span>: <span class="string">&#x27;list&#x27;</span>,</span><br><span class="line">    <span class="attr">message</span>: <span class="string">&#x27;请选择 webpack 构建打包时所属的环境:&#x27;</span>,</span><br><span class="line">    <span class="attr">name</span>: <span class="string">&#x27;env&#x27;</span>,</span><br><span class="line">    <span class="attr">choices</span>: [</span><br><span class="line">        <span class="string">&#x27;development&#x27;</span>,</span><br><span class="line">        <span class="string">&#x27;production&#x27;</span></span><br><span class="line">    ],</span><br><span class="line">    <span class="title function_">filter</span>(<span class="params">value</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> value.<span class="title function_">toLowerCase</span>();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;]);</span><br><span class="line"><span class="keyword">const</span> _env = env[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(_env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="shelljs"><a href="#shelljs" class="headerlink" title="shelljs"></a>shelljs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是通过 js 新建 shell 脚本执行 shell 命令的依赖,简洁易用.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;exec&#125; = <span class="built_in">require</span>(<span class="string">&#x27;shelljs&#x27;</span>);</span><br><span class="line"><span class="title function_">exec</span>(<span class="string">&#x27;webpack&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-<h4 id="yargs"><a href="#yargs" class="headerlink" title="yargs"></a>yargs</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于解析命令行的依赖,可对命令行参数逐个解析,功能极其强大.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> yargs = <span class="built_in">require</span>(<span class="string">&#x27;yargs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> argv = process.<span class="property">argv</span>;</span><br><span class="line"><span class="keyword">const</span> env = <span class="string">&#x27;&#x27;</span>;</span><br><span class="line">yargs.<span class="title function_">parse</span>(argv.<span class="title function_">slice</span>(<span class="number">2</span>), <span class="function">(<span class="params">err, argv</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (err) &#123;</span><br><span class="line">        <span class="variable language_">console</span>.<span class="title function_">error</span>(err);</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(err);</span><br><span class="line">    &#125;</span><br><span class="line">    env = argv[<span class="string">&#x27;env&#x27;</span>];</span><br><span class="line">&#125;);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(env);</span><br></pre></td></tr></table></figure>
-
-<h4 id="rimraf"><a href="#rimraf" class="headerlink" title="rimraf"></a>rimraf</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于递归剃掉删除项目目录的依赖,其绝对根目录是 node 所作用的位置目录,也就是 process.cwd().</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> rimraf = <span class="built_in">require</span>(<span class="string">&#x27;rimraf&#x27;</span>);</span><br><span class="line"><span class="comment">// 首参数: 相对于 node 所作用的位置目录.</span></span><br><span class="line"><span class="comment">// 回调函数: 在操作过后执行的步骤.</span></span><br><span class="line"><span class="title function_">rimraf</span>(<span class="string">&#x27;./dist&#x27;</span>, <span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="spritesmith"><a href="#spritesmith" class="headerlink" title="spritesmith"></a>spritesmith</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>是用于合并多个图片形成雪碧图的依赖.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;run&#125; = <span class="built_in">require</span>(<span class="string">&#x27;spritesmith&#x27;</span>);</span><br><span class="line"><span class="comment">// 位置目录必须为绝对路径</span></span><br><span class="line"><span class="title function_">run</span>(&#123;<span class="attr">src</span>: [<span class="string">&#x27;pic1.png&#x27;</span>, <span class="string">&#x27;pic2.png&#x27;</span>]&#125;, <span class="function">(<span class="params">err, image</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="comment">// 会生成 16进制 Buffer</span></span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(image.<span class="property">image</span>);</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-
-<h4 id="jszip"><a href="#jszip" class="headerlink" title="jszip"></a>jszip</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于使用 js 实现 zip 压缩打包的依赖.</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZip</span>();</span><br><span class="line"><span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">folder</span>(<span class="string">&#x27;offline&#x27;</span>);</span><br><span class="line"><span class="comment">// 生成填入内容的压缩打包文件</span></span><br><span class="line">jszip.<span class="title function_">file</span>(<span class="string">&#x27;index.js&#x27;</span>, <span class="string">&#x27;console.log(&quot;wtw&quot;)&#x27;</span>);</span><br><span class="line"><span class="comment">// 将压缩打包文件实行各种数据类型转换</span></span><br><span class="line">jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(content);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>自定义 webpack 插件以生成离线压缩包</p>
-</blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// webpack.config.js</span></span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 自定义的生成离线压缩包的 webpack 插件</span></span><br><span class="line"><span class="keyword">const</span> <span class="title class_">JsZipPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;./lib/jsZipPlugin.js&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="variable constant_">OUTPUT_DIR</span> = <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./build&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> webpackConfig = &#123;</span><br><span class="line">    <span class="attr">mode</span>: <span class="string">&#x27;production&#x27;</span>,</span><br><span class="line">    <span class="attr">entry</span>: <span class="string">&#x27;./src/index.js&#x27;</span>,</span><br><span class="line">    <span class="attr">output</span>: &#123;</span><br><span class="line">        <span class="attr">path</span>: <span class="variable constant_">OUTPUT_DIR</span>,</span><br><span class="line">        <span class="attr">filename</span>: <span class="string">&#x27;index.js&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>(&#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;offline&#x27;</span></span><br><span class="line">        &#125;)</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = wbpackConfig;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">JsZip</span> = <span class="built_in">require</span>(<span class="string">&#x27;jszip&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;<span class="title class_">RawSource</span>&#125; = <span class="built_in">require</span>(<span class="string">&#x27;webpack-sources&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">JsZipPlugin</span> &#123;</span><br><span class="line">    <span class="title function_">constructor</span>(<span class="params">options</span>) &#123;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">options</span> = options;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 所有的 webpack 插件都遵循其 tapable 插件体制,类似于 EnventEmitter 那种观察订阅模式</span></span><br><span class="line">    <span class="title function_">apply</span>(<span class="params">compiler</span>) &#123;</span><br><span class="line">        <span class="keyword">const</span> &#123;name = <span class="string">&#x27;&#x27;</span>&#125; = <span class="variable language_">this</span>.<span class="property">options</span>;</span><br><span class="line">        <span class="keyword">const</span> jszip = <span class="keyword">new</span> <span class="title class_">JsZipPlugin</span>();</span><br><span class="line">        <span class="comment">// 订阅生成文件时的 hooks 事件,emit 是 AsyncSeriesHook(异步串行 hook)</span></span><br><span class="line">        compiler.<span class="property">hooks</span>.<span class="property">emit</span>.<span class="title function_">tapAsync</span>(<span class="string">&#x27;JsZipPlugin&#x27;</span>, <span class="function">(<span class="params">compilation, callback</span>) =&gt;</span> &#123;</span><br><span class="line">            <span class="comment">// 生成空的压缩打包文件</span></span><br><span class="line">            <span class="keyword">const</span> folder = jszip.<span class="title function_">folder</span>(name);</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">let</span> filename <span class="keyword">in</span> compilation.<span class="property">assets</span>) &#123;</span><br><span class="line">                <span class="comment">// 生成填入 webpack 构建打包源代码的压缩打包文件</span></span><br><span class="line">                folder.<span class="title function_">file</span>(filename, compilation.<span class="property">assets</span>[filename].<span class="title function_">source</span>());</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// 实行 nodebuffer 数据类型转换,将源代码转换为 buffer,并放入至 webpack 构建打包生成的资源模块内.</span></span><br><span class="line">            jszip.<span class="title function_">generatorAsync</span>(&#123;<span class="attr">type</span>: <span class="string">&#x27;nodebuffer&#x27;</span>&#125;).<span class="title function_">then</span>(<span class="function">(<span class="params">content</span>) =&gt;</span> &#123;</span><br><span class="line">                compilation.<span class="property">assets</span>[<span class="string">`<span class="subst">$&#123;name&#125;</span>.zip`</span>] = <span class="keyword">new</span> <span class="title class_">RawSource</span>(content);</span><br><span class="line">                <span class="title function_">callback</span>();</span><br><span class="line">            &#125;);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="import-local"><a href="#import-local" class="headerlink" title="import-local"></a>import-local</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>用于优先使用本地 node_modules 下的可执行模块,比如全局环境变量下的 webpack 脚本命令版本是 5.x,本地下载的 node_modules 下的 webpack 可执行模块是 4.x,会优先使用本地下载的 node_modules 下的可执行模块</p>
-<h4 id="express"><a href="#express" class="headerlink" title="express"></a>express</h4><blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>拥有强大的路由分发功能</li>
-<li>对于 http 处理方面做了一系列的封装,比如说 302 重定向</li>
-<li>可配合多种模板引擎</li>
-<li>洋葱模型的机制,处理更加灵活</li>
-</ul>
-<blockquote>
-<p>缺陷</p>
-</blockquote>
-<ul>
-<li>洋葱模型不可处理异步事件</li>
-</ul>
-<blockquote>
-<p>应用</p>
-</blockquote>
-<ul>
-<li>比较适合于较小的工程和应用</li>
-</ul>
-<h4 id="koa"><a href="#koa" class="headerlink" title="koa"></a>koa</h4><blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>采用 async/await,解决了处理异步事件的问题</li>
-<li>使用中间件、微内核的模式,更关注性能</li>
-</ul>
-<blockquote>
-<p>缺陷</p>
-</blockquote>
-<ul>
-<li>由于采用微内核,不再拥有路由分发功能,如需要路由,则开发者自己设计中间件</li>
-</ul>
-<blockquote>
-<p>应用</p>
-</blockquote>
-<ul>
-<li>比较适合于大型的工程项目</li>
-</ul>
-<h4 id="RPC"><a href="#RPC" class="headerlink" title="RPC"></a>RPC</h4><blockquote>
-<p>特点</p>
-</blockquote>
-<p>RPC 与 Ajax 对比可知:</p>
-<ul>
-<li>寻址服务不一定基于 DNS</li>
-<li>基于 TCP 或者 UDP 协议,二进制数据传输,更小的数据包体积,更快的编解码速度,性能更好</li>
-<li>通信方式<ul>
-<li>单工通信: S/C 两端只能一端向另外一端推送数据包</li>
-<li>半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)</li>
-<li>全双工通信: S/C 两端可自由推送数据包</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>nodejs</category>
-      </categories>
-      <tags>
-        <tag>npm</tag>
-        <tag>nodejs</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of webpack</title>
-    <url>/2022/08/30/think-of-webpack/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="webpack-cli"><a href="#webpack-cli" class="headerlink" title="webpack-cli"></a>webpack-cli</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<ul>
-<li>引入 yargs,对命令行实行定制</li>
-<li>分析命令行参数,对各个参数实行转换,组成编译配置项</li>
-<li>导入 webpack,根据编译配置项进行编译和构建</li>
-</ul>
-<h4 id="entry"><a href="#entry" class="headerlink" title="entry"></a>entry</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  作为 webpack 构建打包的入口,搜索全局资源的起点.</p>
-<blockquote>
-<p>属性值</p>
-</blockquote>
-<p>  为何设置 entry 的属性值必须为相对路径,而绝对路径却会报错?</p>
-<p>  解: entry 是 webpack 构建打包的入口,是搜索全局资源的起点,它的属性值是设置为相对于整个项目而言的,也就是当前项目根目录,在 webpack context 属性不变的情况下, entry 属性值永远相对于当前项目根目录,当然如若 context 属性值发生改变,entry 是可以设置绝对路径的,因为 webpack 构建打包所作用的项目根目录发生了改变,当然也可以强制设置 entry 属性值为绝对路径,但是其只是相对于当前设备目录而言,是存在很大的配置风险的.</p>
-<h4 id="output"><a href="#output" class="headerlink" title="output"></a>output</h4><blockquote>
-<p>filename</p>
-</blockquote>
-<p>  output.filename 的作用是什么?</p>
-<p>  解: 作为 webpack 构建打包导出文件的名称.  </p>
-<blockquote>
-<p>path</p>
-</blockquote>
-<p>  output.path 的作用是什么?</p>
-<p>  解: 作为 webpack 构建打包文件导出的位置目录.</p>
-<blockquote>
-<p>publicPath</p>
-</blockquote>
-<p>  output.publicPath 的作用是什么?</p>
-<p>  解: 作为 webpack 构建打包文件导出的位置目录前缀.</p>
-<blockquote>
-<p>chunkFilename</p>
-</blockquote>
-<p>  output.chunkFilename 的作用是什么?</p>
-<p>  解: 作为 webpack 构建打包导出模块的名称.</p>
-<blockquote>
-<p>crossOriginLoading</p>
-</blockquote>
-<p>  output.crossOriginLoading 的作用是什么?</p>
-<p>  解: 其只在 target: ‘web’ 时生效,利用 JSONP 向文件内联 &lt;script&gt; 标签,实现按需加载模块.</p>
-<h4 id="watch"><a href="#watch" class="headerlink" title="watch"></a>watch</h4><blockquote>
-<p>原理分析</p>
-</blockquote>
-<p>  webpack –watch 文件监听的原理是什么?</p>
-<p>  解: 轮询可监听的编辑文件的最后修改时间是否发生变化,如果发生了变化,则会引起 webpack 重新构建打包.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<p>  webpack –watch 文件监听有哪些参数?</p>
-<p>  解: webpack –watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.</p>
-<p>  webpack –watch 文件监听里主要参数的作用是什么?</p>
-<ul>
-<li>ignored =&gt; 筛选不实行监听的位置目录.</li>
-<li>aggregateTimeout =&gt; 当轮询到可监听的编辑文件的最后修改时间发生了变化,不会立即告知监听者引起 webpack 重新构建打包,而是会加入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一实行构建打包.</li>
-<li>poll =&gt; 在某一个时间段内,轮询的可监听的编辑文件的最后修改时间是否发生变化的次数.</li>
-</ul>
-<h4 id="devtool"><a href="#devtool" class="headerlink" title="devtool"></a>devtool</h4><blockquote>
-<p>sourceMap</p>
-</blockquote>
-<p>  sourceMap 的作用是什么?</p>
-<p>  解: 用于前端开发者根据 sourceMap 文件精确探寻源代码的一些问题,开发环境一般开启,生产环境则必须关闭.</p>
-<blockquote>
-<p>参数</p>
-</blockquote>
-<p>  首先了解几个概念: cheap、eval、inline、module、source-map</p>
-<ul>
-<li>cheap: 构建打包的 sourceMap 文件只能通过行追踪.</li>
-<li>eval: 表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录.</li>
-<li>inline: sourceMap 通过内联 sourceMap dataURI 至构建打包文件,不会单独导出 .map 文件.</li>
-<li>module: 会导出未被 loader 处理的源代码.</li>
-<li>source-map: 构建打包会额外单独导出 .map 文件.</li>
-</ul>
-<p>  这几个概念按照逻辑排列组合,自然形成了各种参数.举几个🌰:</p>
-<ul>
-<li>source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码.</li>
-<li>cheap-source-map: 会额外单独导出 .map 文件,可直接精确探寻源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
-<li>inline-source-map: 不会额外单独导出 .map 文件,会通过内联 sourceMap dataURI 至构建打包文件(体积会明显增大),可直接精确探寻源代码.</li>
-<li>cheap-module-source-map: 会额外单独导出 .map文件,可直接精确探寻未被 loader 处理时的源代码,但堆栈追踪错误只能通过行,不会显示列.</li>
-<li>eval: 不会额外单独导出 .map 文件,表达式通过 eval 语法包裹,注释紧跟 eval 语法备注所出于的源代码位置目录,无法直接精确探寻源代码.</li>
-</ul>
-<h4 id="splitChunks"><a href="#splitChunks" class="headerlink" title="splitChunks"></a>splitChunks</h4><blockquote>
-<p>参数</p>
-</blockquote>
-<ul>
-<li>chunks: 有三个枚举选项,”async”、”initial “以及 “all”,默认为 “async”,表示对于异步、非异步以及全部的模块代码分割的选择.</li>
-<li>minChunks: 表示模块最少可被导入实现分割的次数,默认为 1.</li>
-<li>minSize: 表示模块最少可被分割的体积大小,默认为 30000,也就是 30kb.</li>
-<li>maxInitialRequests: 表示入口模块并发请求的最大次数,默认为 3.</li>
-<li>maxAsyncRequests: 表示模块按需加载并发请求的最大次数,默认为 5.</li>
-<li>name: 模块代码分割后导出模块的名称.</li>
-<li>cacheGroups: 缓存组可配置多个组,组中的元素会覆盖或者继承组外的属性值,除了 test、priority 以及 reuseExistingChunk.</li>
-<li>cacheGroups.test: 筛选要分割导出的模块.</li>
-<li>cacheGroups.priority: 可通过优先级来改变构建打包模块代码分割的顺序,默认值为 -20.</li>
-</ul>
-<h4 id="TreeShaking"><a href="#TreeShaking" class="headerlink" title="TreeShaking"></a>TreeShaking</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  可用于将永远执行不到的、无用的变量以及执行的代码结果不会被使用的表达式,剔除出构建打包文件.<br>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
-<h4 id="Scope-Hoisting"><a href="#Scope-Hoisting" class="headerlink" title="Scope Hoisting"></a>Scope Hoisting</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  对于不开启 Scope Hoisting 的构建打包文件来说,会存在大量的 IIFE 自执行函数表达式闭包,webpack 会对每个导入模块外加一层包裹,且将 import 转化成 <strong>webpack_require</strong>,这样就会导致构建打包文件体积增大,而大量的闭包也会导致设备的内存空间吃紧,而 Scope Hoisting 就是用来解决此类问题的,Webpack 4.x 当中只要将 mode 设置为 “production”,就会开启 Scope Hoisting,而在 Webpack 4.x 之前的版本则需引入 new webpack.optimize.ModuleConcatenationPlugin(),Scope Hoisting 会将导入的模块内联进一个大的函数作用域中,使模块按照引用的顺序进行排列,适当的重命名一些变量以防止变量名冲突,这样就会大大减少文件以及内存空间的体积.</p>
-<p>  PS: 只能作用于可静态分析的 ESM 模块, commonjs 或者 commonjs2 模块都不会生效.</p>
-<h4 id="resolve"><a href="#resolve" class="headerlink" title="resolve"></a>resolve</h4><blockquote>
-<p>alias</p>
-</blockquote>
-<p>  resolve.alias 的作用是什么?</p>
-<p>  解: 使用别名替代复杂的模块导入路径.</p>
-<blockquote>
-<p>mainFields</p>
-</blockquote>
-<p>  resolve.mainFields 的作用是什么?</p>
-<p>  解: 自定义依赖被导入的文件位置.</p>
-<blockquote>
-<p>extensions</p>
-</blockquote>
-<p>  resolve.extensions 的作用是什么?</p>
-<p>  解: 选择省略导入模块的后缀.</p>
-<blockquote>
-<p>modules</p>
-</blockquote>
-<p>  resolve.modules 的作用是什么?</p>
-<p>  解: 指定导入依赖的位置目录.</p>
-<blockquote>
-<p>enforceExtensions</p>
-</blockquote>
-<p>  resolve.enforceExtensions 的作用是什么?</p>
-<p>  解: 强制导入模块必须添加后缀.</p>
-<h4 id="module"><a href="#module" class="headerlink" title="module"></a>module</h4><blockquote>
-<p>noParse</p>
-</blockquote>
-<p>  module.noParse 的作用是什么?</p>
-<p>  解: 用于 webpack 筛选可忽略的未使用标准模块的依赖,如 jQuery 等,PS: 筛选可忽略的依赖应该不包含 import,define,require 等标准模块语义的语句.</p>
-<h4 id="externals"><a href="#externals" class="headerlink" title="externals"></a>externals</h4><blockquote>
-<p>作用</p>
-</blockquote>
-<p>  用于 webpack 筛选不实行构建打包的依赖,比如 jQuery 这种体积非常庞大,构建打包没有任何收益的依赖,最后直接作为全局变量内联入构建打包文件内.</p>
-<h4 id="loaders"><a href="#loaders" class="headerlink" title="loaders"></a>loaders</h4><blockquote>
-<p>babel-loader</p>
-</blockquote>
-<p>  @babel/preset-env 的参数 modules 的作用是什么?</p>
-<p>  解: modules =&gt; 通过 babel 转化的模块导出是否为其他类型,默认模块导出为 ‘EsModule’,其他类型如 ‘commonjs’,’commonjs2’,’amd’ 等,设置为 false 表明不改变模块导出类型.</p>
-<p>  @babel/preset-env 的参数 loose 的作用是什么?</p>
-<p>  解: loose =&gt; 通过 babel 转化是否开启松散模式.</p>
-<ul>
-<li><p>何为 loose 松散模式?</p>
-<p>解: babel 在转换时一般有两种转换模式: 松散模式(loose)与标准模式(normal),松散模式会转换为前端开发者最熟悉的简洁的 ES5 代码,而标准模式转换出的代码则更贴近 ES6 的语义.</p>
-</li>
-<li><p>loose 松散模式的优缺点?</p>
-<ul>
-<li>优点: 转换出的代码更加易读,体积更小,执行效率更高,对于老浏览器兼容性更好.</li>
-<li>缺点: 对于原生 ES6 语法的代码转换时经常会出现问题.</li>
-<li>总结: 基本上在使用时不会开启 loose 松散模式.</li>
-</ul>
-</li>
-</ul>
-<p>  @babel/preset-env 的参数 useBuiltIns 的作用是什么?</p>
-<p>  解: 是用于根据 browserslist 的浏览器版本集合来兼容的动态 polyfill 策略.</p>
-<ul>
-<li><p>‘entry’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 优先全部导入至 chunks 入口处.配合 <a href="mailto:&#x63;&#111;&#114;&#x65;&#45;&#106;&#115;&#x40;&#51;&#46;&#x78;">&#x63;&#111;&#114;&#x65;&#45;&#106;&#115;&#x40;&#51;&#46;&#x78;</a> 可实现按需加载,可自定义导入至入口的 polyfill 模块,PS: 必须是在 browserslist 所有浏览器版本不兼容的 polyfill 范围内.</p>
-</li>
-<li><p>‘usage’</p>
-<p>会将 browserslist 的所有浏览器版本不兼容的 polyfill 根据模块使用处的 API 特定按需导入.</p>
-</li>
-<li><p>false(极不推荐)</p>
-<p>会无视 browserslist 将所有的 @babel/polyfill 导入至 chunks 入口处.</p>
-</li>
-</ul>
-<p>  @babel/preset-env 的参数 corejs 的作用是什么?</p>
-<p>  解: 必须配合 useBuiltIns: ‘entry’ 或者 useBuiltIns: ‘usage’ 使用,基本上用于将未纳入 ECMASCRIPT 稳定语法的 proposal 新特性注入至 polyfill 中.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">presets</span>: [[</span><br><span class="line">      <span class="string">&#x27;@babel/preset-env&#x27;</span>, &#123;</span><br><span class="line">          <span class="attr">useBuiltIns</span>: <span class="string">&#x27;usage&#x27;</span>,</span><br><span class="line">          <span class="attr">corejs</span>: &#123;</span><br><span class="line">              <span class="attr">version</span>: <span class="number">3</span>,</span><br><span class="line">              <span class="attr">proposal</span>: <span class="literal">true</span></span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">  ]]</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>css-loader</p>
-</blockquote>
-<p>  为何 css-loader options 参数 minimize 压缩功能失效?</p>
-<p>  解: 通过查询,webpack 3.x =&gt; 4.x &amp;&amp; css-loader 0.x =&gt; 1.x 已经将 options minimize 参数压缩功能删掉.</p>
-<blockquote>
-<p>postcss-loader</p>
-</blockquote>
-<p>  为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?</p>
-<p>  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.</p>
-<p>  为何 postcss.config.js &gt; plugins 与 postcss-loader &gt; postcssOptions &gt; plugins 同时存在的情况下,两者同时生效?</p>
-<p>  解: 两者同时存在的情况下,postcss.config.js &gt; plugins 不会被覆盖,而是会被继承合并同时生效.</p>
-<p>  现在移动端分辨率适配使用的是 vw/vh 的策略,那么如何将 UI 图上的绝对像素值( px )动态转化为 vw 呢?</p>
-<p>  首先要了解几个概念: </p>
-<ul>
-<li>vw/vh: 类似于百分比,不过是相对于理想视口设置的宽度以及高度.</li>
-<li>理想视口: 在不实行缩放的情况下,将物理像素精确转化为各个设备的 CSS 像素(dpr)的环境.</li>
-<li>DPR: DPR = 物理像素/分辨率.</li>
-</ul>
-<p>  使用 postcss-px-to-viewport 来将 px 动态转化为 vw.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//postcss.config.js</span></span><br><span class="line"><span class="keyword">const</span> postcssConfig = &#123;</span><br><span class="line">    <span class="attr">plugins</span>: [</span><br><span class="line">        <span class="string">&#x27;postcss-preset-env&#x27;</span>,</span><br><span class="line">        [</span><br><span class="line">            <span class="string">&#x27;postcss-px-to-viewport&#x27;</span>,</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="attr">unitToConvert</span>: <span class="string">&#x27;px&#x27;</span>,</span><br><span class="line">                <span class="attr">unitPrecision</span>: <span class="number">8</span>,</span><br><span class="line">                <span class="attr">viewportUnit</span>: <span class="string">&#x27;vw&#x27;</span>,</span><br><span class="line">                <span class="attr">viewportWidth</span>: <span class="number">750</span></span><br><span class="line">            &#125;</span><br><span class="line">        ]</span><br><span class="line">    ]</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = postcssConfig;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>url-loader</p>
-</blockquote>
-<p>  url-loader 与 file-loader 的区别是什么?</p>
-<p>  解: url-loader 与 file-loader 在处理文件资源功能上面并没有很大的区别,url-loader 中是引用了 file-loader 的,但是 url-loader 根据参数限制能够转化为更小的文件资源 dataURI,比如图片 Base64.</p>
-<blockquote>
-<p>Asset Module</p>
-</blockquote>
-<p>  webpack 5.x 中对于资源模块的处理进行了升级优化,无需额外配置即可处理资源文件(字体，图标等).</p>
-<p>  资源模块类型(asset module type),通过添加 4 种新的模块类型,来替换所有这些 loader:</p>
-<ul>
-<li>asset/resource 发送一个单独的文件并导出 URL.之前通过使用 file-loader 实现.</li>
-<li>asset/inline 导出一个资源的 data URI.之前通过使用 url-loader 实现.</li>
-<li>asset/source 导出资源的源代码.之前通过使用 raw-loader 实现.</li>
-<li>asset 在导出一个 data URI 和发送一个单独的文件之间自动选择.之前通过使用 url-loader,并且配置资源体积限制实现.</li>
-</ul>
-<p>  asset 实际上可以理解为比较通用灵活的配置,通常开发时基本上使用 type: ‘asset’.</p>
-<ul>
-<li><p>generator</p>
-<p>在配置 module.rules 时,可配置 generator 来对资源模块处理进行进一步控制,该配置有以下几个属性:</p>
-<ul>
-<li><p>filename</p>
-<ul>
-<li>值必须为相对路径,可改变资源输出的目录;</li>
-<li>如果同时指定了该属性和 output.assetModuleFilename,将忽略 output.assetModuleFilename 的值;</li>
-<li>该属性仅适用于 asset 和 asset/resource 资源类型.</li>
-</ul>
-</li>
-<li><p>dataUrl</p>
-<ul>
-<li>在处理 inline 类型的资源时,该资源默认对资源进行 base64 编码,可通过该属性来改变其编码方式;</li>
-<li>该属性值为函数,其签名为 (content: string) =&gt; string;</li>
-<li>该属性仅适用于 asset 和 asset/inline 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-<li><p>parser</p>
-<ul>
-<li><p>dataUrlCondition.maxSize:</p>
-<ul>
-<li>当 type 为 asset 时,如果资源大小小于 8kb,按照 asset/inline 的规则处理资源,否则按照 asset/resource 的规则处理资源;</li>
-<li>可通过指定该属性来改变其界限值(单位为 byte);</li>
-<li>该属性仅适用于 asset 资源类型.</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>  示例:</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">module</span>: &#123;</span><br><span class="line">      <span class="attr">rules</span>: [<span class="comment">//...</span></span><br><span class="line">      &#123;</span><br><span class="line">          <span class="attr">test</span>: <span class="regexp">/\.(bmp|gif|jpg|jpeg|gif)$/</span>,</span><br><span class="line">          <span class="attr">type</span>: <span class="string">&#x27;asset&#x27;</span>,</span><br><span class="line">          <span class="attr">generator</span>: &#123;</span><br><span class="line">              <span class="attr">publicPath</span>: <span class="string">&#x27;./&#x27;</span>,</span><br><span class="line">              <span class="comment">// 注意,这里资源模块文件后缀[ext]与引入 loader 方式时有所不同,这里代表.bmp .png .gif .jpg .jpeg,而引入 loader 时,[ext] 是不含有 &#x27;.&#x27; 字符的.</span></span><br><span class="line">              <span class="attr">filename</span>: <span class="string">&#x27;assets/images/[name].[contenthash:6][ext]&#x27;</span></span><br><span class="line">          &#125;,</span><br><span class="line">          <span class="attr">parser</span>: &#123;</span><br><span class="line">              <span class="attr">dataUrlCondition</span>: &#123;</span><br><span class="line">                  <span class="attr">maxSize</span>: <span class="number">5</span> * <span class="number">1024</span></span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="comment">//..</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>raw-loader</p>
-</blockquote>
-<p>  在之前的移动端分辨率适配时,是使用相对像素值(rem)+动态计算元节点绝对像素值的策略,但是却会存在 raw-loader 内联资源必须下载低版本 0.5.1 的限制,为什么必须要下载低版本 0.5.1 的 raw-loader 呢?</p>
-<p>  解: 首先了解几个概念: px2rem-loader、lib-flexible 以及 raw-loader.</p>
-<ul>
-<li>px2rem-loader: 用于将 px 绝对像素值转化为 rem 相对像素值.</li>
-<li>lib-flexible: 用于动态计算元节点绝对像素值的工具.</li>
-<li>raw-loader: 用于内联资源模块,导出文件资源的源代码.</li>
-</ul>
-<p>  新版本的 raw-loader 存在一些问题,查询了源代码后发现,导出的资源模块源代码模块导出类型为 ‘EsModule’,转化成字符串为’[object Object]‘,要对 raw-loader 进行处理,对其属性 esModule 设置为 false,就可解决必须下载低版本 0.5.1 的 raw-loader 的限制.</p>
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之前  --&gt;</span><br><span class="line">&lt;!DOCTYPE html&gt;</span><br><span class="line">  &lt;html lang=&quot;zh-CN&quot;&gt;</span><br><span class="line">  &lt;head&gt;</span><br><span class="line">      &lt;meta charset=&quot;UTF-8&quot;&gt;</span><br><span class="line">      &lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">      &lt;script type=&quot;text/javascript&quot;&gt;&lt;%= require(&quot;raw-loader?esModule=false!babel-loader!../node_modules/lib-flexible/flexible&quot;) %&gt;&lt;/script&gt;</span><br><span class="line">  &lt;/head&gt;</span><br><span class="line">  &lt;body&gt;</span><br><span class="line">  &lt;div id=&quot;root-webpack&quot;&gt;</span><br><span class="line">  </span><br><span class="line">  &lt;/div&gt;</span><br><span class="line">  &lt;/body&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;!-- 使用 raw-loader 内联资源模块之后  --&gt;</span><br><span class="line">&lt;!doctype html&gt;&lt;html lang=&quot;zh-CN&quot;&gt;&lt;head&gt;&lt;meta charset=&quot;UTF-8&quot;&gt;&lt;title&gt;Webpack Emulate&lt;/title&gt;</span><br><span class="line">  &lt;script&gt;;(function (win, lib) &#123;</span><br><span class="line">          var doc = win.document;</span><br><span class="line">          var docEl = doc.documentElement;</span><br><span class="line">          var metaEl = doc.querySelector(&#x27;meta[name=&quot;viewport&quot;]&#x27;);</span><br><span class="line">          var flexibleEl = doc.querySelector(&#x27;meta[name=&quot;flexible&quot;]&#x27;);</span><br><span class="line">          var dpr = 0;</span><br><span class="line">          var scale = 0;</span><br><span class="line">          var tid;</span><br><span class="line">          var flexible = lib.flexible || (lib.flexible = &#123;&#125;);</span><br><span class="line"></span><br><span class="line">          if (metaEl) &#123;</span><br><span class="line">              console.warn(&#x27;将根据已有的meta标签来设置缩放比例&#x27;);</span><br><span class="line">              var match = metaEl.getAttribute(&#x27;content&#x27;).match(/initial\-scale=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">              if (match) &#123;</span><br><span class="line">                  scale = parseFloat(match[1]);</span><br><span class="line">                  dpr = parseInt(1 / scale);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125; else if (flexibleEl) &#123;</span><br><span class="line">              var content = flexibleEl.getAttribute(&#x27;content&#x27;);</span><br><span class="line"></span><br><span class="line">              if (content) &#123;</span><br><span class="line">                  var initialDpr = content.match(/initial\-dpr=([\d\.]+)/);</span><br><span class="line">                  var maximumDpr = content.match(/maximum\-dpr=([\d\.]+)/);</span><br><span class="line"></span><br><span class="line">                  if (initialDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(initialDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line"></span><br><span class="line">                  if (maximumDpr) &#123;</span><br><span class="line">                      dpr = parseFloat(maximumDpr[1]);</span><br><span class="line">                      scale = parseFloat((1 / dpr).toFixed(2));</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          if (!dpr &amp;&amp; !scale) &#123;</span><br><span class="line">              var isAndroid = win.navigator.appVersion.match(/android/gi);</span><br><span class="line">              var isIPhone = win.navigator.appVersion.match(/iphone/gi);</span><br><span class="line">              var devicePixelRatio = win.devicePixelRatio;</span><br><span class="line"></span><br><span class="line">              if (isIPhone) &#123;</span><br><span class="line">                  // iOS下，对于2和3的屏，用2倍的方案，其余的用1倍方案</span><br><span class="line">                  if (devicePixelRatio &gt;= 3 &amp;&amp; (!dpr || dpr &gt;= 3)) &#123;</span><br><span class="line">                      dpr = 3;</span><br><span class="line">                  &#125; else if (devicePixelRatio &gt;= 2 &amp;&amp; (!dpr || dpr &gt;= 2)) &#123;</span><br><span class="line">                      dpr = 2;</span><br><span class="line">                  &#125; else &#123;</span><br><span class="line">                      dpr = 1;</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  // 其他设备下，仍旧使用1倍的方案</span><br><span class="line">                  dpr = 1;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              scale = 1 / dpr;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          docEl.setAttribute(&#x27;data-dpr&#x27;, dpr);</span><br><span class="line"></span><br><span class="line">          if (!metaEl) &#123;</span><br><span class="line">              metaEl = doc.createElement(&#x27;meta&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;name&#x27;, &#x27;viewport&#x27;);</span><br><span class="line">              metaEl.setAttribute(&#x27;content&#x27;, &#x27;initial-scale=&#x27; + scale + &#x27;, maximum-scale=&#x27; + scale + &#x27;, minimum-scale=&#x27; + scale + &#x27;, user-scalable=no&#x27;);</span><br><span class="line"></span><br><span class="line">              if (docEl.firstElementChild) &#123;</span><br><span class="line">                  docEl.firstElementChild.appendChild(metaEl);</span><br><span class="line">              &#125; else &#123;</span><br><span class="line">                  var wrap = doc.createElement(&#x27;div&#x27;);</span><br><span class="line">                  wrap.appendChild(metaEl);</span><br><span class="line">                  doc.write(wrap.innerHTML);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          function refreshRem() &#123;</span><br><span class="line">              var width = docEl.getBoundingClientRect().width;</span><br><span class="line"></span><br><span class="line">              if (width / dpr &gt; 540) &#123;</span><br><span class="line">                  width = 540 * dpr;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              var rem = width / 10;</span><br><span class="line">              docEl.style.fontSize = rem + &#x27;px&#x27;;</span><br><span class="line">              flexible.rem = win.rem = rem;</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          win.addEventListener(&#x27;resize&#x27;, function () &#123;</span><br><span class="line">              clearTimeout(tid);</span><br><span class="line">              tid = setTimeout(refreshRem, 300);</span><br><span class="line">          &#125;, false);</span><br><span class="line">          win.addEventListener(&#x27;pageshow&#x27;, function (e) &#123;</span><br><span class="line">              if (e.persisted) &#123;</span><br><span class="line">                  clearTimeout(tid);</span><br><span class="line">                  tid = setTimeout(refreshRem, 300);</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;, false);</span><br><span class="line"></span><br><span class="line">          if (doc.readyState === &#x27;complete&#x27;) &#123;</span><br><span class="line">              doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">          &#125; else &#123;</span><br><span class="line">              doc.addEventListener(&#x27;DOMContentLoaded&#x27;, function (e) &#123;</span><br><span class="line">                  doc.body.style.fontSize = 12 * dpr + &#x27;px&#x27;;</span><br><span class="line">              &#125;, false);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          refreshRem();</span><br><span class="line">          flexible.dpr = win.dpr = dpr;</span><br><span class="line">          flexible.refreshRem = refreshRem;</span><br><span class="line"></span><br><span class="line">          flexible.rem2px = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) * this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/rem$/)) &#123;</span><br><span class="line">                  val += &#x27;px&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line"></span><br><span class="line">          flexible.px2rem = function (d) &#123;</span><br><span class="line">              var val = parseFloat(d) / this.rem;</span><br><span class="line"></span><br><span class="line">              if (typeof d === &#x27;string&#x27; &amp;&amp; d.match(/px$/)) &#123;</span><br><span class="line">                  val += &#x27;rem&#x27;;</span><br><span class="line">              &#125;</span><br><span class="line"></span><br><span class="line">              return val;</span><br><span class="line">          &#125;;</span><br><span class="line">      &#125;)(window, window[&#x27;lib&#x27;] || (window[&#x27;lib&#x27;] = &#123;&#125;));&lt;/script&gt;&lt;link href=&quot;./css/index.5c90e18c.css&quot; rel=&quot;stylesheet&quot;&gt;&lt;/head&gt;&lt;body&gt;&lt;div id=&quot;root-webpack&quot;&gt;&lt;/div&gt;&lt;script defer=&quot;defer&quot; src=&quot;./js/index_7b84cb4c006925aa2404.js&quot;&gt;&lt;/script&gt;&lt;/body&gt;&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>thread-loader</p>
-</blockquote>
-<p>  thread-loader 的原理是什么?</p>
-<p>  解: webpack 每一次解析 loader 模块时,thread-loader 都会将它以及它所依赖的包分配给所对应的 worker 线程.</p>
-<blockquote>
-<p>loader-runner</p>
-</blockquote>
-<p>  loader-runner 的作用是什么?</p>
-<p>  解: 是用于测试自定义的 loader 而存在的,可以使用 <a href="mailto:&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#x2d;&#117;&#x74;&#x69;&#108;&#115;&#64;&#50;&#46;&#120;">&#x6c;&#x6f;&#x61;&#100;&#x65;&#x72;&#x2d;&#117;&#x74;&#x69;&#108;&#115;&#64;&#50;&#46;&#120;</a> 中的 getOptions(this) 获取 loader &gt; options,由于不是在真实的 webpack 环境下,不可使用 this.getOptions(获取 loader -&gt; options),this.emitFile(生成文件) 等 API,PS: getOptions(this) 在 <a href="mailto:&#x6c;&#x6f;&#x61;&#x64;&#x65;&#x72;&#x2d;&#117;&#x74;&#x69;&#x6c;&#115;&#x40;&#x33;&#46;&#x78;">&#x6c;&#x6f;&#x61;&#x64;&#x65;&#x72;&#x2d;&#117;&#x74;&#x69;&#x6c;&#115;&#x40;&#x33;&#46;&#x78;</a> 中已经被剔除,在自定义的 loader 中直接使用 this.getOptions() 即可.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> &#123;readFile&#125; = <span class="built_in">require</span>(<span class="string">&#x27;fs&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;resolve&#125; = <span class="built_in">require</span>(<span class="string">&#x27;path&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> &#123;runLoaders&#125; = <span class="built_in">require</span>(<span class="string">&#x27;loader-runner&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="title function_">runLoaders</span>(&#123;</span><br><span class="line">    <span class="attr">resource</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./src/styles/index.less&#x27;</span>),</span><br><span class="line">    <span class="attr">context</span>: &#123;<span class="attr">minimize</span>: <span class="literal">true</span>&#125;,</span><br><span class="line">    <span class="attr">loaders</span>: [&#123;</span><br><span class="line">        <span class="attr">loader</span>: <span class="title function_">resolve</span>(process.<span class="title function_">cwd</span>(), <span class="string">&#x27;./lib/loaders/sprite_loader.js&#x27;</span>),</span><br><span class="line">        <span class="attr">options</span>: &#123;</span><br><span class="line">            <span class="attr">name</span>: <span class="string">&#x27;sprite&#x27;</span>,</span><br><span class="line">            <span class="attr">path</span>: <span class="string">&#x27;src/styles&#x27;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">readResource</span>: readFile.<span class="title function_">bind</span>(<span class="variable language_">this</span>)</span><br><span class="line">&#125;, <span class="function">(<span class="params">err, stats</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(err) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">Error</span>(<span class="string">`测试自定义 loader 出现错误: <span class="subst">$&#123;err&#125;</span>`</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="variable language_">console</span>.<span class="title function_">log</span>(stats);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<h4 id="devServer"><a href="#devServer" class="headerlink" title="devServer"></a>devServer</h4><blockquote>
-<p>contentBase</p>
-</blockquote>
-<p>  为何在 devServer 设置 contentBase 失效?</p>
-<p>  解: contentBase 指的是 devServer 本地代理服务的作用目录,一般设置为绝对路径,在 webpack 5.x 中改为 static,webpack 4.x 及其之前版本依然生效.</p>
-<blockquote>
-<p>historyApiFallback</p>
-</blockquote>
-<p>  devServer.historyApiFallback 的作用是什么?</p>
-<p>  解: devServer 本地代理服务指定遇到 404 或者 错误时重定向的页面.</p>
-<blockquote>
-<p>allowedHosts</p>
-</blockquote>
-<p>  devServer.allowedHosts 的作用是什么?</p>
-<p>  解: devServer 本地代理服务页面访问时 http 请求的白名单.</p>
-<blockquote>
-<p>https</p>
-</blockquote>
-<p>  devServer.https 的作用是什么?</p>
-<p>  解: devServer 本地代理服务是否开启 https 安全协议.</p>
-<blockquote>
-<p>compress</p>
-</blockquote>
-<p>  devServer.compress 的作用是什么?</p>
-<p>  解: devServer 本地代理服务是否开启 Gzip 压缩.</p>
-<blockquote>
-<p>open</p>
-</blockquote>
-<p>  devServer.open 的作用是什么?</p>
-<p>  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器实行访问.</p>
-<blockquote>
-<p>hot</p>
-</blockquote>
-<p>  热加载的工作原理是什么?</p>
-<p>  解: 首先要了解几个概念: webpack compile、bundle server、hmr server 以及 hmr runtime.</p>
-<ul>
-<li>webpack compile: 是将 js 转化成 bundleJs 的编译器,同时开启 webpack –watch 文件监听,并写入内存.</li>
-<li>bundle server: 提供文件给浏览器实行访问.</li>
-<li>hmr server: 将 Server 端热加载文件输出给 Client 端 hmr runtime.</li>
-<li>hmr runtime: 注入至浏览器内存中;接受 hmr server 输出的热加载文件并实行更新.</li>
-</ul>
-<p>  工作原理: 首次编译,webpack compile 将 js 编译为 bundleJs,同时开启 webpack –watch 文件监听并写入内存,通过 bundler server 提供文件给浏览器实行访问,与此并行的是 hmr runtime 注入至浏览器内存中;接着文件监听轮询可监听的编辑文件是否发生变化,如果发生了变化,不会立即告知监听者,引起 webpack 重新构建打包,而是会放入至缓存中,在 aggregateTimeout 时间段内重复此类操作,等时间段结束之后,将缓存中的文件列表统一重新构建打包,之后通过 hmr server 将热加载文件输出给 hmr runtime,其中的文件传输协议为 websocket,传输数据格式为 JSON 格式,hmr runtime 接收到 hmr server 热加载文件实行更新.</p>
-<h4 id="plugins"><a href="#plugins" class="headerlink" title="plugins"></a>plugins</h4><blockquote>
-<p>friendly-errors-webpack-plugin</p>
-</blockquote>
-<p>  为何 friendly-errors-webpack-plugin 日志优化插件在 webpack 5.x 中不生效?</p>
-<p>  解: friendly-errors-webpack-plugin 日志优化插件目前在 github 上已停止维护,其只能生效的 webpack 版本为 4.x 以及之前的版本,对于 webpack 5.x 无法下载使用.</p>
-<blockquote>
-<p>clean-webpack-plugin</p>
-</blockquote>
-<p>  如何选择性清空构建打包导出的位置目录内容?</p>
-<p>  解: clean-webpack-plugin 存在一个参数属性 —— cleanOnceBeforeBuildPatterns.</p>
-<ul>
-<li>cleanOnceBeforeBuildPatterns: 用于筛选在 Webpack Compile 编译前实行清空的位置目录内容.</li>
-</ul>
-<p>  用此属性就可选择性清空构建打包导出的位置目录内容.</p>
-<blockquote>
-<p>image-minimizer-webpack-plugin</p>
-</blockquote>
-<p>  image-minimizer-webpack-plugin 图片资源模块压缩功能插件有什么作用?</p>
-<p>  解: 是用于将所有类型的图片资源模块利用 imagemin 的方式优化压缩打包功能的最佳处理方式.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title class_">ImageMinimizerWebpackPlugin</span> = <span class="built_in">require</span>(<span class="string">&#x27;image-minimizer-webpack-plugin&#x27;</span>);</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="keyword">new</span> <span class="title class_">ImageMinimizerWebpackPlugin</span>(&#123;</span><br><span class="line">              <span class="attr">minimizer</span>: &#123;</span><br><span class="line">                  <span class="attr">implementation</span>: <span class="title class_">ImageMinimizerWebpackPlugin</span>.<span class="property">imageminMinify</span>,</span><br><span class="line">                  <span class="attr">options</span>: &#123;</span><br><span class="line">                      <span class="attr">plugins</span>: [</span><br><span class="line">                          [<span class="string">&quot;gifsicle&quot;</span>, &#123; <span class="attr">interlaced</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;jpegtran&quot;</span>, &#123; <span class="attr">progressive</span>: <span class="literal">true</span> &#125;],</span><br><span class="line">                          [<span class="string">&quot;optipng&quot;</span>, &#123; <span class="attr">optimizationLevel</span>: <span class="number">5</span> &#125;],</span><br><span class="line">                          [</span><br><span class="line">                              <span class="string">&quot;svgo&quot;</span>,</span><br><span class="line">                              &#123;</span><br><span class="line">                                  <span class="attr">plugins</span>: [</span><br><span class="line">                                      &#123;</span><br><span class="line">                                          <span class="attr">name</span>: <span class="string">&quot;preset-default&quot;</span>,</span><br><span class="line">                                          <span class="attr">params</span>: &#123;</span><br><span class="line">                                              <span class="attr">overrides</span>: &#123;</span><br><span class="line">                                                  <span class="attr">removeViewBox</span>: <span class="literal">false</span>,</span><br><span class="line">                                                  <span class="attr">addAttributesToSVGElement</span>: &#123;</span><br><span class="line">                                                      <span class="attr">params</span>: &#123;</span><br><span class="line">                                                          <span class="attr">attributes</span>: [</span><br><span class="line">                                                              &#123; <span class="attr">xmlns</span>: <span class="string">&quot;http://www.w3.org/2000/svg&quot;</span> &#125;,</span><br><span class="line">                                                          ],</span><br><span class="line">                                                      &#125;,</span><br><span class="line">                                                  &#125;,</span><br><span class="line">                                              &#125;,</span><br><span class="line">                                          &#125;,</span><br><span class="line">                                      &#125;,</span><br><span class="line">                                  ],</span><br><span class="line">                              &#125;,</span><br><span class="line">                          ],</span><br><span class="line">                      ]</span><br><span class="line">                  &#125;</span><br><span class="line">              &#125;</span><br><span class="line">          &#125;),</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<h4 id="commit-rules"><a href="#commit-rules" class="headerlink" title="commit rules"></a>commit rules</h4><blockquote>
-<p>规范说明</p>
-</blockquote>
-<p>  现阶段大多数前端开发者遵从的 git commit message 规范都是 Angular 团队的 Angular commit message.</p>
-  <figure class="highlight text"><table><tr><td class="code"><pre><span class="line">&lt;type&gt;(&lt;scope&gt;): &lt;subject&gt;  &lt;!-- 这一行为 header --&gt;</span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;body&gt;    </span><br><span class="line">&lt;breakLine&gt;</span><br><span class="line">&lt;footer&gt;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>header: 分为三部分,type、scope 以及 subject.<ul>
-<li>type: 表示提交类型.必填且必须为以下枚举之一: [‘build’, ‘chore’, ‘feat’, ‘fix’, ‘style’, ‘perf’, ‘docs’, ‘ci’, ‘test’, ‘refactor’].</li>
-<li>scope: 表示项目内文件修改的范围,比如说 fix 修复 bug 时,选择 hooks 部分还是 component 部分,选填.</li>
-<li>subject: 表示简要描述本次提交.必须遵循两个规则: 首字母不能大写,末尾不能添加 ‘.’ 字符,必填.</li>
-</ul>
-</li>
-<li>body: 表示对本次提交的详细描述,选填.</li>
-<li>footer: 分为两种情况,BREAKING CHANGES 以及 删除 issue,选填.<ul>
-<li>BREAKING CHANGES: 与当前 API 产生了较大的不兼容时,如重构,会详细描述本次提交的 BREAKING CHANGES,必须以 BREAKING CHANGES 开头.</li>
-<li>delete issue: 当需要删除本次 commit 所对应的 issue 时,也可详细描述.</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>type enum</p>
-</blockquote>
-<ul>
-<li>Angular commit message type.<ul>
-<li>build: 初始化打包.</li>
-<li>chore: 构建/依赖/工具.</li>
-<li>feat: 新功能.</li>
-<li>fix: 修复 Bug.</li>
-<li>style: 代码样式美化.</li>
-<li>perf: 性能优化.</li>
-<li>docs: 文档变更.</li>
-<li>test: 测试.</li>
-<li>ci: CI related changes.</li>
-<li>refactor: 重构.</li>
-</ul>
-</li>
-<li>gitmoji commit message type.<ul>
-<li>遵从且继承 Angular commit message type.</li>
-<li>revert: 回滚.</li>
-<li>wip: 建设进程中(不推荐使用).</li>
-</ul>
-</li>
-</ul>
-<blockquote>
-<p>规范化工具</p>
-</blockquote>
-<p>  通常使用 commitizen + cz-customizable 来实现 gitmoji commit message 规范化.</p>
-  <figure class="highlight json"><table><tr><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;commitizen&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">       <span class="attr">&quot;paths&quot;</span><span class="punctuation">:</span> <span class="string">&quot;node_modules/cz-customizable&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">//.cz-config.js</span></span><br><span class="line"><span class="keyword">const</span> czConfig = &#123;</span><br><span class="line">    <span class="attr">types</span>: [&#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🍻 build: 初始化打包&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:beers: build&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📦️chore: 构建/依赖/工具&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:package: chore&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✨  feat: 新功能&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:sparkles: feat&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🐛 fix: 修复bug&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:bug: fix&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🎨 style: 代码样式优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:art: style&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;📄 docs: 变更文档&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:page_facing_up: docs&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🚀 perf: 性能优化&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:rocket: perf&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;✅  test: 测试&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:white_check_mark: test&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;🔥 refactor: 重构&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:fire: refactor&#x27;</span></span><br><span class="line">    &#125;, &#123;</span><br><span class="line">        <span class="attr">name</span>: <span class="string">&#x27;👷 ci: CI related changes&#x27;</span>,</span><br><span class="line">        <span class="attr">value</span>: <span class="string">&#x27;:construction_worker: ci&#x27;</span></span><br><span class="line">    &#125;],</span><br><span class="line">    <span class="attr">messages</span>: &#123;</span><br><span class="line">        <span class="attr">type</span>: <span class="string">&#x27;请输入您本次提交类型(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">scope</span>: <span class="string">&#x27;请输入您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">customScope</span>: <span class="string">&#x27;请选择您本次提交修改范围:&#x27;</span>,</span><br><span class="line">        <span class="attr">subject</span>: <span class="string">&#x27;请简要描述本次提交(必填):&#x27;</span>,</span><br><span class="line">        <span class="attr">body</span>: <span class="string">&#x27;请对本次提交作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">breaking</span>: <span class="string">&#x27;请对本次提交与当前 API 产生比较大的不兼容作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">footer</span>: <span class="string">&#x27;请对本次提交删除的所对应的 issue 作详细描述:&#x27;</span>,</span><br><span class="line">        <span class="attr">confirmCommit</span>: <span class="string">&#x27;是否确认提交以上选择输入?&#x27;</span></span><br><span class="line">    &#125;,</span><br><span class="line">    <span class="attr">scopes</span>: [&#123;<span class="attr">name</span>: <span class="string">&#x27;components       [组件部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;hooks            [hooks部分]&#x27;</span>&#125;, &#123;<span class="attr">name</span>: <span class="string">&#x27;logics           [代码逻辑部分]&#x27;</span>&#125;],</span><br><span class="line">    <span class="attr">allowCustomScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">allowEmptyScopes</span>: <span class="literal">true</span>,</span><br><span class="line">    <span class="attr">customScopesName</span>: <span class="string">&#x27;custom           [自定义]&#x27;</span>,</span><br><span class="line">    <span class="attr">emptyScopesName</span>: <span class="string">&#x27;empty            [不指定]&#x27;</span>,</span><br><span class="line">    <span class="attr">allowBreakingChanges</span>: [<span class="string">&#x27;:sparkles: feat&#x27;</span>, <span class="string">&#x27;:bug: fix&#x27;</span>],</span><br><span class="line">    <span class="attr">subjectLimit</span>: <span class="number">80</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>强制校验 gitmoji commit message</p>
-</blockquote>
-<p>  通常使用 commitlint + husky + commitlint-config-gitmoji 来强制校验 git 提交时的 gitmoji commit message 规范.</p>
-  <figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="comment">// .commitlintrc.js</span></span><br><span class="line"><span class="keyword">const</span> commitlintrcConfig = &#123;</span><br><span class="line">  <span class="attr">extends</span>: [<span class="string">&#x27;gitmoji&#x27;</span>],</span><br><span class="line">&#125;;</span><br><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = commitlintrcConfig;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成强制校验 git 操作的 hooks 容器.</span></span><br><span class="line">npx husky install</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/commet-msg &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">commitlint --edit 是对 git 最后一次本地提交进行强制校验,如若校验不通过则实行回退,本地提交不成功.</span></span><br><span class="line">npx --no-install commitlint --edit &quot;$1&quot;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>强制生成 CHANGELOG</p>
-</blockquote>
-<p>  通常使用 husky + standard-version + conventional-changelog-gitmoji-config 来强制生成 CHANGELOG.md 文件.</p>
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">添加强制校验 gitmoji commit message 规范的 hooks,并写入默认命令.</span></span><br><span class="line">npx husky add .husky/pre-push &quot;yarn run test&quot;</span><br></pre></td></tr></table></figure>
-
-  <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">husky</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/usr/bin/env sh</span></span><br><span class="line">. &quot;$(dirname -- &quot;$0&quot;)/_/husky.sh&quot;</span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">生成 CHANGELOG.md 文件的规则遵循 conventional-changelog-gitmoji-config,不可进行自定义.</span></span><br><span class="line">npx --no-install standard-version --preset gitmoji-config</span><br></pre></td></tr></table></figure>
-
-<h4 id="speed-optimization"><a href="#speed-optimization" class="headerlink" title="speed optimization"></a>speed optimization</h4><blockquote>
-<p>best answer</p>
-</blockquote>
-<p>  实验证明, webpack 5.x 中使用 splitChunks 分割自定义公用模块,使用 DllPlugin + DllReferencePlugin 抽取公用依赖至 manifest.json 文件内做预编译文件,只需要构建打包一次,后续则不需要重新执行,可由此看出是速度优化的最佳答案.</p>
-<blockquote>
-<p>BREAKING CHANGES</p>
-</blockquote>
-<p>在 webpack 4.x 中做了一些速度优化升级:</p>
-<ul>
-<li>nodejs 必须下载 v8.5.0 以上的稳定版本才可使用,而新版本的 V8 带来了一些语法优化.<ul>
-<li>for-of 替代 forEach.</li>
-<li>Map、Set 替代 Object.</li>
-<li>includes 替代 indexOf.</li>
-</ul>
-</li>
-<li>使用更快的 md4 hash 加密算法.</li>
-<li>webpack AST 可以直接通过 loader 传递给 AST,减少解析时间,解析速度更快.</li>
-<li>使用字符串方法替代正则表达式,运行速度更快.</li>
-</ul>
-]]></content>
-      <categories>
-        <category>webpack</category>
-      </categories>
-      <tags>
-        <tag>webpack</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>unresolved problems</title>
-    <url>/2022/09/20/unresolved-problems/</url>
-    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
-<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
-<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
-<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
-<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
-]]></content>
-      <categories>
-        <category>unresolved</category>
-      </categories>
-      <tags>
-        <tag>unresolved</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>think of tapable</title>
     <url>/2022/10/15/think-of-tapable/</url>
     <content><![CDATA[<h1 id="Tapable"><a href="#Tapable" class="headerlink" title="Tapable"></a>Tapable</h1><blockquote>
@@ -1292,6 +1275,23 @@ fancybox: true
       </tags>
   </entry>
   <entry>
+    <title>unresolved problems</title>
+    <url>/2022/09/20/unresolved-problems/</url>
+    <content><![CDATA[<h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><h4 id="speed-measure-webpack-plugin"><a href="#speed-measure-webpack-plugin" class="headerlink" title="speed-measure-webpack-plugin"></a>speed-measure-webpack-plugin</h4><p>  为何 speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 的支持很有限制,如何完美的解决这些限制?</p>
+<p>现阶段并没有发现解决的最完美的方式, speed-measure-webpack-plugin 速度分析插件对于 webpack 5.x 会出现以下两个问题:</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem.png"></p>
+<p>使用 .wrap 包裹后,会直接报 TypeError 类型错误,经过查询可知,官方给出的解决方案是,将 optimization.minimizer 的默认值去掉,也就是 ‘…’.<br>那就有疑问了,如果不合并 minimizer 默认值,对于prod 生产环境的打包速度分析时,我还需要额外下载 terser-webpack-webpack 对构建打包文件实行压缩混淆,还需要额外引入 new webpack.optimize.ModuleConcatenationPlugin 来开启 Scope Hoisting 吗?还是说要放弃 css-minimizer-webpack-plugin 压缩 css 文件,使用其他的比较麻烦的方案呢?这些方式勉强可以处理,但是都太得不偿失.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/171'>Not working with Webpack 5: “TypeError: Cannot create proxy with a non-object as target or handler”</a>.</p>
+<p><img src="https://image.white-than-wood.zone/webpack/speed-measure-webpack-plugin-problem-ano.png"></p>
+<p>即使按照官方的解决方案,去掉 optimization.minimizer 的默认值 ‘…’,也会报 “You forgot to add ‘mini-css-extract-plugin’ plugin” 这个问题,针对于此官方的解决方案是,先试用 speed-measure-webpack-plugin 速度分析,而后再将 mini-css-extract-plugin 抽取 css 文件插件添加到 webpack plugins 中.感觉还是好愚蠢的做法,很不优雅而且多余.<br>参考链接: <a href='https://github.com/stephencookdev/speed-measure-webpack-plugin/issues/167#issuecomment-976836861'>“You forgot to add ‘mini-css-extract-plugin’ plugin”</a>.</p>
+]]></content>
+      <categories>
+        <category>unresolved</category>
+      </categories>
+      <tags>
+        <tag>unresolved</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>create Simplepack</title>
     <url>/2022/10/14/create-simplepack/</url>
     <content><![CDATA[<h1 id="create-Simplepack"><a href="#create-Simplepack" class="headerlink" title="create Simplepack"></a>create Simplepack</h1><p>搭建一个简易的 webpack —— Simplepack.</p>
@@ -1325,6 +1325,116 @@ fancybox: true
       </categories>
       <tags>
         <tag>webpack</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of css</title>
+    <url>/2022/11/21/think-of-css/</url>
+    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
+<blockquote>
+<p>text-align + inline-block</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>table + margin</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + justify-content</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
+<p>table-cell + vertical-align</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>flex + align-items</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
+<p>flex</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>absolute + transform(translate)</p>
+</blockquote>
+  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>浮动元素 float,除了 none 以外的情况</li>
+<li>定位元素 position(absolute、fixed)</li>
+<li>display(inline-block、table-caption、table-cell)</li>
+<li>overflow(auto、hidden、scroll)</li>
+</ul>
+<blockquote>
+<p>特性</p>
+</blockquote>
+<ul>
+<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
+<li>BFC 的高度计算会联同浮动元素的高度</li>
+<li>BFC 的区域不会与浮动元素的区域重叠</li>
+</ul>
+<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>flex-grow: 设置元素的扩展比例</li>
+<li>flex-shrink: 设置元素的收缩比例</li>
+<li>flex-basis: 设置元素的初始值</li>
+</ul>
+<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
+<p>区别</p>
+</blockquote>
+<ul>
+<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
+<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
+</ul>
+<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
+<p>属性值</p>
+</blockquote>
+<ul>
+<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
+<li>relative: 相对定位,会相对于当前元素位置定位</li>
+<li>fixed: 绝对定位,是基于整个浏览器 web 页面定位</li>
+<li>static: 默认值,不定位</li>
+<li>inherit: 继承父元素的定位属性值</li>
+<li>sticky: 绝对定位,基本是基于整个浏览器 web 页面定位,是 relative 与 fixed 的混合定位</li>
+</ul>
+]]></content>
+      <categories>
+        <category>css</category>
+      </categories>
+      <tags>
+        <tag>css</tag>
       </tags>
   </entry>
   <entry>
@@ -2039,160 +2149,6 @@ fancybox: true
       </tags>
   </entry>
   <entry>
-    <title>think of v8</title>
-    <url>/2022/11/22/think-of-v8/</url>
-    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
-<p>垃圾回收机制</p>
-</blockquote>
-<p>  使用分代回收策略,分为新、老生代.</p>
-<ul>
-<li>新生代: 新生代的堆内存被分为多个 SemiSpace 空间,每个 SemiSpace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
-<li>查找 from 中还存活的对象,将其全部移入到 to</li>
-<li>反转 from 和 to</li>
-<li>对 to 尽数回收</li>
-</ul>
-</li>
-<li>新生代 -&gt; 老生代<ul>
-<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
-<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
-</ul>
-</li>
-<li>老生代<ul>
-<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
-<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>v8</category>
-      </categories>
-      <tags>
-        <tag>v8</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of css</title>
-    <url>/2022/11/21/think-of-css/</url>
-    <content><![CDATA[<h1 id="css"><a href="#css" class="headerlink" title="css"></a>css</h1><h4 id="水平居中"><a href="#水平居中" class="headerlink" title="水平居中"></a>水平居中</h4><p>对于父子关系的布局，如何让子元素居中就是一个课题~</p>
-<blockquote>
-<p>text-align + inline-block</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">text-align</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: inline-block;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateX</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>table + margin</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table;</span><br><span class="line">    <span class="attribute">margin</span>: <span class="number">0</span> auto;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + justify-content</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="垂直居中"><a href="#垂直居中" class="headerlink" title="垂直居中"></a>垂直居中</h4><blockquote>
-<p>table-cell + vertical-align</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: table-cell;</span><br><span class="line">    <span class="attribute">vertical-align</span>: middle;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">100px</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translateY</span>(-<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>flex + align-items</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="水平垂直居中"><a href="#水平垂直居中" class="headerlink" title="水平垂直居中"></a>水平垂直居中</h4><blockquote>
-<p>flex</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">display</span>: flex;</span><br><span class="line">    <span class="attribute">justify-content</span>: center;</span><br><span class="line">    <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<blockquote>
-<p>absolute + transform(translate)</p>
-</blockquote>
-  <figure class="highlight css"><table><tr><td class="code"><pre><span class="line">  <span class="selector-class">.parent</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: relative;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="selector-class">.children</span> &#123;</span><br><span class="line">    <span class="attribute">position</span>: absolute;</span><br><span class="line">    <span class="attribute">left</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">top</span>: <span class="number">50%</span>;</span><br><span class="line">    <span class="attribute">transform</span>: <span class="built_in">translate</span>(-<span class="number">50%</span>, -<span class="number">50%</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="BFC"><a href="#BFC" class="headerlink" title="BFC"></a>BFC</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>浮动元素 float,除了 none 以外的情况</li>
-<li>定位元素 position(absolute、fixed)</li>
-<li>display(inline-block、table-caption、table-cell)</li>
-<li>overflow(auto、hidden、scroll)</li>
-</ul>
-<blockquote>
-<p>特性</p>
-</blockquote>
-<ul>
-<li>BFC 会形成一个独立的容器,容器内的元素不受容器外元素的影响</li>
-<li>BFC 的高度计算会联同浮动元素的高度</li>
-<li>BFC 的区域不会与浮动元素的区域重叠</li>
-</ul>
-<h4 id="flex"><a href="#flex" class="headerlink" title="flex"></a>flex</h4><blockquote>
-<p>分类</p>
-</blockquote>
-<ul>
-<li>flex-grow: 设置元素的扩展比例</li>
-<li>flex-shrink: 设置元素的收缩比例</li>
-<li>flex-basis: 设置元素的初始值</li>
-</ul>
-<h4 id="重绘和回流"><a href="#重绘和回流" class="headerlink" title="重绘和回流"></a>重绘和回流</h4><blockquote>
-<p>区别</p>
-</blockquote>
-<ul>
-<li>回流是由于页面 DOM 结构发生变化导致的,而重绘则是页面上存在一些样式变化就会发生重绘,不一定是 DOM 结构发生变化导致的</li>
-<li>回流一定会导致重绘,而重绘不一定会导致回流</li>
-</ul>
-<h4 id="CSS-三角形"><a href="#CSS-三角形" class="headerlink" title="CSS 三角形"></a>CSS 三角形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">0</span>;</span><br><span class="line">    <span class="attribute">border-bottom</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="CSS-梯形"><a href="#CSS-梯形" class="headerlink" title="CSS 梯形"></a>CSS 梯形</h4><blockquote>
-<p>示例</p>
-</blockquote>
-<figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.box</span> &#123;</span><br><span class="line">    <span class="attribute">width</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">height</span>: <span class="number">20px</span>;</span><br><span class="line">    <span class="attribute">border</span>: <span class="number">50px</span> solid gray;</span><br><span class="line">    <span class="attribute">border-top-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-left-color</span>: transparent;</span><br><span class="line">    <span class="attribute">border-right-color</span>: transparent;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="position"><a href="#position" class="headerlink" title="position"></a>position</h4><blockquote>
-<p>属性值</p>
-</blockquote>
-<ul>
-<li>absolute: 绝对定位,是基于除了 static 以外的定位属性值的父元素定位</li>
-<li>relative: 相对定位,会相对于当前元素位置定位</li>
-<li>fixed: 绝对定位,是基于整个浏览器 web 页面定位</li>
-<li>static: 默认值,不定位</li>
-<li>inherit: 继承父元素的定位属性值</li>
-<li>sticky: 绝对定位,基本是基于整个浏览器 web 页面定位,是 relative 与 fixed 的混合定位</li>
-</ul>
-]]></content>
-      <categories>
-        <category>css</category>
-      </categories>
-      <tags>
-        <tag>css</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>think of angular</title>
-    <url>/2023/01/17/think-of-angular/</url>
-    <content><![CDATA[<h1 id="angular"><a href="#angular" class="headerlink" title="angular"></a>angular</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4>]]></content>
-      <categories>
-        <category>angular</category>
-      </categories>
-      <tags>
-        <tag>angular</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>think of browser</title>
     <url>/2022/11/24/think-of-browser/</url>
     <content><![CDATA[<h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
@@ -2321,6 +2277,55 @@ fancybox: true
       <tags>
         <tag>algorithm</tag>
         <tag>算法</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of angular</title>
+    <url>/2023/01/17/think-of-angular/</url>
+    <content><![CDATA[<h1 id="angular"><a href="#angular" class="headerlink" title="angular"></a>angular</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4>]]></content>
+      <categories>
+        <category>angular</category>
+      </categories>
+      <tags>
+        <tag>angular</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>think of git</title>
+    <url>/2023/01/30/think-of-git/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>think of v8</title>
+    <url>/2022/11/22/think-of-v8/</url>
+    <content><![CDATA[<h1 id="v8"><a href="#v8" class="headerlink" title="v8"></a>v8</h1><blockquote>
+<p>垃圾回收机制</p>
+</blockquote>
+<p>  使用分代回收策略,分为新、老生代.</p>
+<ul>
+<li>新生代: 新生代的堆内存被分为多个 SemiSpace 空间,每个 SemiSpace 分为两部分 from 和 to,分配对象空间时,只在 from 中分配,to 是闲置的,垃圾回收机制会按照以下步骤:<ul>
+<li>查找 from 中还存活的对象,将其全部移入到 to</li>
+<li>反转 from 和 to</li>
+<li>对 to 尽数回收</li>
+</ul>
+</li>
+<li>新生代 -&gt; 老生代<ul>
+<li>新生代垃圾回收机制中,from 中的对象经过多次复制依然还存活,就将其移入老生代</li>
+<li>在反转 from 和 to 的过程中,如果 to 空间的使用量超过了 25%,那么 from 中的对象全部移入老生代</li>
+</ul>
+</li>
+<li>老生代<ul>
+<li>标记删除: 对象已死亡,会直接被剃掉删除</li>
+<li>标记合并: 将存活的对象移到一边,将被回收的对象移到另一边,直接对可被回收的区域进行整体的垃圾回收</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>v8</category>
+      </categories>
+      <tags>
+        <tag>v8</tag>
       </tags>
   </entry>
   <entry>
@@ -2695,7 +2700,7 @@ fancybox: true
 <blockquote>
 <p>ES6</p>
 </blockquote>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> classImitate = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> classImitate = <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;This class can only be called by the new constructor&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">args</span> = args;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(classImitate.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;method&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">value</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;This method cannot be called by the new constructor&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Contains class parameters::&#x27;</span>, args);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">enumerable</span>: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(classImitate.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;getter&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">args</span>.<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">enumerable</span>: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> classImitate = (<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">const</span> classImitate = <span class="keyword">function</span> (<span class="params">...args</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> === <span class="literal">undefined</span>) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;This class can only be called by the new constructor&#x27;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="variable language_">this</span>.<span class="property">args</span> = args;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(classImitate.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;method&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">value</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (<span class="keyword">new</span>.<span class="property">target</span> !== <span class="literal">undefined</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">TypeError</span>(<span class="string">&#x27;This method cannot be called by the new constructor&#x27;</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;Contains class parameters:&#x27;</span>, args);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">enumerable</span>: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">    <span class="title class_">Object</span>.<span class="title function_">defineProperty</span>(classImitate.<span class="property"><span class="keyword">prototype</span></span>, <span class="string">&#x27;getter&#x27;</span>, &#123;</span><br><span class="line">        <span class="title function_">get</span>(<span class="params"></span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="variable language_">this</span>.<span class="property">args</span>.<span class="title function_">join</span>(<span class="string">&#x27;,&#x27;</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="attr">enumerable</span>: <span class="literal">false</span></span><br><span class="line">    &#125;);</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
 
 <h4 id="class-with-array-attributes"><a href="#class-with-array-attributes" class="headerlink" title="class with array attributes"></a>class with array attributes</h4><blockquote>
 <p>ES5</p>
@@ -2742,10 +2747,5 @@ fancybox: true
       <tags>
         <tag>javascript</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>think of git</title>
-    <url>/2023/01/30/think-of-git/</url>
-    <content><![CDATA[]]></content>
   </entry>
 </search>
