@@ -81,7 +81,7 @@ categories: problems
 
   ![](https://image.white-than-wood.zone/daily_problems/nvm_node%3Afs.png)
 
-  解: 由于在 node v14.18.0 及其之后,fs 文件系统通过 node: 协议的 URL 的方法来实行访问 Node.js 的内置模块,例如: node:fs,而本地 nvm 默认使用的 node 版本为 v12.22.11,无法通过上述协议来实行访问,由此会出现此类错误
+  解: 由于在 node v14.18.0 及其之后,fs 文件系统通过 node: 协议的 URL 的方法来实行访问 Node.js 的内置模块,例如: node:fs,而本地 nvm 默认使用的 node 版本为 v12.22.11,无法通过上述协议的 URL 的方法来实行访问 Node.js 的内置模块,由此会出现此类错误
   
 # browser
 
