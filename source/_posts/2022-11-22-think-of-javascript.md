@@ -2949,7 +2949,7 @@ console.log('state:', state.title.txt, state.content.txt);
 store.dispatch({type: 'UPLOAD_TITLE', payload: {title: '进击的大前端'}});
 state = store.getState();
 console.log('state:', state.title.txt, state.content.txt);
-state.dispatch({type: 'UPLOAD_CONTENT', payload: {content: '手写 Promise'}});
+store.dispatch({type: 'UPLOAD_CONTENT', payload: {content: '手写 Promise'}});
 state = store.getState();
 console.log('state:', state.title.txt, state.content.txt);
 ```
