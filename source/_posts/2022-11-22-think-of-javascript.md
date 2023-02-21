@@ -2855,6 +2855,105 @@ class MyArray extends Array {
 }
 ```
 
+#### redux imitate
+
+> ES5
+
+```javascript
+function createStore(state, stateChanger) {
+    function getState() {
+        return state;
+    }
+
+    function dispatch(action) {
+        return stateChanger(state, action);
+    }
+
+    return {
+        getState,
+        dispatch
+    };
+}
+
+function stateChanger(state, action) {
+    const {type, payload} = action;
+    switch (type) {
+        case 'UPLOAD_TITLE':
+            state.title.txt = payload.title;
+            break;
+        case 'UPLOAD_CONTENT':
+            state.content.txt = payload.content;
+            break;
+        default:
+            break;
+    }
+    return state;
+}
+
+var appState = {
+    title: {
+        txt: '前端这件小事儿'
+    },
+    content: {
+        txt: 'Redux 源码解析'
+    }
+};
+
+var store = createStore(appState, stateChanger);
+var state = store.getState();
+console.log('state', state.title.txt, state.content.txt);
+store.dispatch({type: 'UPLOAD_TITLE', payload: {title: '进击的大前端'}});
+state = store.getState();
+console.log('state', state.title.txt, state.content.txt);
+store.dispatch({type: 'UPLOAD_CONTENT', payload: {content: '手写 Promise'}});
+state = store.getState();
+console.log('state', state.title.txt, state.content.txt);
+```
+
+> ES6
+
+```javascript
+const createStore = (state, stateChanger) => {
+    const getState = () => state;
+    const dispatch = action => stateChanger(state, action);
+    return {
+        getState,
+        dispatch
+    };
+};
+const stateChanger = (state, action) => {
+    const {type, payload} = action;
+    switch (type) {
+        case 'UPLOAD_TITLE':
+            state.title.txt = payload.title;
+            break;
+        case 'UPLOAD_CONTENT':
+            state.content.txt = payload.content;
+            break;
+        default:
+            break;
+    }
+    return state;
+};
+const appState = {
+    title: {
+        txt: '前端这件小事儿'
+    },
+    content: {
+        txt: 'Redux 源码解析'
+    }
+};
+const store = createStore(appState, stateChanger);
+let state = store.getState();
+console.log('state:', state.title.txt, state.content.txt);
+store.dispatch({type: 'UPLOAD_TITLE', payload: {title: '进击的大前端'}});
+state = store.getState();
+console.log('state:', state.title.txt, state.content.txt);
+state.dispatch({type: 'UPLOAD_CONTENT', payload: {content: '手写 Promise'}});
+state = store.getState();
+console.log('state:', state.title.txt, state.content.txt);
+```
+
 #### dateFormat ago
 
 > ES5
