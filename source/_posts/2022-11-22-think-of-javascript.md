@@ -2470,6 +2470,7 @@ function Thunk(fn) {
 
 function run(taskRun) {
     var task = taskRun();
+
     function next(err, data) {
         if (err) return task.throw(err instanceof Error ? err : new Error(err));
         const result = task.next(data);
@@ -2480,6 +2481,7 @@ function run(taskRun) {
             next(null, result.value);
         }
     }
+
     next();
 }
 ```
@@ -2521,6 +2523,7 @@ function Thunk(fn) {
 function run(taskRun) {
     return new Promise(function (resolve, reject) {
         const task = taskRun();
+
         function next(err, data) {
             if (err) return reject(task.throw(err instanceof Error ? err : new Error(err)));
             const {value, done} = task.next(data);
@@ -2535,6 +2538,7 @@ function run(taskRun) {
                 next(reason);
             });
         }
+
         next();
     });
 }
@@ -2547,6 +2551,7 @@ const Thunk = fn => (...args) => callback => fn(...args, callback);
 const run = taskRun => {
     return new Promise((resolve, reject) => {
         const task = taskRun();
+
         function next(err, data) {
             if (err) return reject(task.throw(err instanceof Error ? err : new Error(err)));
             const {value, done} = task.next(data);
@@ -2561,6 +2566,7 @@ const run = taskRun => {
                 next(reason);
             });
         }
+
         next();
     });
 };
@@ -2977,6 +2983,7 @@ function createStore(reducer) {
             listener();
         });
     }
+
     // 初始化
     dispatch({});
     return {
@@ -3185,6 +3192,34 @@ const isPlainObject = o => {
 };
 ```
 
+#### redux isPlainObject
+
+> ES5
+
+```javascript
+function isPlainObject(o) {
+    if (typeof o !== 'object' || o === null) return false;
+    var currentObject = o;
+    while (Object.getPrototypeOf(currentObject) !== null) {
+        currentObject = Object.getPrototypeOf(currentObject);
+    }
+    return Object.getPrototypeOf(o) === currentObject;
+}
+```
+
+> ES6
+
+```javascript
+const isPlainObject = o => {
+    if (typeof o !== 'object' || o === null) return false;
+    let currentObject = o;
+    while (Object.getPrototypeOf(currentObject) !== null) {
+        currentObject = Object.getPrototypeOf(currentObject);
+    }
+    return Object.getPrototypeOf(o) === currentObject;
+};
+```
+
 #### dateFormat ago
 
 > ES5
@@ -3207,7 +3242,7 @@ Date.prototype.__defineGetter__('ago', function () {
 > ES6
 
 ```javascript
-Date.prototype.__defineGetter__('ago', function (){
+Date.prototype.__defineGetter__('ago', function () {
     const differ = (new Date().getTime() - this.getTime()) / 1000,
         day_differ = Math.floor(differ / 86400);
     return !day_differ &&
@@ -3218,7 +3253,7 @@ Date.prototype.__defineGetter__('ago', function (){
             differ < 86400 && `${Math.floor(differ / 3600)} hours ago`) ||
         (day_differ === 1 && 'Yesterday' ||
             day_differ < 7 && `${day_differ} days ago` ||
-           `${Math.ceil(day_differ / 7)} weeks ago`);
+            `${Math.ceil(day_differ / 7)} weeks ago`);
 });
 ```
 
@@ -3311,6 +3346,7 @@ function resolvePathCli() {
 ```
 
 > ES6
+
 ```javascript
 const fs = require('fs');
 require('colors');
