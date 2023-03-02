@@ -3137,6 +3137,54 @@ store.dispatch({type: 'UPLOAD_TITLE', payload: {title: '进击的大前端'}});
 store.dispatch({type: 'UPLOAD_CONTENT', payload: {content: '手写 Promise'}});
 ```
 
+#### isPlainObject
+
+> ES5
+
+```javascript
+function isObject(o) {
+    return Object.prototype.toString.call(o) === '[object Object]';
+}
+
+function isPlainObject(o) {
+    if (isObject(o) === false) return false;
+
+    var ctor, proto;
+    ctor = o.constructor;
+    if (ctor === undefined) return true;
+
+    proto = o.prototype;
+    if (isObject(proto) === false) return false;
+
+    if (o.hasOwnProperty('isPrototypeOf') === false) return false;
+
+    return true;
+}
+```
+
+> ES6
+
+```javascript
+const isObject = o => {
+    return Object.prototype.toString.call(o) === '[object Object]';
+};
+
+const isPlainObject = o => {
+    if (isObject(o) === false) return false;
+
+    var ctor, proto;
+    ctor = o.constructor;
+    if (ctor === undefined) return true;
+
+    proto = o.prototype;
+    if (isObject(proto) === false) return false;
+
+    if (o.hasOwnProperty('isPrototypeOf') === false) return false;
+
+    return true;
+};
+```
+
 #### dateFormat ago
 
 > ES5
