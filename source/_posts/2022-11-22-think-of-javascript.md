@@ -3225,6 +3225,10 @@ const isPlainObject = o => {
 > ES5
 
 ```javascript
+const Action_Types = {
+    INIT: '@@redux/INIT'
+};
+
 function isPlainObject(o) {
     if (typeof o !== 'object' || o === null) return false;
     var currentObject = o;
@@ -3312,6 +3316,8 @@ function createStore(reducer, preloadedState, enhancer) {
         return action;
     }
 
+    dispatch({type: Action_Types.INIT});
+
     return {
         getState,
         subscribe,
@@ -3323,6 +3329,10 @@ function createStore(reducer, preloadedState, enhancer) {
 > ES6
 
 ```javascript
+const Action_Types = {
+    INIT: '@@redux/INIT'
+};
+
 function isPlainObject(o) {
     if (typeof o !== 'object' || o !== null) return false;
     let currentObject = o;
@@ -3404,6 +3414,8 @@ function createStore(reducer, preloadedState, enhancer) {
         }
         return action;
     };
+
+    dispatch({type: Action_Types.INIT});
 
     return {
         getState,
