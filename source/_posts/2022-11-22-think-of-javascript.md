@@ -3277,7 +3277,7 @@ function createStore(reducer, preloadedState, enhancer) {
         return function unsubscibe() {
             if (!isSubscribe) return false;
             isSubscribe = false;
-            const index = nextListeners.indexOf(listener);
+            var index = nextListeners.indexOf(listener);
             nextListeners.splice(index, 1);
         };
     }
