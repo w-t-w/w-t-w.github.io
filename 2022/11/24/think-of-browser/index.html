@@ -1,37 +1,490 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.2">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
-{% block title %}{{ page.title }} | {{ config.title }}{% endblock %}
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
-{% block page_class %}page-post-detail{% endblock %}
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="browserprocess 分析   浏览器的进程 浏览器进程 渲染进程 GUI 线程: 用于处理、解析、渲染 html、css JS 线程: 也就是程序员所说的所谓 “JS 单线程” 定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程 事件触发线程: Event Loop 事件循环执行机制 异步 HTTP 请求线程: 处理 http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="think of browser">
+<meta property="og:url" content="http://example.com/2022/11/24/think-of-browser/index.html">
+<meta property="og:site_name" content="wtw&#39;s Frontend">
+<meta property="og:description" content="browserprocess 分析   浏览器的进程 浏览器进程 渲染进程 GUI 线程: 用于处理、解析、渲染 html、css JS 线程: 也就是程序员所说的所谓 “JS 单线程” 定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程 事件触发线程: Event Loop 事件循环执行机制 异步 HTTP 请求线程: 处理 http">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-24T00:56:13.000Z">
+<meta property="article:modified_time" content="2023-08-28T14:06:41.995Z">
+<meta property="article:author" content="wtw(比木白)">
+<meta property="article:tag" content="browser">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://example.com/2022/11/24/think-of-browser/">
 
 
-{% block content %}
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+  <title>think of browser | wtw's Frontend</title>
+  
 
-    <div class="post-spread">
-      {% if theme.jiathis %}
-        {% include '_partials/share/jiathis.swig' %}
-      {% elseif theme.baidushare %}
-        {% include '_partials/share/baidushare.swig' %}
-      {% elseif theme.add_this_id %}
-        {% include '_partials/share/add-this.swig' %}
-      {% elseif theme.duoshuo_shortname and theme.duoshuo_share %}
-        {% include '_partials/share/duoshuo_share.swig' %}
-      {% endif %}
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">wtw's Frontend</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">道阻且长,行则将至💪🏻</p>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/24/think-of-browser/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="wtw(比木白)">
+      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wtw's Frontend">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          think of browser
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-24 08:56:13" itemprop="dateCreated datePublished" datetime="2022-11-24T08:56:13+08:00">2022-11-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-28 22:06:41" itemprop="dateModified" datetime="2023-08-28T22:06:41+08:00">2023-08-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/browser/" itemprop="url" rel="index"><span itemprop="name">browser</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h1 id="browser"><a href="#browser" class="headerlink" title="browser"></a>browser</h1><h4 id="process"><a href="#process" class="headerlink" title="process"></a>process</h4><blockquote>
+<p>分析</p>
+</blockquote>
+<ul>
+<li>浏览器的进程<ul>
+<li>浏览器进程</li>
+<li>渲染进程<ul>
+<li>GUI 线程: 用于处理、解析、渲染 html、css</li>
+<li>JS 线程: 也就是程序员所说的所谓 “JS 单线程”</li>
+<li>定时器线程: 处理定时器(setTimeout、setInterval),将符合条件的回调事件移入至事件触发线程</li>
+<li>事件触发线程: Event Loop 事件循环执行机制</li>
+<li>异步 HTTP 请求线程: 处理 http 请求,将符合条件的回调事件移入至事件触发线程</li>
+</ul>
+</li>
+<li>GPU 进程</li>
+<li>插件进程</li>
+<li>网络进程</li>
+</ul>
+</li>
+</ul>
+<h4 id="request"><a href="#request" class="headerlink" title="request"></a>request</h4><blockquote>
+<p>请求头</p>
+</blockquote>
+<ul>
+<li>content-type: 向服务器端请求获取资源的类型</li>
+<li>referer: 包含了当前请求页面的来源页面的地址</li>
+<li>user-agent: 则是用于告知服务器端,访问者是由什么工具请求的</li>
+</ul>
+<h4 id="OPTIONS"><a href="#OPTIONS" class="headerlink" title="OPTIONS"></a>OPTIONS</h4><blockquote>
+<p>概念</p>
+</blockquote>
+<p>  HTTP request OPTIONS 相当于是 Chrome 浏览器发的一个”预检”请求,它会向服务器申请权限检测信息,如果申请通过,浏览器才会真正向服务器发送一个正式的 HTTP 请求.</p>
+<blockquote>
+<p>场景</p>
+</blockquote>
+<ul>
+<li>跨域请求</li>
+</ul>
+<h4 id="redirect"><a href="#redirect" class="headerlink" title="redirect"></a>redirect</h4><blockquote>
+<p>状态码</p>
+</blockquote>
+<p>  301: A 地址资源被永久性的移除,A 地址资源不可被访问<br>  302: A 地址资源被暂时性的转移,A 地址资源仍然可被访问,只是临时的从 A 地址跳转到了 B 地址</p>
+<h4 id="HTTP-缓存策略"><a href="#HTTP-缓存策略" class="headerlink" title="HTTP 缓存策略"></a>HTTP 缓存策略</h4><blockquote>
+<p>分类</p>
+</blockquote>
+<ul>
+<li>协商缓存<ul>
+<li>ETag 与 If-None-Match: 通过 URL 资源标识符与服务器端实行协商,如果服务器端发现 ETag 与 If-None-Match 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+<li>Last-Modified 与 If-Modified-Since: 通过最后修改时间戳与服务器端实行协商,如果服务器端发现 Last-Modified 与 If-Modified-Since 不相同,则会返回数据,状态码 200;否则会返回状态码 304,浏览器取本地缓存</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires: 服务器端返回响应头加入 Expires 时间戳,在这个时间戳之前,浏览器端只能取本地缓存</li>
+<li>Cache-Control<ul>
+<li>max-age: 服务器端返回响应头加入 Cache-Control: max-age = 20000,表示当前资源在 20000 秒内都不会再请求,浏览器取本地缓存</li>
+<li>immutable: 浏览器永远只能取本地缓存</li>
+<li>no-cache: 使用缓存前,强制要求把请求提交给服务器端实行验证</li>
+<li>no-store: 不存储有关客户端请求或服务端响应的任何内容,不使用任何缓存</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>优先级</p>
+</blockquote>
+<ul>
+<li>强制缓存与协商缓存<ul>
+<li>会先判断强制缓存,如果强制缓存生效,直接使用缓存,否则发请求跟服务器协商,看要不要使用缓存</li>
+</ul>
+</li>
+<li>协商缓存<ul>
+<li>ETag 与 Last-Modified<ul>
+<li>ETag &gt; Last-Modified,原因是 Last-Modified 设计上只精确到秒,而 ETag 则是随时更新的,比 Last-Modified 更加精确</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>强制缓存<ul>
+<li>Expires 与 Cache-Control<ul>
+<li>Cache-Control &gt; Expires</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/browser/" rel="tag"># browser</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/11/22/think-of-javascript/" rel="prev" title="think of javascript">
+      <i class="fa fa-chevron-left"></i> think of javascript
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/11/26/think-of-algorithm/" rel="next" title="think of algorithm">
+      think of algorithm <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#browser"><span class="nav-number">1.</span> <span class="nav-text">browser</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#process"><span class="nav-number">1.0.0.1.</span> <span class="nav-text">process</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#request"><span class="nav-number">1.0.0.2.</span> <span class="nav-text">request</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OPTIONS"><span class="nav-number">1.0.0.3.</span> <span class="nav-text">OPTIONS</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#redirect"><span class="nav-number">1.0.0.4.</span> <span class="nav-text">redirect</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#HTTP-%E7%BC%93%E5%AD%98%E7%AD%96%E7%95%A5"><span class="nav-number">1.0.0.5.</span> <span class="nav-text">HTTP 缓存策略</span></a></li></ol></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">wtw(比木白)</p>
+  <div class="site-description" itemprop="description">前端领域内所不知道的都探索于此!</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">wtw(比木白)</span>
+</div>
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
