@@ -6,3 +6,4 @@ node_modules
 db.json
 talk-auto-init.js
 gitalk-init-cache.json
+themes/next
