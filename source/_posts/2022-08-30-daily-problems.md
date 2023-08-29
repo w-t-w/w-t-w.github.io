@@ -27,8 +27,8 @@ categories: problems
 
   defer 与 async 的区别?
 
-  - defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件
-  - async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计
+  - defer 不会阻止当前页面文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会先加载,然后按照顺序执行,加载执行完毕之后,触发 DOMContentLoaded 事件
+  - async 不会阻止当前页面文档的渲染,脚本会在加载完成之后立即执行,DOMContentLoaded 事件可能发生在 async 脚本执行之前或者之后,不计入 DOMContentLoaded 事件统计范围内
   
 # webpack
 
@@ -36,7 +36,7 @@ categories: problems
 
   众所周知,在 webpack 4.x以及之后的版本,开启 mode: 'production',相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: 'production',却不能实现压缩混淆,这是为什么呢?
   
-  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 '...' 元素就可生效.
+  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 属性值数组的最后添加 '...' 元素就可生效.
   
   ```javascript
   module.exports = {
@@ -89,7 +89,7 @@ categories: problems
 
   "Warning: Mixed Content: The page at '\<URL\>' was loaded over HTTPS, but requested an insecure element '\<URL\>'. This request was automatically upgraded to HTTPS, For more information see \<URL\>"所表示的含义?如何消除?
   
-  解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告
+  解: 表示当前浏览器 web https 安全协议页面中存在 http 请求的资源,也就是此浏览器 web 页面是由 http 和 https 协议混合内容的,由此会出现这种警告. 消除的话,就比较简单了,web 前端开发人员要确保页面上的每个资源都通过 HTTPS 加载.
   
 # react
 
