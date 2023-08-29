@@ -30,7 +30,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://image.white-than-wood.zone/daily_problems/nvm_node%3Afs.png">
 <meta property="article:published_time" content="2022-08-30T10:53:14.000Z">
-<meta property="article:modified_time" content="2023-08-28T14:06:41.987Z">
+<meta property="article:modified_time" content="2023-08-28T18:12:23.134Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="problems">
 <meta name="twitter:card" content="summary">
@@ -237,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-28 22:06:41" itemprop="dateModified" datetime="2023-08-28T22:06:41+08:00">2023-08-28</time>
+                <time title="修改时间：2023-08-29 02:12:23" itemprop="dateModified" datetime="2023-08-29T02:12:23+08:00">2023-08-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -276,14 +276,14 @@
 </blockquote>
 <p>  defer 与 async 的区别?</p>
 <ul>
-<li>defer 不会阻止文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会顺序加载,加载执行完毕之后,触发 DOMContentLoaded 事件</li>
-<li>async 不会阻止文档的渲染,脚本会在加载完成之后立即执行,不计入 DOMContentLoaded 事件统计</li>
+<li>defer 不会阻止当前页面文档的渲染,当页面处理、解析、渲染完成之后,defer 脚本会先加载,然后按照顺序执行,加载执行完毕之后,触发 DOMContentLoaded 事件</li>
+<li>async 不会阻止当前页面文档的渲染,脚本会在加载完成之后立即执行,DOMContentLoaded 事件可能发生在 async 脚本执行之前或者之后,不计入 DOMContentLoaded 事件统计范围内</li>
 </ul>
 <h1 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h1><blockquote>
 <p>terser-webpack-plugin</p>
 </blockquote>
 <p>  众所周知,在 webpack 4.x以及之后的版本,开启 mode: ‘production’,相当于默认添加了 terser-webpack-plugin,会自动为构建打包文件压缩混淆.那么有时会发现开启了 mode: ‘production’,却不能实现压缩混淆,这是为什么呢?</p>
-<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 的最后添加 ‘…’ 元素就可生效.</p>
+<p>  解: 原因很有可能在 optimization.minimizer 里,有时会在里面配置一些对其他资源模块的压缩等功能的插件,而忘记 minimizer 属性值本身会对默认值进行覆盖,导致默认开启的 terser-webpack-plugin 不生效,那么在这时候需要对默认值进行合并,在 minimizer 属性值数组的最后添加 ‘…’ 元素就可生效.</p>
   <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable language_">module</span>.<span class="property">exports</span> = &#123;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">  <span class="attr">optimization</span>: &#123;</span><br><span class="line">      <span class="attr">minimizer</span>: [</span><br><span class="line">          <span class="comment">//...</span></span><br><span class="line">          <span class="string">&#x27;...&#x27;</span></span><br><span class="line">      ]</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">//...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h1 id="ssr"><a href="#ssr" class="headerlink" title="ssr"></a>ssr</h1><blockquote>
@@ -315,7 +315,7 @@
 <p>console</p>
 </blockquote>
 <p>  “Warning: Mixed Content: The page at ‘&lt;URL&gt;‘ was loaded over HTTPS, but requested an insecure element ‘&lt;URL&gt;‘. This request was automatically upgraded to HTTPS, For more information see &lt;URL&gt;“所表示的含义?如何消除?</p>
-<p>  解: 表示 web https 安全协议页面中存在 http 请求的资源,也就是此页面是由 http 和 https 协议混合内容的,由此会出现这种警告</p>
+<p>  解: 表示当前浏览器 web https 安全协议页面中存在 http 请求的资源,也就是此浏览器 web 页面是由 http 和 https 协议混合内容的,由此会出现这种警告. 消除的话,就比较简单了,web 前端开发人员要确保页面上的每个资源都通过 HTTPS 加载.</p>
 <h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><blockquote>
 <p>hooks</p>
 </blockquote>
