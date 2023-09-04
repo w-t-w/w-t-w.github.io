@@ -168,7 +168,7 @@ categories: css
 - 对于元素的移动操作,使用 transform 来去替代 top、left、right 和 bottom 操作,因为 css3 的整个操作是对于图层的组合来实现的,不会引发重绘与回流
 - 将多次样式的操作合并为一次
 - 利用 documentFragment 文档碎片
-- 将需要多次回流的元素,定位元素 position 设置为 absolute 或者 fixed,元素脱离了文档流,它的变好不会影响到其他元素
+- 将需要多次回流的元素,定位元素 position 设置为 absolute 或者 fixed,元素脱离了文档流,它的变化不会影响到其他元素
 - 使用 nodejs 对于数据结构实行聚合或者拆分,减少前端数据分析和操作,这样也可以减少重绘与回流
 
 #### CSS 三角形
