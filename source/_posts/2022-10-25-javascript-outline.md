@@ -408,6 +408,24 @@ category: javascript
      - async: async 函数执行后会返回一个 Promise
      - await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出
 
+### Environment Record
+
+   - Global Environment Record
+     - Function Environment Record
+     - Module Environment Record
+   - Object Environment Record
+   - Declarative Environment Record
+
+   1. Global Environment Record 的 OutEnv 永远为 null
+   2. Module Environment Record 的 OutEnv 永远为 Global Environment Record
+
+### this
+
+   - Declarative Environment Record: 无 this 绑定
+   - Function Environment Record: 默认绑定(window、global)、隐式绑定(函数调用)、显式绑定(apply、call、bind、softBind)、new 绑定(new 构造调用绑定)
+   - Global Environment Record: 默认绑定(window、global)
+   - Module Environment Record: 默认绑定(window、global),ESModule 下是 undefined
+
 ## webpack
 
 ### tapable
