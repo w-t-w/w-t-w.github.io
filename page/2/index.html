@@ -202,6 +202,226 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/11/17/think-of-react/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
+      <meta itemprop="name" content="wtw(比木白)">
+      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wtw's Frontend">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/11/17/think-of-react/" class="post-title-link" itemprop="url">think of react</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-17 11:48:59" itemprop="dateCreated datePublished" datetime="2022-11-17T11:48:59+08:00">2022-11-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-08-28 22:06:41" itemprop="dateModified" datetime="2023-08-28T22:06:41+08:00">2023-08-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/react/" itemprop="url" rel="index"><span itemprop="name">react</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="react"><a href="#react" class="headerlink" title="react"></a>react</h1><h4 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h4><ul>
+<li>数据驱动</li>
+<li>JSX 语法糖动态声明更加灵活</li>
+<li>Virtual DOM 与 Diff 算法配合使用,可保证性能</li>
+<li>Fiber 的任务调度和数据结构令 react 的性能更出色</li>
+</ul>
+<h4 id="基于-class"><a href="#基于-class" class="headerlink" title="基于 class"></a>基于 class</h4><ul>
+<li>生命周期<ul>
+<li>创建阶段<ul>
+<li>constructor: 初始化</li>
+<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
+<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
+<li>componentDidMount: 在组件首次挂载结束之后,需要实行的如异步 http 资源请求的步骤</li>
+</ul>
+</li>
+<li>更新阶段<ul>
+<li>getDerivedStateFromProps: 合并组件外的 props 至组件内 state,不推荐使用</li>
+<li>shouldComponentUpdate: 判断组件是否可以实行渲染更新</li>
+<li>getSnapShotBeforeUpdate: 在组件渲染更新前需要的统计计算</li>
+<li>render: react 组件内唯一的描述 UI 的方法,必须设置</li>
+<li>componentDidUpdate: 在组件渲染更新完成后要执行的一些操作</li>
+</ul>
+</li>
+<li>卸载阶段<ul>
+<li>componentWillUnmount: 在组件卸载时,用于资源释放</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="Diff-算法"><a href="#Diff-算法" class="headerlink" title="Diff 算法"></a>Diff 算法</h4><blockquote>
+<p>复杂度</p>
+</blockquote>
+<p>  O(n ^ 3) -&gt; O(n),只对比同层兄弟组件节点,不实行跨层节点对比</p>
+<blockquote>
+<p>节点</p>
+</blockquote>
+<ul>
+<li>属性变化</li>
+<li>位置变化</li>
+<li>类型变化</li>
+<li>跨层移动</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/11/17/think-of-react/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/25/javascript-outline/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="https://avatars.githubusercontent.com/u/112366447?v=4">
+      <meta itemprop="name" content="wtw(比木白)">
+      <meta itemprop="description" content="前端领域内所不知道的都探索于此!">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="wtw's Frontend">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2022/10/25/javascript-outline/" class="post-title-link" itemprop="url">javascript outline</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-10-25 11:41:26" itemprop="dateCreated datePublished" datetime="2022-10-25T11:41:26+08:00">2022-10-25</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-10-15 10:21:58" itemprop="dateModified" datetime="2023-10-15T10:21:58+08:00">2023-10-15</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/javascript/" itemprop="url" rel="index"><span itemprop="name">javascript</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="javascript-outline"><a href="#javascript-outline" class="headerlink" title="javascript outline"></a>javascript outline</h1><h2 id="ES6"><a href="#ES6" class="headerlink" title="ES6"></a>ES6</h2><h3 id="var"><a href="#var" class="headerlink" title="var"></a>var</h3><ul>
+<li>变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针)</li>
+<li>重复声明</li>
+<li>全局作用域绑定</li>
+</ul>
+<h3 id="let、const"><a href="#let、const" class="headerlink" title="let、const"></a>let、const</h3><ul>
+<li>不再拥有 var 的缺陷特性</li>
+<li>TDZ(临时死区)</li>
+<li>块级作用域绑定</li>
+</ul>
+<h3 id="let"><a href="#let" class="headerlink" title="let"></a>let</h3><ul>
+<li>变量声明</li>
+</ul>
+<h3 id="const"><a href="#const" class="headerlink" title="const"></a>const</h3><ul>
+<li>常量声明</li>
+<li>优先声明最佳实践</li>
+</ul>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2022/10/25/javascript-outline/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://example.com/2022/10/15/think-of-tapable/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -712,7 +932,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-28 22:06:41" itemprop="dateModified" datetime="2023-08-28T22:06:41+08:00">2023-08-28</time>
+                <time title="修改时间：2023-08-31 20:37:47" itemprop="dateModified" datetime="2023-08-31T20:37:47+08:00">2023-08-31</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -939,20 +1159,20 @@ git pull --set-upstream origin master
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>

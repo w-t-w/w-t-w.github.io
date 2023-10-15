@@ -29,7 +29,7 @@
 <meta property="og:description" content="javascript outlineES6var 变量提升(会提前分配栈空间内存,用于存储基本类型数据或者引用类型指针) 重复声明 全局作用域绑定  let、const 不再拥有 var 的缺陷特性 TDZ(临时死区) 块级作用域绑定  let 变量声明  const 常量声明 优先声明最佳实践">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2022-10-25T03:41:26.000Z">
-<meta property="article:modified_time" content="2023-08-28T14:06:41.993Z">
+<meta property="article:modified_time" content="2023-10-15T02:21:58.881Z">
 <meta property="article:author" content="wtw(比木白)">
 <meta property="article:tag" content="javascript">
 <meta property="article:tag" content="es6">
@@ -237,7 +237,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-08-28 22:06:41" itemprop="dateModified" datetime="2023-08-28T22:06:41+08:00">2023-08-28</time>
+                <time title="修改时间：2023-10-15 10:21:58" itemprop="dateModified" datetime="2023-10-15T10:21:58+08:00">2023-10-15</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -721,7 +721,7 @@
 </li>
 <li>commonjs 的特性<ul>
 <li>动态导入</li>
-<li>赋值复制</li>
+<li>赋值变量(基本类型数据和引用类型指针)</li>
 </ul>
 </li>
 <li>Web 浏览器内同步加载模块的顺序<ul>
@@ -751,6 +751,31 @@
 <li>await: 注意 await 处理 Promise 拒绝处理时,会直接将 Promise 拒绝处理抛出</li>
 </ul>
 </li>
+</ul>
+<h3 id="Environment-Record"><a href="#Environment-Record" class="headerlink" title="Environment Record"></a>Environment Record</h3><ul>
+<li>Global Environment Record<ul>
+<li>Function Environment Record</li>
+<li>Module Environment Record</li>
+</ul>
+</li>
+<li>Object Environment Record</li>
+<li>Declarative Environment Record</li>
+</ul>
+<ol>
+<li>Global Environment Record 的 OutEnv 永远为 null</li>
+<li>Module Environment Record 的 OutEnv 永远为 Global Environment Record</li>
+</ol>
+<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><ul>
+<li>Declarative Environment Record: 无 this 绑定</li>
+<li>Function Environment Record: 默认绑定(window、global)、隐式绑定(函数调用)、显式绑定(apply、call、bind、softBind)、new 绑定(new 构造调用绑定)</li>
+<li>Global Environment Record: 默认绑定(window、global)</li>
+<li>Module Environment Record: 默认绑定(window、global),ESModule 下是 undefined</li>
+</ul>
+<h3 id="type-judgement"><a href="#type-judgement" class="headerlink" title="type judgement"></a>type judgement</h3><ul>
+<li>null: 通过 === 全等于直接判断</li>
+<li>Primitive: 通过 typeof 实行判断,PS: 要注意 document.all 对象</li>
+<li>Array: 通过 Array.isArray 实行判断</li>
+<li>Object: 没有完美判断其类型的方式,根据适用场景自行使用 constructor、Object.prototype.toString.call(obj) 以及 instanceof</li>
 </ul>
 <h2 id="webpack"><a href="#webpack" class="headerlink" title="webpack"></a>webpack</h2><h3 id="tapable"><a href="#tapable" class="headerlink" title="tapable"></a>tapable</h3><ul>
 <li><p>订阅模式类型</p>
@@ -886,7 +911,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#javascript-outline"><span class="nav-number">1.</span> <span class="nav-text">javascript outline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6"><span class="nav-number">1.1.</span> <span class="nav-text">ES6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#var"><span class="nav-number">1.1.1.</span> <span class="nav-text">var</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#let%E3%80%81const"><span class="nav-number">1.1.2.</span> <span class="nav-text">let、const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#let"><span class="nav-number">1.1.3.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-number">1.1.4.</span> <span class="nav-text">const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.1.5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.7.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC"><span class="nav-number">1.1.8.</span> <span class="nav-text">解构赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Symbol"><span class="nav-number">1.1.9.</span> <span class="nav-text">Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">1.1.10.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakSet"><span class="nav-number">1.1.11.</span> <span class="nav-text">WeakSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">1.1.12.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakMap"><span class="nav-number">1.1.13.</span> <span class="nav-text">WeakMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator"><span class="nav-number">1.1.14.</span> <span class="nav-text">Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator"><span class="nav-number">1.1.15.</span> <span class="nav-text">Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class"><span class="nav-number">1.1.16.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E7%9A%84%E6%95%B0%E7%BB%84"><span class="nav-number">1.1.17.</span> <span class="nav-text">改进的数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise"><span class="nav-number">1.1.18.</span> <span class="nav-text">promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy"><span class="nav-number">1.1.19.</span> <span class="nav-text">proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA"><span class="nav-number">1.1.20.</span> <span class="nav-text">模块的导入导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97"><span class="nav-number">1.1.21.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-await"><span class="nav-number">1.1.22.</span> <span class="nav-text">async&#x2F;await</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack"><span class="nav-number">1.2.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tapable"><span class="nav-number">1.2.1.</span> <span class="nav-text">tapable</span></a></li></ol></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#javascript-outline"><span class="nav-number">1.</span> <span class="nav-text">javascript outline</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ES6"><span class="nav-number">1.1.</span> <span class="nav-text">ES6</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#var"><span class="nav-number">1.1.1.</span> <span class="nav-text">var</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#let%E3%80%81const"><span class="nav-number">1.1.2.</span> <span class="nav-text">let、const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#let"><span class="nav-number">1.1.3.</span> <span class="nav-text">let</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#const"><span class="nav-number">1.1.4.</span> <span class="nav-text">const</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">1.1.5.</span> <span class="nav-text">字符串</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%87%BD%E6%95%B0"><span class="nav-number">1.1.6.</span> <span class="nav-text">函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1"><span class="nav-number">1.1.7.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E6%9E%84%E8%B5%8B%E5%80%BC"><span class="nav-number">1.1.8.</span> <span class="nav-text">解构赋值</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Symbol"><span class="nav-number">1.1.9.</span> <span class="nav-text">Symbol</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Set"><span class="nav-number">1.1.10.</span> <span class="nav-text">Set</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakSet"><span class="nav-number">1.1.11.</span> <span class="nav-text">WeakSet</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Map"><span class="nav-number">1.1.12.</span> <span class="nav-text">Map</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#WeakMap"><span class="nav-number">1.1.13.</span> <span class="nav-text">WeakMap</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Iterator"><span class="nav-number">1.1.14.</span> <span class="nav-text">Iterator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Generator"><span class="nav-number">1.1.15.</span> <span class="nav-text">Generator</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#class"><span class="nav-number">1.1.16.</span> <span class="nav-text">class</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%B9%E8%BF%9B%E7%9A%84%E6%95%B0%E7%BB%84"><span class="nav-number">1.1.17.</span> <span class="nav-text">改进的数组</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#promise"><span class="nav-number">1.1.18.</span> <span class="nav-text">promise</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#proxy"><span class="nav-number">1.1.19.</span> <span class="nav-text">proxy</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9D%97%E7%9A%84%E5%AF%BC%E5%85%A5%E5%AF%BC%E5%87%BA"><span class="nav-number">1.1.20.</span> <span class="nav-text">模块的导入导出</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%95%B0%E5%AD%97"><span class="nav-number">1.1.21.</span> <span class="nav-text">数字</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#async-await"><span class="nav-number">1.1.22.</span> <span class="nav-text">async&#x2F;await</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Environment-Record"><span class="nav-number">1.1.23.</span> <span class="nav-text">Environment Record</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#this"><span class="nav-number">1.1.24.</span> <span class="nav-text">this</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#type-judgement"><span class="nav-number">1.1.25.</span> <span class="nav-text">type judgement</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#webpack"><span class="nav-number">1.2.</span> <span class="nav-text">webpack</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#tapable"><span class="nav-number">1.2.1.</span> <span class="nav-text">tapable</span></a></li></ol></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -902,20 +927,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">17</span>
+          <span class="site-state-item-count">19</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-count">16</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">21</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
