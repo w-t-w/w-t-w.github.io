@@ -426,6 +426,13 @@ category: javascript
    - Global Environment Record: 默认绑定(window、global)
    - Module Environment Record: 默认绑定(window、global),ESModule 下是 undefined
 
+### type judgement
+
+   - null: 通过 === 全等于直接判断
+   - Primitive: 通过 typeof 实行判断,PS: 要注意 document.all 对象
+   - Array: 通过 Array.isArray 实行判断
+   - Object: 没有完美判断其类型的方式,根据适用场景自行使用 constructor、Object.prototype.toString.call(obj) 以及 instanceof
+
 ## webpack
 
 ### tapable
