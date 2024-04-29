@@ -31,6 +31,13 @@ categories: react
   - 卸载阶段
     - componentWillUnmount: 在组件卸载时,用于资源释放
 
+#### 受控组件 vs 非受控组件
+
+- 受控组件
+- 非受控组件
+
+  受控组件,完全由组件外 props 状态控制,组件内无需保留 state 以维持状态
+
 #### Diff 算法
 
 > 复杂度
