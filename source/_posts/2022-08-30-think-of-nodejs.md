@@ -26,6 +26,24 @@ Nodejs 是一个基于 Chrome V8 引擎的 Javascript 运行环境
 
 nodejs 中的内置模块基本都遵从回调函数 callback(err, result) 的形式
 
+> 区别
+
+Javascript 分别在浏览器端和 Nodejs 服务端运行的最大区别: 
+
+- Nodejs 服务端运行的 Javascript 不存在浏览器端的 document 和 window 等 API
+- Nodejs 服务端运行的 Javascript 还新添加了很多独有的 API
+
+> V8 引擎
+
+在 Nodejs 中使用 V8 引擎是考虑到 V8 引擎性能的优秀性, 其只作用于浏览器端太可惜, 想让其能控制整个计算机
+
+> 应用
+
+- Web 网页端: 腾讯视频
+- Electron 桌面应用端: VSCode
+- Game 可自由的自定义各种模块的游戏端: 我的世界
+- Bundler 构建打包工具: gulp、webpack
+
 #### browserslist
 
 > 作用
