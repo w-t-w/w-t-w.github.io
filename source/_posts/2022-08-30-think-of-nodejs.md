@@ -315,6 +315,12 @@ RPC 与 Ajax 对比可知:
   - 半双工通信: S/C 两端在一段时间内,只能一端向另外一端推送数据包(在一端接收到数据包之后,才可以继续此类操作)
   - 全双工通信: S/C 两端可自由推送数据包
 
+#### GraphQL
+
+> 概念
+
+GraphQL 是 API 接口规范化查询方式(PS: 也可以为'查询语言')
+
 #### 性能优化
 
 > HTTP 性能测试
@@ -322,7 +328,7 @@ RPC 与 Ajax 对比可知:
 使用 apache bench 性能测试工具测试的结果要点:
 
 - QPS: 每秒服务器所能承接的并发量
-- Time For Request: 每次请求的平均时间
+- Time Per Request: 每次请求的平均时间
 - Transfer Rate: 吞吐量
 
 > Javascript 代码优化

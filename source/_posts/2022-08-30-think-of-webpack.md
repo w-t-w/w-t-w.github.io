@@ -71,7 +71,7 @@ categories: webpack
 
   webpack --watch 文件监听有哪些参数?
 
-  解: webpack --watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout和poll.
+  解: webpack --watch 文件监听有一些参数,全都在属性 watchOptions 中,其中包含三个主要参数: ignored、aggregateTimeout 和 poll.
 
   webpack --watch 文件监听里主要参数的作用是什么?
 
