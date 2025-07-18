@@ -248,7 +248,7 @@ categories: webpack
 
   为何选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件兼容浏览器呢?
 
-  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器.postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.
+  解: postcss 本质的作用就是将更多 css 的新样式、新特性兼容更多的浏览器. postcss-preset-env 中引用了 autoprefixer,且其比 autoprefixer 能编译转化 css 的新特性,这是 autoprefixer 中不存在的功能,如 color: #12345678 这样包括透明度的十六进制 css 颜色新特性,所以选用 postcss-preset-env 替代 autoprefixer 来编译转化样式文件.
 
   为何 postcss.config.js > plugins 与 postcss-loader > postcssOptions > plugins 同时存在的情况下,两者同时生效?
 
@@ -566,31 +566,31 @@ categories: webpack
 
   devServer.historyApiFallback 的作用是什么?
 
-  解: devServer 本地代理服务指定遇到 404 或者 错误时重定向的页面.
+  解: 作为 devServer 本地代理服务指定遇到 404 或者错误时重定向的页面.
 
 > allowedHosts
 
   devServer.allowedHosts 的作用是什么?
 
-  解: devServer 本地代理服务页面访问时 http 请求的白名单.
+  解: 作为 devServer 本地代理服务页面访问时 http 请求的白名单.
 
 > https
 
   devServer.https 的作用是什么?
 
-  解: devServer 本地代理服务是否开启 https 安全协议.
+  解: 作为 devServer 本地代理服务是否开启 https 安全协议.
 
 > compress
 
   devServer.compress 的作用是什么?
 
-  解: devServer 本地代理服务是否开启 Gzip 压缩.
+  解: 作为 devServer 本地代理服务是否开启 Gzip 压缩.
 
 > open
 
   devServer.open 的作用是什么?
 
-  解: devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器实行访问.
+  解: 作为 devServer 本地代理服务首次构建打包时,是否自动打开设备默认浏览器实行访问.
 
 > hot
 
